@@ -28,7 +28,8 @@ $myPage->setHtmlTemplate('testHtmlTemplate');
 $myPage->setAdditionalHead('default');
 $myPage->setMetaInformation('default');
 $myPage->useSource('css', 'default');
-$myPage->useSource('javascript', 'default');
+$myPage->useSource('javascript', 'jquery-2.1.0.min');
+
 
 
 if($myPage->getUriArray()[1] === 'index' || $myPage->getUriArray()[1] === '' || $myPage->getUriArray()[1] === 'de'){
@@ -59,6 +60,7 @@ if($myPage->getUriArray()[1] === 'index' || $myPage->getUriArray()[1] === '' || 
 		$userStoryContentObject = new userStoryContentModule($mySession, $myPage->getUriArray());
 		$myPage->setContent($userStoryContentObject->generateHtml());
 	}else if(count($myPage->getUriArray()) == 5 && $myPage->getUriArray()[4] == "edit"){
+		$myPage->useSource('javascript', 'konva');
 		$userStoryEditContentObject = new userStoryEditContentModule($mySession, $myPage->getUriArray());
 		$myPage->setContent($userStoryEditContentObject->generateHtml());
 	}else{
