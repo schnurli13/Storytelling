@@ -81,6 +81,7 @@ if(substr($myPage->getCurrentUri(), -3) == 'css'){
 		$myPage->setContent($userStoryContentObject->generateHtml());
 	}else if(count($myPage->getUriArray()) == 5 && $myPage->getUriArray()[4] == "edit"){
 		$myPage->useSource('javascript', 'konva');
+		$myPage->useSource('css', 'style');
 		$userStoryEditContentObject = new userStoryEditContentModule($mySession, $myPage->getUriArray());
 		$myPage->setContent($userStoryEditContentObject->generateHtml());
 	}else{

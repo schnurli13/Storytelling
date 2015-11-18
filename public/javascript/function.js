@@ -5,6 +5,7 @@
 var nodeEditor = nodeEditor || {};
 
 //initializing
+
 var width = window.innerWidth;
 var height = window.innerHeight;
 
@@ -17,11 +18,14 @@ var xDrop;
 var yDrop;
 var over;
 
+//$(document).ready(function(){
+//});
 var stage = new Konva.Stage({
     container: 'container',
     width: width,
     height: height
 });
+
 
 var backgroundLayer = new Konva.Layer();
 var layer = new Konva.Layer();
@@ -31,7 +35,10 @@ var ajaxLink = '../../../public/php/getstory.php';
 
 
 var text = new Konva.Text({
-    fill : 'black'
+    fill : 'black',
+    fontSize: 15,
+    x: width/2-50,
+    y: 0
 });
 backgroundLayer.add(text);
 
@@ -116,13 +123,13 @@ function drawNodes(data){
 
     for (var i = 0; i < data.length; i++) {
         numb = count(data,i);
-      if(numb > 1){
-           center = ((numb*(distance*2))/2)+distance;
-           multiple = levelX + (parseInt(data[i]['position'])*(distance*2));
-       }else{
-          center = 0;
-          multiple = levelX;
-      }
+        if(numb > 1){
+            center = ((numb*(distance*2))/2)+distance;
+            multiple = levelX + (parseInt(data[i]['position'])*(distance*2));
+        }else{
+            center = 0;
+            multiple = levelX;
+        }
         star = new Konva.Circle({
             x : multiple-center,
             y : (parseInt(data[i]['level'])+1)*levelY,
@@ -146,7 +153,7 @@ function drawNodes(data){
         //connection saving
         if(data[i]['nextNodeID1']){
             points[z] = [];
-           points[z]['pointX'] = star.getAbsolutePosition().x;
+            points[z]['pointX'] = star.getAbsolutePosition().x;
             points[z]['pointY'] = star.getAbsolutePosition().y;
             points[z][0] = data[i]['nextNodeID1'];
             if(data[i]['nextNodeID2']){
@@ -165,16 +172,16 @@ function drawNodes(data){
         //connection drawing
         for(var j = 0; j < points.length; j++){
             for(var k = 0; k < 4; k++){
-             if(points[j][k] == data[i]['ID'] ){
-                drawConnection(points[j][k],data[i]['ID'],points[j]['pointX'],points[j]['pointY'], star.getAbsolutePosition().x,star.getAbsolutePosition().y);
-             }
+                if(points[j][k] == data[i]['ID'] ){
+                    drawConnection(points[j][k],data[i]['ID'],points[j]['pointX'],points[j]['pointY'], star.getAbsolutePosition().x,star.getAbsolutePosition().y);
+                }
             }
-         }
+        }
 
         layer.add(star);
 
         //TITLE
-       text = new Konva.Text({
+        text = new Konva.Text({
             x: star.getAbsolutePosition().x-6,
             y: star.getAbsolutePosition().y-6,
             text: star.getAttr('id'),
@@ -246,32 +253,34 @@ function drawConnection(id0,id1,x0,y0,x1,y1){
 }
 
 function checkAdditionalNode(id){
-        $.ajax({
-            url: ajaxLink,
-            type: 'GET',
-            data: 'functionName=maxChildren&ID=' + id,
-            success: function (data) {
-                //alert(data);
-                console.log("SUCCESS");
-                var obj = $.parseJSON(data);
-                if (obj['nextNodeID4'] == null) {
-                    document.getElementById('addNode').disabled = false;
-                } else {
-                    document.getElementById('addNode').disabled = true;
-                }
-
-            },
-            error: function (xhr, status, error) {
-                alert(error);
+    $.ajax({
+        url: ajaxLink,
+        type: 'GET',
+        data: 'functionName=maxChildren&ID=' + id,
+        success: function (data) {
+            //alert(data);
+            console.log("SUCCESS");
+            var obj = $.parseJSON(data);
+            if (obj['nextNodeID4'] == null) {
+                document.getElementById('addNode').disabled = false;
+            } else {
+                document.getElementById('addNode').disabled = true;
             }
-        });
+
+        },
+        error: function (xhr, status, error) {
+            alert(error);
+        }
+    });
 }
 
 function disable(id){
     if(selectedNode == null){
         document.getElementById('addNode').disabled = true;
     }else{
-        checkAdditionalNode(id);
+        if(selectedNode == id){
+            checkAdditionalNode(id);
+        }
     }
 }
 
@@ -310,125 +319,125 @@ document.getElementById('addNode').addEventListener('click', function() {
 //DRAGGEN
 stage.on("dragstart", function(e){
     nodeSelection(e);
-        xDrag = e.target.getAbsolutePosition().x;
-        yDrag = e.target.getAbsolutePosition().y;
-        // alert(xDrag + ":"+yDrag);
-        e.target.moveTo(tempLayer);
-        e.target.fill('yellow');
-        text.text('Moving ' + e.target.name());
-        layer.draw();
-        backgroundLayer.draw();
+    xDrag = e.target.getAbsolutePosition().x;
+    yDrag = e.target.getAbsolutePosition().y;
+    // alert(xDrag + ":"+yDrag);
+    e.target.moveTo(tempLayer);
+    e.target.fill('yellow');
+    text.text('Moving ' + e.target.name());
+    layer.draw();
+    backgroundLayer.draw();
 });
 
 
 var previousShape;
 stage.on("dragmove", function(evt){
-        var pos = stage.getPointerPosition();
-        var shape = layer.getIntersection(pos);
-        if (previousShape && shape) {
-            if (previousShape !== shape) {
-                // leave from old target
-                previousShape.fire('dragleave', {
-                    type: 'dragleave',
-                    target: previousShape,
-                    evt: evt.evt
-                }, true);
-
-                // enter new target
-                shape.fire('dragenter', {
-                    type: 'dragenter',
-                    target: shape,
-                    evt: evt.evt
-                }, true);
-                previousShape = shape;
-            } else {
-                previousShape.fire('dragover', {
-                    type: 'dragover',
-                    target: previousShape,
-                    evt: evt.evt
-                }, true);
-            }
-        } else if (!previousShape && shape) {
-            previousShape = shape;
-            shape.fire('dragenter', {
-                type: 'dragenter',
-                target: shape,
-                evt: evt.evt
-            }, true);
-        } else if (previousShape && !shape) {
+    var pos = stage.getPointerPosition();
+    var shape = layer.getIntersection(pos);
+    if (previousShape && shape) {
+        if (previousShape !== shape) {
+            // leave from old target
             previousShape.fire('dragleave', {
                 type: 'dragleave',
                 target: previousShape,
                 evt: evt.evt
             }, true);
-            previousShape = undefined;
+
+            // enter new target
+            shape.fire('dragenter', {
+                type: 'dragenter',
+                target: shape,
+                evt: evt.evt
+            }, true);
+            previousShape = shape;
+        } else {
+            previousShape.fire('dragover', {
+                type: 'dragover',
+                target: previousShape,
+                evt: evt.evt
+            }, true);
         }
+    } else if (!previousShape && shape) {
+        previousShape = shape;
+        shape.fire('dragenter', {
+            type: 'dragenter',
+            target: shape,
+            evt: evt.evt
+        }, true);
+    } else if (previousShape && !shape) {
+        previousShape.fire('dragleave', {
+            type: 'dragleave',
+            target: previousShape,
+            evt: evt.evt
+        }, true);
+        previousShape = undefined;
+    }
 });
 
 
 
 
 stage.on("dragend", function(e){
-        var pos = stage.getPointerPosition();
-        var shape = layer.getIntersection(pos);
-        if (shape) {
-            e.target.setAttr("x", xDrop);
-            e.target.setAttr("y", yDrop);
-            reorderNodes(previousShape.id(), e.target.id());
-            previousShape.fire('drop', {
-                type: 'drop',
-                target: previousShape,
-                evt: e.evt
-            }, true);
-            e.target.fill('green');
-        } else {
-            e.target.setAttr("x", xDrag);
-            e.target.setAttr("y", yDrag);
-            e.target.fill('red');
-        }
+    var pos = stage.getPointerPosition();
+    var shape = layer.getIntersection(pos);
+    if (shape) {
+        e.target.setAttr("x", xDrop);
+        e.target.setAttr("y", yDrop);
+        reorderNodes(previousShape.id(), e.target.id());
+        previousShape.fire('drop', {
+            type: 'drop',
+            target: previousShape,
+            evt: e.evt
+        }, true);
+        e.target.fill('green');
+    } else {
+        e.target.setAttr("x", xDrag);
+        e.target.setAttr("y", yDrag);
+        e.target.fill('red');
+    }
 
-        previousShape = undefined;
-        e.target.moveTo(layer);
-        layer.draw();
-        tempLayer.draw();
-        if(e.target.id()==selectedNode) {
-            selectedNode = null;
-        }
-        disable(e.target.id());
+    previousShape = undefined;
+    e.target.moveTo(layer);
+    layer.draw();
+    tempLayer.draw();
+    if(e.target.id()==selectedNode) {
+        selectedNode = null;
+    }
+    disable(e.target.id());
 });
 
 stage.on("dragenter", function(e){
-        text.text('dragenter ' + e.target.name());
-        layer.draw();
-        backgroundLayer.draw();
+    text.text('dragenter ' + e.target.name());
+    layer.draw();
+    backgroundLayer.draw();
 });
 
 stage.on("dragleave", function(e){
-        over = false;
-        e.target.fill('red');
-        text.text('dragleave ' + e.target.name());
-        layer.draw();
-        backgroundLayer.draw();
+    over = false;
+    e.target.fill('red');
+    text.text('dragleave ' + e.target.name());
+    layer.draw();
+    backgroundLayer.draw();
 });
 
 stage.on("dragover", function(e){
-        over = true;
-        e.target.fill('green');
-        xDrop = e.target.getAbsolutePosition().x;
-        yDrop = e.target.getAbsolutePosition().y;
-        text.text('dragover ' + e.target.name());
-        layer.draw();
-        backgroundLayer.draw();
+    over = true;
+    e.target.fill('green');
+    xDrop = e.target.getAbsolutePosition().x;
+    yDrop = e.target.getAbsolutePosition().y;
+    text.text('dragover ' + e.target.name());
+    layer.draw();
+    backgroundLayer.draw();
 });
 
 stage.on("drop", function(e){
-        e.target.setAttr("x", xDrag);
-        e.target.setAttr("y", yDrag);
+    e.target.setAttr("x", xDrag);
+    e.target.setAttr("y", yDrag);
 
-        e.target.fill('green');
-        text.text('drop ' + e.target.name());
-        layer.draw();
-        backgroundLayer.draw();
+    e.target.fill('green');
+    text.text('drop ' + e.target.name());
+    layer.draw();
+    backgroundLayer.draw();
 });
 
 
@@ -437,31 +446,31 @@ stage.on("drop", function(e){
 //not needed yet
 /*function updateConnections(){
 
-}
+ }
 
-function hasMultipleChildren(array){
-    var group;
-    if(!(array['nextNodeID2'] == null && array['nextNodeID3'] == null && array['nextNodeID4'] == null)){
-        group = new Konva.Group({
-            id: array['ID']
-        });
-    }else{
-        return null;
-    }
-    return group;
-}
+ function hasMultipleChildren(array){
+ var group;
+ if(!(array['nextNodeID2'] == null && array['nextNodeID3'] == null && array['nextNodeID4'] == null)){
+ group = new Konva.Group({
+ id: array['ID']
+ });
+ }else{
+ return null;
+ }
+ return group;
+ }
 
-//zoom
-var zoomLevel = 2;
-layer.on('click', function() {
-    layer.scale({
-        x : zoomLevel,
-        y : zoomLevel
-    });
-    layer.draw();
-});
+ //zoom
+ var zoomLevel = 2;
+ layer.on('click', function() {
+ layer.scale({
+ x : zoomLevel,
+ y : zoomLevel
+ });
+ layer.draw();
+ });
 
-//animation
+ //animation
  /* var anim = new Konva.Animation(function(frame) {
  var diffx = xDrag-e.target.getAbsolutePosition().x;
  var diffy = yDrag-e.target.getAbsolutePosition().y;
