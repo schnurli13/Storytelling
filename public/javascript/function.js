@@ -27,7 +27,7 @@ var backgroundLayer = new Konva.Layer();
 var layer = new Konva.Layer();
 var layerConn = new Konva.Layer();
 var layerTEXT = new Konva.Layer();
-var ajaxLink = 'getstory.php';
+var ajaxLink = '../../../public/php/getstory.php';
 
 
 var text = new Konva.Text({
@@ -247,7 +247,7 @@ function drawConnection(id0,id1,x0,y0,x1,y1){
 
 function checkAdditionalNode(id){
         $.ajax({
-            url: 'php/getstory.php',
+            url: ajaxLink,
             type: 'GET',
             data: 'functionName=maxChildren&ID=' + id,
             success: function (data) {
