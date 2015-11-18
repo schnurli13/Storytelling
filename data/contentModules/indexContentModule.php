@@ -17,12 +17,21 @@ class indexContentModule{
 		$returnString = '';
 	
 		if($this->sessionObject->getLogState()){
-			$returnString .= 'Eingeloggt als '.$this->sessionObject->getUserName().'!<br/>';
+			$returnString .= '<a href="'.$this->sessionObject->getUserName().'">'.$this->sessionObject->getUserName().' | <a href="logout">Logout</a><br/>';
+		}else{
+			$returnString .= '<a href="login">Login</a> | <a href="register">Register</a><br/>';
 		}
-		$returnString .= 'Das hier ist die Startseite unserer interaktiven Storytelling-Plattform! Viel Spaß!';
+		$returnString .= $this->getForm();
 		
 		return $returnString;
 		
+	}
+	
+		function getForm(){
+		return '<form action="search" method="get">'."\n".'
+			<p><input type="text" name="key"/></p>'."\n".'
+			<p><input type="submit" value="search"/></p>'."\n".'
+			</form>'."\n";
 	}
 
 	

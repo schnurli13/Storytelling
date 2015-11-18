@@ -69,7 +69,7 @@ class loginContentModule{
 			<p>Ihr Username: <input type="text" name="userName" value="'.$name.'"/></p>'."\n".'
 			<p>Ihr Passwort: <input type="text" name="passWord" /></p>'."\n".'
 			<p><input type="hidden" name="proof" value="proofForMe"/></p>'."\n".'
-			<p><input type="submit" /></p>'."\n".'
+			<p><input type="submit" value="login"/></p>'."\n".'
 			</form>'."\n";
 	}
 

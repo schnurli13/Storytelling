@@ -6,6 +6,7 @@ require('framework/modules/sessionModule.php');
 require('data/contentModules/loginContentModule.php');
 require('data/contentModules/logoutContentModule.php');
 require('data/contentModules/registerContentModule.php');
+require('data/contentModules/searchContentModule.php');
 
 require('data/contentModules/userListContentModule.php');
 require('data/contentModules/userContentModule.php');
@@ -19,9 +20,7 @@ $mySession = new sessionModule();
 
 $mySession->initializeSession();
 
-$myPage = new pageObject();
-
-$myPage->setRoot('/Storytelling');
+$myPage = new pageObject('/Storytelling');
 
 $isContent = true;
 
@@ -32,19 +31,25 @@ $myPage->setMetaInformation('default');
 $myPage->useSource('css', 'default');
 $myPage->useSource('javascript', 'jquery-2.1.0.min');
 
+//ROUTES FOR PICTURES
+
+if(substr($myPage->getCurrentUri(), -3) == 'jpg' || substr($myPage->getCurrentUri(), -3) == 'png'){
+	$filename = $myPage->getUriArray()[sizeof($myPage->getUriArray())-1];
+	$image = readfile('public/images/'.$filename);
+	echo $image;
+	$isContent = false;
+
+}
+
 //ROUTES FOR CSS AND JS FILES
 
-if(substr($myPage->getCurrentUri(), -3) == 'css'){
-	$myPage->setBodyTemplate('noBodyTemplate');
-	$myPage->setHtmlTemplate('noHtmlTemplate');
+else if(substr($myPage->getCurrentUri(), -3) == 'css'){
 	$filename = $myPage->getUriArray()[sizeof($myPage->getUriArray())-1];
 	header('Content-Type:text/css');
 	echo file_get_contents('public/css/'.$filename, true);
 	$isContent = false;
 	
 }else if(substr($myPage->getCurrentUri(), -2) == 'js'){
-	$myPage->setBodyTemplate('noBodyTemplate');
-	$myPage->setHtmlTemplate('noHtmlTemplate');
 	$filename = $myPage->getUriArray()[sizeof($myPage->getUriArray())-1];
 	echo file_get_contents('public/javascript/'.$filename, true);
 	$isContent = false;
@@ -66,25 +71,33 @@ if(substr($myPage->getCurrentUri(), -3) == 'css'){
 }else if($myPage->getUriArray()[1] === 'logout'){
 	$logoutContentObject = new logoutContentModule($mySession);
 	$myPage->setContent($logoutContentObject->generateHtml());
+	
+}else if($myPage->getUriArray()[1] === 'search'){
+	$searchContentObject = new searchContentModule($mySession, $myPage->getUriArray());
+	$myPage->setContent($searchContentObject->generateHtml());
 
 }else if($myPage->getUriArray()[1] === 'users'){
 
 	if(count($myPage->getUriArray()) == 2){
 		$userListContentObject = new userListContentModule($mySession);
 		$myPage->setContent($userListContentObject->generateHtml());
+		
 	}else if(count($myPage->getUriArray()) == 3){
 		$userContentObject = new userContentModule($mySession, $myPage->getUriArray());
 		$myPage->setContent($userContentObject->generateHtml());
+		
 	}else if(count($myPage->getUriArray()) == 4){
 		$userStoryContentObject = new userStoryContentModule($mySession, $myPage->getUriArray());
 		$myPage->setContent($userStoryContentObject->generateHtml());
+		
 	}else if(count($myPage->getUriArray()) == 5 && $myPage->getUriArray()[4] == "edit"){
 		$myPage->useSource('javascript', 'konva');
 		$myPage->useSource('css', 'style');
 		$userStoryEditContentObject = new userStoryEditContentModule($mySession, $myPage->getUriArray());
 		$myPage->setContent($userStoryEditContentObject->generateHtml());
+		
 	}else{
-		header('Location: '.$myPage->getRoot().'/404');
+		header('Location: '.$myPage->getUriArray()[0].'/404');
 	}
 
 }else if($myPage->getUriArray()[1] === '404'){
@@ -92,7 +105,7 @@ if(substr($myPage->getCurrentUri(), -3) == 'css'){
 	$myPage->setContent($errorContentObject->generateHtml());
 	
 }else{
-	header('Location: '.$myPage->getRoot().'/404');
+	header('Location: '.$myPage->getUriArray()[0].'/404');
 }
 
 if($isContent){

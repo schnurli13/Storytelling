@@ -21,18 +21,11 @@ class pageObject{
 	
 	private $printObject;
 		
-	function __construct() {
+	function __construct($newRoot) {
 		$this->printObject = new printPageModule();
-	}
-	
-	function setRoot($newRoot){
 		$this->root = $newRoot;
 	}
 	
-	function getRoot(){
-		return $this->root;
-	}
-
     function getCurrentUri(){
 
         $basepath = implode('/', array_slice(explode('/', $_SERVER['SCRIPT_NAME']), 0, -1)) . '/';
@@ -48,7 +41,7 @@ class pageObject{
         $base_url = $this->getCurrentUri();
         $routes = array();
         $routes = explode('/', $base_url);	
-		$routes[0] = 'root';
+		$routes[0] = $this->root;
 
         return $routes;
     }
