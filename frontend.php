@@ -23,6 +23,8 @@ $myPage = new pageObject();
 
 $myPage->setRoot('/Storytelling');
 
+$isContent = true;
+
 $myPage->setBodyTemplate('testBodyTemplate');
 $myPage->setHtmlTemplate('testHtmlTemplate');
 $myPage->setAdditionalHead('default');
@@ -30,26 +32,23 @@ $myPage->setMetaInformation('default');
 $myPage->useSource('css', 'default');
 $myPage->useSource('javascript', 'jquery-2.1.0.min');
 
-//ROUTES FOR CSS, JS AND PHP FILES
+//ROUTES FOR CSS AND JS FILES
 
 if(substr($myPage->getCurrentUri(), -3) == 'css'){
 	$myPage->setBodyTemplate('noBodyTemplate');
 	$myPage->setHtmlTemplate('noHtmlTemplate');
 	$filename = $myPage->getUriArray()[sizeof($myPage->getUriArray())-1];
+	header('Content-Type:text/css');
 	echo file_get_contents('public/css/'.$filename, true);
+	$isContent = false;
 	
 }else if(substr($myPage->getCurrentUri(), -2) == 'js'){
 	$myPage->setBodyTemplate('noBodyTemplate');
 	$myPage->setHtmlTemplate('noHtmlTemplate');
 	$filename = $myPage->getUriArray()[sizeof($myPage->getUriArray())-1];
 	echo file_get_contents('public/javascript/'.$filename, true);
-	
-}else if(substr($myPage->getCurrentUri(), -3) == 'php'){
-	$myPage->setBodyTemplate('noBodyTemplate');
-	$myPage->setHtmlTemplate('noHtmlTemplate');
-	$filename = $myPage->getUriArray()[sizeof($myPage->getUriArray())-1];
-	echo file_get_contents('public/php/'.$filename, true);
-	
+	$isContent = false;
+
 //ROUTES FOR HTML PAGES
 
 }else if($myPage->getUriArray()[1] === 'index' || $myPage->getUriArray()[1] === '' || $myPage->getUriArray()[1] === 'de'){
@@ -96,4 +95,6 @@ if(substr($myPage->getCurrentUri(), -3) == 'css'){
 	header('Location: '.$myPage->getRoot().'/404');
 }
 
-$myPage->generatePage();
+if($isContent){
+	$myPage->generatePage();
+}
