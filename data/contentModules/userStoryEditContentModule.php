@@ -32,7 +32,7 @@ class userStoryEditContentModule{
 		$returnString.='<input type="button" value="Add new Page" id="addNode" disabled="true">';
 		$returnString.='</div>';
 
-		$returnString.='<script type="text/javascript" src="/Storytelling/data/javascript/function.js"></script>';
+		$returnString.='<script type="text/javascript" src="function.js"></script>';
 		
 		return $returnString;
 	}

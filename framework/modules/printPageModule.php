@@ -47,11 +47,11 @@ class printPageModule extends printModule{
             switch($source[0]){
 
                 case 'javascript':
-                    $sourcesString =  $sourcesString.'<script type="text/javascript" src="/Storytelling/data/javascript/'.$source[1].'.js" ></script>'."\n";
+                    $sourcesString =  $sourcesString.'<script type="text/javascript" src="'.$source[1].'.js" ></script>'."\n";
                     break;
 
                 case 'css':
-                    $sourcesString = $sourcesString.'<link rel="stylesheet" type="text/css" href="/Storytelling/data/css/'.$source[1].'.css">'."\n";
+                    $sourcesString = $sourcesString.'<link rel="stylesheet" type="text/css" href="'.$source[1].'.css">'."\n";
                     break;
 
             }
