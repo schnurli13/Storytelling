@@ -5,6 +5,7 @@
 var nodeEditor = nodeEditor || {};
 
 //initializing
+
 var width = window.innerWidth;
 var height = window.innerHeight;
 
@@ -17,11 +18,13 @@ var xDrop;
 var yDrop;
 var over;
 
-var stage = new Konva.Stage({
-    container: 'container',
-    width: width,
-    height: height
-});
+//$(document).ready(function(){
+    var stage = new Konva.Stage({
+        container: 'container',
+        width: width,
+        height: height
+    });
+//});
 
 var backgroundLayer = new Konva.Layer();
 var layer = new Konva.Layer();
@@ -31,7 +34,10 @@ var ajaxLink = '/Storytelling/data/external/getstory.php';
 
 
 var text = new Konva.Text({
-    fill : 'black'
+    fill : 'black',
+    fontSize: 15,
+    x: width/2-50,
+    y: 0
 });
 backgroundLayer.add(text);
 
@@ -247,7 +253,7 @@ function drawConnection(id0,id1,x0,y0,x1,y1){
 
 function checkAdditionalNode(id){
         $.ajax({
-            url: 'php/getstory.php',
+            url: ajaxLink,
             type: 'GET',
             data: 'functionName=maxChildren&ID=' + id,
             success: function (data) {
@@ -271,7 +277,9 @@ function disable(id){
     if(selectedNode == null){
         document.getElementById('addNode').disabled = true;
     }else{
-        checkAdditionalNode(id);
+        if(selectedNode == id){
+            checkAdditionalNode(id);
+        }
     }
 }
 
