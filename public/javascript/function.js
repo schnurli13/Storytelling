@@ -110,7 +110,8 @@ function startDrawNodes() {
 function drawNodes(data){
     layer.destroyChildren();
     layerTEXT.destroyChildren();
-    console.log("test");
+    layerConn.destroyChildren();
+    document.getElementById('addNode').disabled = true;
 
     var star;
     var text;
@@ -136,8 +137,8 @@ function drawNodes(data){
             fill : "red",
             radius:20,
             draggable: true,
-            name : 'star ' + data[i]['ID'],
-            id:   data[i]['ID'],
+            name : 'star ' + data[i]['id'],
+            id:   data[i]['id'],
             stroke:'black',
             strokeWidth:2,
             dragBoundFunc: function(pos) {
@@ -151,19 +152,19 @@ function drawNodes(data){
         });
 
         //connection saving
-        if(data[i]['nextNodeID1']){
+        if(data[i]['NextPageID1']){
             points[z] = [];
             points[z]['pointX'] = star.getAbsolutePosition().x;
             points[z]['pointY'] = star.getAbsolutePosition().y;
-            points[z][0] = data[i]['nextNodeID1'];
-            if(data[i]['nextNodeID2']){
-                points[z][1] = data[i]['nextNodeID2'];
+            points[z][0] = data[i]['NextPageID1'];
+            if(data[i]['NextPageID2']){
+                points[z][1] = data[i]['NextPageID2'];
             }
-            if(data[i]['nextNodeID3']){
-                points[z][2] = data[i]['nextNodeID3'];
+            if(data[i]['NextPageID3']){
+                points[z][2] = data[i]['NextPageID3'];
             }
-            if(data[i]['nextNodeID4']){
-                points[z][3] = data[i]['nextNodeID4'];
+            if(data[i]['NextPageID4']){
+                points[z][3] = data[i]['NextPageID4'];
             }
             z++;
         }
@@ -172,8 +173,8 @@ function drawNodes(data){
         //connection drawing
         for(var j = 0; j < points.length; j++){
             for(var k = 0; k < 4; k++){
-                if(points[j][k] == data[i]['ID'] ){
-                    drawConnection(points[j][k],data[i]['ID'],points[j]['pointX'],points[j]['pointY'], star.getAbsolutePosition().x,star.getAbsolutePosition().y);
+                if(points[j][k] == data[i]['id'] ){
+                    drawConnection(points[j][k],data[i]['id'],points[j]['pointX'],points[j]['pointY'], star.getAbsolutePosition().x,star.getAbsolutePosition().y);
                 }
             }
         }
@@ -217,7 +218,7 @@ function reorderNodes(ID01,ID02){
         type: 'GET',
         data: 'functionName=reorderNodes&ID01='+ID01+'&ID02='+ID02,
         success: function(data) {
-            //alert(data);
+            alert(data);
             console.log("SUCCESS");
             startDrawNodes();
         },
@@ -261,12 +262,30 @@ function checkAdditionalNode(id){
             //alert(data);
             console.log("SUCCESS");
             var obj = $.parseJSON(data);
-            if (obj['nextNodeID4'] == null) {
+            if (obj['NextPageID4'] == 0) {
                 document.getElementById('addNode').disabled = false;
             } else {
                 document.getElementById('addNode').disabled = true;
             }
 
+        },
+        error: function (xhr, status, error) {
+            alert(error);
+        }
+    });
+}
+
+function addNewNode(id){
+    $.ajax({
+        url: ajaxLink,
+        type: 'GET',
+        data: 'functionName=addNewNode&ID=' + id,
+        success: function (data) {
+            alert(data);
+            console.log("SUCCESS");
+            startDrawLines();
+            startDrawNodes();
+            //var obj = $.parseJSON(data);
         },
         error: function (xhr, status, error) {
             alert(error);
@@ -311,7 +330,7 @@ stage.on("mouseout", function(e){
 
 
 document.getElementById('addNode').addEventListener('click', function() {
-    console.log("addNode");
+    addNewNode(selectedNode);
 }, false);
 
 //END
@@ -450,7 +469,7 @@ stage.on("drop", function(e){
 
  function hasMultipleChildren(array){
  var group;
- if(!(array['nextNodeID2'] == null && array['nextNodeID3'] == null && array['nextNodeID4'] == null)){
+ if(!(array['NextPageID2'] == null && array['NextPageID3'] == null && array['NextPageID4'] == null)){
  group = new Konva.Group({
  id: array['ID']
  });

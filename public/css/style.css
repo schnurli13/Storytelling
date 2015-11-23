@@ -1,12 +1,11 @@
 body {
     margin: 0;
     padding: 0;
-    overflow: hidden;
     background-color: #F0F0F0;
 }
 
 #buttons {
     position: absolute;
-    left: 30px;
+    left: 750px;
     top: 100px;
 }
