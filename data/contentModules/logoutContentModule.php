@@ -13,13 +13,10 @@ class logoutContentModule{
 	}
 
 	function generateHtml(){
-	
-		$returnString = '';
-	
+		
 		$this->sessionObject->destroySession();
-		$returnString.='session destroyed!<br/>'."\n";
-		$returnString.='new session: '.$this->sessionObject->getUserName().' | '.($this->sessionObject->getLogState() ? 'true' : 'false')."\n";
-		return $returnString;
+		$template = new contentTemplateModule('logoutTemplate');
+		return $template->generateHtml();
 	}
 	
 }

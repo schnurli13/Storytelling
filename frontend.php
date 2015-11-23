@@ -16,6 +16,8 @@ require('data/contentModules/userStoryEditContentModule.php');
 require('data/contentModules/indexContentModule.php');
 require('data/contentModules/errorContentModule.php');
 
+require('framework/modules/contentTemplateModule.php');
+
 $mySession = new sessionModule();
 
 $mySession->initializeSession();

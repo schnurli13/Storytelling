@@ -20,7 +20,7 @@ class registerContentModule{
 			
 		$returnString = '';
 		
-		$returnString.='<h1>Registration</h1>'."\n";
+		$template = new contentTemplateModule('registrationTemplate');
 		
 		if($this->sessionObject->getLogState()){
 			$returnString.='I just noticed, that you are already logged in!<br>'."\n".
@@ -67,7 +67,9 @@ class registerContentModule{
 		}
 	}				
 
-		 return $returnString;
+		$template->addContent('FORM', $returnString);
+		
+		 return $template->generateHtml();
 		
 	}
 	

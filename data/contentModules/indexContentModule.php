@@ -14,16 +14,11 @@ class indexContentModule{
 	
 	function generateHtml(){
 	
-		$returnString = '';
-	
-		if($this->sessionObject->getLogState()){
-			$returnString .= '<a href="'.$this->sessionObject->getUserName().'">'.$this->sessionObject->getUserName().' | <a href="logout">Logout</a><br/>';
-		}else{
-			$returnString .= '<a href="login">Login</a> | <a href="register">Register</a><br/>';
-		}
-		$returnString .= $this->getForm();
+		$template = new contentTemplateModule('indexTemplate');
+		$template->addLogState($this->sessionObject);
+		$template->addContent('FORM',$this->getForm());
 		
-		return $returnString;
+		return $template->generateHtml();
 		
 	}
 	

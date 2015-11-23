@@ -20,11 +20,12 @@ class loginContentModule{
 	function generateHtml(){
 	
 		$msqlObject = new mysqlModule();
+		
+		$template = new contentTemplateModule('loginTemplate');
+		$template->addLogState($this->sessionObject);
 	
 		$returnString = '';
-		
-		$returnString.='<h1>Login</h1>'."\n";
-		
+				
 		if($this->sessionObject->getLogState()){
 			$returnString.='I just noticed, that you are already logged in!<br>'."\n".
 				'<a href="index">Click to go back to the main page</a><br>'."\n";
@@ -61,7 +62,8 @@ class loginContentModule{
 	}	
 	
 		$returnString.='Session: '.$this->sessionObject->getUserName().' | '.($this->sessionObject->getLogState() ? 'true' : 'false')."\n";
-		return $returnString;
+		$template->addContent('FORM', $returnString);
+		return $template->generateHtml();
 	}
 	
 	function getForm($name){

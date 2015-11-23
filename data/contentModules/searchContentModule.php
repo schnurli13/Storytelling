@@ -21,7 +21,7 @@ class searchContentModule{
 	
 		$returnString = '';
 		
-		$returnString.='<h1>Search</h1>'."\n";
+		$template = new contentTemplateModule('searchTemplate');	
 		
 		$returnString.=$this->getForm($_GET["key"]);
 		
@@ -41,7 +41,10 @@ class searchContentModule{
 		
 		}
 	
-		return $returnString;
+		$template->addLogState($this->sessionObject);
+		$template->addContent('FORM', $returnString);
+		
+		 return $template->generateHtml();
 	}
 	
 		function getForm($key){

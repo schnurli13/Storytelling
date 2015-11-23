@@ -14,15 +14,11 @@ class errorContentModule{
 
 	function generateHtml(){
 	
-		$returnString = '';
-	
-		if($this->sessionObject->getLogState()){
-			$returnString.='Hey '.$this->sessionObject->getUserName().'!<br/>'."\n";
-		}
-		$returnString.='Hier geht\'s nicht weiter, versuchs doch hier:<br/>'."\n";
-		$returnString.='<a href="index">Startseite</a>';
+		$template = new contentTemplateModule('errorTemplate');
+		//$template->addLogState($this->sessionObject);
 		
-		return $returnString;
+		return $template->generateHtml();
+
 	}
 	
 }
