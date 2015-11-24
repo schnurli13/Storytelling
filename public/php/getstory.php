@@ -83,49 +83,21 @@ function addNewNode($localhost, $user, $pw,$db){
        $changeNN="NextPageID2";
        $first=null;
    }else{
-       $sql="SELECT id,level,position,NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE level =".$indexedOnly[1]['level']." AND story = 1 AND position < ".$indexedOnly[1]['position'];
-       $indexedOnly = array();
        $changeNN="NextPageID1";
        $first = 1;
    }
 
-    $result = mysqli_query($con,$sql);
-    while($row = mysqli_fetch_assoc($result)) {
-        $indexedOnly[] =$row;
-    }
     if($first != 1){
+        $result = mysqli_query($con,$sql);
+        while($row = mysqli_fetch_assoc($result)) {
+            $indexedOnly[] =$row;
+        }
         $newPos = $indexedOnly[2]['position']+1;
     }else{
-        $newPos = 0;
-       foreach($indexedOnly as $key =>$val) {
-          if($indexedOnly[$key]['NextPageID1'] != 0){
-              $newPos++;
-          }
-           if($indexedOnly[$key]['NextPageID2'] != 0){
-              $newPos++;
-          }
-           if($indexedOnly[$key]['NextPageID3'] != 0){
-              $newPos++;
-           }
-           if($indexedOnly[$key]['NextPageID4'] != 0){
-              $newPos++;
-          }
-
-        }
-      $newPos=$newPos+1;
+        $newPos = 1;
     }
-
-
 
     $sql="UPDATE page SET ".$changeNN." = ".$newID." WHERE id = ".$ID." AND story = 1";
-    $result = mysqli_query($con,$sql);
-    if(!$result)
-    {
-        die('Could not update data: '. mysqli_error());
-    }
-    echo "Updated data successfully\n";
-
-    $sql="UPDATE page SET position=position+1 WHERE level = ".$newLevel." AND position >=".$newPos;
     $result = mysqli_query($con,$sql);
     if(!$result)
     {
@@ -169,7 +141,7 @@ function drawNodes($localhost, $user, $pw,$db){
         die('Could not connect: ' . mysqli_error($con));
     }
 
-    $sql="SELECT id,level,position,NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE story = 1 ORDER BY level ASC";
+    $sql="SELECT id,level,position,NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE story = 1 ORDER BY id ASC";
     $result = mysqli_query($con,$sql);
     $indexedOnly = array();
 
