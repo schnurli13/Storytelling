@@ -68,10 +68,10 @@ class loginContentModule{
 	
 	function getForm($name){
 		return '<form action="login" method="post">'."\n".'
-			<p>Ihr Username: <input type="text" name="userName" value="'.$name.'"/></p>'."\n".'
-			<p>Ihr Passwort: <input type="text" name="passWord" /></p>'."\n".'
+			<p class="label">USERNAME<br> <input class="inputField" type="text" name="userName" value="'.$name.'"/></p>'."\n".'
+			<p class="label">PASSWORD<br> <input class="inputField" type="text" name="passWord" /></p>'."\n".'
 			<p><input type="hidden" name="proof" value="proofForMe"/></p>'."\n".'
-			<p><input type="submit" value="login"/></p>'."\n".'
+			<p><div class="buttonFrameContainer"><input class="button" type="submit" value="LOGIN"/></div></p>'."\n".'
 			</form>'."\n";
 	}
 
