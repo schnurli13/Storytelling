@@ -23,9 +23,17 @@ class searchContentModule{
 		
 		$template = new contentTemplateModule('searchTemplate');	
 		
-		$returnString.=$this->getForm($_GET["key"]);
+		if(isset($_GET['key'])){
+			$returnString.=$this->getForm($_GET['key']);
+		}else{
+			$returnString.=$this->getForm('');
+		}
 		
-		$queryResult = $msqlObject->queryDataBase('SELECT name, password FROM users WHERE name LIKE "%'.$_GET["key"].'%"');
+		$queryResult = array();
+		
+		if(isset($_GET['key'])){
+			$queryResult = $msqlObject->queryDataBase('SELECT name, password FROM users WHERE name LIKE "%'.$_GET['key'].'%"');
+		}
 		
 		if(isset($queryResult[0]['name'])){
 		

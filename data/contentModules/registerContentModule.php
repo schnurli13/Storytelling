@@ -53,7 +53,7 @@ class registerContentModule{
 				array_push($formErrors, 'password doesn\'t match first and second time');
 			}
 			if(empty($formErrors)){
-				$msqlObject->commandDataBase('INSERT INTO `users` (`name`, `email`, `password`) VALUES ("'.$_POST['userName'].'", "'.$_POST['eMail'].'", "'.$_POST['pwOriginal'].'")');
+				$msqlObject->commandDataBase('INSERT INTO `users` (`name`, `email`, `password`) VALUES ("'.$_POST['userName'].'", "'.$_POST['eMail'].'", "'.$this->sessionObject->encodeKey($_POST['pwOriginal']).'")');
 				$returnString.='<h2>Registration successful!</h2>'."\n".
 					'<a href="login">Click to go to login</a>';
 			}else{

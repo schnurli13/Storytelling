@@ -42,7 +42,7 @@ class loginContentModule{
 				array_push($formErrors, 'User does not exists');
 			}else{
 				$queryResult = $msqlObject->queryDataBase('SELECT name, password FROM users WHERE name = "'.$_POST['userName'].'"');
-				if($queryResult[0]['password'] != $_POST['passWord']){
+				if($queryResult[0]['password'] != $this->sessionObject->encodeKey($_POST['passWord'])){
 					array_push($formErrors, 'Wrong password');
 				}
 			}

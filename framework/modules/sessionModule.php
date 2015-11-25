@@ -36,5 +36,11 @@ class sessionModule{
 	function setLogState($LogState){
 		$_SESSION['loggedIn'] = $LogState;
 	}
+	
+	function encodeKey($key){
+        $salt=sha1($key.'CkTcUoYXpx');
+        $encodedKey=$salt.sha1($key);
+		return $encodedKey;
+	}
 
 }
