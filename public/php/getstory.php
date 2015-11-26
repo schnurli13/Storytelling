@@ -106,7 +106,7 @@ function addNewNode($localhost, $user, $pw,$db){
     echo "Updated data successfully\n";
 
     $sql="INSERT INTO page (id,level, position, NextPageID1, NextPageID2, NextPageID3,NextPageID4,story,title,text,imageLink,OptionText1,OptionText2,OptionText3,OptionText4)
-    VALUES (".$newID.",".$newLevel.",".$newPos.",0,0,0,0,1,'','','','','','',''); ";
+    VALUES (".$newID.",".$newLevel.",".$newPos.",0,0,0,0,1,'Page".$newID."','Text".$newID."','Link".$newID."','Option".$newID."_1','Option".$newID."_2','Option".$newID."_3','Option".$newID."_4')";
     $result = mysqli_query($con,$sql);
     if(!$result)
     {
@@ -141,7 +141,7 @@ function drawNodes($localhost, $user, $pw,$db){
         die('Could not connect: ' . mysqli_error($con));
     }
 
-    $sql="SELECT id,level,position,NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE story = 1 ORDER BY id ASC";
+    $sql="SELECT id,level,position,NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE story = 1 ORDER BY level,position ASC";
     $result = mysqli_query($con,$sql);
     $indexedOnly = array();
 

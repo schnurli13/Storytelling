@@ -1,11 +1,17 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: #F0F0F0;
+    background-color: #FFFFFF;
 }
 
 #buttons {
     position: absolute;
     left: 750px;
-    top: 100px;
+    top: 160px;
+}
+
+#container{
+    background-color: #F0F0F0;
+    width: 60%;
+    margin:20px;
 }

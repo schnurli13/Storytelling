@@ -4,7 +4,7 @@
 
 var nodeEditor = nodeEditor || {};
 //initializing
-    var width = window.innerWidth;
+    var width = window.innerWidth*0.59;
     var height = window.innerHeight;
 
     var levelY = 100;
@@ -25,9 +25,18 @@ var nodeEditor = nodeEditor || {};
 
 
     var backgroundLayer = new Konva.Layer();
-    var layer = new Konva.Layer();
-    var layerConn = new Konva.Layer();
-    var layerTEXT = new Konva.Layer();
+    var layer = new Konva.Layer({
+        width: width,
+        height: height
+    });
+    var layerConn = new Konva.Layer({
+        width: width,
+        height: height
+        });
+    var layerTEXT = new Konva.Layer({
+        width: width,
+        height: height
+    });
     var ajaxLink = '../../../public/php/getstory.php';
 
 
@@ -35,11 +44,9 @@ var nodeEditor = nodeEditor || {};
         fill: 'black',
         fontSize: 15,
         x: width / 2 - 50,
-        y: 0
+        y: 3
     });
     backgroundLayer.add(text);
-
-
 
     stage.add(backgroundLayer);
     stage.add(layerConn);
@@ -100,6 +107,7 @@ $(document).ready(function() {
             type: 'GET',
             data: "functionName=drawNodes",
             success: function (data) {
+               //alert(data);
                 var obj = $.parseJSON(data);
                 drawNodes(obj);
             },
@@ -108,6 +116,18 @@ $(document).ready(function() {
             }
         });
     }
+
+function findID(data, id){
+    var idNEW = 0;
+    if(id != 0) {
+        for (var i = 0; i < data.length; i++) {
+            if (data[i]['id'] == id) {
+                idNEW = i;
+            }
+        }
+    }
+    return idNEW;
+}
 
 
     function drawNodes(data) {
@@ -126,6 +146,7 @@ $(document).ready(function() {
         var points = [];
         var z = 0;
         var nodeCounter = 0;
+
 
         for (var i = 0; i < data.length; i++) {
             //first node
@@ -153,8 +174,8 @@ $(document).ready(function() {
 
                 //TITLE
                 text = new Konva.Text({
-                    x: star.getAbsolutePosition().x - 6,
-                    y: star.getAbsolutePosition().y - 6,
+                    x: star.getAbsolutePosition().x-6,
+                    y: star.getAbsolutePosition().y-6,
                     text: star.getAttr('id'),
                     fontSize: 20,
                     fill: 'black'
@@ -183,12 +204,11 @@ $(document).ready(function() {
 
             //get next node id
             for (var q = 1; q < 5; q++) {
-                var nextPageID = data[i]["NextPageID" + q];
+                var nextPageID = findID(data,data[i]["NextPageID" + q]);
 
                 if (nextPageID != 0) {
-                    numb = count(data, nextPageID - 1);
-                    nextPageID = nextPageID - 1;
-                    ;
+                    numb = count(data, nextPageID);
+
                     nodeCounter++;
 
                     if (numb > 1) {
@@ -222,8 +242,8 @@ $(document).ready(function() {
 
                     //TITLE
                     text = new Konva.Text({
-                        x: star.getAbsolutePosition().x - 6,
-                        y: star.getAbsolutePosition().y - 6,
+                        x: star.getAbsolutePosition().x-6,
+                        y: star.getAbsolutePosition().y-6 ,
                         text: star.getAttr('id'),
                         fontSize: 20,
                         fill: 'black'
