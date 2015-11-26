@@ -1,102 +1,106 @@
-<<<<<<< HEAD
-body {
-  background-color: #F0F0F0; }
-
-/*# sourceMappingURL=default.css.map */
-=======
-///////////////////////////////////////////////
 DESIGN
-///////////////////////////////////////////////
-
-@import url(https://fonts.googleapis.com/css?family=Architects+Daughter);
-@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300);
-
 body {
-	background-color: #FFFFFF;
-}
+  background-color: #FFFFFF; }
 
-#mainContentWrapper #loginPage {
-	text-align: center;
-}
+#mainContentWrapper #loginPage, #mainContentWrapper #registerPage {
+  text-align: center; }
 
-.loginFrameContainer {
-	width: 30%;
-	left: 35% !important;
-	position: relative;
-	padding: 20px;
-	margin-top: 10px;
-	background-color: #96C3CC;
-}
+.loginFrameContainer, .registerFrameContainer {
+  width: 30%;
+  left: 35% !important;
+  position: relative;
+  padding: 20px;
+  margin-top: 10px;
+  background-color: #96C3CC; }
 
-.loginContainer {
-	background-color: #96C3CC;
-	border: dotted 2px black;
-}
+.loginContainer, .registerContainer {
+  background-color: #96C3CC;
+  border: dotted 2px black; }
 
-.loginContainer h1 {
-	font-family: 'Architects Daughter', cursive;
-	margin-top: -22px;
-}
+.loginContainer h1, .registerContainer h1 {
+  font-family: 'Architects Daughter', cursive;
+  margin-top: -22px; }
 
 .h1bg {
-	width: 110px;
-	background-color: #96C3CC;
-	left: 35%;
-	position: relative;
-}
+  width: 110px;
+  background-color: #96C3CC;
+  left: 35%;
+  position: relative; }
+
+.h1bgRegister {
+  width: 185px;
+  background-color: #96C3CC;
+  left: 25%;
+  position: relative; }
 
 #form form {
-	padding-left: 10%;
-}
+  padding-left: 10%;
+  margin-bottom: 110px; }
 
-.loginContainer p {
-	text-align: left;
-	font-size: 18px;
-	font-family: 'Architects Daughter', cursive;
-}
+.lastLabel {
+  margin-bottom: 40px; }
+
+.loginContainer p, .registerContainer p {
+  text-align: left;
+  font-size: 18px;
+  font-family: 'Architects Daughter', cursive; }
 
 input.inputField {
-	width: 300px;
-	height: 35px;
-}
+  width: 300px;
+  height: 35px; }
 
 input.button {
-	width: 120px;
-	font-size: 18px;
-    	font-family: 'Architects Daughter', cursive;
-	background-color: #D3ECED;
-	border: dotted 2px black;
-}
+  width: 120px;
+  font-size: 18px;
+  font-family: 'Architects Daughter', cursive;
+  background-color: #D3ECED;
+  border: dotted 2px black; }
+
+.firstButton {
+  float: left; }
+
+.secondButton {
+  float: right;
+  right: 38px; }
+
+.buttonSize {
+  width: 116px;
+  height: 30px;
+  border: black dotted 2px;
+  line-height: 2em; }
+
+.buttonLookLink {
+  font-size: 18px;
+  font-family: 'Architects Daughter', cursive;
+  background-color: #D3ECED;
+  text-decoration: none;
+  color: #000 !important; }
 
 .buttonFrameContainer {
-	width: 120px;
-	position: relative;
-	padding: 2px;
-	background-color: #D3ECED;
-}
+  width: 120px;
+  position: relative;
+  padding: 2px;
+  background-color: #D3ECED; }
 
 .headerContainer {
-	width: 80%;
-	border-top: dotted 2px black;
-	border-bottom: dotted 2px black;
-	text-align: center;
-	left: 10%;
-	position: relative;
-}
+  width: 80%;
+  border-top: dotted 2px black;
+  border-bottom: dotted 2px black;
+  text-align: center;
+  left: 10%;
+  position: relative; }
 
 #topContentWrapper {
-	margin-bottom: 50px;
-}
+  margin-bottom: 50px; }
 
 .logo {
-	height: 130px;
-	width: auto;
-}
+  height: 130px;
+  width: auto; }
 
 .libelle {
-	height: 100px;
-	position: absolute;
-	left: 10%;
-	margin-top: 15px;
-}
->>>>>>> origin/master
+  height: 100px;
+  position: absolute;
+  left: 10%;
+  margin-top: 15px; }
+
+/*# sourceMappingURL=default.css.map */
