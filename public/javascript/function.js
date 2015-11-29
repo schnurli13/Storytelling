@@ -148,6 +148,7 @@ nodeEditor.module = (function($) {
         layerTEXT.destroyChildren();
         layerConn.destroyChildren();
         document.getElementById('addNode').disabled = true;
+        document.getElementById('deleteNode').disabled = true;
         selectedNode = null;
 
         var star;
@@ -404,7 +405,7 @@ nodeEditor.module = (function($) {
     deleteNode = function(id){
             var x;
             if (confirm(deleteText) == true) {
-             /*   $.ajax({
+                $.ajax({
                     url: ajaxLink,
                     type: 'GET',
                     data: 'functionName=deleteNode&ID=' + id,
@@ -417,7 +418,7 @@ nodeEditor.module = (function($) {
                     error: function (xhr, status, error) {
                         alert(error);
                     }
-                });*/
+                });
             } else {
                 x = "Cancel pressed!";
             }

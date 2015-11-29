@@ -52,27 +52,93 @@ function deleteNode($localhost, $user, $pw,$db){
         die('Could not connect: ' . mysqli_error($con));
     }
 
+    $indexedOnly = array();
+    $hasChildren = true;
+    $indexedOnly = getPage($con,$ID,$indexedOnly,"");
+    $deleteString = "(".$indexedOnly[0]['id'];
 
-   //delete($con,$ID);
+    $deleteString = getChildren($indexedOnly,$hasChildren,$deleteString,$con);
+    $deleteString.=")";
 
-    $con->close();
-}
+    $sql = "DELETE FROM page WHERE story = 1 AND id IN".$deleteString;
 
-function delete($con, $id){
-    $sql = "DELETE FROM page WHERE story = 1";
-
+    echo $sql."\n";
     if ($con->query($sql) === TRUE) {
         echo "Record deleted successfully";
     } else {
         echo "Error deleting record: " . $con->error;
     }
+
+
+    $sql="UPDATE page SET NextPageID1 = CASE NextPageID1
+                                    WHEN ".$ID."   THEN 0
+                                    ELSE NextPageID1
+                                    END
+                         ,NextPageID2 = CASE NextPageID2
+                                   WHEN ".$ID."   THEN 0
+                                    ELSE NextPageID2
+                                    END
+                        ,NextPageID3 = CASE NextPageID3
+                                    WHEN ".$ID."   THEN 0
+                                    ELSE NextPageID3
+                                    END
+                        ,NextPageID4 = CASE NextPageID4
+                                    WHEN ".$ID."   THEN 0
+                                    ELSE NextPageID4
+                                    END
+              WHERE NextPageID1 = ".$ID."  OR NextPageID2 = ".$ID."  OR NextPageID3 = ".$ID."  OR NextPageID4 = ".$ID."  AND story = 1";
+    $result = mysqli_query($con,$sql);
+    if(!$result)
+    {
+        die('Could not update data: '. mysqli_error());
+    }
+    echo "Updated data successfully\n";
+
+    $con->close();
 }
 
-function getPage($con,$id,$indexedOnly){
-    $sql="SELECT id,level,position,NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE id =".$id." AND story = 1";
+function getChildren($parentNode,$hasChildren,$deleteString,$con){
+    $id =null;
+    while($hasChildren) {
+        if ($parentNode[0]['NextPageID1'] != 0 ) {
+            $hasChildren = true;
+            $deleteString .= "," . $parentNode[0]['NextPageID1'];
+            $id = $parentNode[0]['NextPageID1'];
+            $newParentNode = getPage($con, $id, array(), "");
+            $deleteString = getChildren($newParentNode,$hasChildren,$deleteString,$con);
+            $parentNode[0]['NextPageID1']=0;
+        } else if ($parentNode[0]['NextPageID2'] != 0) {
+            $hasChildren = true;
+            $deleteString .= "," . $parentNode[0]['NextPageID2'];
+            $id = $parentNode[0]['NextPageID2'];
+            $newParentNode = getPage($con, $id, array(), "");
+            $deleteString = getChildren($newParentNode,$hasChildren,$deleteString,$con);
+            $parentNode[0]['NextPageID2']=0;
+        } else if ($parentNode[0]['NextPageID3'] != 0) {
+            $hasChildren = true;
+            $deleteString .= "," . $parentNode[0]['NextPageID3'];
+            $id = $parentNode[0]['NextPageID3'];
+            $newParentNode = getPage($con, $id, array(), "");
+            $deleteString = getChildren($newParentNode,$hasChildren,$deleteString,$con);
+            $parentNode[0]['NextPageID3']=0;
+        } else if ($parentNode[0]['NextPageID4'] != 0) {
+            $hasChildren = true;
+            $deleteString .= "," . $parentNode[0]['NextPageID4'];
+            $id = $parentNode[0]['NextPageID4'];
+            $newParentNode = getPage($con, $id, array(), "");
+            $deleteString = getChildren($newParentNode,$hasChildren,$deleteString,$con);
+            $parentNode[0]['NextPageID4']=0;
+        } else {
+            return $deleteString;
+        }
+    }
+    return null;
+}
+
+function getPage($con,$id,$indexedOnly,$additionalFields){
+    $sql="SELECT id,".$additionalFields."NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE id =".$id." AND story = 1";
     $result = mysqli_query($con,$sql);
     while($row = mysqli_fetch_assoc($result)) {
-
         $indexedOnly[] =$row;
     }
     return $indexedOnly;
@@ -95,7 +161,7 @@ function addNewNode($localhost, $user, $pw,$db){
     }
     $newID = $indexedOnly[0]['MAX(id)']+1;
 
-    $indexedOnly =getPage($con,$ID,$indexedOnly);
+    $indexedOnly =getPage($con,$ID,$indexedOnly,"level,position,");
 
    /* $sql="SELECT id,level,position,NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE id =".$ID." AND story = 1";
     $result = mysqli_query($con,$sql);
