@@ -27,10 +27,11 @@ class userStoryEditContentModule{
 		$returnString.='Hier wird folgende Story editiert: '.$this->searchedStory.',<br/>';
 		$returnString.='von folgendem User: '.$this->searchedUser;
 
-		$returnString.='<div id="container"></div>';
+		$returnString.='<div id="wrapper"><div id="container"></div>';
 		$returnString.='<div id="buttons">';
-		$returnString.='<input type="button" value="Add new Page" id="addNode" disabled="true">';
-		$returnString.='</div>';
+		$returnString.='<input type="button" value="Add new page" id="addNode" disabled="true">';
+		$returnString.='<input type="button" value="Delete page" id="deleteNode" disabled="true">';
+		$returnString.='</div></div>';
 
 		$returnString.='<script type="text/javascript" src="function.js"></script>';
 		

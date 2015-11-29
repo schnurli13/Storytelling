@@ -6,12 +6,16 @@ body {
 
 #buttons {
     position: absolute;
-    left: 750px;
-    top: 160px;
+    left: 30px;
+    top: 20px;
 }
 
 #container{
     background-color: #F0F0F0;
     width: 60%;
     margin:20px;
+}
+
+#wrapper{
+    position:relative;
 }

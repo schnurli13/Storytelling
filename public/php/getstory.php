@@ -24,6 +24,8 @@ if ($functionName == "drawLines") {
     maxChildren($localhost, $user, $pw,$db);
 }else if($functionName == "addNewNode"){
     addNewNode($localhost, $user, $pw,$db);
+}else if($functionName == "deleteNode"){
+    deleteNode($localhost, $user, $pw,$db);
 }
 
 function maxChildren($localhost, $user, $pw,$db){
@@ -43,6 +45,40 @@ function maxChildren($localhost, $user, $pw,$db){
     mysqli_close($con);
 }
 
+function deleteNode($localhost, $user, $pw,$db){
+    $ID = filter_input(INPUT_GET, 'ID');
+    $con = mysqli_connect($localhost,$user, $pw, $db );
+    if (!$con) {
+        die('Could not connect: ' . mysqli_error($con));
+    }
+
+
+   //delete($con,$ID);
+
+    $con->close();
+}
+
+function delete($con, $id){
+    $sql = "DELETE FROM page WHERE story = 1";
+
+    if ($con->query($sql) === TRUE) {
+        echo "Record deleted successfully";
+    } else {
+        echo "Error deleting record: " . $con->error;
+    }
+}
+
+function getPage($con,$id,$indexedOnly){
+    $sql="SELECT id,level,position,NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE id =".$id." AND story = 1";
+    $result = mysqli_query($con,$sql);
+    while($row = mysqli_fetch_assoc($result)) {
+
+        $indexedOnly[] =$row;
+    }
+    return $indexedOnly;
+}
+
+
 function addNewNode($localhost, $user, $pw,$db){
     $ID = filter_input(INPUT_GET, 'ID');
     $con = mysqli_connect($localhost,$user, $pw, $db );
@@ -59,12 +95,14 @@ function addNewNode($localhost, $user, $pw,$db){
     }
     $newID = $indexedOnly[0]['MAX(id)']+1;
 
-    $sql="SELECT id,level,position,NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE id =".$ID." AND story = 1";
+    $indexedOnly =getPage($con,$ID,$indexedOnly);
+
+   /* $sql="SELECT id,level,position,NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE id =".$ID." AND story = 1";
     $result = mysqli_query($con,$sql);
     while($row = mysqli_fetch_assoc($result)) {
 
         $indexedOnly[] =$row;
-    }
+    }*/
 
     $newLevel = $indexedOnly[1]['level']+1;
 
@@ -123,6 +161,8 @@ function drawLines($localhost, $user, $pw,$db){
     if (!$con) {
         die('Could not connect: ' . mysqli_error($con));
     }
+
+
 
     $sql="SELECT MAX(level) FROM page WHERE story = 1 ";
     $result = mysqli_query($con,$sql);
