@@ -26,6 +26,10 @@ class pageObject{
 		$this->root = $newRoot;
 	}
 	
+	function setTitle($title){
+		$this->printObject->setTitle($title);
+	}
+	
     function getCurrentUri(){
 
         $basepath = implode('/', array_slice(explode('/', $_SERVER['SCRIPT_NAME']), 0, -1)) . '/';

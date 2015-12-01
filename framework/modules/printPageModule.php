@@ -11,6 +11,7 @@ class printPageModule extends printModule{
 	private $sourcesArray = array();
 	private $metaData;
 	private $additionalHead;
+	private $title;
 	
 	function __construct(){
 		$this->head = file_get_contents('framework/head/core/defaultPrintHead.html', true);
@@ -21,6 +22,9 @@ class printPageModule extends printModule{
 		$this->additionalHead = file_get_contents('framework/head/metaData/default.html', true);
 	}
 	
+	function setTitle($title){
+		$this->title = $title;
+	}
 	
 	function setSources($sourcesArray){
 		$this->sourcesArray = $sourcesArray;
@@ -36,9 +40,9 @@ class printPageModule extends printModule{
 	
 	function generateHead(){
 		
-		$toPrintHead = 'default';
+		$toPrintHead = '<title>'.$this->title.'</title>'."\n";
 		
-		$toPrintHead = $this->additionalHead.$this->metaData."\n";
+		$toPrintHead .= $this->additionalHead.$this->metaData."\n";
 		
 		$sourcesString = '';
 
