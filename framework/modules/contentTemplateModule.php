@@ -22,7 +22,7 @@ class contentTemplateModule{
 	function addLogState($sessionObject){
 		$returnString = '';
 	
-		if($sessionObject->getLogState()){
+		if($sessionObject->getLogState() && $sessionObject->encodeKey($sessionObject->getUserName()) ===  $sessionObject->getSafeHash()){
 			$returnString .= '<a href="'.$sessionObject->getUserName().'">'.$sessionObject->getUserName().' | <a href="logout">Logout</a><br/>';
 		}else{
 			$returnString .= '<a href="login">Login</a> | <a href="register">Register</a><br/>';
