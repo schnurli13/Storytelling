@@ -8,9 +8,10 @@ nodeEditor.module = (function($) {
 
 //initializing
     var width = window.innerWidth*0.59,
-        height = window.innerHeight,
+        height = window.innerHeight ,
         levelY = 100,
-        levelX = width / 2,
+        levelX = width/2,
+        storyID,
         selectedNode = null,
         xDrag,
         yDrag,
@@ -18,29 +19,35 @@ nodeEditor.module = (function($) {
         yDrop,
         over,
         deleteText = "ATTENTION: All sub-pages will be deleted as well.\nDo you really want to delete this page?",
+        moveText = "Do you want to move only this page or all sub-pages as well?",
 
         stage = new Konva.Stage({
             container: 'container',
             width: width,
-            height: height
+            height:height
+
         }),
         backgroundLayer = new Konva.Layer({
             width: width,
-            height: height
+            height:height
         }),
         layer = new Konva.Layer({
-          width: width,
-            height: height
+            width: width,
+            height:height
         }),
         layerConn = new Konva.Layer({
             width: width,
-            height: height
+            height:height
         }),
         layerTEXT = new Konva.Layer({
+                width: width,
+                height:height
+            }
+        ),
+        tempLayer = new Konva.Layer({
             width: width,
-            height: height
+            height:height
         }),
-        tempLayer = new Konva.Layer(),
 
         ajaxLink = '../../../public/php/getstory.php',
         text = new Konva.Text({
@@ -64,7 +71,8 @@ nodeEditor.module = (function($) {
         checkDeleteNode,
         addNewNode,
         deleteNode,
-        disable
+        disable,
+        moveBranch
     ;
 
 
@@ -73,10 +81,10 @@ nodeEditor.module = (function($) {
         $.ajax({
             url: ajaxLink,
             type: 'GET',
-            data: "functionName=drawLines",
+            data: 'functionName=drawLines&storyID='+storyID,
             success: function (data) {
-                var obj = $.parseJSON(data);
-                drawLines(obj['MAX(level)']);
+               var obj = $.parseJSON(data);
+               drawLines(obj['MAX(level)']);
             },
             error: function (xhr, status, error) {
                 alert(error);
@@ -85,6 +93,7 @@ nodeEditor.module = (function($) {
     };
 
     drawLines = function(levelNumb) {
+        backgroundLayer.destroyChildren();
         var line;
         var levelText;
         var h = levelY;
@@ -118,9 +127,8 @@ nodeEditor.module = (function($) {
         $.ajax({
             url: ajaxLink,
             type: 'GET',
-            data: "functionName=drawNodes",
+            data: 'functionName=drawNodes&storyID='+storyID,
             success: function (data) {
-               //alert(data);
                 var obj = $.parseJSON(data);
                 drawNodes(obj);
             },
@@ -340,7 +348,7 @@ nodeEditor.module = (function($) {
         $.ajax({
             url: ajaxLink,
             type: 'GET',
-            data: 'functionName=reorderNodes&ID01=' + ID01 + '&ID02=' + ID02,
+            data: 'functionName=reorderNodes&storyID='+storyID+'&ID01=' + ID01 + '&ID02=' + ID02,
             success: function (data) {
                 alert(data);
                 console.log("SUCCESS");
@@ -356,7 +364,7 @@ nodeEditor.module = (function($) {
         $.ajax({
             url: ajaxLink,
             type: 'GET',
-            data: 'functionName=maxChildren&ID=' + id,
+            data: 'functionName=maxChildren&storyID='+storyID+'&ID=' + id,
             success: function (data) {
                 //alert(data);
                 console.log("SUCCESS");
@@ -375,20 +383,30 @@ nodeEditor.module = (function($) {
     };
 
     checkDeleteNode = function(id) {
-        if(id != 1){
-            document.getElementById('deleteNode').disabled = false;
-            return true;
-        }else{
-            document.getElementById('deleteNode').disabled = true;
-            return false;
-        }
+        $.ajax({
+            url: ajaxLink,
+            type: 'GET',
+            data: 'functionName=isFirstNode&storyID='+storyID+'&ID=' + id,
+            success: function (data) {
+                var obj = $.parseJSON(data);
+                if (obj['level'] == 0) {
+                    document.getElementById('deleteNode').disabled = true;
+                } else {
+                    document.getElementById('deleteNode').disabled = false;
+                }
+
+            },
+            error: function (xhr, status, error) {
+                alert(error);
+            }
+        });
     };
 
     addNewNode = function(id) {
         $.ajax({
             url: ajaxLink,
             type: 'GET',
-            data: 'functionName=addNewNode&ID=' + id,
+            data: 'functionName=addNewNode&storyID='+storyID+'&ID=' + id,
             success: function (data) {
                 alert(data);
                 console.log("SUCCESS");
@@ -408,7 +426,7 @@ nodeEditor.module = (function($) {
                 $.ajax({
                     url: ajaxLink,
                     type: 'GET',
-                    data: 'functionName=deleteNode&ID=' + id,
+                    data: 'functionName=deleteNode&storyID='+storyID+'&ID=' + id,
                     success: function (data) {
                         alert(data);
                         console.log("SUCCESS");
@@ -423,6 +441,30 @@ nodeEditor.module = (function($) {
                 x = "Cancel pressed!";
             }
             console.log(x);
+    };
+
+    moveBranch = function(id){
+        var x;
+        if (confirm(moveText) == true) {
+            x = "true pressed!";
+          /*  $.ajax({
+                url: ajaxLink,
+                type: 'GET',
+                data: 'functionName=deleteNode&ID=' + id,
+                success: function (data) {
+                    alert(data);
+                    console.log("SUCCESS");
+                    startDrawLines();
+                    startDrawNodes();
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+            });*/
+        } else {
+            x = "Cancel pressed!";
+        }
+        console.log(x);
     };
 
 //helpers
@@ -464,7 +506,11 @@ nodeEditor.module = (function($) {
 
 //END
 
+// IIIIIIIIIIIIINIT
     init = function init(){
+        var res = window.location.href;
+        var array = res.split("/");
+        storyID = array[array.length-2];
         backgroundLayer.add(text);
         stage.add(backgroundLayer);
         stage.add(layerConn);
@@ -508,6 +554,8 @@ nodeEditor.module = (function($) {
 //DRAGGEN
       stage.on("dragstart", function (e) {
             nodeSelection(e);
+            moveBranch(e.target.id);
+
             xDrag = e.target.getAbsolutePosition().x;
             yDrag = e.target.getAbsolutePosition().y;
             // alert(xDrag + ":"+yDrag);

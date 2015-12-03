@@ -1,6 +1,7 @@
 body {
     margin: 0;
     padding: 0;
+
     background-color: #FFFFFF;
 }
 
@@ -12,6 +13,7 @@ body {
 
 #container{
     background-color: #F0F0F0;
+    overflow:hidden;
     width: 60%;
     margin:20px;
 }
