@@ -25,8 +25,6 @@ class userStoryContentModule{
 		$template = new contentTemplateModule('userStoryTemplate');	
 		
 		$queryResult = array();
-		$userQueryResult = array();
-		$user2QueryResult = array();
 		
 		$userIDQueryResult = $msqlObject->queryDataBase('SELECT id FROM users WHERE name = "'.$this->searchedUser.'"');
 		if(isset($userIDQueryResult[0]['id'])){

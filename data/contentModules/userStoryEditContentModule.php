@@ -18,6 +18,10 @@ class userStoryEditContentModule{
 
 	function generateHtml(){
 	
+		if($this->searchedUser != $this->sessionObject->getUserName()){
+			header('Location: .');
+		}
+	
 		$returnString = '';
 	
 		if($this->sessionObject->getLogState()){

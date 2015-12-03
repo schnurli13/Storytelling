@@ -8,23 +8,41 @@ class userContentModule{
 
 	private $sessionObject;
 	private $searchedUser;
+	private $root;
 
 	function __construct($sessionObject, $uriArray){
 		$this->sessionObject = $sessionObject;
-		$this->searchedUser = $uriArray[2];		
+		$this->searchedUser = $uriArray[2];	
+		$this->root = $uriArray[0];
 	}
 
 	function generateHtml(){
 	
-		$returnString = '';
+		$msqlObject = new mysqlModule();
 	
-		if($this->sessionObject->getLogState()){
-			$returnString.='Hey '.$this->sessionObject->getUserName().'!<br/>'."\n";
+		$returnString = '';
+		
+		$template = new contentTemplateModule('userTemplate');	
+		
+		$queryResult = $msqlObject->queryDataBase('SELECT * FROM users WHERE name = "'.$this->searchedUser.'"');;
+		
+		if(!isset($queryResult[0]['name'])){
+			header('Location: '.$this->root.'/404');
 		}
 		
-		$returnString.='Hier werden Infos von folgendem User ausgegeben: '.$this->searchedUser;
+		$template->addContent('USERNAME', $queryResult[0]['name']);
+		$template->addContent('USERMAIL', $queryResult[0]['email']);
+		$template->addContent('USERLEVEL', ($queryResult[0]['tutorialDone'] ? 'Advanced User' : 'Beginner'));
+	
+		if($this->searchedUser === $this->sessionObject->getUserName()){
+			$returnString.='<a>Edit Profile</a>';
+		}
 		
-		return $returnString;
-	}
+		$template->addLogState($this->sessionObject);
+		$template->addContent('INFO', $returnString);
+
+		return $template->generateHtml();
+
+		}
 	
 }

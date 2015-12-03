@@ -20,12 +20,15 @@ class contentTemplateModule{
 	}
 	
 	function addLogState($sessionObject){
+	
+		$basicInformationObject = new basicInformationModule();
+	
 		$returnString = '';
 	
 		if($sessionObject->getLogState() && $sessionObject->encodeKey($sessionObject->getUserName()) ===  $sessionObject->getSafeHash()){
-			$returnString .= '<a href="'.$sessionObject->getUserName().'">'.$sessionObject->getUserName().' | <a href="logout">Logout</a><br/>';
+			$returnString .= '<a href="'.$basicInformationObject->getRoot().'/users/'.$sessionObject->getUserName().'">'.$sessionObject->getUserName().' | <a href="'.$basicInformationObject->getRoot().'/logout">Logout</a><br/>';
 		}else{
-			$returnString .= '<a href="login">Login</a> | <a href="register">Register</a><br/>';
+			$returnString .= '<a href="'.$basicInformationObject->getRoot().'/login">Login</a> | <a href="'.$basicInformationObject->getRoot().'/register">Register</a><br/>';
 		}
 		
 		$this->addContent('LOGSTATE', $returnString);

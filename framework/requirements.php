@@ -17,3 +17,4 @@ require('data/contentModules/indexContentModule.php');
 require('data/contentModules/errorContentModule.php');
 
 require('framework/modules/contentTemplateModule.php');
+require('framework/modules/basicInformationModule.php');
