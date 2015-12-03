@@ -25,7 +25,9 @@ class contentTemplateModule{
 		if($sessionObject->getLogState()){
 			$returnString .= '<a href="'.$sessionObject->getUserName().'">'.$sessionObject->getUserName().' | <a href="logout">Logout</a><br/>';
 		}else{
-			$returnString .= '<a href="login">Login</a> | <a href="register">Register</a><br/>';
+			$returnString .= '
+			<div class="buttonFrameContainerLogState left marginRightLogState"><div class="buttonSize"><a class="buttonLookLink firstLogState" href="login">LOGIN</a></div></div>
+			<div class="buttonFrameContainerLogState left"><div class="buttonSize"><a class="buttonLookLink" href="register">REGISTER</a></div></div><br/>';
 		}
 		
 		$this->addContent('LOGSTATE', $returnString);
