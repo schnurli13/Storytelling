@@ -94,28 +94,28 @@ function getChildren($parentNode,$hasChildren,$deleteString,$con,$storyID){
             $hasChildren = true;
             $deleteString .= "," . $parentNode[0]['NextPageID1'];
             $id = $parentNode[0]['NextPageID1'];
-            $newParentNode = getPage($con, $id, array(), "",$storyID);
+            $newParentNode = getPage($con, $id, array(), "",$storyID,"id =");
             $deleteString = getChildren($newParentNode,$hasChildren,$deleteString,$con,$storyID);
             $parentNode[0]['NextPageID1']=0;
         } else if ($parentNode[0]['NextPageID2'] != 0) {
             $hasChildren = true;
             $deleteString .= "," . $parentNode[0]['NextPageID2'];
             $id = $parentNode[0]['NextPageID2'];
-            $newParentNode = getPage($con, $id, array(), "",$storyID);
+            $newParentNode = getPage($con, $id, array(), "",$storyID,"id =");
             $deleteString = getChildren($newParentNode,$hasChildren,$deleteString,$con,$storyID);
             $parentNode[0]['NextPageID2']=0;
         } else if ($parentNode[0]['NextPageID3'] != 0) {
             $hasChildren = true;
             $deleteString .= "," . $parentNode[0]['NextPageID3'];
             $id = $parentNode[0]['NextPageID3'];
-            $newParentNode = getPage($con, $id, array(), "",$storyID);
+            $newParentNode = getPage($con, $id, array(), "",$storyID,"id =");
             $deleteString = getChildren($newParentNode,$hasChildren,$deleteString,$con,$storyID);
             $parentNode[0]['NextPageID3']=0;
         } else if ($parentNode[0]['NextPageID4'] != 0) {
             $hasChildren = true;
             $deleteString .= "," . $parentNode[0]['NextPageID4'];
             $id = $parentNode[0]['NextPageID4'];
-            $newParentNode = getPage($con, $id, array(), "",$storyID);
+            $newParentNode = getPage($con, $id, array(), "",$storyID,"id =");
             $deleteString = getChildren($newParentNode,$hasChildren,$deleteString,$con,$storyID);
             $parentNode[0]['NextPageID4']=0;
         } else {
@@ -125,8 +125,8 @@ function getChildren($parentNode,$hasChildren,$deleteString,$con,$storyID){
     return null;
 }
 
-function getPage($con,$id,$indexedOnly,$additionalFields,$storyID){
-    $sql="SELECT id,".$additionalFields."NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE id =".$id." AND story = ".$storyID;
+function getPage($con,$id,$indexedOnly,$additionalFields,$storyID,$where){
+    $sql="SELECT id,".$additionalFields."NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE ".$where.$id." AND story = ".$storyID;
     $result = mysqli_query($con,$sql);
     while($row = mysqli_fetch_assoc($result)) {
         $indexedOnly[] =$row;
@@ -292,7 +292,7 @@ function addNewNode($localhost, $user, $pw,$db,$storyID){
     }
     $newID = $indexedOnly[0]['MAX(id)']+1;
 
-    $indexedOnly =getPage($con,$ID,$indexedOnly,"level,position,",$storyID);
+    $indexedOnly =getPage($con,$ID,$indexedOnly,"level,position,",$storyID,"id =");
 
     $newLevel = $indexedOnly[1]['level']+1;
 
@@ -356,39 +356,55 @@ function deleteNode($localhost, $user, $pw,$db,$storyID){
 
     $indexedOnly = array();
     $hasChildren = true;
-    $indexedOnly = getPage($con,$ID,$indexedOnly,"",$storyID);
+    $indexedOnly = getPage($con,$ID,$indexedOnly,"",$storyID,"id =");
+
     $deleteString = "(".$indexedOnly[0]['id'];
 
-    $deleteString = getChildren($indexedOnly,$hasChildren,$deleteString,$con,$storyID);
-    $deleteString.=")";
+     $deleteString = getChildren($indexedOnly,$hasChildren,$deleteString,$con,$storyID);
+     $deleteString.=")";
 
     $sql = "DELETE FROM page WHERE story = ".$storyID." AND id IN".$deleteString;
 
-    echo $sql."\n";
-    if ($con->query($sql) === TRUE) {
-        echo "Record deleted successfully";
-    } else {
-        echo "Error deleting record: " . $con->error;
+     echo $sql."\n";
+     if ($con->query($sql) === TRUE) {
+         echo "Record deleted successfully";
+     } else {
+         echo "Error deleting record: " . $con->error;
+     }
+
+    $indexedOnly = array();
+    $sql="SELECT id,NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE NextPageID1 = ".$ID." OR NextPageID2 = ".$ID.
+        " OR NextPageID3 = ".$ID." OR NextPageID4 = ".$ID." AND story = ".$storyID;
+    $result = mysqli_query($con,$sql);
+    while($row = mysqli_fetch_assoc($result)) {
+        $indexedOnly[] =$row;
+    }
+
+    if($indexedOnly[0]['NextPageID1'] == $ID){
+        $indexedOnly[0]['NextPageID1'] = $indexedOnly[0]['NextPageID2'];
+        $indexedOnly[0]['NextPageID2'] = $indexedOnly[0]['NextPageID3'];
+        $indexedOnly[0]['NextPageID3'] = $indexedOnly[0]['NextPageID4'];
+        $indexedOnly[0]['NextPageID4'] = 0;
+    }
+    if($indexedOnly[0]['NextPageID2'] == $ID){
+        $indexedOnly[0]['NextPageID2'] = $indexedOnly[0]['NextPageID3'];
+        $indexedOnly[0]['NextPageID3'] = $indexedOnly[0]['NextPageID4'];
+        $indexedOnly[0]['NextPageID4'] = 0;
+    }
+    if($indexedOnly[0]['NextPageID3'] == $ID){
+        $indexedOnly[0]['NextPageID3'] = $indexedOnly[0]['NextPageID4'];
+        $indexedOnly[0]['NextPageID4'] = 0;
+    }
+    if($indexedOnly[0]['NextPageID3'] == $ID){
+        $indexedOnly[0]['NextPageID4'] = 0;
     }
 
 
-    $sql="UPDATE page SET NextPageID1 = CASE NextPageID1
-                                    WHEN ".$ID."   THEN 0
-                                    ELSE NextPageID1
-                                    END
-                         ,NextPageID2 = CASE NextPageID2
-                                   WHEN ".$ID."   THEN 0
-                                    ELSE NextPageID2
-                                    END
-                        ,NextPageID3 = CASE NextPageID3
-                                    WHEN ".$ID."   THEN 0
-                                    ELSE NextPageID3
-                                    END
-                        ,NextPageID4 = CASE NextPageID4
-                                    WHEN ".$ID."   THEN 0
-                                    ELSE NextPageID4
-                                    END
-              WHERE NextPageID1 = ".$ID."  OR NextPageID2 = ".$ID."  OR NextPageID3 = ".$ID."  OR NextPageID4 = ".$ID."  AND story = ".$storyID;
+    $sql="UPDATE page SET NextPageID1 = ".$indexedOnly[0]['NextPageID1']." , NextPageID2 = ".$indexedOnly[0]['NextPageID2']." ,
+    NextPageID3 = ".$indexedOnly[0]['NextPageID3']." , NextPageID4 = ".$indexedOnly[0]['NextPageID4']."
+    WHERE id = ".$indexedOnly[0]['id']."  AND story = ".$storyID;
+
+    echo $sql."\n";
     $result = mysqli_query($con,$sql);
     if(!$result)
     {
