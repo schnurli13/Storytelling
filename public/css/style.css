@@ -1,0 +1,23 @@
+body {
+    margin: 0;
+    padding: 0;
+
+    background-color: #FFFFFF;
+}
+
+#buttons {
+    position: absolute;
+    left: 30px;
+    top: 20px;
+}
+
+#container{
+    background-color: #d3edf0;
+    overflow:hidden;
+    width: 60%;
+    margin:20px;
+}
+
+#wrapper{
+    position:relative;
+}
