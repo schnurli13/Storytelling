@@ -520,24 +520,28 @@ nodeEditor.module = (function($) {
             tempLayer.find('#deletePopUp')[0].hide();
             tempLayer.draw();
         });
-        tempLayer.find('#dButton')[0].on('click',function(e){
+
+
+        tempLayer.find('#dButton')[0].off('click').on('click',function(e){
             $.ajax({
-                url: ajaxLink,
-                type: 'GET',
-                data: 'functionName=deleteNode&storyID='+storyID+'&ID=' + id,
-                success: function (data) {
-                    alert(data);
-                    console.log("SUCCESS");
-                    tempLayer.find('#deletePopUp')[0].hide();
-                    tempLayer.draw();
-                    startDrawLines();
-                    startDrawNodes();
-                },
-                error: function (xhr, status, error) {
-                    alert(error);
-                }
-            });
+             url: ajaxLink,
+             type: 'GET',
+             data: 'functionName=deleteNode&storyID=' + storyID + '&ID=' + id,
+             success: function (data) {
+             alert(data);
+             console.log("SUCCESS");
+             e.target.fill(buttonColor);
+             tempLayer.find('#deletePopUp')[0].hide();
+             tempLayer.draw();
+             startDrawLines();
+             startDrawNodes();
+             },
+             error: function (xhr, status, error) {
+             alert(error);
+             }
+             });
         });
+
 
         tempLayer.find('#dButton1Rect')[0].on('mouseover',function(e){
             e.target.fill(buttonColorHover);
@@ -566,6 +570,7 @@ nodeEditor.module = (function($) {
         });
 
 
+        selectedNode = null;
         /*  var x;
           if (confirm(deleteText) == true) {
               $.ajax({
@@ -790,6 +795,8 @@ nodeEditor.module = (function($) {
                 interfaceLayer.draw();
             }
         });
+
+
 
         /*
         document.getElementById('deleteNode').addEventListener('click', function () {
