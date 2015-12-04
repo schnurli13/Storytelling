@@ -57,8 +57,10 @@ class searchContentModule{
 	
 		function getForm($key){
 			return '<form action="search" method="get">'."\n".'
-				<p><input type="text" name="key" value="'.$key.'"/></p>'."\n".'
-				<p><input type="submit" value="search"/></p>'."\n".'
+				<p class="darkBlue searchLabel">SEARCH:
+					<input class="inputField" type="text" name="key" value="'.$key.'"/>'."\n".'
+					<input class="button searchIcon" type="submit" value="&#xf002;"/>'."\n".'
+				</p>
 				</form>'."\n";
 		}
 	
