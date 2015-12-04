@@ -14,11 +14,14 @@ nodeEditor.module = (function($) {
         storyID,
         selectedNode = null,
         xDrag,
+        buttonColor='#96c4cd',
+        buttonColorHover='#6b878c',
+        buttonColorDisabled='white',
         yDrag,
         xDrop,
         yDrop,
         over,
-        deleteText = "ATTENTION: All sub-pages will be deleted as well.\nDo you really want to delete this page?",
+        //deleteText = "ATTENTION: All sub-pages will be deleted as well.\nDo you really want to delete this page?",
         moveText = "Do you want to move only this page or all sub-pages as well?",
 
         stage = new Konva.Stage({
@@ -31,31 +34,108 @@ nodeEditor.module = (function($) {
             width: width,
             height:height
         }),
-        layer = new Konva.Layer({
-            width: width,
-            height:height
-        }),
-        layerConn = new Konva.Layer({
-            width: width,
-            height:height
-        }),
-        layerTEXT = new Konva.Layer({
-                width: width,
-                height:height
-            }
-        ),
-        tempLayer = new Konva.Layer({
-            width: width,
-            height:height
-        }),
+        interfaceLayer = backgroundLayer.clone(),
+        layer  = backgroundLayer.clone(),
+        layerConn = backgroundLayer.clone(),
+        layerTEXT = backgroundLayer.clone(),
+        tempLayer = backgroundLayer.clone(),
 
-        ajaxLink = '../../../public/php/getstory.php',
         text = new Konva.Text({
             fill: 'black',
             fontSize: 15,
-            x: width / 2 - 50,
-            y: 3
+            x: width/2 - 50,
+            y: 25
         }),
+        deleteButton= new Konva.Group({
+            x: 30,
+            y: 80,
+            id: "deleteButton"
+        }),
+        addButton = deleteButton.clone({
+            x: 30,
+            y: 20,
+            id: "addButton"
+        }),
+        dButton = deleteButton.clone({
+            x: 30,
+            y: 130,
+            id: "dButton"
+        }),
+
+        dButtonCancel = dButton.clone({x:220,text:"CANCEL",id: "dButtonCancel"}),
+
+        dottedLineAdd = new Konva.Line({
+            points: [5, 5, 145, 5, 145, 45, 5, 45,5,5],
+            stroke: 'black',
+            strokeWidth: 1,
+            lineJoin: 'round',
+            dash: [10, 5]
+        }),
+        dottedLineDel = dottedLineAdd.clone(),
+        dottedLineBack = dottedLineAdd.clone({
+            points: [5, 5, width-5, 5, width-5, height-5, 5, height-5,5,5]
+        }),
+        dottedLinePopUp=  dottedLineAdd.clone({
+            points: [10, 10, 390, 10, 390, 240, 10,240,10,10],
+            strokeWidth: 2
+        }),
+
+        deletePopUp = new Konva.Group({
+            x: width/2-200,
+            y: height/2-120,
+            id: "deletePopUp"
+        }),
+
+        popUpRect= new Konva.Rect({
+            x: 0,
+            y: 0,
+            width: 400,
+            height: 250,
+            id: "popUpRect",
+            fill: buttonColorDisabled
+        }),
+        addRect = new Konva.Rect({
+            x: 0,
+            y: 0,
+            width: 150,
+            height: 50,
+            id: "addRect",
+            fill: buttonColorDisabled
+        }),
+        delRect = addRect.clone({
+            id: "delRect"
+        }),
+        dButton1Rect = addRect.clone({
+            fill: buttonColor,
+            id: "dButton1Rect"
+        }),
+
+        addText = new Konva.Text({
+        fill: 'black',
+        fontSize: 18,
+        x: 22,
+        y: 18,
+        id: "addText",
+        text: "Add new Page",
+        fontFamily: 'Calibri'
+        }),
+
+        delText = addText.clone({
+            id: "delText",
+            text: "Delete Page"
+        }),
+
+        dText = addText.clone({
+            x: 20,
+            y: 25,
+            align: 'center',
+            width:380,
+            lineHeight: 1.5,
+            text:"ATTENTION:\n All sub-pages will be deleted as well.\nDo you really want to delete this page?"
+        }),
+
+
+        ajaxLink = '../../../public/php/getstory.php',
 
         init,
         startDrawLines,
@@ -155,8 +235,13 @@ nodeEditor.module = (function($) {
         layer.destroyChildren();
         layerTEXT.destroyChildren();
         layerConn.destroyChildren();
-        document.getElementById('addNode').disabled = true;
-        document.getElementById('deleteNode').disabled = true;
+
+        stage.find('#addRect')[0].setAttr('fill',buttonColorDisabled);
+        stage.find('#delRect')[0].setAttr('fill',buttonColorDisabled);
+        interfaceLayer.draw();
+
+        //document.getElementById('addNode').disabled = true;
+        //document.getElementById('deleteNode').disabled = true;
         selectedNode = null;
 
         var star;
@@ -179,7 +264,7 @@ nodeEditor.module = (function($) {
                 star = new Konva.Circle({
                     x: multiple - center,
                     y: (parseInt(data[i]['level']) + 1) * levelY,
-                    fill: "red",
+                    fill: buttonColorHover,
                     radius: 20,
                     draggable: true,
                     name: 'star ' + data[i]['id'],
@@ -255,7 +340,7 @@ nodeEditor.module = (function($) {
                     star = new Konva.Circle({
                         x: multiple - center,
                         y: (parseInt(data[nextPageIDinData]['level']) + 1) * levelY,
-                        fill: "red",
+                        fill: buttonColorHover,
                         radius: 20,
                         draggable: true,
                         name: 'star ' + data[nextPageIDinData]['id'],
@@ -327,16 +412,17 @@ nodeEditor.module = (function($) {
         layer.draw();
         layerConn.draw();
         layerTEXT.draw();
+
     };
 
     nodeSelection = function(e) {
         if (selectedNode == null || e.target.id() == selectedNode) {
-            var fill = e.target.fill() == 'yellow' ? 'red' : 'yellow';
+            var fill = e.target.fill() == 'yellow' ? buttonColorHover : 'yellow';
             e.target.fill(fill);
             text.text('Selected ' + e.target.name());
             if (fill == 'yellow') {
                 selectedNode = e.target.id();
-            } else if (fill == 'red') {
+            } else if (fill == buttonColorHover) {
                 selectedNode = null;
             }
             layer.draw();
@@ -370,10 +456,13 @@ nodeEditor.module = (function($) {
                 console.log("SUCCESS");
                 var obj = $.parseJSON(data);
                 if (obj['NextPageID4'] == 0) {
-                    document.getElementById('addNode').disabled = false;
+                    stage.find('#addRect')[0].setAttr('fill',buttonColor);
+                 //   document.getElementById('addNode').disabled = false;
                 } else {
-                    document.getElementById('addNode').disabled = true;
+                    stage.find('#addRect')[0].setAttr('fill',buttonColorDisabled);
+                    //document.getElementById('addNode').disabled = true;
                 }
+                interfaceLayer.draw();
 
             },
             error: function (xhr, status, error) {
@@ -390,11 +479,13 @@ nodeEditor.module = (function($) {
             success: function (data) {
                 var obj = $.parseJSON(data);
                 if (obj['level'] == 0) {
-                    document.getElementById('deleteNode').disabled = true;
+                    stage.find('#delRect')[0].setAttr('fill',buttonColorDisabled);
+                   // document.getElementById('deleteNode').disabled = true;
                 } else {
-                    document.getElementById('deleteNode').disabled = false;
+                    stage.find('#delRect')[0].setAttr('fill',buttonColor);
+                  //  document.getElementById('deleteNode').disabled = false;
                 }
-
+                interfaceLayer.draw();
             },
             error: function (xhr, status, error) {
                 alert(error);
@@ -421,26 +512,80 @@ nodeEditor.module = (function($) {
     };
 
     deleteNode = function(id){
-            var x;
-            if (confirm(deleteText) == true) {
-                $.ajax({
-                    url: ajaxLink,
-                    type: 'GET',
-                    data: 'functionName=deleteNode&storyID='+storyID+'&ID=' + id,
-                    success: function (data) {
-                        alert(data);
-                        console.log("SUCCESS");
-                        startDrawLines();
-                        startDrawNodes();
-                    },
-                    error: function (xhr, status, error) {
-                        alert(error);
-                    }
-                });
-            } else {
-                x = "Cancel pressed!";
-            }
-            console.log(x);
+
+        tempLayer.find('#deletePopUp')[0].show();
+        tempLayer.draw();
+
+        tempLayer.find('#dButtonCancel')[0].on('click',function(e){
+            tempLayer.find('#deletePopUp')[0].hide();
+            tempLayer.draw();
+        });
+        tempLayer.find('#dButton')[0].on('click',function(e){
+            $.ajax({
+                url: ajaxLink,
+                type: 'GET',
+                data: 'functionName=deleteNode&storyID='+storyID+'&ID=' + id,
+                success: function (data) {
+                    alert(data);
+                    console.log("SUCCESS");
+                    tempLayer.find('#deletePopUp')[0].hide();
+                    tempLayer.draw();
+                    startDrawLines();
+                    startDrawNodes();
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+            });
+        });
+
+        tempLayer.find('#dButton1Rect')[0].on('mouseover',function(e){
+            e.target.fill(buttonColorHover);
+            tempLayer.draw();
+        });
+        tempLayer.find('#dButtonText')[0].on('mouseover',function(e){
+            tempLayer.find('#dButton1Rect')[0].fill(buttonColorHover);
+            tempLayer.draw();
+        });
+        tempLayer.find('#dButton1Rect')[0].on('mouseout',function(e){
+            e.target.fill(buttonColor);
+            tempLayer.draw();
+        });
+
+        tempLayer.find('#dButtonCancelRect')[0].on('mouseover',function(e){
+            e.target.fill(buttonColorHover);
+            tempLayer.draw();
+        });
+        tempLayer.find('#dButtonCancelText')[0].on('mouseover',function(e){
+            tempLayer.find('#dButtonCancelRect')[0].fill(buttonColorHover);
+            tempLayer.draw();
+        });
+        tempLayer.find('#dButtonCancelRect')[0].on('mouseout',function(e){
+            e.target.fill(buttonColor);
+            tempLayer.draw();
+        });
+
+
+        /*  var x;
+          if (confirm(deleteText) == true) {
+              $.ajax({
+                  url: ajaxLink,
+                  type: 'GET',
+                  data: 'functionName=deleteNode&storyID='+storyID+'&ID=' + id,
+                  success: function (data) {
+                      alert(data);
+                      console.log("SUCCESS");
+                      startDrawLines();
+                      startDrawNodes();
+                  },
+                  error: function (xhr, status, error) {
+                      alert(error);
+                  }
+              });
+          } else {
+              x = "Cancel pressed!";
+          }
+          console.log(x);*/
     };
 
     moveBranch = function(id){
@@ -494,8 +639,12 @@ nodeEditor.module = (function($) {
 
     disable = function(id) {
         if (selectedNode == null) {
-            document.getElementById('addNode').disabled = true;
-            document.getElementById('deleteNode').disabled = true;
+            stage.find('#addRect')[0].setAttr('fill',buttonColorDisabled);
+           stage.find('#delRect')[0].setAttr('fill',buttonColorDisabled);
+            interfaceLayer.draw();
+          //  document.getElementById('addNode').disabled = true;
+           // document.getElementById('deleteNode').disabled = true;
+
         } else {
             if (selectedNode == id) {
                 checkAdditionalNode(id);
@@ -511,43 +660,147 @@ nodeEditor.module = (function($) {
         var res = window.location.href;
         var array = res.split("/");
         storyID = array[array.length-2];
-        backgroundLayer.add(text);
+
+        //ADD NEW PAGE BUTTON
+        addButton.add(addRect);
+        addButton.add(addText);
+        addButton.add(dottedLineAdd);
+        interfaceLayer.add(addButton);
+
+        //DELETE PAGE BUTTON
+        deleteButton.add(delRect);
+        deleteButton.add(delText);
+        deleteButton.add(dottedLineDel);
+        interfaceLayer.add(deleteButton);
+
+        //HOVERTEXT + BACKGROUND
+        interfaceLayer.add(text);
+        interfaceLayer.add(dottedLineBack);
+
+        //DELETE POPUP
+        deletePopUp.add(popUpRect);
+        deletePopUp.add(dText);
+
+        dButton.add(dButton1Rect);
+        dButton.add(dottedLineAdd.clone());
+        dButton.add(delText.clone({text:"DELETE",x:45,id:'dButtonText'}));
+        deletePopUp.add(dButton);
+
+        dButtonCancel.add(dButton1Rect.clone({id:'dButtonCancelRect'}));
+        dButtonCancel.add(dottedLineAdd.clone());
+        dButtonCancel.add(delText.clone({text:"CANCEL",x:45,id:'dButtonCancelText'}));
+        deletePopUp.add(dButtonCancel);
+
+        deletePopUp.add(dottedLinePopUp);
+        tempLayer.add(deletePopUp);
+
+        tempLayer.find('#deletePopUp')[0].hide();
+       // tempLayer.draw();
+
         stage.add(backgroundLayer);
         stage.add(layerConn);
         stage.add(layer);
         stage.add(layerTEXT);
         stage.add(tempLayer);
+        stage.add(interfaceLayer);
 
         startDrawLines();
         startDrawNodes();
 
+
+
 //SELECT EVENTS
-        stage.on('click', function (e) {
+        layer.on('click', function (e) {
             nodeSelection(e);
             disable(e.target.id());
         });
 
-        stage.on("mouseover", function (e) {
+        layer.on("mouseover", function (e) {
             var fill = e.target.fill() == 'yellow' ? 'yellow' : 'orange';
             e.target.fill(fill);
             text.text('Choose ' + e.target.name());
             layer.draw();
-            backgroundLayer.draw();
+            interfaceLayer.draw();
         });
 
-        stage.on("mouseout", function (e) {
-            var fill = e.target.fill() == 'yellow' ? 'yellow' : 'red';
+        layer.on("mouseout", function (e) {
+            var fill = e.target.fill() == 'yellow' ? 'yellow' : buttonColorHover;
             e.target.fill(fill);
             layer.draw();
         });
 
-        document.getElementById('addNode').addEventListener('click', function () {
-            addNewNode(selectedNode);
-        }, false);
+        //add new page
+        stage.find('#addButton')[0].on('click',function(e){
+            var rect =  stage.find('#addRect')[0];
+            var fill = rect.fill() == buttonColorDisabled ? buttonColorDisabled : buttonColorHover;
+            if(fill != buttonColorDisabled){
+                addNewNode(selectedNode);
+            }
+        });
+        stage.find('#addRect')[0].on('mouseover',function(e){
+            var fill = e.target.fill() == buttonColorDisabled ? buttonColorDisabled : buttonColor;
+            if(fill != buttonColorDisabled){
+                e.target.fill(buttonColorHover);
+                interfaceLayer.draw();
+            }
+        });
+        stage.find('#addRect')[0].on('mouseout',function(e){
+            var fill = e.target.fill() == buttonColorDisabled ? buttonColorDisabled : buttonColorHover;
+            if(fill != buttonColorDisabled) {
+                e.target.fill(buttonColor);
+                interfaceLayer.draw();
+            }
+        });
+        stage.find('#addText')[0].on('mouseover',function(e){
+            var rect =  stage.find('#addRect')[0];
+            var fill = rect.fill() == buttonColorDisabled ? buttonColorDisabled : buttonColor;
+            if(fill != buttonColorDisabled){
+                rect.fill(buttonColorHover);
+                interfaceLayer.draw();
+            }
+        });
 
+       //delete page
+        stage.find('#deleteButton')[0].on('click',function(e){
+            var rect =  stage.find('#delRect')[0];
+            var fill = rect.fill() == buttonColorDisabled ? buttonColorDisabled: buttonColorHover;
+            if(fill != buttonColorDisabled){
+               deleteNode(selectedNode);
+            }
+        });
+        stage.find('#delRect')[0].on('mouseover',function(e){
+            var fill = e.target.fill() == buttonColorDisabled ? buttonColorDisabled : buttonColor;
+            if(fill != buttonColorDisabled){
+                e.target.fill(buttonColorHover);
+                interfaceLayer.draw();
+            }
+        });
+        stage.find('#delRect')[0].on('mouseout',function(e){
+            var fill = e.target.fill() == buttonColorDisabled ? buttonColorDisabled : buttonColorHover;
+            if(fill != buttonColorDisabled) {
+                e.target.fill(buttonColor);
+                interfaceLayer.draw();
+            }
+        });
+        stage.find('#delText')[0].on('mouseover',function(e){
+            var rect =  stage.find('#delRect')[0];
+            var fill = rect.fill() == buttonColorDisabled ? buttonColorDisabled : buttonColor;
+            if(fill != buttonColorDisabled){
+                rect.fill(buttonColorHover);
+                interfaceLayer.draw();
+            }
+        });
+
+        /*
         document.getElementById('deleteNode').addEventListener('click', function () {
-           deleteNode(selectedNode);
-        }, false);
+         deleteNode(selectedNode);
+        }, false);*/
+
+        /*
+         document.getElementById('addNode').addEventListener('click', function () {
+         addNewNode(selectedNode);
+         }, false);*/
+
 
 //END
 
@@ -563,7 +816,7 @@ nodeEditor.module = (function($) {
             e.target.fill('yellow');
             text.text('Moving ' + e.target.name());
             layer.draw();
-            backgroundLayer.draw();
+          interfaceLayer.draw();
         });
 
 
@@ -628,7 +881,7 @@ nodeEditor.module = (function($) {
             } else {
                 e.target.setAttr("x", xDrag);
                 e.target.setAttr("y", yDrag);
-                e.target.fill('red');
+                e.target.fill(buttonColorHover);
             }
 
             previousShape = undefined;
@@ -644,15 +897,15 @@ nodeEditor.module = (function($) {
         stage.on("dragenter", function (e) {
             text.text('dragenter ' + e.target.name());
             layer.draw();
-            backgroundLayer.draw();
+            interfaceLayer.draw();
         });
 
         stage.on("dragleave", function (e) {
             over = false;
-            e.target.fill('red');
+            e.target.fill(buttonColorHover);
             text.text('dragleave ' + e.target.name());
             layer.draw();
-            backgroundLayer.draw();
+            interfaceLayer.draw();
         });
 
         stage.on("dragover", function (e) {
@@ -662,7 +915,7 @@ nodeEditor.module = (function($) {
             yDrop = e.target.getAbsolutePosition().y;
             text.text('dragover ' + e.target.name());
             layer.draw();
-            backgroundLayer.draw();
+            interfaceLayer.draw();
         });
 
         stage.on("drop", function (e) {
@@ -672,7 +925,7 @@ nodeEditor.module = (function($) {
             e.target.fill('green');
             text.text('drop ' + e.target.name());
             layer.draw();
-            backgroundLayer.draw();
+            interfaceLayer.draw();
         });
 
     };
