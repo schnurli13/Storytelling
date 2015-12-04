@@ -12,6 +12,9 @@ class sessionModule{
 		if(!isset($_SESSION['userName'])){
 			$_SESSION['userName'] = '';
 		}
+		if(!isset($_SESSION['safeHash'])){
+			$_SESSION['safeHash'] = '';
+		}
 		if(!isset($_SESSION['loggedIn'])){
 			$_SESSION['loggedIn'] = false;
 		}
@@ -35,6 +38,14 @@ class sessionModule{
 	
 	function setLogState($LogState){
 		$_SESSION['loggedIn'] = $LogState;
+	}
+	
+	function getSafeHash(){
+		return $_SESSION['safeHash'];
+	}
+	
+	function setSafeHash($safeHash){
+		$_SESSION['safeHash'] = $safeHash;
 	}
 	
 	function encodeKey($key){

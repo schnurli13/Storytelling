@@ -16,14 +16,11 @@ class pageObject{
 	private $activatedBackend = false;
 	private $backendUri = 'backend';
 	private $backendObject;
-	
-	private $root = '/';
-	
+		
 	private $printObject;
 		
-	function __construct($newRoot) {
+	function __construct() {
 		$this->printObject = new printPageModule();
-		$this->root = $newRoot;
 	}
 	
 	function setTitle($title){
@@ -42,10 +39,11 @@ class pageObject{
     }
 
     function getUriArray(){
+		$basicInformationObject = new basicInformationModule();
         $base_url = $this->getCurrentUri();
         $routes = array();
         $routes = explode('/', $base_url);	
-		$routes[0] = $this->root;
+		$routes[0] = $basicInformationObject->getRoot();
 
         return $routes;
     }

@@ -6,7 +6,7 @@ $mySession = new sessionModule();
 
 $mySession->initializeSession();
 
-$myPage = new pageObject('/Storytelling');
+$myPage = new pageObject();
 
 $myPage->setBodyTemplate('testBodyTemplate');
 $myPage->setHtmlTemplate('testHtmlTemplate');

@@ -20,14 +20,21 @@ class contentTemplateModule{
 	}
 	
 	function addLogState($sessionObject){
+	
+		$basicInformationObject = new basicInformationModule();
+	
 		$returnString = '';
 	
-		if($sessionObject->getLogState()){
-			$returnString .= '<a href="'.$sessionObject->getUserName().'">'.$sessionObject->getUserName().' | <a href="logout">Logout</a><br/>';
+		if($sessionObject->getLogState() && $sessionObject->encodeKey($sessionObject->getUserName()) ===  $sessionObject->getSafeHash()){
+			$returnString .= '<a href="'.$basicInformationObject->getRoot().'/users/'.$sessionObject->getUserName().'">'.$sessionObject->getUserName().' | <a href="'.$basicInformationObject->getRoot().'/logout">Logout</a><br/>';
 		}else{
+<<<<<<< HEAD
 			$returnString .= '
 			<div class="buttonFrameContainerLogState left marginRightLogState"><div class="buttonSize"><a class="buttonLookLink firstLogState" href="login">LOGIN</a></div></div>
 			<div class="buttonFrameContainerLogState left"><div class="buttonSize"><a class="buttonLookLink" href="register">REGISTER</a></div></div><br/>';
+=======
+			$returnString .= '<a href="'.$basicInformationObject->getRoot().'/login">Login</a> | <a href="'.$basicInformationObject->getRoot().'/register">Register</a><br/>';
+>>>>>>> origin/master
 		}
 		
 		$this->addContent('LOGSTATE', $returnString);

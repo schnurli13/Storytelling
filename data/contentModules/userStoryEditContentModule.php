@@ -18,6 +18,10 @@ class userStoryEditContentModule{
 
 	function generateHtml(){
 	
+		if($this->searchedUser != $this->sessionObject->getUserName()){
+			header('Location: .');
+		}
+	
 		$returnString = '';
 	
 		if($this->sessionObject->getLogState()){
@@ -28,10 +32,10 @@ class userStoryEditContentModule{
 		$returnString.='von folgendem User: '.$this->searchedUser;
 
 		$returnString.='<div id="wrapper"><div id="container"></div>';
-		$returnString.='<div id="buttons">';
+	/*	$returnString.='<div id="buttons">';
 		$returnString.='<input type="button" value="Add new page" id="addNode" disabled="true">';
-		$returnString.='<input type="button" value="Delete page" id="deleteNode" disabled="true">';
-		$returnString.='</div></div>';
+		$returnString.='<input type="button" value="Delete page" id="deleteNode" disabled="true">';*/
+		$returnString.='</div>';
 
 		$returnString.='<script type="text/javascript" src="function.js"></script>';
 		

@@ -14,6 +14,7 @@ class loginContentModule{
 
 	function setSession($userName){
 		$this->sessionObject->setUserName($userName);
+		$this->sessionObject->setSafeHash($this->sessionObject->encodeKey($userName));
 		$this->sessionObject->setLogState(true);
 	}
 	

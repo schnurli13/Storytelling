@@ -15,7 +15,6 @@ class errorContentModule{
 	function generateHtml(){
 	
 		$template = new contentTemplateModule('errorTemplate');
-		//$template->addLogState($this->sessionObject);
 		
 		return $template->generateHtml();
 
