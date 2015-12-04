@@ -1,6 +1,6 @@
 $darkblue: #96C3CC;
 $lightblue:  #D3ECED;
-$MainFont:  'Architects Daughter', cursive;
+$mainFont:  'Architects Daughter', cursive;
 
 ///////////////////////////////////////////////
 DESIGN
@@ -21,29 +21,29 @@ body {
 	position: relative;
 	padding: 20px;
 	margin-top: 10px;
-	background-color: #96C3CC;
+	background-color: $darkblue;
 }
 
 .loginContainer, .registerContainer {
-	background-color: #96C3CC;
+	background-color: $darkblue;
 	border: dotted 2px black;
 }
 
 .loginContainer h1, .registerContainer h1 {
-	font-family: 'Architects Daughter', cursive;
+	font-family: $mainFont;
 	margin-top: -22px;
 }
 
 .h1bg {
 	width: 110px;
-	background-color: #96C3CC;
+	background-color: $darkblue;
 	left: 35%;
 	position: relative;
 }
 
 .h1bgRegister {
 	width: 185px;
-	background-color: #96C3CC;
+	background-color: $darkblue;
 	left: 25%;
 	position: relative;
 }
@@ -53,6 +53,11 @@ body {
 	margin-bottom: 110px;
 }
 
+#searchResultPage #form form, #searchPage #form form {
+	margin-bottom: 110px;
+	padding-left: 0% !important;
+}
+
 .lastLabel {
 	margin-bottom: 40px;
 }
@@ -60,19 +65,38 @@ body {
 .loginContainer p, .registerContainer p {
 	text-align: left;
 	font-size: 18px;
-	font-family: 'Architects Daughter', cursive;
+	font-family: $mainFont;
+}
+
+.searchLabel {
+	text-align: center;
+	font-size: 48px;
+	font-family: $mainFont;
+	margin-top: 200px;
+}
+
+.darkBlue {
+	color: $darkblue;
+}
+
+.searchLabel input.inputField {
+        margin-left: 20px;
+	height: 46px;
+	border-style: dotted;
+	padding-top: 16px;
 }
 
 input.inputField {
-	width: 300px;
+	max-width: 300px;
+	width: 90%;
 	height: 35px;
 }
 
 input.button {
 	width: 120px;
 	font-size: 18px;
-    	font-family: 'Architects Daughter', cursive;
-	background-color: #D3ECED;
+    	font-family: $mainFont;
+	background-color: $lightblue;
 	border: dotted 2px black;
 }
 
@@ -90,12 +114,12 @@ input.button {
 	height: 30px;
 	border: black dotted 2px;
 	line-height: 2em;
+	text-align: center;
 }
 
 .buttonLookLink {
 	font-size: 18px;
-    	font-family: 'Architects Daughter', cursive;
-	background-color: #D3ECED;
+    	font-family: $mainFont;
 	text-decoration: none;
 	color: #000 !important;
 }
@@ -104,7 +128,14 @@ input.button {
 	width: 120px;
 	position: relative;
 	padding: 2px;
-	background-color: #D3ECED;
+	background-color: $lightblue;
+}
+
+.buttonFrameContainerLogState {
+	width: 120px;
+	position: relative;
+	padding: 2px;
+	background-color: $darkblue;
 }
 
 .headerContainer {
@@ -130,4 +161,37 @@ input.button {
 	position: absolute;
 	left: 10%;
 	margin-top: 15px;
+}
+
+.h1Search {
+	text-align: center;
+	font-family: $mainFont;
+	
+}
+
+/*.firstLogState {
+	margin-right: 10px;
+}*/
+
+.left {
+	float: left;
+}
+
+.marginRightLogState {
+	margin-right: 10px;
+}
+
+#logState {
+	float: right;
+	margin-right: 10%;
+	margin-top: -180px;
+}
+
+.searchIcon {
+	font-family: FontAwesome !important;
+	font-size: 0.75em !important;
+	width: 55px !important;
+	margin-left: -22px;
+	margin-top: -10px !important;
+	background-color: $darkblue !important;
 }

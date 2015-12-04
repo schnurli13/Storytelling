@@ -24,8 +24,10 @@ class indexContentModule{
 	
 		function getForm(){
 		return '<form action="search" method="get">'."\n".'
-			<p><input type="text" name="key"/></p>'."\n".'
-			<p><input type="submit" value="search"/></p>'."\n".'
+			<p class="searchLabel">SEARCH:
+				<input class="inputField" type="text" name="key"/>'."\n".'
+				<input class="button searchIcon" type="submit" value="&#xf002;"/>'."\n".'
+			</p>
 			</form>'."\n";
 	}
 
