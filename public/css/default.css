@@ -40,6 +40,10 @@ body {
 #searchResultPage #form form, #searchPage #form form {
   margin-bottom: 110px;
   padding-left: 0% !important; }
+  
+#searchResultPage #form form {
+	    margin-left: -430px;
+}
 
 .lastLabel {
   margin-bottom: 40px; }
@@ -143,9 +147,14 @@ input.button {
   margin-right: 10px; }
 
 #logState {
-  float: right;
+  margin-top: 150px;
+  position: absolute;
+  right: 10.5%;
+  top: 0;
+  /*float: right;
   margin-right: 10%;
-  margin-top: -180px; }
+  margin-top: -180px; */
+  }
 
 .searchIcon {
   font-family: FontAwesome !important;
@@ -156,3 +165,7 @@ input.button {
   background-color: #96C3CC !important; }
 
 /*# sourceMappingURL=default.css.map */
+
+#searchResultPage {
+	margin-top: -170px;
+}
