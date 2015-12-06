@@ -28,7 +28,10 @@ class contentTemplateModule{
 		if($sessionObject->getLogState() && $sessionObject->encodeKey($sessionObject->getUserName()) ===  $sessionObject->getSafeHash()){
 			$returnString .= '<a href="'.$basicInformationObject->getRoot().'/users/'.$sessionObject->getUserName().'">'.$sessionObject->getUserName().' | <a href="'.$basicInformationObject->getRoot().'/logout">Logout</a><br/>';
 		}else{
-			$returnString .= '<a href="'.$basicInformationObject->getRoot().'/login">Login</a> | <a href="'.$basicInformationObject->getRoot().'/register">Register</a><br/>';
+			$returnString .= '
+			<div class="buttonFrameContainerLogState left marginRightLogState"><div class="buttonSize"><a class="buttonLookLink firstLogState" href="'.$basicInformationObject->getRoot().'/login">LOGIN</a></div></div>
+			<div class="buttonFrameContainerLogState left"><div class="buttonSize"><a class="buttonLookLink" href="'.$basicInformationObject->getRoot().'/register">REGISTER</a></div></div><br/>';
+			// $returnString .= '<a href="'.$basicInformationObject->getRoot().'/login">Login</a> | <a href="'.$basicInformationObject->getRoot().'/register">Register</a><br/>';
 		}
 		
 		$this->addContent('LOGSTATE', $returnString);
