@@ -37,7 +37,7 @@ class searchContentModule{
 		
 		if(isset($queryResult[0]['name'])){
 		
-			$returnString.='<h2>Found Users:</h2>';
+			$returnString.='<h2>USER</h2>';
 			
 			$returnString.='<ul>';
 			

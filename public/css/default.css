@@ -40,10 +40,9 @@ body {
 #searchResultPage #form form, #searchPage #form form {
   margin-bottom: 110px;
   padding-left: 0% !important; }
-  
+
 #searchResultPage #form form {
-	    margin-left: -430px;
-}
+  margin-left: -430px; }
 
 .lastLabel {
   margin-bottom: 40px; }
@@ -65,8 +64,10 @@ body {
 .searchLabel input.inputField {
   margin-left: 20px;
   height: 46px;
-  border-style: dotted;
-  padding-top: 16px; }
+  border-style: dotted; }
+
+#searchPage .searchLabel input.inputField {
+  padding-top: 17px !important; }
 
 input.inputField {
   max-width: 300px;
@@ -153,8 +154,7 @@ input.button {
   top: 0;
   /*float: right;
   margin-right: 10%;
-  margin-top: -180px; */
-  }
+  margin-top: -180px; */ }
 
 .searchIcon {
   font-family: FontAwesome !important;
@@ -164,8 +164,47 @@ input.button {
   margin-top: -10px !important;
   background-color: #96C3CC !important; }
 
-/*# sourceMappingURL=default.css.map */
-
 #searchResultPage {
-	margin-top: -170px;
-}
+  margin-top: -170px; }
+
+#searchResultPage p.darkBlue.searchLabel {
+  font-size: 28px;
+  margin-left: -5%; }
+
+#searchResultPage .searchLabel input.inputField {
+  height: 30px;
+  padding-top: 7px; }
+
+#searchResultPage h2 {
+  margin-left: 10%;
+  margin-top: -80px;
+  font-family: "Architects Daughter", cursive;
+  text-decoration: underline; }
+
+#searchResultPage ul {
+  margin-left: 7%;
+  list-style: none;
+  line-height: 3em;
+  font-size: 28px;
+  font-family: "Architects Daughter", cursive; }
+
+#searchResultPage ul li a {
+  text-decoration: none;
+  color: #000 !important; }
+
+#searchResultPage input.inputField {
+  font-size: 20px;
+  font-family: inherit;
+  padding: 5px; }
+
+#searchPage input.inputField {
+  font-size: 30px;
+  font-family: inherit;
+  padding: 10px; }
+
+#loginPage input.inputField, #registerPage input.inputField {
+  font-family: inherit;
+  font-size: 18px;
+  padding: 5px; }
+
+/*# sourceMappingURL=default.css.map */
