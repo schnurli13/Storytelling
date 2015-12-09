@@ -202,6 +202,7 @@ input.button {
 	font-family: FontAwesome !important;
 	font-size: 0.75em !important;
 	width: 55px !important;
+	height: 46px;
 	margin-left: -22px;
 	margin-top: -10px !important;
 	background-color: $darkblue !important;
@@ -213,8 +214,8 @@ input.button {
 }
 
 #searchResultPage p.darkBlue.searchLabel {
-    font-size: 28px;
-    margin-left: -5%;
+	font-size: 28px;
+	margin-left: -5%;
 }
 
 #searchResultPage .searchLabel input.inputField {
@@ -223,39 +224,43 @@ input.button {
 }
 
 #searchResultPage h2 {
-    margin-left: 10%;
-    margin-top: -80px;
-    font-family: $mainFont;
-    text-decoration: underline;
+	margin-left: 10%;
+	margin-top: -80px;
+	font-family: $mainFont;
+	text-decoration: underline;
 }
 
 #searchResultPage ul {
-    margin-left: 7%;
-    list-style: none;
-    line-height: 3em;
-    font-size: 28px;
-    font-family: $mainFont;
+	margin-left: 7%;
+	list-style: none;
+	line-height: 3em;
+	font-size: 28px;
+	font-family: $mainFont;
 }
 
 #searchResultPage ul li a {
-    text-decoration: none;
-    color: #000 !important;
+	text-decoration: none;
+	color: #000 !important;
 }
 
 #searchResultPage input.inputField {
-    font-size: 20px;
-    font-family: inherit;
-    padding: 5px;
+	font-size: 20px;
+	font-family: inherit;
+	padding: 5px;
 }
 
 #searchPage input.inputField {
-    font-size: 30px;
-    font-family: inherit;
-    padding: 10px;
+	font-size: 30px;
+	font-family: inherit;
+	padding: 10px;
 }
 
 #loginPage input.inputField, #registerPage input.inputField {
-    font-family: inherit;
-    font-size: 18px;
-    padding: 5px;
+	font-family: inherit;
+	font-size: 18px;
+	padding: 5px;
+}
+
+.libelleTut {
+	width: 400px;
 }

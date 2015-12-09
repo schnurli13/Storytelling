@@ -160,6 +160,7 @@ input.button {
   font-family: FontAwesome !important;
   font-size: 0.75em !important;
   width: 55px !important;
+  height: 46px;
   margin-left: -22px;
   margin-top: -10px !important;
   background-color: #96C3CC !important; }
@@ -206,5 +207,8 @@ input.button {
   font-family: inherit;
   font-size: 18px;
   padding: 5px; }
+
+.libelleTut {
+  width: 400px; }
 
 /*# sourceMappingURL=default.css.map */
