@@ -1,5 +1,7 @@
 $darkblue: #96C3CC;
 $lightblue:  #D3ECED;
+$lightred: #F3E0E1;
+$darkred: #E1AFB1;
 $mainFont:  'Architects Daughter', cursive;
 
 ///////////////////////////////////////////////
@@ -11,7 +13,7 @@ body {
 	background-color: #FFFFFF;
 }
 
-#mainContentWrapper #loginPage, #mainContentWrapper #registerPage {
+#mainContentWrapper #loginPage, #mainContentWrapper #registerPage, #mainContentWrapper #profilePage {
 	text-align: center;
 }
 
@@ -24,12 +26,55 @@ body {
 	background-color: $darkblue;
 }
 
+.profileFrameContainer {
+	width: 75%;
+	left: 11% !important;
+	position: relative;
+	padding: 20px;
+	margin-top: 10px;
+}
+
+.myInfoFrameContainer {
+	width: 90%;
+	left: 3% !important;
+	position: relative;
+	padding: 20px;
+	margin-top: 10px;
+	background-color: $lightred;
+	margin-bottom: 30px;
+}
+
+.myStoryFrameContainer {
+	width: 90%;
+	left: 3% !important;
+	position: relative;
+	padding: 20px;
+	margin-top: 10px;
+	background-color: $lightblue;
+	margin-bottom: 30px;
+}
+
 .loginContainer, .registerContainer {
 	background-color: $darkblue;
 	border: dotted 2px black;
 }
 
-.loginContainer h1, .registerContainer h1 {
+.profileContainer {
+	border: dotted 2px black;
+}
+
+.myInfoContainer {
+	background-color: $lightred;
+	border: dotted 2px black;
+}
+
+.myStoryContainer {
+	background-color: $lightblue;
+	border: dotted 2px black;
+}
+
+
+.loginContainer h1, .registerContainer h1, .profileContainer h1 {
 	font-family: $mainFont;
 	margin-top: -22px;
 }
@@ -42,9 +87,31 @@ body {
 }
 
 .h1bgRegister {
-	width: 185px;
+	width: 225px;
 	background-color: $darkblue;
-	left: 25%;
+	left: 20%;
+	position: relative;
+}
+
+
+.h1bgLogin {
+	width: 140px;
+	background-color: #fff;
+	left: 43%;
+	position: relative;
+}
+
+.h1bgLoginInfo {
+	width: 130px;
+	background-color: $lightred;
+	left: 42.5%;
+	position: relative;
+}
+
+.h1bgLoginStory {
+	width: 190px;
+	background-color: $lightblue;
+	left: 39%;
 	position: relative;
 }
 
@@ -66,7 +133,7 @@ body {
 	margin-bottom: 40px;
 }
 
-.loginContainer p, .registerContainer p {
+.loginContainer p, .registerContainer p, .profileContainer p {
 	text-align: left;
 	font-size: 18px;
 	font-family: $mainFont;
@@ -107,6 +174,14 @@ input.button {
 	border: dotted 2px black;
 }
 
+input.buttonStory {
+	width: 145px;
+	font-size: 18px;
+    	font-family: $mainFont;
+	background-color: $darkblue;
+	border: dotted 2px black;
+}
+
 .firstButton {
 	float: left;
 }
@@ -136,6 +211,15 @@ input.button {
 	position: relative;
 	padding: 2px;
 	background-color: $lightblue;
+}
+
+.buttonFrameContainerStory {
+	width: 145px;
+	position: relative;
+	padding: 2px;
+	background-color: $darkblue;
+	margin-left: -10px;
+	margin-top: -10px;
 }
 
 .buttonFrameContainerLogState {
@@ -182,6 +266,10 @@ input.button {
 
 .left {
 	float: left;
+}
+
+.right {
+	float: right;
 }
 
 .marginRightLogState {
@@ -255,7 +343,7 @@ input.button {
 	padding: 10px;
 }
 
-#loginPage input.inputField, #registerPage input.inputField {
+#loginPage input.inputField, #registerPage input.inputField, #profilePage input.inputField {
 	font-family: inherit;
 	font-size: 18px;
 	padding: 5px;
@@ -263,4 +351,31 @@ input.button {
 
 .libelleTut {
 	width: 400px;
+}
+
+.storyPic, .profilePic {
+	width: 130px;
+}
+
+.storyPicFrame {
+	width: 130px;
+	height: 150px;
+	background-color: #96C3CC;
+	padding: 10px;
+	margin: 20px;
+	margin-bottom: 65px;
+}
+
+#profilePage .storyTitle {
+	margin-top: 5px;
+	text-align: center;
+}
+
+#profilePage .myInfoContainer #content {
+	padding: 0px 20px;
+	height: 210px;
+}
+
+#profilePage .myInfoContainer #content .firstColumn {
+	width: 420px;	
 }

@@ -2,7 +2,7 @@ DESIGN
 body {
   background-color: #FFFFFF; }
 
-#mainContentWrapper #loginPage, #mainContentWrapper #registerPage {
+#mainContentWrapper #loginPage, #mainContentWrapper #registerPage, #mainContentWrapper #profilePage {
   text-align: center; }
 
 .loginFrameContainer, .registerFrameContainer {
@@ -13,11 +13,47 @@ body {
   margin-top: 10px;
   background-color: #96C3CC; }
 
+.profileFrameContainer {
+  width: 75%;
+  left: 11% !important;
+  position: relative;
+  padding: 20px;
+  margin-top: 10px; }
+
+.myInfoFrameContainer {
+  width: 90%;
+  left: 3% !important;
+  position: relative;
+  padding: 20px;
+  margin-top: 10px;
+  background-color: #F3E0E1;
+  margin-bottom: 30px; }
+
+.myStoryFrameContainer {
+  width: 90%;
+  left: 3% !important;
+  position: relative;
+  padding: 20px;
+  margin-top: 10px;
+  background-color: #D3ECED;
+  margin-bottom: 30px; }
+
 .loginContainer, .registerContainer {
   background-color: #96C3CC;
   border: dotted 2px black; }
 
-.loginContainer h1, .registerContainer h1 {
+.profileContainer {
+  border: dotted 2px black; }
+
+.myInfoContainer {
+  background-color: #F3E0E1;
+  border: dotted 2px black; }
+
+.myStoryContainer {
+  background-color: #D3ECED;
+  border: dotted 2px black; }
+
+.loginContainer h1, .registerContainer h1, .profileContainer h1 {
   font-family: "Architects Daughter", cursive;
   margin-top: -22px; }
 
@@ -28,9 +64,27 @@ body {
   position: relative; }
 
 .h1bgRegister {
-  width: 185px;
+  width: 225px;
   background-color: #96C3CC;
-  left: 25%;
+  left: 20%;
+  position: relative; }
+
+.h1bgLogin {
+  width: 140px;
+  background-color: #fff;
+  left: 43%;
+  position: relative; }
+
+.h1bgLoginInfo {
+  width: 130px;
+  background-color: #F3E0E1;
+  left: 42.5%;
+  position: relative; }
+
+.h1bgLoginStory {
+  width: 190px;
+  background-color: #D3ECED;
+  left: 39%;
   position: relative; }
 
 #form form {
@@ -47,7 +101,7 @@ body {
 .lastLabel {
   margin-bottom: 40px; }
 
-.loginContainer p, .registerContainer p {
+.loginContainer p, .registerContainer p, .profileContainer p {
   text-align: left;
   font-size: 18px;
   font-family: "Architects Daughter", cursive; }
@@ -81,6 +135,13 @@ input.button {
   background-color: #D3ECED;
   border: dotted 2px black; }
 
+input.buttonStory {
+  width: 145px;
+  font-size: 18px;
+  font-family: "Architects Daughter", cursive;
+  background-color: #96C3CC;
+  border: dotted 2px black; }
+
 .firstButton {
   float: left; }
 
@@ -106,6 +167,14 @@ input.button {
   position: relative;
   padding: 2px;
   background-color: #D3ECED; }
+
+.buttonFrameContainerStory {
+  width: 145px;
+  position: relative;
+  padding: 2px;
+  background-color: #96C3CC;
+  margin-left: -10px;
+  margin-top: -10px; }
 
 .buttonFrameContainerLogState {
   width: 120px;
@@ -143,6 +212,9 @@ input.button {
 }*/
 .left {
   float: left; }
+
+.right {
+  float: right; }
 
 .marginRightLogState {
   margin-right: 10px; }
@@ -203,12 +275,34 @@ input.button {
   font-family: inherit;
   padding: 10px; }
 
-#loginPage input.inputField, #registerPage input.inputField {
+#loginPage input.inputField, #registerPage input.inputField, #profilePage input.inputField {
   font-family: inherit;
   font-size: 18px;
   padding: 5px; }
 
 .libelleTut {
   width: 400px; }
+
+.storyPic, .profilePic {
+  width: 130px; }
+
+.storyPicFrame {
+  width: 130px;
+  height: 150px;
+  background-color: #96C3CC;
+  padding: 10px;
+  margin: 20px;
+  margin-bottom: 65px; }
+
+#profilePage .storyTitle {
+  margin-top: 5px;
+  text-align: center; }
+
+#profilePage .myInfoContainer #content {
+  padding: 0px 20px;
+  height: 210px; }
+
+#profilePage .myInfoContainer #content .firstColumn {
+  width: 420px; }
 
 /*# sourceMappingURL=default.css.map */

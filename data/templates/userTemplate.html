@@ -1,10 +1,64 @@
+<link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
 <div id="logState">
-{{LOGSTATE}}
+    {{LOGSTATE}}
 </div>
-<div id="content">
-<h1>The selected user</h1>
-<p>Name: {{USERNAME}}</p>
-<p>E-Mail: {{USERMAIL}}</p>
-<p>Level: {{USERLEVEL}}</p>
-{{INFO}}
+
+<div id="profilePage">
+    <div class="profileFrameContainer">
+        <div class="profileContainer">
+            <div class="h1bgLogin"><h1>PROFILE</h1></div>
+            <div class="myInfoFrameContainer">
+                <div class="myInfoContainer">
+                    <div class="h1bgLoginInfo"><h1>MY INFO</h1></div>
+                    <div id="content">
+                        <div class="left firstColumn">
+                            <p>USERNAME: {{USERNAME}}</p>
+                            <p>E-MAIL: {{USERMAIL}}</p>
+                            <p>LEVEL: {{USERLEVEL}}</p>
+                            {{INFO}}
+                        </div>
+                        <div class="left">
+                            <p>PROFILE PIC:</p>
+                            <img class="profilePic" src="dummyProfile.jpg" alt="profile" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="myStoryFrameContainer">
+                <div class="myStoryContainer">
+                    <div class="h1bgLoginStory"><h1>MY STORIES</h1></div>
+                    <div id="content">
+                        
+                        <div class="storyPicFrame">
+                            <img class="storyPic" src="dummyStory.jpg" alt="story" />
+                            <p class="storyTitle">MY STORY 1</p>
+                            <div class="buttonFrameContainerStory"><input class="buttonStory" type="submit" value="EDIT"/></div>
+                        </div>
+                        
+                        <div class="storyPicFrame">
+                            <img class="storyPic" src="dummyStory.jpg" alt="story" />
+                            <p class="storyTitle">MY STORY 1</p>
+                            <div class="buttonFrameContainerStory"><input class="buttonStory" type="submit" value="EDIT"/></div>
+                        </div>
+                        
+                        <div class="storyPicFrame">
+                            <img class="storyPic" src="dummyStory.jpg" alt="story" />
+                            <p class="storyTitle">MY STORY 1</p>
+                            <div class="buttonFrameContainerStory"><input class="buttonStory" type="submit" value="EDIT"/></div>
+                        </div>
+                        
+                        <div class="storyPicFrame">
+                            <img class="storyPic" src="dummyStory.jpg" alt="story" />
+                            <p class="storyTitle">MY STORY 1</p>
+                            <div class="buttonFrameContainerStory"><input class="buttonStory" type="submit" value="EDIT"/></div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
