@@ -182,6 +182,14 @@ input.buttonStory {
 	border: dotted 2px black;
 }
 
+input.buttonStoryInfo {
+	width: 145px;
+	font-size: 18px;
+    	font-family: $mainFont;
+	background-color: $darkred;
+	border: dotted 2px black;
+}
+
 .firstButton {
 	float: left;
 }
@@ -220,6 +228,14 @@ input.buttonStory {
 	background-color: $darkblue;
 	margin-left: -10px;
 	margin-top: -10px;
+}
+
+.buttonFrameContainerStoryInfo {
+	width: 145px;
+	padding: 2px;
+	float: left;
+	background-color: $darkred;
+	margin-left: 70px;
 }
 
 .buttonFrameContainerLogState {
@@ -374,6 +390,7 @@ input.buttonStory {
 	padding: 10px;
 	margin: 20px;
 	margin-bottom: 65px;
+	float: left;
 }
 
 #profilePage .storyTitle {
@@ -382,9 +399,21 @@ input.buttonStory {
 }
 
 #profilePage .myInfoContainer #content {
-	padding: 0px 20px;
-	height: 210px;
+	padding: 0px 20px 20px 20px;
+	overflow: auto;
+	width: 90%;
+	left: 5% !important;
+	position: relative;
 }
+
+#profilePage .myStoryContainer #content {
+	position: relative;
+	overflow: auto;
+	width: 90%;
+	left: 5%;
+}
+
+
 
 #profilePage .myInfoContainer #content .firstColumn {
 	width: 420px;	
@@ -398,4 +427,10 @@ input.buttonStory {
 .searchLink {
 	margin-top: 10px;
 	position: absolute;
+}
+
+.profileLable {
+	margin-right: 20px;
+	width: 100px;
+	float: left;
 }

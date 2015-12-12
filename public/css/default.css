@@ -142,6 +142,13 @@ input.buttonStory {
   background-color: #96C3CC;
   border: dotted 2px black; }
 
+input.buttonStoryInfo {
+  width: 145px;
+  font-size: 18px;
+  font-family: "Architects Daughter", cursive;
+  background-color: #E1AFB1;
+  border: dotted 2px black; }
+
 .firstButton {
   float: left; }
 
@@ -175,6 +182,13 @@ input.buttonStory {
   background-color: #96C3CC;
   margin-left: -10px;
   margin-top: -10px; }
+
+.buttonFrameContainerStoryInfo {
+  width: 145px;
+  padding: 2px;
+  float: left;
+  background-color: #E1AFB1;
+  margin-left: 70px; }
 
 .buttonFrameContainerLogState {
   width: 120px;
@@ -301,15 +315,25 @@ input.buttonStory {
   background-color: #96C3CC;
   padding: 10px;
   margin: 20px;
-  margin-bottom: 65px; }
+  margin-bottom: 65px;
+  float: left; }
 
 #profilePage .storyTitle {
   margin-top: 5px;
   text-align: center; }
 
 #profilePage .myInfoContainer #content {
-  padding: 0px 20px;
-  height: 210px; }
+  padding: 0px 20px 20px 20px;
+  overflow: auto;
+  width: 90%;
+  left: 5% !important;
+  position: relative; }
+
+#profilePage .myStoryContainer #content {
+  position: relative;
+  overflow: auto;
+  width: 90%;
+  left: 5%; }
 
 #profilePage .myInfoContainer #content .firstColumn {
   width: 420px; }
@@ -321,5 +345,10 @@ input.buttonStory {
 .searchLink {
   margin-top: 10px;
   position: absolute; }
+
+.profileLable {
+  margin-right: 20px;
+  width: 100px;
+  float: left; }
 
 /*# sourceMappingURL=default.css.map */
