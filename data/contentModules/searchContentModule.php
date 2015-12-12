@@ -42,7 +42,7 @@ class searchContentModule{
 			$returnString.='<ul>';
 			
 			for($i = 0; $i < sizeof($queryResult); $i++){
-				$returnString.='<li><a href="'.$this->urlArray[0].'/users/'.$queryResult[$i]['name'].'">'.$queryResult[$i]['name'].'</a></li>';
+				$returnString.='<li><img class="searchPic" src="dummyProfile.jpg" alt="profil" /><a class="searchLink" href="'.$this->urlArray[0].'/users/'.$queryResult[$i]['name'].'">'.$queryResult[$i]['name'].'</a></li>';
 			}
 			
 			$returnString.='</ul>';
@@ -59,7 +59,7 @@ class searchContentModule{
 			return '<form action="search" method="get">'."\n".'
 				<p class="darkBlue searchLabel">SEARCH:
 					<input class="inputField" type="text" name="key" value="'.$key.'"/>'."\n".'
-					<input class="button searchIcon" type="submit" value="&#xf002;"/>'."\n".'
+					<input class="button searchResultIcon" type="submit" value="&#xf002;"/>'."\n".'
 				</p>
 				</form>'."\n";
 		}

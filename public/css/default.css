@@ -237,6 +237,15 @@ input.buttonStory {
   margin-top: -10px !important;
   background-color: #96C3CC !important; }
 
+.searchResultIcon {
+  font-family: FontAwesome !important;
+  font-size: 0.75em !important;
+  width: 55px !important;
+  height: 30px;
+  margin-left: -22px;
+  margin-top: -10px !important;
+  background-color: #96C3CC !important; }
+
 #searchResultPage {
   margin-top: -170px; }
 
@@ -304,5 +313,13 @@ input.buttonStory {
 
 #profilePage .myInfoContainer #content .firstColumn {
   width: 420px; }
+
+.searchPic {
+  width: 100px;
+  margin-right: 50px; }
+
+.searchLink {
+  margin-top: 10px;
+  position: absolute; }
 
 /*# sourceMappingURL=default.css.map */
