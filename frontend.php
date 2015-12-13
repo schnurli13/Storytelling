@@ -18,10 +18,10 @@ $myPage->useSource('css', 'plugins/fancybox/source/jquery.fancybox');
 $myPage->useSource('css', 'plugins/fancybox/source/helpers/jquery.fancybox-buttons');
 $myPage->useSource('css', 'plugins/fancybox/source/helpers/jquery.fancybox-thumbs');
 $myPage->useSource('javascript', 'plugins/fancybox/source/jquery.fancybox');
-//$myPage->useSource('javascript', 'plugins/fancybox/source/test');
 $myPage->useSource('javascript', 'plugins/fancybox/source/helpers/jquery.fancybox-buttons');
 $myPage->useSource('javascript', 'plugins/fancybox/source/helpers/jquery.fancybox-media');
 $myPage->useSource('javascript', 'plugins/fancybox/source/helpers/jquery.fancybox-thumbs');
+$myPage->useSource('javascript', 'default');
 
 
 $myPage->setTitle('404');
