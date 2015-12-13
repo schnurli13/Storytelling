@@ -14,8 +14,30 @@ $myPage->setAdditionalHead('default');
 $myPage->setMetaInformation('default');
 $myPage->useSource('css', 'default');
 $myPage->useSource('javascript', 'jquery-2.1.0.min');
+$myPage->useSource('javascript', 'plugins/fancybox/source/jquery.fancybox.pack');
+$myPage->useSource('css', 'plugins/fancybox/source/jquery.fancybox');
 $myPage->setTitle('404');
 
+//HANDLING PLUG-INS
+
+if(strpos($myPage->getCurrentUri(), 'plugins')){
+	$pluginFound = false;
+	$pluginPath = '';
+	for($i = 0; $i < sizeof($myPage->getUriArray()); $i++){
+		if(!$pluginFound){
+			if($myPage->getUriArray()[$i] === 'plugins'){
+				$pluginFound = true;
+			}
+		}else{
+			$pluginPath.=$myPage->getUriArray()[$i].'/';
+			}
+	}
+	if($pluginFound){
+		echo file_get_contents(rtrim('public/plugins/'.$pluginPath, '/'), true);
+		return true;
+	}
+}
+	
 //ROUTES FOR PICTURES
 
 if(substr($myPage->getCurrentUri(), -3) == 'jpg' || substr($myPage->getCurrentUri(), -3) == 'png'){
@@ -28,7 +50,7 @@ if(substr($myPage->getCurrentUri(), -3) == 'jpg' || substr($myPage->getCurrentUr
 
 //ROUTES FOR CSS AND JS FILES
 
-else if(substr($myPage->getCurrentUri(), -3) == 'css'){
+if(substr($myPage->getCurrentUri(), -3) == 'css'){
 	$filename = $myPage->getUriArray()[sizeof($myPage->getUriArray())-1];
 	header('Content-Type:text/css');
 	echo file_get_contents('public/css/'.$filename, true);
@@ -38,10 +60,11 @@ else if(substr($myPage->getCurrentUri(), -3) == 'css'){
 	$filename = $myPage->getUriArray()[sizeof($myPage->getUriArray())-1];
 	echo file_get_contents('public/javascript/'.$filename, true);
 	return true;
+}
 
 //ROUTES FOR HTML PAGES
 
-}else if($myPage->getUriArray()[1] === 'index' || $myPage->getUriArray()[1] === '' || $myPage->getUriArray()[1] === 'de'){
+if($myPage->getUriArray()[1] === 'index' || $myPage->getUriArray()[1] === '' || $myPage->getUriArray()[1] === 'de'){
 	$myPage->setTitle('Index');
 	$indexContentObject = new indexContentModule($mySession);
     $myPage->setContent($indexContentObject->generateHtml());

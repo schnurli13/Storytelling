@@ -38,14 +38,16 @@ class userContentModule{
 				
 		$stories = '';
 		
-		for ($i = 0; $i < sizeof($storyQueryResult); $i++){
-			$stories.='<div class="storyPicFrame clearfix">'."\n";
-				$stories.='<a href="'.$this->root.'/users/'.$this->searchedUser.'/'.$storyQueryResult[$i]['name'].'"><img class="storyPic" src="dummyStory.jpg" alt="story" />'."\n";
-				$stories.='<p class="storyTitle">'.$storyQueryResult[$i]['name'].'</p></a>'."\n";
-				if($this->searchedUser === $this->sessionObject->getUserName()) {
-					$stories.='<div class="buttonFrameContainerStory"><a href="'.$this->root.'/users/'.$this->searchedUser.'/'.$storyQueryResult[$i]['name'].'/edit"><input class="buttonStory" type="submit" value="EDIT"/></a></div>'."\n";
-				}
-            $stories.='</div>'."\n";
+		if(isset($storyQueryResult[0]['name'])){
+			for ($i = 0; $i < sizeof($storyQueryResult); $i++){
+				$stories.='<div class="storyPicFrame clearfix">'."\n";
+					$stories.='<a href="'.$this->root.'/users/'.$this->searchedUser.'/'.$storyQueryResult[$i]['name'].'"><img class="storyPic" src="dummyStory.jpg" alt="story" />'."\n";
+					$stories.='<p class="storyTitle">'.$storyQueryResult[$i]['name'].'</p></a>'."\n";
+					if($this->searchedUser === $this->sessionObject->getUserName()) {
+						$stories.='<div class="buttonFrameContainerStory"><a href="'.$this->root.'/users/'.$this->searchedUser.'/'.$storyQueryResult[$i]['name'].'/edit"><input class="buttonStory" type="submit" value="EDIT"/></a></div>'."\n";
+					}
+				$stories.='</div>'."\n";
+			}
 		}
 	
 		if($this->searchedUser === $this->sessionObject->getUserName()){
