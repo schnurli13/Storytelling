@@ -1,3 +1,22 @@
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			/*
+			 *  Simple image gallery. Uses default settings
+			 */
+
+			$('.fancybox').fancybox();
+
+
+
+		});
+	</script>
+	<style type="text/css">
+		.fancybox-custom .fancybox-skin {
+			box-shadow: 0 0 50px #222;
+		}
+	</style>
+
 <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -35,7 +54,7 @@
 						{{STORIES}}
                         
                         <div class="storyPicFrame">
-							<a href="">
+							<a class="fancybox fancybox.ajax" href="../public/php/test.txt">
 								<img class="storyPic" src="dummyNewStory.jpg" alt="newStory" />
 								<p class="storyTitle">NEW STORY</p>
 							</a>
