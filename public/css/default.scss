@@ -4,6 +4,19 @@ $lightred: #F3E0E1;
 $darkred: #E1AFB1;
 $mainFont:  'Architects Daughter', cursive;
 
+
+///////////////////////////////////////////////
+FLOAT CLEARFIX
+///////////////////////////////////////////////
+
+.clearfix:after{
+    content: "."!important;
+    clear: both!important;
+    display: block!important;
+    visibility: hidden!important;
+    height: 0px!important;
+}
+
 ///////////////////////////////////////////////
 DESIGN
 ///////////////////////////////////////////////
@@ -180,6 +193,7 @@ input.buttonStory {
     	font-family: $mainFont;
 	background-color: $darkblue;
 	border: dotted 2px black;
+	cursor: pointer;
 }
 
 input.buttonStoryInfo {

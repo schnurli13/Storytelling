@@ -24,7 +24,7 @@ class userContentModule{
 		
 		$template = new contentTemplateModule('userTemplate');	
 		
-		$queryResult = $msqlObject->queryDataBase('SELECT * FROM users WHERE name = "'.$this->searchedUser.'"');;
+		$queryResult = $msqlObject->queryDataBase('SELECT * FROM users WHERE name = "'.$this->searchedUser.'"');
 		
 		if(!isset($queryResult[0]['name'])){
 			header('Location: '.$this->root.'/404');
@@ -34,12 +34,27 @@ class userContentModule{
 		$template->addContent('USERMAIL', $queryResult[0]['email']);
 		$template->addContent('USERLEVEL', ($queryResult[0]['tutorialDone'] ? 'Advanced User' : 'Beginner'));
 	
+		$storyQueryResult = $msqlObject->queryDataBase('SELECT * FROM story WHERE user = "'.$queryResult[0]['id'].'"');
+				
+		$stories = '';
+		
+		for ($i = 0; $i < sizeof($storyQueryResult); $i++){
+			$stories.='<div class="storyPicFrame clearfix">'."\n";
+				$stories.='<a href="'.$this->root.'/users/'.$this->searchedUser.'/'.$storyQueryResult[$i]['name'].'"><img class="storyPic" src="dummyStory.jpg" alt="story" />'."\n";
+				$stories.='<p class="storyTitle">'.$storyQueryResult[$i]['name'].'</p></a>'."\n";
+				if($this->searchedUser === $this->sessionObject->getUserName()) {
+					$stories.='<div class="buttonFrameContainerStory"><a href="'.$this->root.'/users/'.$this->searchedUser.'/'.$storyQueryResult[$i]['name'].'/edit"><input class="buttonStory" type="submit" value="EDIT"/></a></div>'."\n";
+				}
+            $stories.='</div>'."\n";
+		}
+	
 		if($this->searchedUser === $this->sessionObject->getUserName()){
 			$returnString.='<a>Edit Profile</a>';
 		}
 		
 		$template->addLogState($this->sessionObject);
 		$template->addContent('INFO', $returnString);
+		$template->addContent('STORIES', $stories);
 
 		return $template->generateHtml();
 

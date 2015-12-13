@@ -1,3 +1,11 @@
+FLOAT CLEARFIX
+.clearfix:after {
+  content: "." !important;
+  clear: both !important;
+  display: block !important;
+  visibility: hidden !important;
+  height: 0px !important; }
+
 DESIGN
 body {
   background-color: #FFFFFF; }
@@ -140,7 +148,8 @@ input.buttonStory {
   font-size: 18px;
   font-family: "Architects Daughter", cursive;
   background-color: #96C3CC;
-  border: dotted 2px black; }
+  border: dotted 2px black;
+  cursor: pointer; }
 
 input.buttonStoryInfo {
   width: 145px;
