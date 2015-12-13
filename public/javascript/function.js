@@ -17,12 +17,17 @@ nodeEditor.module = (function($) {
         buttonColor='#96c4cd',
         buttonColorHover='#6b878c',
         buttonColorDisabled='white',
+        pause = false,
+        movementStyle = null,
+        dropStyle = null,
+        previousShape,
         yDrag,
         xDrop,
         yDrop,
         over,
-        //deleteText = "ATTENTION: All sub-pages will be deleted as well.\nDo you really want to delete this page?",
+        deleteText = "ATTENTION:\n All sub-pages will be deleted as well.\nDo you really want to delete this page?",
         moveText = "Do you want to move only this page or all sub-pages as well?",
+        dropText = "Do you want replace this page with the dragged one or do you want to add the moving page as sub-page to this page?",
 
         stage = new Konva.Stage({
             container: 'container',
@@ -34,13 +39,13 @@ nodeEditor.module = (function($) {
             width: width,
             height:height
         }),
-        interfaceLayer = backgroundLayer.clone(),
         layer  = backgroundLayer.clone(),
         layerConn = backgroundLayer.clone(),
         layerTEXT = backgroundLayer.clone(),
         tempLayer = backgroundLayer.clone(),
+        interfaceLayer = backgroundLayer.clone(),
 
-        text = new Konva.Text({
+        debugText = new Konva.Text({
             fill: 'black',
             fontSize: 15,
             x: width/2 - 50,
@@ -56,20 +61,25 @@ nodeEditor.module = (function($) {
             y: 20,
             id: "addButton"
         }),
-        dButton = deleteButton.clone({
-            x: 30,
+        button1 = deleteButton.clone({
             y: 130,
-            id: "dButton"
+            id: "button1"
         }),
 
-        dButtonCancel = dButton.clone({x:220,text:"CANCEL",id: "dButtonCancel"}),
+        movingGroup = new Konva.Group({
+            id: "movingGroup",
+            draggable: true
+        }),
+
+        button2 = button1.clone({id: "button2"}),
+        button3 = button1.clone({x: 335,id: "button3"}),
 
         dottedLineAdd = new Konva.Line({
             points: [5, 5, 145, 5, 145, 45, 5, 45,5,5],
             stroke: 'black',
             strokeWidth: 1,
             lineJoin: 'round',
-            dash: [10, 5]
+            dash: [4, 2]
         }),
         dottedLineDel = dottedLineAdd.clone(),
         dottedLineBack = dottedLineAdd.clone({
@@ -80,12 +90,6 @@ nodeEditor.module = (function($) {
             strokeWidth: 2
         }),
 
-        deletePopUp = new Konva.Group({
-            x: width/2-200,
-            y: height/2-120,
-            id: "deletePopUp"
-        }),
-
         popUpRect= new Konva.Rect({
             x: 0,
             y: 0,
@@ -94,6 +98,12 @@ nodeEditor.module = (function($) {
             id: "popUpRect",
             fill: buttonColorDisabled
         }),
+        popUp = new Konva.Group({
+            x: width/2-200,
+            y: height/2-125,
+            id: "popUp"
+        }),
+
         addRect = new Konva.Rect({
             x: 0,
             y: 0,
@@ -105,9 +115,9 @@ nodeEditor.module = (function($) {
         delRect = addRect.clone({
             id: "delRect"
         }),
-        dButton1Rect = addRect.clone({
+        button1Rect = addRect.clone({
             fill: buttonColor,
-            id: "dButton1Rect"
+            id: "button1Rect"
         }),
 
         addText = new Konva.Text({
@@ -125,13 +135,9 @@ nodeEditor.module = (function($) {
             text: "Delete Page"
         }),
 
-        dText = addText.clone({
-            x: 20,
-            y: 25,
+        popText = addText.clone({
             align: 'center',
-            width:380,
-            lineHeight: 1.5,
-            text:"ATTENTION:\n All sub-pages will be deleted as well.\nDo you really want to delete this page?"
+            lineHeight: 1.5
         }),
 
 
@@ -147,12 +153,18 @@ nodeEditor.module = (function($) {
         drawConnection,
         nodeSelection,
         reorderNodes,
+        reorderBranches,
         checkAdditionalNode,
         checkDeleteNode,
         addNewNode,
         deleteNode,
+        setDraggable,
         disable,
-        moveBranch
+        moveQuestion,
+        dropQuestion,
+        dropReset,
+        reorder,
+        hoverPopUpButtons
     ;
 
 
@@ -419,7 +431,7 @@ nodeEditor.module = (function($) {
         if (selectedNode == null || e.target.id() == selectedNode) {
             var fill = e.target.fill() == 'yellow' ? buttonColorHover : 'yellow';
             e.target.fill(fill);
-            text.text('Selected ' + e.target.name());
+            debugText.text('Selected ' + e.target.name());
             if (fill == 'yellow') {
                 selectedNode = e.target.id();
             } else if (fill == buttonColorHover) {
@@ -438,6 +450,23 @@ nodeEditor.module = (function($) {
             success: function (data) {
                 alert(data);
                 console.log("SUCCESS");
+                startDrawNodes();
+            },
+            error: function (xhr, status, error) {
+                alert(error);
+            }
+        });
+    };
+
+    reorderBranches = function(ID){
+        $.ajax({
+            url: ajaxLink,
+            type: 'GET',
+            data: 'functionName=reorderBranches&storyID='+storyID+'&ID=' + ID + '&IDs=' + movementStyle,
+            success: function (data) {
+                alert(data);
+                console.log("SUCCESS");
+                startDrawLines();
                 startDrawNodes();
             },
             error: function (xhr, status, error) {
@@ -511,66 +540,72 @@ nodeEditor.module = (function($) {
         });
     };
 
+    setDraggable = function(bool){
+        layer.getChildren(function(node){
+            return node.getClassName() === 'Circle';
+        }).each(function(shape, n) {
+            shape.setAttr('draggable',bool);
+        });
+    };
+
     deleteNode = function(id){
 
-        tempLayer.find('#deletePopUp')[0].show();
+       setDraggable(false);
+
+        popText.setAttr('text',deleteText);
+        popText.setAttr('x','20');
+        popText.setAttr('y','25');
+        popText.setAttr('width','380');
+
+        tempLayer.find('#button1Text')[0].setAttr('text','DELETE');
+        tempLayer.find('#button1Text')[0].setAttr('x','45');
+
+        tempLayer.find('#button2Text')[0].setAttr('text','CANCEL');
+        tempLayer.find('#button2Text')[0].setAttr('x','45');
+
+        popUpRect.setAttr('width','400');
+        popUp.setAttr('x',width/2-200);
+
+        dottedLinePopUp.setAttr('points',[10, 10, 390, 10, 390, 240, 10,240,10,10]);
+        button1.setAttr('x','30');
+        button2.setAttr('x','220');
+       // button2.setAttr('id','button2');
+
+        popUp.show();
         tempLayer.draw();
 
-        tempLayer.find('#dButtonCancel')[0].on('click',function(e){
-            tempLayer.find('#deletePopUp')[0].hide();
+
+       button2.off('click').on('click',function(e){
+            tempLayer.find('#button2Rect')[0].fill(buttonColor);
+            popUp.hide();
             tempLayer.draw();
+            setDraggable(true);
         });
 
 
-        tempLayer.find('#dButton')[0].off('click').on('click',function(e){
+        button1.off('click').on('click',function(e){
             $.ajax({
-             url: ajaxLink,
-             type: 'GET',
-             data: 'functionName=deleteNode&storyID=' + storyID + '&ID=' + id,
-             success: function (data) {
-             alert(data);
-             console.log("SUCCESS");
-             e.target.fill(buttonColor);
-             tempLayer.find('#deletePopUp')[0].hide();
-             tempLayer.draw();
-             startDrawLines();
-             startDrawNodes();
-             },
-             error: function (xhr, status, error) {
-             alert(error);
-             }
+                     url: ajaxLink,
+                     type: 'GET',
+                     data: 'functionName=deleteNode&storyID=' + storyID + '&ID=' + id,
+                     success: function (data) {
+                     alert(data);
+                     console.log("SUCCESS");
+                     tempLayer.find('#button1Rect')[0].fill(buttonColor);
+                     popUp.hide();
+                     tempLayer.draw();
+                     setDraggable(true);
+                     startDrawLines();
+                     startDrawNodes();
+                 },
+                 error: function (xhr, status, error) {
+                     alert(error);
+                 }
              });
         });
 
+        hoverPopUpButtons();
 
-        tempLayer.find('#dButton1Rect')[0].on('mouseover',function(e){
-            e.target.fill(buttonColorHover);
-            tempLayer.draw();
-        });
-        tempLayer.find('#dButtonText')[0].on('mouseover',function(e){
-            tempLayer.find('#dButton1Rect')[0].fill(buttonColorHover);
-            tempLayer.draw();
-        });
-        tempLayer.find('#dButton1Rect')[0].on('mouseout',function(e){
-            e.target.fill(buttonColor);
-            tempLayer.draw();
-        });
-
-        tempLayer.find('#dButtonCancelRect')[0].on('mouseover',function(e){
-            e.target.fill(buttonColorHover);
-            tempLayer.draw();
-        });
-        tempLayer.find('#dButtonCancelText')[0].on('mouseover',function(e){
-            tempLayer.find('#dButtonCancelRect')[0].fill(buttonColorHover);
-            tempLayer.draw();
-        });
-        tempLayer.find('#dButtonCancelRect')[0].on('mouseout',function(e){
-            e.target.fill(buttonColor);
-            tempLayer.draw();
-        });
-
-
-        selectedNode = null;
         /*  var x;
           if (confirm(deleteText) == true) {
               $.ajax({
@@ -593,11 +628,153 @@ nodeEditor.module = (function($) {
           console.log(x);*/
     };
 
-    moveBranch = function(id){
-        var x;
+    hoverPopUpButtons = function(){
+
+        tempLayer.find('#button1Rect')[0].on('mouseover',function(e){
+            e.target.fill(buttonColorHover);
+            tempLayer.draw();
+        });
+        tempLayer.find('#button1Text')[0].on('mouseover',function(e){
+            tempLayer.find('#button1Rect')[0].fill(buttonColorHover);
+            tempLayer.draw();
+        });
+        tempLayer.find('#button1Rect')[0].on('mouseout',function(e){
+            e.target.fill(buttonColor);
+            tempLayer.draw();
+        });
+
+        tempLayer.find('#button2Rect')[0].on('mouseover',function(e){
+            e.target.fill(buttonColorHover);
+            tempLayer.draw();
+        });
+        tempLayer.find('#button2Text')[0].on('mouseover',function(e){
+            tempLayer.find('#button2Rect')[0].fill(buttonColorHover);
+            tempLayer.draw();
+        });
+        tempLayer.find('#button2Rect')[0].on('mouseout',function(e){
+            e.target.fill(buttonColor);
+            tempLayer.draw();
+        });
+
+        tempLayer.find('#button3Rect')[0].on('mouseover',function(e){
+            e.target.fill(buttonColorHover);
+            tempLayer.draw();
+        });
+        tempLayer.find('#button3Text')[0].on('mouseover',function(e){
+            tempLayer.find('#button3Rect')[0].fill(buttonColorHover);
+            tempLayer.draw();
+        });
+        tempLayer.find('#button3Rect')[0].on('mouseout',function(e){
+            e.target.fill(buttonColor);
+            tempLayer.draw();
+        });
+    };
+
+    moveQuestion = function(evt){
+
+        pause = true;
+
+        setDraggable(false);
+
+        popText.setAttr('text',moveText);
+        popText.setAttr('x','10');
+        popText.setAttr('y','65');
+        popText.setAttr('width','480');
+
+        tempLayer.find('#button1Text')[0].setAttr('text','MOVE BRANCH');
+        tempLayer.find('#button1Text')[0].setAttr('x','20');
+
+        tempLayer.find('#button2Text')[0].setAttr('text','MOVE PAGE');
+        tempLayer.find('#button2Text')[0].setAttr('x','25');
+
+        popUpRect.setAttr('width','500');
+        popUp.setAttr('x',width/2-250);
+
+        dottedLinePopUp.setAttr('points',[10, 10, 490, 10, 490, 240, 10,240,10,10]);
+
+        button1.setAttr('x','15');
+        button2.setAttr('x','175');
+      // button2.setAttr('id','button2Move');
+
+        button3.add(button1Rect.clone({id:'button3Rect'}));
+        button3.add(dottedLineAdd.clone());
+        button3.add(delText.clone({id:'button3Text'}));
+      //  button3.setAttr('id','button3Move');
+        popUp.add(button3);
+
+        tempLayer.find('#button3Text')[0].setAttr('text','CANCEL');
+        tempLayer.find('#button3Text')[0].setAttr('x','45');
+        tempLayer.find('#button3Text')[0].setAttr('id','button3Text');
+
+        tempLayer.find('#button3Rect')[0].setAttr('id','button3Rect');
+
+        popUp.show();
+        tempLayer.draw();
+
+        hoverPopUpButtons();
+
+        button3.off('click').on('click',function(e){
+            tempLayer.find('#button3Rect')[0].fill(buttonColor);
+            button3.remove();
+            popUp.hide();
+            tempLayer.draw();
+            pause = false;
+            movementStyle = null;
+            evt.target.fill(buttonColorHover);
+            layer.draw();
+            selectedNode = null;
+            setDraggable(true);
+            startDrawNodes();
+        });
+
+        button1.off('click').on('click',function(e) {
+           $.ajax({
+                url: ajaxLink,
+                type: 'GET',
+                data: 'functionName=moveBranch&storyID=' + storyID + '&ID=' + evt.target.id(),
+                success: function (data) {
+                    tempLayer.find('#button1Rect')[0].fill(buttonColor);
+                    button3.remove();
+                    popUp.hide();
+                    tempLayer.draw();
+                    pause = false;
+                    movementStyle = data;
+                    movementStyle = movementStyle.replace(/"/g,"");
+                    movementStyle = movementStyle.split(",");
+
+                    xDrag = evt.target.getAbsolutePosition().x;
+                    yDrag = evt.target.getAbsolutePosition().y;
+
+                    movingGroup.setAttr('x',0);
+                    movingGroup.setAttr('y',0);
+                    for(var i = 0; i < movementStyle.length; i++){
+                        var node = layer.find('#'+ movementStyle[i]);
+                        node.fill('yellow');
+                        node.moveTo(movingGroup);
+                    }
+                    layer.add(movingGroup);
+                    layer.draw();
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+            });
+        });
+
+       button2.off('click').on('click',function(e){
+            tempLayer.find('#button2Rect')[0].fill(buttonColor);
+            button3.remove();
+            popUp.hide();
+            tempLayer.draw();
+            pause = false;
+            movementStyle = "one";
+            layer.find('#'+evt.target.id()).draggable(true);
+        });
+
+        /*  var x;
         if (confirm(moveText) == true) {
             x = "true pressed!";
-          /*  $.ajax({
+          $.ajax({
                 url: ajaxLink,
                 type: 'GET',
                 data: 'functionName=deleteNode&ID=' + id,
@@ -610,11 +787,146 @@ nodeEditor.module = (function($) {
                 error: function (xhr, status, error) {
                     alert(error);
                 }
-            });*/
+            });
         } else {
             x = "Cancel pressed!";
         }
-        console.log(x);
+        console.log(x);*/
+    };
+
+    dropQuestion = function(evt){
+
+        pause = true;
+
+        setDraggable(false);
+        evt.target.moveDown();
+
+        popText.setAttr('text',dropText);
+        popText.setAttr('x','10');
+        popText.setAttr('y','55');
+        popText.setAttr('width','480');
+
+        tempLayer.find('#button1Text')[0].setAttr('text','Add as Sub-Page');
+        tempLayer.find('#button1Text')[0].setAttr('x','20');
+
+        tempLayer.find('#button2Text')[0].setAttr('text','Replace Pages');
+        tempLayer.find('#button2Text')[0].setAttr('x','25');
+
+        popUpRect.setAttr('width','500');
+        popUp.setAttr('x',width/2-250);
+
+        dottedLinePopUp.setAttr('points',[10, 10, 490, 10, 490, 240, 10,240,10,10]);
+
+        button1.setAttr('x','15');
+        button2.setAttr('x','175');
+     //   button2.setAttr('id','button2Drop');
+       // button3.setAttr('id','button3Drop');
+
+        button3.add(button1Rect.clone({id:'button3Rect'}));
+        button3.add(dottedLineAdd.clone());
+        button3.add(delText.clone({id:'button3Text'}));
+        popUp.add(button3);
+
+        tempLayer.find('#button3Text')[0].setAttr('text','CANCEL');
+        tempLayer.find('#button3Text')[0].setAttr('x','45');
+        tempLayer.find('#button3Text')[0].setAttr('id','button3Text');
+
+        tempLayer.find('#button3Rect')[0].setAttr('id','button3Rect');
+
+        popUp.show();
+        tempLayer.draw();
+
+        hoverPopUpButtons();
+
+        button3.off('click').on('click',function(e){
+            tempLayer.find('#button3Rect')[0].fill(buttonColor);
+            button3.remove();
+            popUp.hide();
+            tempLayer.draw();
+            evt.target.fill(buttonColorHover);
+            layer.draw();
+            pause = false;
+            selectedNode = null;
+            setDraggable(true);
+
+            if (movementStyle == "one") {
+                evt.target.setAttr("x", xDrag);
+                evt.target.setAttr("y", yDrag);
+                evt.target.fill(buttonColorHover);
+            } else {
+                evt.target.setAttr("x", 0);
+                evt.target.setAttr("y", 0);
+            }
+            dropReset(evt);
+            startDrawNodes();
+        });
+
+        button1.off('click').on('click',function(e) {
+            /*$.ajax({
+                url: ajaxLink,
+                type: 'GET',
+                data: 'functionName=moveBranch&storyID=' + storyID + '&ID=' + evt.target.id(),
+                success: function (data) {
+                    tempLayer.find('#button1Rect')[0].fill(buttonColor);
+                    button3.remove();
+                    popUp.hide();
+                    tempLayer.draw();
+                    pause = false;
+                    movementStyle = data;
+                    movementStyle = movementStyle.replace(/"/g,"");
+                    movementStyle = movementStyle.split(",");
+
+                    xDrag = evt.target.getAbsolutePosition().x;
+                    yDrag = evt.target.getAbsolutePosition().y;
+
+                    movingGroup.setAttr('x',0);
+                    movingGroup.setAttr('y',0);
+                    for(var i = 0; i < movementStyle.length; i++){
+                        var node = layer.find('#'+ movementStyle[i]);
+                        node.fill('yellow');
+                        node.moveTo(movingGroup);
+                    }
+                    layer.add(movingGroup);
+                    layer.draw();
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+            });*/
+        });
+
+        button2.off('click').on('click',function(e){
+            tempLayer.find('#button2Rect')[0].fill(buttonColor);
+            button3.remove();
+            popUp.hide();
+            tempLayer.draw();
+            pause = false;
+            dropStyle = "reorder";
+            reorder(evt);
+            //layer.find('#'+evt.target.id()).draggable(true);
+        });
+
+        /*  var x;
+         if (confirm(moveText) == true) {
+         x = "true pressed!";
+         $.ajax({
+         url: ajaxLink,
+         type: 'GET',
+         data: 'functionName=deleteNode&ID=' + id,
+         success: function (data) {
+         alert(data);
+         console.log("SUCCESS");
+         startDrawLines();
+         startDrawNodes();
+         },
+         error: function (xhr, status, error) {
+         alert(error);
+         }
+         });
+         } else {
+         x = "Cancel pressed!";
+         }
+         console.log(x);*/
     };
 
 //helpers
@@ -658,6 +970,58 @@ nodeEditor.module = (function($) {
         }
     };
 
+    reorder = function(e){
+        if (movementStyle == "one") {
+            e.target.setAttr("x", xDrop);
+            e.target.setAttr("y", yDrop);
+            reorderNodes(previousShape.id(), e.target.id());
+            previousShape.fire('drop', {
+                type: 'drop',
+                target: previousShape,
+                evt: e.evt
+            }, true);
+            e.target.fill('green');
+
+        } else {
+            reorderBranches(previousShape.id());
+            previousShape.fire('drop', {
+                type: 'drop',
+                target: previousShape,
+                evt: e.evt
+            }, true);
+        }
+      dropReset(e);
+    };
+
+    dropReset = function(e){
+        previousShape = undefined;
+        if (movementStyle == "one") {
+            e.target.moveTo(layer);
+            if (e.target.id() == selectedNode) {
+                selectedNode = null;
+            }
+            disable(e.target.id());
+            setDraggable(true);
+        } else {
+            e.target.getChildren(function (n) {
+                return n.getClassName() === "Circle";
+            }).each(function (shape, n) {
+                var x = shape.getAbsolutePosition().x;
+                var y = shape.getAbsolutePosition().y;
+                shape.moveTo(layer);
+                shape.setAttr('x', x);
+                shape.setAttr('y', y);
+                shape.setAttr('fill', buttonColorHover);
+                setDraggable(true);
+            });
+        }
+
+        layer.draw();
+        tempLayer.draw();
+        dropStyle = null;
+        movementStyle = null;
+    };
+
 //END
 
 // IIIIIIIIIIIIINIT
@@ -665,6 +1029,7 @@ nodeEditor.module = (function($) {
         var res = window.location.href;
         var array = res.split("/");
         storyID = array[array.length-2];
+
 
         //ADD NEW PAGE BUTTON
         addButton.add(addRect);
@@ -679,27 +1044,28 @@ nodeEditor.module = (function($) {
         interfaceLayer.add(deleteButton);
 
         //HOVERTEXT + BACKGROUND
-        interfaceLayer.add(text);
+        interfaceLayer.add(debugText);
         interfaceLayer.add(dottedLineBack);
 
         //DELETE POPUP
-        deletePopUp.add(popUpRect);
-        deletePopUp.add(dText);
+        popUp.add(popUpRect);
+        popUp.add(popText);
 
-        dButton.add(dButton1Rect);
-        dButton.add(dottedLineAdd.clone());
-        dButton.add(delText.clone({text:"DELETE",x:45,id:'dButtonText'}));
-        deletePopUp.add(dButton);
+        button1.add(button1Rect);
+        button1.add(dottedLineAdd.clone());
+        button1.add(delText.clone({id:'button1Text'}));
+        popUp.add(button1);
 
-        dButtonCancel.add(dButton1Rect.clone({id:'dButtonCancelRect'}));
-        dButtonCancel.add(dottedLineAdd.clone());
-        dButtonCancel.add(delText.clone({text:"CANCEL",x:45,id:'dButtonCancelText'}));
-        deletePopUp.add(dButtonCancel);
 
-        deletePopUp.add(dottedLinePopUp);
-        tempLayer.add(deletePopUp);
+        button2.add(button1Rect.clone({id:'button2Rect'}));
+        button2.add(dottedLineAdd.clone());
+        button2.add(delText.clone({id:'button2Text'}));
+        popUp.add(button2);
 
-        tempLayer.find('#deletePopUp')[0].hide();
+        popUp.add(dottedLinePopUp);
+        tempLayer.add(popUp);
+
+        tempLayer.find('#popUp')[0].hide();
        // tempLayer.draw();
 
         stage.add(backgroundLayer);
@@ -712,18 +1078,18 @@ nodeEditor.module = (function($) {
         startDrawLines();
         startDrawNodes();
 
-
-
 //SELECT EVENTS
         layer.on('click', function (e) {
-            nodeSelection(e);
-            disable(e.target.id());
+            if(movementStyle == null) {
+                nodeSelection(e);
+                disable(e.target.id());
+            }
         });
 
         layer.on("mouseover", function (e) {
             var fill = e.target.fill() == 'yellow' ? 'yellow' : 'orange';
             e.target.fill(fill);
-            text.text('Choose ' + e.target.name());
+            debugText.text('Choose ' + e.target.name());
             layer.draw();
             interfaceLayer.draw();
         });
@@ -796,8 +1162,6 @@ nodeEditor.module = (function($) {
             }
         });
 
-
-
         /*
         document.getElementById('deleteNode').addEventListener('click', function () {
          deleteNode(selectedNode);
@@ -813,126 +1177,140 @@ nodeEditor.module = (function($) {
 
 //DRAGGEN
       stage.on("dragstart", function (e) {
-            nodeSelection(e);
-            moveBranch(e.target.id);
+          if(!pause && movementStyle == null){
+              moveQuestion(e);
+              e.target.fill('yellow');
+             interfaceLayer.draw();
+            }else if(!pause && movementStyle == "one"){
+                xDrag = e.target.getAbsolutePosition().x;
+                yDrag = e.target.getAbsolutePosition().y;
 
-            xDrag = e.target.getAbsolutePosition().x;
-            yDrag = e.target.getAbsolutePosition().y;
-            // alert(xDrag + ":"+yDrag);
-            e.target.moveTo(tempLayer);
-            e.target.fill('yellow');
-            text.text('Moving ' + e.target.name());
-            layer.draw();
-          interfaceLayer.draw();
+                // alert(xDrag + ":"+yDrag);
+                e.target.moveTo(tempLayer);
+                e.target.fill('yellow');
+                debugText.text('Moving ' + e.target.name());
+                interfaceLayer.draw();
+                layer.draw();
+            }else if(!pause && movementStyle != "one" && movementStyle != null ){
+               // nodeSelection(e.target.find('#'+movementStyle[0]));
+                selectedNode= e.target.find('#'+movementStyle[0])[0].getAttr('id');
+                movingGroup.moveTo(tempLayer);
+                debugText.text('Moving ' + e.target.id() + ' and children');
+                interfaceLayer.draw();
+                layer.draw();
+            }
         });
 
 
-        var previousShape;
         stage.on("dragmove", function (evt) {
-            var pos = stage.getPointerPosition();
-            var shape = layer.getIntersection(pos);
-            if (previousShape && shape) {
-                if (previousShape !== shape) {
-                    // leave from old target
-                    previousShape.fire('dragleave', {
-                        type: 'dragleave',
-                        target: previousShape,
-                        evt: evt.evt
-                    }, true);
+            if(!pause) {
+                var pos = stage.getPointerPosition();
+                var shape = layer.getIntersection(pos);
+                if (previousShape && shape) {
+                    if (previousShape !== shape) {
+                        // leave from old target
+                        previousShape.fire('dragleave', {
+                            type: 'dragleave',
+                            target: previousShape,
+                            evt: evt.evt
+                        }, true);
 
-                    // enter new target
+                        // enter new target
+                        shape.fire('dragenter', {
+                            type: 'dragenter',
+                            target: shape,
+                            evt: evt.evt
+                        }, true);
+                        previousShape = shape;
+                    } else {
+                        previousShape.fire('dragover', {
+                            type: 'dragover',
+                            target: previousShape,
+                            evt: evt.evt
+                        }, true);
+                    }
+                } else if (!previousShape && shape) {
+                    previousShape = shape;
                     shape.fire('dragenter', {
                         type: 'dragenter',
                         target: shape,
                         evt: evt.evt
                     }, true);
-                    previousShape = shape;
-                } else {
-                    previousShape.fire('dragover', {
-                        type: 'dragover',
+                } else if (previousShape && !shape) {
+                    previousShape.fire('dragleave', {
+                        type: 'dragleave',
                         target: previousShape,
                         evt: evt.evt
                     }, true);
+                    previousShape = undefined;
                 }
-            } else if (!previousShape && shape) {
-                previousShape = shape;
-                shape.fire('dragenter', {
-                    type: 'dragenter',
-                    target: shape,
-                    evt: evt.evt
-                }, true);
-            } else if (previousShape && !shape) {
-                previousShape.fire('dragleave', {
-                    type: 'dragleave',
-                    target: previousShape,
-                    evt: evt.evt
-                }, true);
-                previousShape = undefined;
+                tempLayer.draw();
             }
         });
 
 
         stage.on("dragend", function (e) {
-            var pos = stage.getPointerPosition();
-            var shape = layer.getIntersection(pos);
-            if (shape) {
-                e.target.setAttr("x", xDrop);
-                e.target.setAttr("y", yDrop);
-                reorderNodes(previousShape.id(), e.target.id());
-                previousShape.fire('drop', {
-                    type: 'drop',
-                    target: previousShape,
-                    evt: e.evt
-                }, true);
-                e.target.fill('green');
-            } else {
-                e.target.setAttr("x", xDrag);
-                e.target.setAttr("y", yDrag);
-                e.target.fill(buttonColorHover);
+            if(!pause) {
+                var pos = stage.getPointerPosition();
+                var overlapping = layer.getIntersection(pos);
+                if (overlapping) {
+                    if (dropStyle == null) {
+                        dropQuestion(e);
+                    }
+                } else {
+                    if (movementStyle == "one") {
+                        e.target.setAttr("x", xDrag);
+                        e.target.setAttr("y", yDrag);
+                        e.target.fill(buttonColorHover);
+                    } else {
+                        e.target.setAttr("x", 0);
+                        e.target.setAttr("y", 0);
+                    }
+                   dropReset(e);
+                }
             }
-
-            previousShape = undefined;
-            e.target.moveTo(layer);
-            layer.draw();
-            tempLayer.draw();
-            if (e.target.id() == selectedNode) {
-                selectedNode = null;
-            }
-            disable(e.target.id());
         });
 
         stage.on("dragenter", function (e) {
-            text.text('dragenter ' + e.target.name());
-            layer.draw();
-            interfaceLayer.draw();
+           if(!pause) {
+                debugText.text('dragenter ' + e.target.name());
+                layer.draw();
+                interfaceLayer.draw();
+           }
         });
 
         stage.on("dragleave", function (e) {
-            over = false;
-            e.target.fill(buttonColorHover);
-            text.text('dragleave ' + e.target.name());
-            layer.draw();
-            interfaceLayer.draw();
+            if(!pause) {
+                over = false;
+                e.target.fill(buttonColorHover);
+                debugText.text('dragleave ' + e.target.name());
+                layer.draw();
+                interfaceLayer.draw();
+            }
         });
 
         stage.on("dragover", function (e) {
-            over = true;
-            e.target.fill('green');
-            xDrop = e.target.getAbsolutePosition().x;
-            yDrop = e.target.getAbsolutePosition().y;
-            text.text('dragover ' + e.target.name());
-            layer.draw();
-            interfaceLayer.draw();
+            if(!pause) {
+                over = true;
+                e.target.fill('green');
+                xDrop = e.target.getAbsolutePosition().x;
+                yDrop = e.target.getAbsolutePosition().y;
+                debugText.text('dragover ' + e.target.name());
+                layer.draw();
+                interfaceLayer.draw();
+            }
         });
 
         stage.on("drop", function (e) {
-            e.target.setAttr("x", xDrag);
-            e.target.setAttr("y", yDrag);
+            if(!pause) {
+                e.target.setAttr("x", xDrag);
+                e.target.setAttr("y", yDrag);
 
-            e.target.fill('green');
-            text.text('drop ' + e.target.name());
-            layer.draw();
-            interfaceLayer.draw();
+                e.target.fill('green');
+                debugText.text('drop ' + e.target.name());
+                layer.draw();
+                interfaceLayer.draw();
+            }
         });
 
     };
