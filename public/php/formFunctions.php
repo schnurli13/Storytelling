@@ -5,21 +5,40 @@ require('../../framework/modules/sessionModule.php');
 
 session_start();
 
-if($_POST['function'] == 'handleForm'){
-    handleForm();
+if($_POST['function'] == 'handlePicture'){
+    handlePicture();
 }
 
-function validateForm(){
-	$valid = true;
-	
-	return $valid;
+if($_POST['function'] == 'handleName'){
+    handleName();
 }
 
-function handleForm(){
-	if(validateForm()){
-		handleDataBase();
-		handleFileUpload();
+if($_POST['function'] == 'handleEmail'){
+    handleEmail();
+}
+
+if($_POST['function'] == 'handlePassword'){
+    handlePassword();
+}
+
+function handleName(){
+	echo 'New Name '.$_POST['userName'];
+}
+
+function handleEmail(){
+	echo 'New Email '.$_POST['userMail'];
+}
+
+function handlePassword(){
+	if($_POST['userPassword'] != $_POST['userPasswordAgain']){
+		echo 'Wrong Password!';
+	}else{
+		echo 'New Password '.$_POST['userPassword'];
 	}
+}
+
+function handlePicture(){
+	handleFileUpload();
 }
 
 function handleDataBase(){
