@@ -481,3 +481,27 @@ input {
 		background-color: $darkblue;
 	}	
 }
+
+#newStoryPage {
+	font-family: $mainFont;
+	
+	.clear {
+		clear: both;
+		float: none;
+	}
+	
+	.right, .left {
+		width: 50%;
+	}
+	
+	.buttonFrameContainer, .button {
+		width: 180px;
+	}
+}
+
+
+
+
+.test {
+	color: red;
+}

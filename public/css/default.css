@@ -326,4 +326,17 @@ input.buttonStoryInfo {
     margin-top: -0px;
     background-color: #96C3CC; }
 
+#newStoryPage {
+  font-family: "Architects Daughter", cursive; }
+  #newStoryPage .clear {
+    clear: both;
+    float: none; }
+  #newStoryPage .right, #newStoryPage .left {
+    width: 50%; }
+  #newStoryPage .buttonFrameContainer, #newStoryPage .button {
+    width: 180px; }
+
+.test {
+  color: red; }
+
 /*# sourceMappingURL=default.css.map */
