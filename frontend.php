@@ -117,6 +117,7 @@ if($myPage->getUriArray()[1] === 'index' || $myPage->getUriArray()[1] === '' || 
 	}else if(count($myPage->getUriArray()) == 5 && $myPage->getUriArray()[4] == "edit"){
 		$myPage->setTitle('Edit: '.$myPage->getUriArray()[3]);
 		$myPage->useSource('javascript', 'konva');
+		$myPage->useSource('javascript', 'function');
 		$myPage->useSource('css', 'style');
 		$userStoryEditContentObject = new userStoryEditContentModule($mySession, $myPage->getUriArray());
 		$myPage->setContent($userStoryEditContentObject->generateHtml());
