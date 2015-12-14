@@ -1,10 +1,9 @@
 <?php
 
 require('../../framework/modules/mysqlModule.php');
-require('../../framework/modules/basicInformationModule.php');
+require('../../framework/modules/sessionModule.php');
 
-$mysqlModule = new mysqlModule();
-$basicInformationObject = new basicInformationModule();
+session_start();
 
 if($_POST['function'] == 'handleForm'){
     handleForm();
@@ -28,14 +27,14 @@ function handleDataBase(){
 }
 
 function handleFileUpload(){
+	$mysqlObject = new mysqlModule();
+	$sessionObject = new sessionModule();
+	
 	$allowedExts = array('gif', 'jpeg', 'jpg', 'png');
 	$temp = explode('.', $_FILES['file']['name']);
 	$extension = end($temp);
-	if ((($_FILES['file']['type'] == 'image/gif')
-	|| ($_FILES['file']['type'] == 'image/jpeg')
+	if ((($_FILES['file']['type'] == 'image/jpeg')
 	|| ($_FILES['file']['type'] == 'image/jpg')
-	|| ($_FILES['file']['type'] == 'image/pjpeg')
-	|| ($_FILES['file']['type'] == 'image/x-png')
 	|| ($_FILES['file']['type'] == 'image/png'))
 	&& ($_FILES['file']['size'] < 2000000)
 	&& in_array($extension, $allowedExts)) {
@@ -44,7 +43,8 @@ function handleFileUpload(){
 		} else {
 			$date = new DateTime();
 			$dateString = sha1(str_replace(' ','',$date->format('Y-m-d H:i:s')));
-			$filename = $dateString.$_FILES['file']['name'];
+			$fileending = ($_FILES['file']['type'] == 'image/jpeg' || $_FILES['file']['type'] == 'image/jpg') ? '.jpg' : '.png';
+			$filename = $sessionObject->getUserName().$dateString.$fileending;
 			/*echo "Upload: " . $_FILES["file"]["name"] . "<br>";
 			echo "Type: " . $_FILES['file']['type'] . "<br>";
 			echo "Size: " . ($_FILES["file"]["size"] / 1024) . " kB<br>";
