@@ -84,13 +84,13 @@ body {
   position: relative; }
 
 .h1bgLoginInfo {
-  width: 130px;
+  width: 140px;
   background-color: #F3E0E1;
   left: 42.5%;
   position: relative; }
 
 .h1bgLoginStory {
-  width: 190px;
+  width: 200px;
   background-color: #D3ECED;
   left: 39%;
   position: relative; }
@@ -266,7 +266,7 @@ input.buttonStoryInfo {
   width: 55px !important;
   height: 30px;
   margin-left: -22px;
-  margin-top: -10px !important;
+  margin-top: -0px !important;
   background-color: #96C3CC !important; }
 
 #searchResultPage {
@@ -326,6 +326,10 @@ input.buttonStoryInfo {
   margin: 20px;
   margin-bottom: 65px;
   float: left; }
+
+.storyPicFrame a {
+  text-decoration: none;
+  color: #000; }
 
 #profilePage .storyTitle {
   margin-top: 5px;
