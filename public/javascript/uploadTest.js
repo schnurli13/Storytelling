@@ -1,4 +1,14 @@
-var formStuff;
+var form;
+var submitForm;
+var activateForm;
+
+activateForm = function(){
+	form = $('#fileinfo');
+	form.on('submit', function(e){
+		e.preventDefault();
+		submitForm();
+	});
+}
 
 submitForm = function(){
 	console.log("submit event");
@@ -19,5 +29,5 @@ submitForm = function(){
 }
 
 $(document).ready(function(){
-//formStuff();
+	activateForm();
 });

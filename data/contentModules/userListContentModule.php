@@ -24,7 +24,7 @@ class userListContentModule{
 		
 	function getForm(){
 		$returnString = '';
-		$returnString.='<form method="post" id="fileinfo" name="fileinfo" onsubmit="return submitForm();">'."\n";
+		$returnString.='<form method="POST" id="fileinfo" name="fileinfo">'."\n";
         $returnString.='<label>Select a file:</label><br>'."\n";
         $returnString.='<input type="file" name="file" required />'."\n";
         $returnString.='<input type="submit" value="Upload" />'."\n";
