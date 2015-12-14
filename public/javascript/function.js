@@ -477,19 +477,24 @@ nodeEditor.module = (function($) {
     };
 
     checkAdditionalNode = function(id) {
+
         $.ajax({
             url: ajaxLink,
             type: 'GET',
             data: 'functionName=maxChildren&storyID='+storyID+'&ID=' + id,
             success: function (data) {
-               // alert(data);
+              //  alert(data);
                 console.log("SUCCESS");
                 var obj = $.parseJSON(data);
-
+                hasChildren = false;
                 if (obj[0]['NextPageID4'] == 0) {
                     stage.find('#addRect')[0].setAttr('fill',buttonColor);
                  //   document.getElementById('addNode').disabled = false;
                 } else {
+                    if(movementStyle != null) {
+                        button1.off('click');
+                        hoverPopUpButtons(['#button1Rect', '#button1Text'], buttonColorDisabled, buttonColorDisabled);
+                    }
                     stage.find('#addRect')[0].setAttr('fill',buttonColorDisabled);
                     //document.getElementById('addNode').disabled = true;
                 }
@@ -820,7 +825,7 @@ nodeEditor.module = (function($) {
                         type: 'GET',
                         data: 'functionName=addNodeAsChild&storyID=' + storyID + '&ID01=' + previousShape.id() + '&ID02=' + evt.target.id(),
                         success: function (data) {
-                           // alert(data);
+                            alert(data);
                             console.log("SUCCESS");
                             tempLayer.find('#button2Rect')[0].fill(buttonColor);
                             button3.remove();
@@ -840,7 +845,7 @@ nodeEditor.module = (function($) {
                     $.ajax({
                         url: ajaxLink,
                         type: 'GET',
-                        data: 'functionName=addBranchAsChild&storyID=' + storyID + '&ID01=' + previousShape.id() + '&ID02=' + evt.target.id(),
+                        data: 'functionName=addBranchAsChild&storyID=' + storyID + '&ID=' + previousShape.id() + '&IDs=' + movementStyle,
                         success: function (data) {
                              alert(data);
                             console.log("SUCCESS");
@@ -1106,16 +1111,6 @@ nodeEditor.module = (function($) {
             }
         });
 
-        /*
-        document.getElementById('deleteNode').addEventListener('click', function () {
-         deleteNode(selectedNode);
-        }, false);*/
-
-        /*
-         document.getElementById('addNode').addEventListener('click', function () {
-         addNewNode(selectedNode);
-         }, false);*/
-
 
 //END
 
@@ -1202,6 +1197,7 @@ nodeEditor.module = (function($) {
                 var overlapping = layer.getIntersection(pos);
                 if (overlapping) {
                     if (dropStyle == null) {
+                        checkAdditionalNode(previousShape.id());
                         dropQuestion(e);
                     }
                 } else {
