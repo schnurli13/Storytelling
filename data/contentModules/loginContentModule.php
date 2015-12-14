@@ -62,7 +62,7 @@ class loginContentModule{
 		}
 	}	
 	
-		$returnString.='Session: '.$this->sessionObject->getUserName().' | '.($this->sessionObject->getLogState() ? 'true' : 'false')."\n";
+		//$returnString.='Session: '.$this->sessionObject->getUserName().' | '.($this->sessionObject->getLogState() ? 'true' : 'false')."\n";
 		$template->addContent('FORM', $returnString);
 		return $template->generateHtml();
 	}

@@ -120,7 +120,7 @@ input {
 
 .loginFrameContainer, .registerFrameContainer {
 	width: 30%;
-	left: 35% !important;
+	left: 35%;
 	position: relative;
 	padding: 20px;
 	margin-top: 10px;
@@ -165,7 +165,7 @@ input {
 	font-size: 18px;
     	font-family: $mainFont;
 	text-decoration: none;
-	color: #000 !important;
+	color: #000;
 }
 
 .buttonFrameContainer {
@@ -224,7 +224,7 @@ input {
 			padding: 0px 20px 20px 20px;
 			overflow: auto;
 			width: 90%;
-			left: 5% !important;
+			left: 5%;
 			position: relative;
 			
 			.firstColumn {
@@ -268,7 +268,7 @@ input {
 	
 	.profileFrameContainer {
 		width: 75%;
-		left: 11% !important;
+		left: 11%;
 		position: relative;
 		padding: 20px;
 		margin-top: 10px;
@@ -276,7 +276,7 @@ input {
 	
 	.myInfoFrameContainer {
 		width: 90%;
-		left: 3% !important;
+		left: 3%;
 		position: relative;
 		padding: 20px;
 		margin-top: 10px;
@@ -286,7 +286,7 @@ input {
 
 	.myStoryFrameContainer {
 		width: 90%;
-		left: 3% !important;
+		left: 3%;
 		position: relative;
 		padding: 20px;
 		margin-top: 10px;
@@ -380,13 +380,13 @@ input {
 #searchPage {
 	
 	.searchIcon {
-		font-family: FontAwesome !important;
-		font-size: 0.75em !important;
-		width: 55px !important;
+		font-family: FontAwesome;
+		font-size: 0.75em;
+		width: 55px;
 		height: 46px;
 		margin-left: -22px;
-		margin-top: -10px !important;
-		background-color: $darkblue !important;
+		margin-top: -10px;
+		background-color: $darkblue;
 	}
 	
 	input.inputField {
@@ -406,7 +406,7 @@ input {
 	}
 	
 	.searchLabel input.inputField {
-		padding-top: 17px !important;
+		padding-top: 17px;
 	}
 	
 
@@ -432,7 +432,7 @@ input {
 		
 		li a {
 			text-decoration: none;
-			color: #000 !important;
+			color: #000;
 		}
 	}
 	
@@ -463,12 +463,12 @@ input {
 	}
 	
 	.searchResultIcon {
-		font-family: FontAwesome !important;
-		font-size: 0.75em !important;
-		width: 55px !important;
+		font-family: FontAwesome;
+		font-size: 0.75em;
+		width: 55px;
 		height: 30px;
 		margin-left: -22px;
-		margin-top: -0px !important;
-		background-color: $darkblue !important;
+		margin-top: -0px;
+		background-color: $darkblue;
 	}	
 }

@@ -81,7 +81,7 @@ input.buttonStoryInfo {
 
 .loginFrameContainer, .registerFrameContainer {
   width: 30%;
-  left: 35% !important;
+  left: 35%;
   position: relative;
   padding: 20px;
   margin-top: 10px;
@@ -117,7 +117,7 @@ input.buttonStoryInfo {
   font-size: 18px;
   font-family: "Architects Daughter", cursive;
   text-decoration: none;
-  color: #000 !important; }
+  color: #000; }
 
 .buttonFrameContainer {
   width: 120px;
@@ -159,7 +159,7 @@ input.buttonStoryInfo {
     padding: 0px 20px 20px 20px;
     overflow: auto;
     width: 90%;
-    left: 5% !important;
+    left: 5%;
     position: relative; }
     #profilePage .myInfoContainer #content .firstColumn {
       width: 420px; }
@@ -188,13 +188,13 @@ input.buttonStoryInfo {
   position: relative; }
 #profilePage .profileFrameContainer {
   width: 75%;
-  left: 11% !important;
+  left: 11%;
   position: relative;
   padding: 20px;
   margin-top: 10px; }
 #profilePage .myInfoFrameContainer {
   width: 90%;
-  left: 3% !important;
+  left: 3%;
   position: relative;
   padding: 20px;
   margin-top: 10px;
@@ -202,7 +202,7 @@ input.buttonStoryInfo {
   margin-bottom: 30px; }
 #profilePage .myStoryFrameContainer {
   width: 90%;
-  left: 3% !important;
+  left: 3%;
   position: relative;
   padding: 20px;
   margin-top: 10px;
@@ -261,13 +261,13 @@ input.buttonStoryInfo {
   margin-bottom: 110px; }
 
 #searchPage .searchIcon {
-  font-family: FontAwesome !important;
-  font-size: 0.75em !important;
-  width: 55px !important;
+  font-family: FontAwesome;
+  font-size: 0.75em;
+  width: 55px;
   height: 46px;
   margin-left: -22px;
-  margin-top: -10px !important;
-  background-color: #96C3CC !important; }
+  margin-top: -10px;
+  background-color: #96C3CC; }
 #searchPage input.inputField {
   font-size: 20px;
   font-family: inherit;
@@ -279,7 +279,7 @@ input.buttonStoryInfo {
   text-align: center;
   font-family: "Architects Daughter", cursive; }
 #searchPage .searchLabel input.inputField {
-  padding-top: 17px !important; }
+  padding-top: 17px; }
 
 #searchResultPage {
   margin-top: -170px; }
@@ -295,7 +295,7 @@ input.buttonStoryInfo {
     font-family: "Architects Daughter", cursive; }
     #searchResultPage ul li a {
       text-decoration: none;
-      color: #000 !important; }
+      color: #000; }
   #searchResultPage input.inputField {
     font-size: 20px;
     font-family: inherit;
@@ -313,12 +313,12 @@ input.buttonStoryInfo {
     font-size: 28px;
     margin-left: -41%; }
   #searchResultPage .searchResultIcon {
-    font-family: FontAwesome !important;
-    font-size: 0.75em !important;
-    width: 55px !important;
+    font-family: FontAwesome;
+    font-size: 0.75em;
+    width: 55px;
     height: 30px;
     margin-left: -22px;
-    margin-top: -0px !important;
-    background-color: #96C3CC !important; }
+    margin-top: -0px;
+    background-color: #96C3CC; }
 
 /*# sourceMappingURL=default.css.map */
