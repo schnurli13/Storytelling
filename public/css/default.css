@@ -27,6 +27,11 @@ body {
   position: absolute;
   right: 10.5%;
   top: 0; }
+  #logState .LogedInHelloState {
+    font-family: "Architects Daughter", cursive;
+    font-size: 18px;
+    float: left;
+    margin: 7px 15px; }
 
 .buttonFrameContainerLogState {
   width: 120px;

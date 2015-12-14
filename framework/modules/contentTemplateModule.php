@@ -27,7 +27,7 @@ class contentTemplateModule{
 		$returnString = '';
 	
 		if($sessionObject->getLogState() && $sessionObject->encodeKey($sessionObject->getUserName()) ===  $sessionObject->getSafeHash()){
-			$returnString .= '<a href="'.$this->basicInformationObject->getRoot().'/users/'.$sessionObject->getUserName().'">'.$sessionObject->getUserName().' | <a href="'.$this->basicInformationObject->getRoot().'/logout">Logout</a><br/>';
+			$returnString .= '<div class="LogedInHelloState">HELLO <a href="'.$this->basicInformationObject->getRoot().'/users/'.$sessionObject->getUserName().'">'.$sessionObject->getUserName().'</div> <div class="buttonFrameContainerLogState right"><div class="buttonSize"><a class="buttonLookLink" href="'.$this->basicInformationObject->getRoot().'/logout">LOGOUT</a></div></div><br/>';
 		}else{
 			$returnString .= '
 			<div class="buttonFrameContainerLogState left marginRightLogState"><div class="buttonSize"><a class="buttonLookLink firstLogState" href="'.$this->basicInformationObject->getRoot().'/login">LOGIN</a></div></div>
