@@ -16,14 +16,21 @@ class userListContentModule{
 	
 		$returnString = '';
 	
-		if($this->sessionObject->getLogState()){
-			$returnString.='Hey '.$this->sessionObject->getUserName().'!<br/>'."\n";
-		}
-
-		$returnString.="Hier wird die Liste der User mit einer Suche ausgegeben!";
+		$returnString.=$this->getForm();
 		
 		return $returnString;
 
 		}
+		
+	function getForm(){
+		$returnString = '';
+		$returnString.='<form method="post" id="fileinfo" name="fileinfo" onsubmit="return submitForm();">'."\n";
+        $returnString.='<label>Select a file:</label><br>'."\n";
+        $returnString.='<input type="file" name="file" required />'."\n";
+        $returnString.='<input type="submit" value="Upload" />'."\n";
+		$returnString.='</form>'."\n";
+		$returnString.='<div id="output"></div>'."\n";
+		return $returnString;
+	}
 	
 }

@@ -18,9 +18,6 @@ class userContentModule{
 
 	function generateHtml(){
 	
-		$date = new DateTime();
-		echo sha1(str_replace(' ','',$date->format('Y-m-d H:i:s')));
-	
 		$msqlObject = new mysqlModule();
 	
 		$returnString = '';

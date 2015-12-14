@@ -77,6 +77,12 @@ if($myPage->getUriArray()[1] === 'index' || $myPage->getUriArray()[1] === '' || 
 	$indexContentObject = new indexContentModule($mySession);
     $myPage->setContent($indexContentObject->generateHtml());
 	
+}else if($myPage->getUriArray()[1] === 'uploadTest'){
+	$myPage->useSource('javascript', 'uploadTest');
+	$myPage->setTitle('uploadTest');
+	$userListContentObject = new userListContentModule($mySession);
+	$myPage->setContent($userListContentObject->generateHtml());
+	
 }else if($myPage->getUriArray()[1] === 'register'){
 	$myPage->setTitle('Register');
 	$registerContentObject = new registerContentModule($mySession);
@@ -99,12 +105,7 @@ if($myPage->getUriArray()[1] === 'index' || $myPage->getUriArray()[1] === '' || 
 
 }else if($myPage->getUriArray()[1] === 'users'){
 
-	if(count($myPage->getUriArray()) == 2){
-		$myPage->setTitle('Users');
-		$userListContentObject = new userListContentModule($mySession);
-		$myPage->setContent($userListContentObject->generateHtml());
-		
-	}else if(count($myPage->getUriArray()) == 3){
+	if(count($myPage->getUriArray()) == 3){
 		$myPage->setTitle($myPage->getUriArray()[2]);
 		$userContentObject = new userContentModule($mySession, $myPage->getUriArray());
 		$myPage->setContent($userContentObject->generateHtml());
