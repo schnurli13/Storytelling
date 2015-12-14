@@ -45,17 +45,27 @@ class printPageModule extends printModule{
 		$toPrintHead .= $this->additionalHead.$this->metaData."\n";
 		
 		$sourcesString = '';
+		
+		$basicInformationObject = new basicInformationModule();
 
         foreach($this->sourcesArray as $source){
 
             switch($source[0]){
 
                 case 'javascript':
-                    $sourcesString =  $sourcesString.'<script type="text/javascript" src="'.$source[1].'.js" ></script>'."\n";
+                    $sourcesString =  $sourcesString.'<script type="text/javascript" src="'.$basicInformationObject->getRoot().'/public/javascript/'.$source[1].'.js" ></script>'."\n";
                     break;
 
                 case 'css':
-                    $sourcesString = $sourcesString.'<link rel="stylesheet" type="text/css" href="'.$source[1].'.css">'."\n";
+                    $sourcesString = $sourcesString.'<link rel="stylesheet" type="text/css" href="'.$basicInformationObject->getRoot().'/public/css/'.$source[1].'.css">'."\n";
+                    break;
+					
+				case 'pluginJs':
+                    $sourcesString = $sourcesString.'<script type="text/javascript" src="'.$basicInformationObject->getRoot().'/public/plugins/'.$source[1].'.js" ></script>'."\n";
+                    break;
+					
+				case 'pluginCss':
+                    $sourcesString = $sourcesString.'<link rel="stylesheet" type="text/css" href="'.$basicInformationObject->getRoot().'/public/plugins/'.$source[1].'.css">'."\n";
                     break;
 
             }

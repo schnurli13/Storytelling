@@ -31,7 +31,7 @@ class searchContentModule{
 		
 		$queryResult = array();
 		
-		if(isset($_GET['key'])){
+		if(isset($_GET['key']) && $_GET['key'] != ''){
 			$queryResult = $msqlObject->queryDataBase('SELECT name, password FROM users WHERE name LIKE "%'.$_GET['key'].'%"');
 		}
 		
@@ -42,7 +42,7 @@ class searchContentModule{
 			$returnString.='<ul>';
 			
 			for($i = 0; $i < sizeof($queryResult); $i++){
-				$returnString.='<li><img class="searchPic" src="dummyProfile.jpg" alt="profil" /><a class="searchLink" href="'.$this->urlArray[0].'/users/'.$queryResult[$i]['name'].'">'.$queryResult[$i]['name'].'</a></li>';
+				$returnString.='<li><img class="searchPic" src="'.$this->urlArray[0].'/public/images/dummyProfile.jpg" alt="profil" /><a class="searchLink" href="'.$this->urlArray[0].'/users/'.$queryResult[$i]['name'].'">'.$queryResult[$i]['name'].'</a></li>';
 			}
 			
 			$returnString.='</ul>';

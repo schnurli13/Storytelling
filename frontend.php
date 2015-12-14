@@ -14,18 +14,18 @@ $myPage->setAdditionalHead('default');
 $myPage->setMetaInformation('default');
 $myPage->useSource('css', 'default');
 $myPage->useSource('javascript', 'jquery-2.1.0.min');
-$myPage->useSource('css', 'plugins/fancybox/source/jquery.fancybox');
-$myPage->useSource('css', 'plugins/fancybox/source/helpers/jquery.fancybox-buttons');
-$myPage->useSource('css', 'plugins/fancybox/source/helpers/jquery.fancybox-thumbs');
-$myPage->useSource('javascript', 'plugins/fancybox/source/jquery.fancybox');
-$myPage->useSource('javascript', 'plugins/fancybox/source/helpers/jquery.fancybox-buttons');
-$myPage->useSource('javascript', 'plugins/fancybox/source/helpers/jquery.fancybox-media');
-$myPage->useSource('javascript', 'plugins/fancybox/source/helpers/jquery.fancybox-thumbs');
+$myPage->useSource('pluginCss', 'fancybox/source/jquery.fancybox');
+$myPage->useSource('pluginCss', 'fancybox/source/helpers/jquery.fancybox-buttons');
+$myPage->useSource('pluginCss', 'fancybox/source/helpers/jquery.fancybox-thumbs');
+$myPage->useSource('pluginJs', 'fancybox/source/jquery.fancybox');
+$myPage->useSource('pluginJs', 'fancybox/source/helpers/jquery.fancybox-buttons');
+$myPage->useSource('pluginJs', 'fancybox/source/helpers/jquery.fancybox-media');
+$myPage->useSource('pluginJs', 'fancybox/source/helpers/jquery.fancybox-thumbs');
 $myPage->useSource('javascript', 'default');
 
 
 $myPage->setTitle('404');
-
+/*
 //HANDLING PLUG-INS
 
 if(strpos($myPage->getCurrentUri(), 'plugins')){
@@ -69,7 +69,7 @@ if(substr($myPage->getCurrentUri(), -3) == 'css'){
 	echo file_get_contents('public/javascript/'.$filename, true);
 	return true;
 }
-
+*/
 //ROUTES FOR HTML PAGES
 
 if($myPage->getUriArray()[1] === 'index' || $myPage->getUriArray()[1] === '' || $myPage->getUriArray()[1] === 'de'){

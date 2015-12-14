@@ -8,11 +8,14 @@
 class contentTemplateModule{
 
 	private $template;
-	
 	private $contents = array();
+	private $basicInformationObject;
 
 	function __construct($templateName){
 		$this->template = file_get_contents('data/templates/'.$templateName.'.html', true);
+		$this->basicInformationObject = new basicInformationModule();
+		$this->addContent('ROOT', $this->basicInformationObject->getRoot());
+		$this->addContent('PICPATH', $this->basicInformationObject->getRoot().'/public/images');
 	}
 	
 	function addContent($keyWord, $content){
@@ -21,17 +24,14 @@ class contentTemplateModule{
 	
 	function addLogState($sessionObject){
 	
-		$basicInformationObject = new basicInformationModule();
-	
 		$returnString = '';
 	
 		if($sessionObject->getLogState() && $sessionObject->encodeKey($sessionObject->getUserName()) ===  $sessionObject->getSafeHash()){
-			$returnString .= '<a href="'.$basicInformationObject->getRoot().'/users/'.$sessionObject->getUserName().'">'.$sessionObject->getUserName().' | <a href="'.$basicInformationObject->getRoot().'/logout">Logout</a><br/>';
+			$returnString .= '<a href="'.$this->basicInformationObject->getRoot().'/users/'.$sessionObject->getUserName().'">'.$sessionObject->getUserName().' | <a href="'.$this->basicInformationObject->getRoot().'/logout">Logout</a><br/>';
 		}else{
 			$returnString .= '
-			<div class="buttonFrameContainerLogState left marginRightLogState"><div class="buttonSize"><a class="buttonLookLink firstLogState" href="'.$basicInformationObject->getRoot().'/login">LOGIN</a></div></div>
-			<div class="buttonFrameContainerLogState left"><div class="buttonSize"><a class="buttonLookLink" href="'.$basicInformationObject->getRoot().'/register">REGISTER</a></div></div><br/>';
-			// $returnString .= '<a href="'.$basicInformationObject->getRoot().'/login">Login</a> | <a href="'.$basicInformationObject->getRoot().'/register">Register</a><br/>';
+			<div class="buttonFrameContainerLogState left marginRightLogState"><div class="buttonSize"><a class="buttonLookLink firstLogState" href="'.$this->basicInformationObject->getRoot().'/login">LOGIN</a></div></div>
+			<div class="buttonFrameContainerLogState left"><div class="buttonSize"><a class="buttonLookLink" href="'.$this->basicInformationObject->getRoot().'/register">REGISTER</a></div></div><br/>';
 		}
 		
 		$this->addContent('LOGSTATE', $returnString);
