@@ -56,7 +56,7 @@ class userContentModule{
 		}
 	
 		if($this->searchedUser === $this->sessionObject->getUserName()){
-			$returnString.='<a>Edit Profile</a>';
+			$returnString.='<div class="buttonFrameContainerStoryInfo"><a><input class="buttonStoryInfo" type="submit" value="EDIT PROFILE"/></a></div>';
 		}
 		
 		$template->addLogState($this->sessionObject);
