@@ -815,13 +815,42 @@ nodeEditor.module = (function($) {
             hoverPopUpButtons(['#button1Rect','#button1Text'],buttonColorHover,buttonColor);
             button1.off('click').on('click', function (e) {
                 if(movementStyle == "one") {
-                    $.ajax({
+                   $.ajax({
                         url: ajaxLink,
                         type: 'GET',
                         data: 'functionName=addNodeAsChild&storyID=' + storyID + '&ID01=' + previousShape.id() + '&ID02=' + evt.target.id(),
                         success: function (data) {
-                            alert(data);
+                           // alert(data);
                             console.log("SUCCESS");
+                            tempLayer.find('#button2Rect')[0].fill(buttonColor);
+                            button3.remove();
+                            popUp.hide();
+                            tempLayer.draw();
+                            pause = false;
+                            dropStyle = "child";
+                            dropReset(evt);
+                            startDrawLines();
+                            startDrawNodes();
+                        },
+                        error: function (xhr, status, error) {
+                            alert(error);
+                        }
+                    });
+                }else{
+                    $.ajax({
+                        url: ajaxLink,
+                        type: 'GET',
+                        data: 'functionName=addBranchAsChild&storyID=' + storyID + '&ID01=' + previousShape.id() + '&ID02=' + evt.target.id(),
+                        success: function (data) {
+                             alert(data);
+                            console.log("SUCCESS");
+                            tempLayer.find('#button2Rect')[0].fill(buttonColor);
+                            button3.remove();
+                            popUp.hide();
+                            tempLayer.draw();
+                            pause = false;
+                            dropStyle = "child";
+                            dropReset(evt);
                             startDrawLines();
                             startDrawNodes();
                         },

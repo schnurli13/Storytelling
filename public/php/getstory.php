@@ -37,7 +37,11 @@ if ($functionName == "drawLines") {
     reorderBranches($localhost, $user, $pw,$db,$storyID);
 }else if($functionName == "addNodeAsChild"){
     addNodeAsChild($localhost, $user, $pw,$db,$storyID);
+}else if($functionName == "addBranchAsChild"){
+    addBranchAsChild($localhost, $user, $pw,$db,$storyID);
 }
+
+
 
 function isFirstNode($localhost, $user, $pw,$db,$storyID){
     $ID = filter_input(INPUT_GET, 'ID');
@@ -170,36 +174,43 @@ function fixParentANDSiblings($con,$ID,$storyID){
         $indexedOnly[0]['NextPageID4'] = 0;
     }
 
-    $sql="UPDATE page SET NextPageID1 = ".$indexedOnly[0]['NextPageID1']." , NextPageID2 = ".$indexedOnly[0]['NextPageID2']." ,
-    NextPageID3 = ".$indexedOnly[0]['NextPageID3']." , NextPageID4 = ".$indexedOnly[0]['NextPageID4']."
-    WHERE id = ".$indexedOnly[0]['id']."  AND story = ".$storyID;
-
-    //echo $sql."\n";
-    $result = mysqli_query($con,$sql);
-    if(!$result)
-    {
-        die('Could not update data: '. mysqli_error());
-    }
-    echo "Updated data successfully\n";
 
 
-    if($indexedOnly[0]['NextPageID1'] != 0){
-        $sql="UPDATE page SET position=1 WHERE id = ".$indexedOnly[0]['NextPageID1']." AND story = ".$storyID.";";
-    }
-    if($indexedOnly[0]['NextPageID2'] != 0){
-        $sql.="UPDATE page SET position=2 WHERE id = ".$indexedOnly[0]['NextPageID2']." AND story = ".$storyID.";";
-    }
-    if($indexedOnly[0]['NextPageID3'] != 0){
-        $sql.="UPDATE page SET position=3 WHERE id = ".$indexedOnly[0]['NextPageID3']." AND story = ".$storyID;
-    }
+        $sql="UPDATE page SET NextPageID1 = ".$indexedOnly[0]['NextPageID1']." , NextPageID2 = ".$indexedOnly[0]['NextPageID2']." ,
+        NextPageID3 = ".$indexedOnly[0]['NextPageID3']." , NextPageID4 = ".$indexedOnly[0]['NextPageID4']."
+        WHERE id = ".$indexedOnly[0]['id']."  AND story = ".$storyID;
 
-    echo $sql."\n";
-    $result = mysqli_multi_query($con,$sql);
-    if(!$result)
-    {
-        die('Could not update data: '. mysqli_error());
-    }
-    echo "Updated data successfully\n";
+    echo json_encode($sql);
+
+        //echo $sql."\n";
+        $result = mysqli_query($con,$sql);
+        if(!$result)
+        {
+            die('Could not update data: '. mysqli_error());
+        }
+        echo "Updated data successfully\n";
+
+
+        if($indexedOnly[0]['NextPageID1'] != 0){
+            $sql="UPDATE page SET position=1 WHERE id = ".$indexedOnly[0]['NextPageID1']." AND story = ".$storyID.";";
+        }
+        if($indexedOnly[0]['NextPageID2'] != 0){
+            $sql.="UPDATE page SET position=2 WHERE id = ".$indexedOnly[0]['NextPageID2']." AND story = ".$storyID.";";
+        }
+        if($indexedOnly[0]['NextPageID3'] != 0){
+            $sql.="UPDATE page SET position=3 WHERE id = ".$indexedOnly[0]['NextPageID3']." AND story = ".$storyID;
+        }
+
+
+    echo json_encode($sql);
+
+      echo $sql."\n";
+        $result = mysqli_multi_query($con,$sql);
+        if(!$result)
+        {
+            die('Could not update data: '. mysqli_error());
+        }
+        echo "Updated data successfully\n";
 }
 
 
@@ -605,7 +616,7 @@ function addNodeAsChild($localhost, $user, $pw,$db,$storyID){
         $indexedOnly[$row['id']] = $row;
     }
 
-    echo json_encode($indexedOnly);
+    //echo json_encode($indexedOnly);
 
     $pos = null;
 
@@ -624,26 +635,110 @@ function addNodeAsChild($localhost, $user, $pw,$db,$storyID){
     }
 
 
+    fixParentANDSiblings($con,$child,$storyID);
 
     //update new parent node
     $sql="UPDATE page SET ".$changeNN." = ".$child." WHERE id = ".$parent." AND story = ".$storyID.";";
     //update new child node
     $sql.="UPDATE page SET level = 1+".$indexedOnly[$parent]['level'].", position = ".$pos." WHERE id = ".$child." AND story = ".$storyID;
-    echo json_encode($sql);
+   // echo json_encode($sql);
 
-/*    $result = mysqli_multi_query($con,$sql);
+   $result = mysqli_multi_query($con,$sql);
     if(!$result)
     {
         die('Could not update data: '. mysqli_error());
     }
     echo "Updated data successfully\n";
 
-    //update sibling alt
-    //update parent alt
-
-    fixParentANDSiblings($con,$child,$storyID);*/
 
     mysqli_close($con);
 }
 
 
+function addBranchAsChild($localhost, $user, $pw,$db,$storyID){
+    $x = filter_input(INPUT_GET, 'IDs');
+    $movingIDs =explode(",",$x);
+    $ID01 = $movingIDs[0];
+    $ID02 = filter_input(INPUT_GET, 'ID');
+
+    $con = mysqli_connect($localhost,$user, $pw, $db );
+    if (!$con) {
+        die('Could not connect: ' . mysqli_error($con));
+    }
+
+    $indexedOnly = array();
+    $hasChildren = true;
+    $indexedOnly = getPage($con,$ID02,$indexedOnly,"",$storyID,"id =");
+
+    $string = $indexedOnly[0]['id'];
+
+    $string = getChildren($indexedOnly,$hasChildren,$string,$con,$storyID,"");
+    $targetIDs =explode(",",$string);
+
+
+    $sql="SELECT id,level,position FROM page WHERE id IN($ID01,$ID02) AND story = ".$storyID;
+    $result = mysqli_query($con,$sql);
+    $indexedOnly = array();
+
+    while($row = mysqli_fetch_assoc($result)) {
+        $indexedOnly[$row['id']] = $row;
+    }
+
+
+    $levelDiffmovingIDs = $indexedOnly[$ID02]['level']-$indexedOnly[$ID01]['level'];
+    $levelDifftargetIDs = $indexedOnly[$ID01]['level']-$indexedOnly[$ID02]['level'];
+    //austauschen level und position von obersten nodes
+
+    $sql="UPDATE page SET level = CASE id
+                                             WHEN ".$ID01."   THEN  ".$indexedOnly[$ID02]['level']."
+                                             WHEN ".$ID02."   THEN ".$indexedOnly[$ID01]['level']."
+                                             ELSE level
+                                             END
+                                  , position = CASE id
+                                             WHEN ".$ID01."   THEN  ".$indexedOnly[$ID02]['position']."
+                                             WHEN ".$ID02."   THEN ".$indexedOnly[$ID01]['position']."
+                                             ELSE position
+                                             END
+                       WHERE id IN($ID01,$ID02) AND story = ".$storyID.";";
+
+    //changing levels of childpages
+    for($i = 1; $i < sizeof($movingIDs); $i++){
+        $sql.="UPDATE page SET level = level+".$levelDiffmovingIDs." WHERE id = ".$movingIDs[$i]." AND story = ".$storyID.";";
+    }
+
+    if(sizeof($targetIDs) > 1){
+        for($i = 1; $i < sizeof($targetIDs); $i++){
+            $sql.="UPDATE page SET level = level+".$levelDifftargetIDs." WHERE id = ".$targetIDs[$i]." AND story = ".$storyID.";";
+        }
+    }
+
+    //austauschen der nextpage ids
+    $sql.="UPDATE page SET NextPageID1 = CASE NextPageID1
+                                                WHEN ".$ID01."   THEN  ".$ID02."
+                                                WHEN ".$ID02."   THEN  ".$ID01."
+                                                ELSE NextPageID1
+                                                END
+                                     ,NextPageID2 = CASE NextPageID2
+                                                WHEN ".$ID01."   THEN  ".$ID02."
+                                                WHEN ".$ID02."   THEN  ".$ID01."
+                                                ELSE NextPageID2
+                                                END
+                                    ,NextPageID3 = CASE NextPageID3
+                                                WHEN ".$ID01."   THEN  ".$ID02."
+                                                WHEN ".$ID02."   THEN  ".$ID01."
+                                                ELSE NextPageID3
+                                                END
+                                    ,NextPageID4 = CASE NextPageID4
+                                                WHEN ".$ID01."   THEN  ".$ID02."
+                                                WHEN ".$ID02."   THEN  ".$ID01."
+                                                ELSE NextPageID4
+                                                END
+                          WHERE NextPageID1 IN($ID01,$ID02) OR NextPageID2 IN($ID01,$ID02) OR NextPageID3 IN($ID01,$ID02) OR NextPageID4 IN($ID01,$ID02) AND story = ".$storyID;
+    $result = mysqli_multi_query($con,$sql);
+    if(!$result)
+    {
+        die('Could not update data: '. mysqli_error());
+    }
+    echo "Updated data successfully\n";
+    mysqli_close($con);
+}
