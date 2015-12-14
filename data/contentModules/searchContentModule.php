@@ -18,8 +18,8 @@ class searchContentModule{
 
 	function generateHtml(){
 	
-	
 		$returnString = '';
+		$fetchedString = '';
 		
 		$template = new contentTemplateModule('searchTemplate');	
 		
@@ -29,8 +29,12 @@ class searchContentModule{
 			$returnString.=$this->getForm('');
 		}
 		
-		$returnString.=$this->fetchUsers();
-		$returnString.=$this->fetchStories();
+		$fetchedString.=$this->fetchUsers();
+		$fetchedString.=$this->fetchStories();
+		
+		if($fetchedString === ''){$fetchedString = '<h2>Sorry, no results found!</h2>'."\n";}
+				
+		$returnString.=$fetchedString;
 		
 		$template->addLogState($this->sessionObject);
 		$template->addContent('FORM', $returnString);
