@@ -7,7 +7,7 @@ var nodeEditor = nodeEditor || {};
 nodeEditor.module = (function($) {
 
 //initializing
-    var width = window.innerWidth*0.59,
+    var width = window.innerWidth*0.595,
         height = window.innerHeight ,
         levelY = 100,
         levelX = width/2,
@@ -21,6 +21,7 @@ nodeEditor.module = (function($) {
         movementStyle = null,
         dropStyle = null,
         previousShape,
+        hasChildren = false,
         yDrag,
         xDrop,
         yDrop,
@@ -481,15 +482,19 @@ nodeEditor.module = (function($) {
             type: 'GET',
             data: 'functionName=maxChildren&storyID='+storyID+'&ID=' + id,
             success: function (data) {
-                //alert(data);
+               // alert(data);
                 console.log("SUCCESS");
                 var obj = $.parseJSON(data);
-                if (obj['NextPageID4'] == 0) {
+
+                if (obj[0]['NextPageID4'] == 0) {
                     stage.find('#addRect')[0].setAttr('fill',buttonColor);
                  //   document.getElementById('addNode').disabled = false;
                 } else {
                     stage.find('#addRect')[0].setAttr('fill',buttonColorDisabled);
                     //document.getElementById('addNode').disabled = true;
+                }
+                if(obj[0]['NextPageID1'] != 0){
+                    hasChildren = true; // alert(obj[0]['NextPageID1']);
                 }
                 interfaceLayer.draw();
 
@@ -604,70 +609,30 @@ nodeEditor.module = (function($) {
              });
         });
 
-        hoverPopUpButtons();
 
-        /*  var x;
-          if (confirm(deleteText) == true) {
-              $.ajax({
-                  url: ajaxLink,
-                  type: 'GET',
-                  data: 'functionName=deleteNode&storyID='+storyID+'&ID=' + id,
-                  success: function (data) {
-                      alert(data);
-                      console.log("SUCCESS");
-                      startDrawLines();
-                      startDrawNodes();
-                  },
-                  error: function (xhr, status, error) {
-                      alert(error);
-                  }
-              });
-          } else {
-              x = "Cancel pressed!";
-          }
-          console.log(x);*/
+        hoverPopUpButtons(['#button1Rect','#button1Text'],buttonColorHover,buttonColor);
+        hoverPopUpButtons(['#button2Rect','#button2Text'],buttonColorHover,buttonColor);
+
     };
 
-    hoverPopUpButtons = function(){
+    hoverPopUpButtons = function(element,colorHover, colorOut){
 
-        tempLayer.find('#button1Rect')[0].on('mouseover',function(e){
-            e.target.fill(buttonColorHover);
-            tempLayer.draw();
-        });
-        tempLayer.find('#button1Text')[0].on('mouseover',function(e){
-            tempLayer.find('#button1Rect')[0].fill(buttonColorHover);
-            tempLayer.draw();
-        });
-        tempLayer.find('#button1Rect')[0].on('mouseout',function(e){
-            e.target.fill(buttonColor);
-            tempLayer.draw();
-        });
+        tempLayer.find(element[0])[0].setAttr('fill',colorOut);
+        tempLayer.draw();
 
-        tempLayer.find('#button2Rect')[0].on('mouseover',function(e){
-            e.target.fill(buttonColorHover);
+        tempLayer.find(element[0])[0].off('mouseover').on('mouseover',function(e){
+            e.target.fill(colorHover);
             tempLayer.draw();
         });
-        tempLayer.find('#button2Text')[0].on('mouseover',function(e){
-            tempLayer.find('#button2Rect')[0].fill(buttonColorHover);
+        tempLayer.find(element[1])[0].off('mouseover').on('mouseover',function(e){
+            tempLayer.find(element[0])[0].fill(colorHover);
             tempLayer.draw();
         });
-        tempLayer.find('#button2Rect')[0].on('mouseout',function(e){
-            e.target.fill(buttonColor);
+        tempLayer.find(element[0])[0].off('mouseout').on('mouseout',function(e){
+            e.target.fill(colorOut);
             tempLayer.draw();
         });
 
-        tempLayer.find('#button3Rect')[0].on('mouseover',function(e){
-            e.target.fill(buttonColorHover);
-            tempLayer.draw();
-        });
-        tempLayer.find('#button3Text')[0].on('mouseover',function(e){
-            tempLayer.find('#button3Rect')[0].fill(buttonColorHover);
-            tempLayer.draw();
-        });
-        tempLayer.find('#button3Rect')[0].on('mouseout',function(e){
-            e.target.fill(buttonColor);
-            tempLayer.draw();
-        });
     };
 
     moveQuestion = function(evt){
@@ -711,7 +676,9 @@ nodeEditor.module = (function($) {
         popUp.show();
         tempLayer.draw();
 
-        hoverPopUpButtons();
+        hoverPopUpButtons(['#button1Rect','#button1Text'],buttonColorHover,buttonColor);
+        hoverPopUpButtons(['#button2Rect','#button2Text'],buttonColorHover,buttonColor);
+        hoverPopUpButtons(['#button3Rect','#button3Text'],buttonColorHover,buttonColor);
 
         button3.off('click').on('click',function(e){
             tempLayer.find('#button3Rect')[0].fill(buttonColor);
@@ -771,27 +738,6 @@ nodeEditor.module = (function($) {
             layer.find('#'+evt.target.id()).draggable(true);
         });
 
-        /*  var x;
-        if (confirm(moveText) == true) {
-            x = "true pressed!";
-          $.ajax({
-                url: ajaxLink,
-                type: 'GET',
-                data: 'functionName=deleteNode&ID=' + id,
-                success: function (data) {
-                    alert(data);
-                    console.log("SUCCESS");
-                    startDrawLines();
-                    startDrawNodes();
-                },
-                error: function (xhr, status, error) {
-                    alert(error);
-                }
-            });
-        } else {
-            x = "Cancel pressed!";
-        }
-        console.log(x);*/
     };
 
     dropQuestion = function(evt){
@@ -806,11 +752,11 @@ nodeEditor.module = (function($) {
         popText.setAttr('y','55');
         popText.setAttr('width','480');
 
-        tempLayer.find('#button1Text')[0].setAttr('text','Add as Sub-Page');
-        tempLayer.find('#button1Text')[0].setAttr('x','20');
+        tempLayer.find('#button1Text')[0].setAttr('text','ADD AS SUB-PAGE');
+        tempLayer.find('#button1Text')[0].setAttr('x','8');
 
-        tempLayer.find('#button2Text')[0].setAttr('text','Replace Pages');
-        tempLayer.find('#button2Text')[0].setAttr('x','25');
+        tempLayer.find('#button2Text')[0].setAttr('text','REPLACE PAGES');
+        tempLayer.find('#button2Text')[0].setAttr('x','18');
 
         popUpRect.setAttr('width','500');
         popUp.setAttr('x',width/2-250);
@@ -836,15 +782,15 @@ nodeEditor.module = (function($) {
         popUp.show();
         tempLayer.draw();
 
-        hoverPopUpButtons();
+        hoverPopUpButtons(['#button1Rect','#button1Text'],buttonColorHover,buttonColor);
+        hoverPopUpButtons(['#button2Rect','#button2Text'],buttonColorHover,buttonColor);
+        hoverPopUpButtons(['#button3Rect','#button3Text'],buttonColorHover,buttonColor);
 
         button3.off('click').on('click',function(e){
             tempLayer.find('#button3Rect')[0].fill(buttonColor);
             button3.remove();
             popUp.hide();
             tempLayer.draw();
-            evt.target.fill(buttonColorHover);
-            layer.draw();
             pause = false;
             selectedNode = null;
             setDraggable(true);
@@ -861,39 +807,31 @@ nodeEditor.module = (function($) {
             startDrawNodes();
         });
 
-        button1.off('click').on('click',function(e) {
-            /*$.ajax({
-                url: ajaxLink,
-                type: 'GET',
-                data: 'functionName=moveBranch&storyID=' + storyID + '&ID=' + evt.target.id(),
-                success: function (data) {
-                    tempLayer.find('#button1Rect')[0].fill(buttonColor);
-                    button3.remove();
-                    popUp.hide();
-                    tempLayer.draw();
-                    pause = false;
-                    movementStyle = data;
-                    movementStyle = movementStyle.replace(/"/g,"");
-                    movementStyle = movementStyle.split(",");
 
-                    xDrag = evt.target.getAbsolutePosition().x;
-                    yDrag = evt.target.getAbsolutePosition().y;
-
-                    movingGroup.setAttr('x',0);
-                    movingGroup.setAttr('y',0);
-                    for(var i = 0; i < movementStyle.length; i++){
-                        var node = layer.find('#'+ movementStyle[i]);
-                        node.fill('yellow');
-                        node.moveTo(movingGroup);
-                    }
-                    layer.add(movingGroup);
-                    layer.draw();
-                },
-                error: function (xhr, status, error) {
-                    alert(error);
+        if(hasChildren && movementStyle == "one") {
+            button1.off('click');
+            hoverPopUpButtons(['#button1Rect','#button1Text'],buttonColorDisabled,buttonColorDisabled);
+        }else{
+            hoverPopUpButtons(['#button1Rect','#button1Text'],buttonColorHover,buttonColor);
+            button1.off('click').on('click', function (e) {
+                if(movementStyle == "one") {
+                    $.ajax({
+                        url: ajaxLink,
+                        type: 'GET',
+                        data: 'functionName=addNodeAsChild&storyID=' + storyID + '&ID01=' + previousShape.id() + '&ID02=' + evt.target.id(),
+                        success: function (data) {
+                            alert(data);
+                            console.log("SUCCESS");
+                            startDrawLines();
+                            startDrawNodes();
+                        },
+                        error: function (xhr, status, error) {
+                            alert(error);
+                        }
+                    });
                 }
-            });*/
-        });
+            });
+        }
 
         button2.off('click').on('click',function(e){
             tempLayer.find('#button2Rect')[0].fill(buttonColor);
@@ -906,27 +844,6 @@ nodeEditor.module = (function($) {
             //layer.find('#'+evt.target.id()).draggable(true);
         });
 
-        /*  var x;
-         if (confirm(moveText) == true) {
-         x = "true pressed!";
-         $.ajax({
-         url: ajaxLink,
-         type: 'GET',
-         data: 'functionName=deleteNode&ID=' + id,
-         success: function (data) {
-         alert(data);
-         console.log("SUCCESS");
-         startDrawLines();
-         startDrawNodes();
-         },
-         error: function (xhr, status, error) {
-         alert(error);
-         }
-         });
-         } else {
-         x = "Cancel pressed!";
-         }
-         console.log(x);*/
     };
 
 //helpers
@@ -959,8 +876,6 @@ nodeEditor.module = (function($) {
             stage.find('#addRect')[0].setAttr('fill',buttonColorDisabled);
            stage.find('#delRect')[0].setAttr('fill',buttonColorDisabled);
             interfaceLayer.draw();
-          //  document.getElementById('addNode').disabled = true;
-           // document.getElementById('deleteNode').disabled = true;
 
         } else {
             if (selectedNode == id) {
@@ -1132,28 +1047,28 @@ nodeEditor.module = (function($) {
         });
 
        //delete page
-        stage.find('#deleteButton')[0].on('click',function(e){
+        stage.find('#deleteButton')[0].off('click').on('click',function(e){
             var rect =  stage.find('#delRect')[0];
             var fill = rect.fill() == buttonColorDisabled ? buttonColorDisabled: buttonColorHover;
             if(fill != buttonColorDisabled){
                deleteNode(selectedNode);
             }
         });
-        stage.find('#delRect')[0].on('mouseover',function(e){
+        stage.find('#delRect')[0].off('mouseover').on('mouseover',function(e){
             var fill = e.target.fill() == buttonColorDisabled ? buttonColorDisabled : buttonColor;
             if(fill != buttonColorDisabled){
                 e.target.fill(buttonColorHover);
                 interfaceLayer.draw();
             }
         });
-        stage.find('#delRect')[0].on('mouseout',function(e){
+        stage.find('#delRect')[0].off('mouseout').on('mouseout',function(e){
             var fill = e.target.fill() == buttonColorDisabled ? buttonColorDisabled : buttonColorHover;
             if(fill != buttonColorDisabled) {
                 e.target.fill(buttonColor);
                 interfaceLayer.draw();
             }
         });
-        stage.find('#delText')[0].on('mouseover',function(e){
+        stage.find('#delText')[0].off('mouseover').on('mouseover',function(e){
             var rect =  stage.find('#delRect')[0];
             var fill = rect.fill() == buttonColorDisabled ? buttonColorDisabled : buttonColor;
             if(fill != buttonColorDisabled){
@@ -1177,6 +1092,9 @@ nodeEditor.module = (function($) {
 
 //DRAGGEN
       stage.on("dragstart", function (e) {
+          checkAdditionalNode(e.target.id());
+          checkDeleteNode(e.target.id());
+
           if(!pause && movementStyle == null){
               moveQuestion(e);
               e.target.fill('yellow');

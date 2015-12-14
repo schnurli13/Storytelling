@@ -35,10 +35,9 @@ if ($functionName == "drawLines") {
     moveBranch($localhost, $user, $pw,$db,$storyID);
 }else if($functionName == "reorderBranches"){
     reorderBranches($localhost, $user, $pw,$db,$storyID);
+}else if($functionName == "addNodeAsChild"){
+    addNodeAsChild($localhost, $user, $pw,$db,$storyID);
 }
-
-
-
 
 function isFirstNode($localhost, $user, $pw,$db,$storyID){
     $ID = filter_input(INPUT_GET, 'ID');
@@ -82,12 +81,14 @@ function maxChildren($localhost, $user, $pw,$db,$storyID){
         die('Could not connect: ' . mysqli_error($con));
     }
 
-    $sql="SELECT NextPageID4 FROM page WHERE story = ".$storyID." AND id = ".$ID;
+    $sql="SELECT NextPageID1,NextPageID4 FROM page WHERE story = ".$storyID." AND id = ".$ID;
     $result = mysqli_query($con,$sql);
+    $indexedOnly = array();
     while($row = mysqli_fetch_assoc($result)) {
-        echo json_encode($row);
+        $indexedOnly[] = $row;
 
     }
+    echo json_encode($indexedOnly);
     mysqli_free_result($result);
     mysqli_close($con);
 }
@@ -141,6 +142,66 @@ function getPage($con,$id,$indexedOnly,$additionalFields,$storyID,$where){
     return $indexedOnly;
 }
 
+function fixParentANDSiblings($con,$ID,$storyID){
+    $indexedOnly = array();
+    $sql="SELECT id,NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE NextPageID1 = ".$ID." OR NextPageID2 = ".$ID.
+        " OR NextPageID3 = ".$ID." OR NextPageID4 = ".$ID." AND story = ".$storyID;
+    $result = mysqli_query($con,$sql);
+    while($row = mysqli_fetch_assoc($result)) {
+        $indexedOnly[] =$row;
+    }
+
+    if($indexedOnly[0]['NextPageID1'] == $ID){
+        $indexedOnly[0]['NextPageID1'] = $indexedOnly[0]['NextPageID2'];
+        $indexedOnly[0]['NextPageID2'] = $indexedOnly[0]['NextPageID3'];
+        $indexedOnly[0]['NextPageID3'] = $indexedOnly[0]['NextPageID4'];
+        $indexedOnly[0]['NextPageID4'] = 0;
+    }
+    if($indexedOnly[0]['NextPageID2'] == $ID){
+        $indexedOnly[0]['NextPageID2'] = $indexedOnly[0]['NextPageID3'];
+        $indexedOnly[0]['NextPageID3'] = $indexedOnly[0]['NextPageID4'];
+        $indexedOnly[0]['NextPageID4'] = 0;
+    }
+    if($indexedOnly[0]['NextPageID3'] == $ID){
+        $indexedOnly[0]['NextPageID3'] = $indexedOnly[0]['NextPageID4'];
+        $indexedOnly[0]['NextPageID4'] = 0;
+    }
+    if($indexedOnly[0]['NextPageID3'] == $ID){
+        $indexedOnly[0]['NextPageID4'] = 0;
+    }
+
+    $sql="UPDATE page SET NextPageID1 = ".$indexedOnly[0]['NextPageID1']." , NextPageID2 = ".$indexedOnly[0]['NextPageID2']." ,
+    NextPageID3 = ".$indexedOnly[0]['NextPageID3']." , NextPageID4 = ".$indexedOnly[0]['NextPageID4']."
+    WHERE id = ".$indexedOnly[0]['id']."  AND story = ".$storyID;
+
+    //echo $sql."\n";
+    $result = mysqli_query($con,$sql);
+    if(!$result)
+    {
+        die('Could not update data: '. mysqli_error());
+    }
+    echo "Updated data successfully\n";
+
+
+    if($indexedOnly[0]['NextPageID1'] != 0){
+        $sql="UPDATE page SET position=1 WHERE id = ".$indexedOnly[0]['NextPageID1']." AND story = ".$storyID.";";
+    }
+    if($indexedOnly[0]['NextPageID2'] != 0){
+        $sql.="UPDATE page SET position=2 WHERE id = ".$indexedOnly[0]['NextPageID2']." AND story = ".$storyID.";";
+    }
+    if($indexedOnly[0]['NextPageID3'] != 0){
+        $sql.="UPDATE page SET position=3 WHERE id = ".$indexedOnly[0]['NextPageID3']." AND story = ".$storyID;
+    }
+
+    echo $sql."\n";
+    $result = mysqli_multi_query($con,$sql);
+    if(!$result)
+    {
+        die('Could not update data: '. mysqli_error());
+    }
+    echo "Updated data successfully\n";
+}
+
 
 
 function drawLines($localhost, $user, $pw,$db,$storyID){
@@ -189,8 +250,6 @@ function reorderNodes($localhost, $user, $pw,$db,$storyID){
         if (!$con) {
             die('Could not connect: ' . mysqli_error($con));
         }
-
-
 
         $sql="SELECT id,level,position,NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE id IN($ID01,$ID02) AND story = ".$storyID;
         $result = mysqli_query($con,$sql);
@@ -417,45 +476,8 @@ function deleteNode($localhost, $user, $pw,$db,$storyID){
          echo "Error deleting record: " . $con->error;
      }
 
-    $indexedOnly = array();
-    $sql="SELECT id,NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE NextPageID1 = ".$ID." OR NextPageID2 = ".$ID.
-        " OR NextPageID3 = ".$ID." OR NextPageID4 = ".$ID." AND story = ".$storyID;
-    $result = mysqli_query($con,$sql);
-    while($row = mysqli_fetch_assoc($result)) {
-        $indexedOnly[] =$row;
-    }
 
-    if($indexedOnly[0]['NextPageID1'] == $ID){
-        $indexedOnly[0]['NextPageID1'] = $indexedOnly[0]['NextPageID2'];
-        $indexedOnly[0]['NextPageID2'] = $indexedOnly[0]['NextPageID3'];
-        $indexedOnly[0]['NextPageID3'] = $indexedOnly[0]['NextPageID4'];
-        $indexedOnly[0]['NextPageID4'] = 0;
-    }
-    if($indexedOnly[0]['NextPageID2'] == $ID){
-        $indexedOnly[0]['NextPageID2'] = $indexedOnly[0]['NextPageID3'];
-        $indexedOnly[0]['NextPageID3'] = $indexedOnly[0]['NextPageID4'];
-        $indexedOnly[0]['NextPageID4'] = 0;
-    }
-    if($indexedOnly[0]['NextPageID3'] == $ID){
-        $indexedOnly[0]['NextPageID3'] = $indexedOnly[0]['NextPageID4'];
-        $indexedOnly[0]['NextPageID4'] = 0;
-    }
-    if($indexedOnly[0]['NextPageID3'] == $ID){
-        $indexedOnly[0]['NextPageID4'] = 0;
-    }
-
-
-    $sql="UPDATE page SET NextPageID1 = ".$indexedOnly[0]['NextPageID1']." , NextPageID2 = ".$indexedOnly[0]['NextPageID2']." ,
-    NextPageID3 = ".$indexedOnly[0]['NextPageID3']." , NextPageID4 = ".$indexedOnly[0]['NextPageID4']."
-    WHERE id = ".$indexedOnly[0]['id']."  AND story = ".$storyID;
-
-    echo $sql."\n";
-    $result = mysqli_query($con,$sql);
-    if(!$result)
-    {
-        die('Could not update data: '. mysqli_error());
-    }
-    echo "Updated data successfully\n";
+    fixParentANDSiblings($con,$ID,$storyID);
 
     $con->close();
 }
@@ -470,13 +492,9 @@ function moveBranch($localhost, $user, $pw,$db,$storyID){
     $indexedOnly = array();
     $hasChildren = true;
     $indexedOnly = getPage($con,$ID,$indexedOnly,"",$storyID,"id =");
-
     $string = $indexedOnly[0]['id'];
-
     $string = getChildren($indexedOnly,$hasChildren,$string,$con,$storyID,"");
-
     echo json_encode($string);
-
 }
 
 
@@ -566,6 +584,66 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
     }
     echo "Updated data successfully\n";
        mysqli_close($con);
+}
+
+
+function addNodeAsChild($localhost, $user, $pw,$db,$storyID){
+    $parent = filter_input(INPUT_GET, 'ID01');
+    $child = filter_input(INPUT_GET, 'ID02');
+
+    $con = mysqli_connect($localhost,$user, $pw, $db );
+    if (!$con) {
+        die('Could not connect: ' . mysqli_error($con));
+    }
+
+    $sql="SELECT id,level,position,NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE id IN($parent,$child) AND story = ".$storyID;
+    $result = mysqli_query($con,$sql);
+    $indexedOnly = array();
+
+
+    while($row = mysqli_fetch_assoc($result)) {
+        $indexedOnly[$row['id']] = $row;
+    }
+
+    echo json_encode($indexedOnly);
+
+    $pos = null;
+
+    if($indexedOnly[$parent]['NextPageID3'] != 0){
+        $changeNN="NextPageID4";
+        $pos = 4;
+    }else if($indexedOnly[$parent]['NextPageID2'] != 0){
+        $changeNN="NextPageID3";
+        $pos = 3;
+    }else if($indexedOnly[$parent]['NextPageID1'] != 0){
+        $changeNN="NextPageID2";
+        $pos = 2;
+    }else{
+        $changeNN="NextPageID1";
+        $pos = 1;
+    }
+
+
+
+    //update new parent node
+    $sql="UPDATE page SET ".$changeNN." = ".$child." WHERE id = ".$parent." AND story = ".$storyID.";";
+    //update new child node
+    $sql.="UPDATE page SET level = 1+".$indexedOnly[$parent]['level'].", position = ".$pos." WHERE id = ".$child." AND story = ".$storyID;
+    echo json_encode($sql);
+
+/*    $result = mysqli_multi_query($con,$sql);
+    if(!$result)
+    {
+        die('Could not update data: '. mysqli_error());
+    }
+    echo "Updated data successfully\n";
+
+    //update sibling alt
+    //update parent alt
+
+    fixParentANDSiblings($con,$child,$storyID);*/
+
+    mysqli_close($con);
 }
 
 
