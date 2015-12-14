@@ -63,7 +63,7 @@ class searchContentModule{
 				$returnString.='<ul>'."\n";
 				for($i = 0; $i < sizeof($queryResult); $i++){
 					$storyImagePath = ($queryResult[$i]['imgPath'] != '') ? $this->urlArray[0].'/public/images/profile/'.$queryResult[$i]['imgPath'] : $this->urlArray[0].'/public/images/dummyProfile.jpg';
-					$returnString.='<li><img class="searchPic" src="'.$storyImagePath.'" alt="profil" /><a class="searchLink" href="'.$this->urlArray[0].'/users/'.$queryResult[$i]['name'].'">'.$queryResult[$i]['name'].'</a></li>'."\n";
+					$returnString.='<li><a href="'.$this->urlArray[0].'/users/'.$queryResult[$i]['name'].'"><img class="searchPic" src="'.$storyImagePath.'" alt="profil" /></a><a class="searchLink" href="'.$this->urlArray[0].'/users/'.$queryResult[$i]['name'].'">'.$queryResult[$i]['name'].'</a></li>'."\n";
 				}
 				$returnString.='</ul>'."\n";
 				$returnString.='</div>'."\n";
@@ -86,7 +86,7 @@ class searchContentModule{
 				for($i = 0; $i < sizeof($queryResult); $i++){
 					$fetchedUser = $this->msqlObject->queryDataBase('SELECT name FROM users WHERE id = "'.$queryResult[$i]['user'].'"');
 					$storyImagePath = ($queryResult[$i]['imgPath'] != '') ? $this->urlArray[0].'/public/images/story/'.$queryResult[$i]['imgPath'] : $this->urlArray[0].'/public/images/dummyStory.jpg';
-					$returnString.='<li><img class="searchPic" src="'.$storyImagePath.'" alt="profil" /><a class="searchLink" href="'.$this->urlArray[0].'/users/'.$fetchedUser[0]['name'].'/'.$queryResult[$i]['name'].'">'.$queryResult[$i]['name'].'</a></li>'."\n";
+					$returnString.='<li><a href="'.$this->urlArray[0].'/users/'.$fetchedUser[0]['name'].'/'.$queryResult[$i]['name'].'"><img class="searchPic" src="'.$storyImagePath.'" alt="profil" /></a><a class="searchLink" href="'.$this->urlArray[0].'/users/'.$fetchedUser[0]['name'].'/'.$queryResult[$i]['name'].'">'.$queryResult[$i]['name'].'</a></li>'."\n";
 				}
 				$returnString.='</ul>'."\n";
 				$returnString.='</div>'."\n";
