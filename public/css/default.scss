@@ -21,7 +21,7 @@ FLOAT CLEARFIX
 DESIGN
 ///////////////////////////////////////////////
 
-
+///// GENERAL /////
 body {
 	background-color: #FFFFFF;
 }
@@ -30,226 +30,23 @@ body {
 	text-align: center;
 }
 
-.loginFrameContainer, .registerFrameContainer {
-	width: 30%;
-	left: 35% !important;
-	position: relative;
-	padding: 20px;
-	margin-top: 10px;
-	background-color: $darkblue;
-}
-
-.profileFrameContainer {
-	width: 75%;
-	left: 11% !important;
-	position: relative;
-	padding: 20px;
-	margin-top: 10px;
-}
-
-.myInfoFrameContainer {
-	width: 90%;
-	left: 3% !important;
-	position: relative;
-	padding: 20px;
-	margin-top: 10px;
-	background-color: $lightred;
-	margin-bottom: 30px;
-}
-
-.myStoryFrameContainer {
-	width: 90%;
-	left: 3% !important;
-	position: relative;
-	padding: 20px;
-	margin-top: 10px;
-	background-color: $lightblue;
-	margin-bottom: 30px;
-}
-
-.loginContainer, .registerContainer {
-	background-color: $darkblue;
-	border: dotted 2px black;
-}
-
-.profileContainer {
-	border: dotted 2px black;
-}
-
-.myInfoContainer {
-	background-color: $lightred;
-	border: dotted 2px black;
-}
-
-.myStoryContainer {
-	background-color: $lightblue;
-	border: dotted 2px black;
-}
-
-
-.loginContainer h1, .registerContainer h1, .profileContainer h1 {
-	font-family: $mainFont;
-	margin-top: -22px;
-}
-
-.h1bg {
-	width: 110px;
-	background-color: $darkblue;
-	left: 35%;
-	position: relative;
-}
-
-.h1bgRegister {
-	width: 225px;
-	background-color: $darkblue;
-	left: 20%;
-	position: relative;
-}
-
-
-.h1bgLogin {
-	width: 140px;
-	background-color: #fff;
-	left: 43%;
-	position: relative;
-}
-
-.h1bgLoginInfo {
-	width: 140px;
-	background-color: $lightred;
-	left: 42.5%;
-	position: relative;
-}
-
-.h1bgLoginStory {
-	width: 200px;
-	background-color: $lightblue;
-	left: 39%;
-	position: relative;
-}
-
-#form form {
-	padding-left: 10%;
-	margin-bottom: 110px;
-}
-
-#searchResultPage #form form, #searchPage #form form {
-	margin-bottom: 110px;
-	padding-left: 0% !important;
-}
-
-#searchResultPage #form form {
-	margin-left: -430px;
-}
-
-.lastLabel {
-	margin-bottom: 40px;
-}
-
-.loginContainer p, .registerContainer p, .profileContainer p {
-	text-align: left;
-	font-size: 18px;
-	font-family: $mainFont;
-}
-
-.searchLabel {
-	text-align: center;
-	font-size: 48px;
-	font-family: $mainFont;
-	margin-top: 200px;
-}
-
-.darkBlue {
-	color: $darkblue;
-}
-
-.searchLabel input.inputField {
-    margin-left: 20px;
-	height: 46px;
-	border-style: dotted;
-}
-
-#searchPage .searchLabel input.inputField {
-	padding-top: 17px !important;
-}
-
-input.inputField {
-	max-width: 300px;
-	width: 90%;
-	height: 35px;
-}
-
-input.button {
-	width: 120px;
-	font-size: 18px;
-    	font-family: $mainFont;
-	background-color: $lightblue;
-	border: dotted 2px black;
-}
-
-input.buttonStory {
-	width: 145px;
-	font-size: 18px;
-    	font-family: $mainFont;
-	background-color: $darkblue;
-	border: dotted 2px black;
-	cursor: pointer;
-}
-
-input.buttonStoryInfo {
-	width: 145px;
-	font-size: 18px;
-    	font-family: $mainFont;
-	background-color: $darkred;
-	border: dotted 2px black;
-}
-
-.firstButton {
+.left {
 	float: left;
 }
 
-.secondButton {
+.right {
 	float: right;
-	right: 38px;
 }
 
-.buttonSize {
-	width: 116px;
-	height: 30px;
-	border: black dotted 2px;
-	line-height: 2em;
-	text-align: center;
+.marginRightLogState {
+	margin-right: 10px;
 }
 
-.buttonLookLink {
-	font-size: 18px;
-    	font-family: $mainFont;
-	text-decoration: none;
-	color: #000 !important;
-}
-
-.buttonFrameContainer {
-	width: 120px;
-	position: relative;
-	padding: 2px;
-	background-color: $lightblue;
-}
-
-.buttonFrameContainerStory {
-	width: 145px;
-	position: relative;
-	padding: 2px;
-	background-color: $darkblue;
-	margin-left: -10px;
-	margin-top: -10px;
-}
-
-.buttonFrameContainerStoryInfo {
-	width: 145px;
-	padding: 2px;
-	float: left;
-	background-color: $darkred;
-	margin-left: 70px;
+#logState {
+	margin-top: 150px;
+  	position: absolute;
+  	right: 10.5%;
+  	top: 0;
 }
 
 .buttonFrameContainerLogState {
@@ -284,104 +81,62 @@ input.buttonStoryInfo {
 	margin-top: 15px;
 }
 
-.h1Search {
-	text-align: center;
-	font-family: $mainFont;
+input {
 	
-}
-
-/*.firstLogState {
-	margin-right: 10px;
-}*/
-
-.left {
-	float: left;
-}
-
-.right {
-	float: right;
-}
-
-.marginRightLogState {
-	margin-right: 10px;
-}
-
-#logState {
-	margin-top: 150px;
-  	position: absolute;
-  	right: 10.5%;
-  	top: 0;
-  	/*float: right;
-  	margin-right: 10%;
-  	margin-top: -180px; */
-}
-
-.searchIcon {
-	font-family: FontAwesome !important;
-	font-size: 0.75em !important;
-	width: 55px !important;
-	height: 46px;
-	margin-left: -22px;
-	margin-top: -10px !important;
-	background-color: $darkblue !important;
-}
-
-.searchResultIcon {
-	font-family: FontAwesome !important;
-	font-size: 0.75em !important;
-	width: 55px !important;
-	height: 30px;
-	margin-left: -22px;
-	margin-top: -0px !important;
-	background-color: $darkblue !important;
+	&.inputField {
+		max-width: 300px;
+		width: 90%;
+		height: 35px;
+	}
+	
+	&.button {
+		width: 120px;
+		font-size: 18px;
+		font-family: $mainFont;
+		background-color: $lightblue;
+		border: dotted 2px black;
+	}
+	
+	&.buttonStory {
+		width: 145px;
+		font-size: 18px;
+		font-family: $mainFont;
+		background-color: $darkblue;
+		border: dotted 2px black;
+		cursor: pointer;
+	}
+	
+	&.buttonStoryInfo {
+		width: 145px;
+		font-size: 18px;
+		font-family: $mainFont;
+		background-color: $darkred;
+		border: dotted 2px black;
+	}	
 }
 
 
-#searchResultPage {
-	margin-top: -170px;
+///// NEEDED FOR MORE PAGES /////
+
+.loginFrameContainer, .registerFrameContainer {
+	width: 30%;
+	left: 35% !important;
+	position: relative;
+	padding: 20px;
+	margin-top: 10px;
+	background-color: $darkblue;
 }
 
-#searchResultPage p.darkBlue.searchLabel {
-	font-size: 28px;
-	margin-left: -5%;
+.loginContainer, .registerContainer {
+	background-color: $darkblue;
+	border: dotted 2px black;
+	
+	h1 {
+		font-family: $mainFont;
+		margin-top: -22px;	
+	}
 }
 
-#searchResultPage .searchLabel input.inputField {
-	height: 30px;
-   	padding-top: 7px;
-}
-
-#searchResultPage h2 {
-	margin-left: 10%;
-	margin-top: -80px;
-	font-family: $mainFont;
-	text-decoration: underline;
-}
-
-#searchResultPage ul {
-	margin-left: 7%;
-	list-style: none;
-	line-height: 3em;
-	font-size: 28px;
-	font-family: $mainFont;
-}
-
-#searchResultPage ul li a {
-	text-decoration: none;
-	color: #000 !important;
-}
-
-#searchResultPage input.inputField {
-	font-size: 20px;
-	font-family: inherit;
-	padding: 5px;
-}
-
-#searchPage input.inputField {
-	font-size: 30px;
-	font-family: inherit;
-	padding: 10px;
-}
 
 #loginPage input.inputField, #registerPage input.inputField, #profilePage input.inputField {
 	font-family: inherit;
@@ -389,67 +144,331 @@ input.buttonStoryInfo {
 	padding: 5px;
 }
 
-.libelleTut {
-	width: 400px;
-}
-
-.storyPic, .profilePic {
-	width: 130px;
-}
-
-.storyPicFrame {
-	width: 130px;
-	height: 150px;
-	background-color: #96C3CC;
-	padding: 10px;
-	margin: 20px;
-	margin-bottom: 65px;
+.firstButton {
 	float: left;
 }
 
-.storyPicFrame a {
-	text-decoration: none;
-	color: #000;
+.secondButton {
+	float: right;
+	right: 38px;
 }
 
-#profilePage .storyTitle {
-	margin-top: 5px;
+.buttonSize {
+	width: 116px;
+	height: 30px;
+	border: black dotted 2px;
+	line-height: 2em;
 	text-align: center;
 }
 
-#profilePage .myInfoContainer #content {
-	padding: 0px 20px 20px 20px;
-	overflow: auto;
-	width: 90%;
-	left: 5% !important;
+.buttonLookLink {
+	font-size: 18px;
+    	font-family: $mainFont;
+	text-decoration: none;
+	color: #000 !important;
+}
+
+.buttonFrameContainer {
+	width: 120px;
 	position: relative;
+	padding: 2px;
+	background-color: $lightblue;
 }
 
-#profilePage .myStoryContainer #content {
-	position: relative;
-	overflow: auto;
-	width: 90%;
-	left: 5%;
+.searchLabel input.inputField {
+	margin-left: 20px;
+	height: 46px;
+	border-style: dotted;
+}
+
+.lastLabel {
+	margin-bottom: 40px;
+}
+
+.loginContainer p, .registerContainer p, .profileContainer p {
+	text-align: left;
+	font-size: 18px;
+	font-family: $mainFont;
+}
+
+.searchLabel {
+	text-align: center;
+	font-size: 48px;
+	font-family: $mainFont;
+	margin-top: 200px;
+}
+
+.darkBlue {
+	color: $darkblue;
 }
 
 
+///// PAGES /////
 
-#profilePage .myInfoContainer #content .firstColumn {
-	width: 420px;	
+#profilePage {
+
+	.profileContainer {
+		border: dotted 2px black;
+			
+		h1 {
+			font-family: $mainFont;
+			margin-top: -22px;	
+		}
+	}
+	
+	.myInfoContainer {
+		background-color: $lightred;
+		border: dotted 2px black;
+		
+		#content {
+			padding: 0px 20px 20px 20px;
+			overflow: auto;
+			width: 90%;
+			left: 5% !important;
+			position: relative;
+			
+			.firstColumn {
+				width: 420px;	
+			}
+		}
+	}
+	
+	.myStoryContainer {
+		background-color: $lightblue;
+		border: dotted 2px black;
+		
+		#content {
+			position: relative;
+			overflow: auto;
+			width: 90%;
+			left: 5%;
+		}
+	}
+	
+	.h1bgProfile {
+		width: 140px;
+		background-color: #fff;
+		left: 43%;
+		position: relative;
+	}
+	
+	.h1bgProfileInfo {
+		width: 140px;
+		background-color: $lightred;
+		left: 42.5%;
+		position: relative;
+	}
+
+	.h1bgProfileStory {
+		width: 200px;
+		background-color: $lightblue;
+		left: 39%;
+		position: relative;
+	}
+	
+	.profileFrameContainer {
+		width: 75%;
+		left: 11% !important;
+		position: relative;
+		padding: 20px;
+		margin-top: 10px;
+	}
+	
+	.myInfoFrameContainer {
+		width: 90%;
+		left: 3% !important;
+		position: relative;
+		padding: 20px;
+		margin-top: 10px;
+		background-color: $lightred;
+		margin-bottom: 30px;
+	}
+
+	.myStoryFrameContainer {
+		width: 90%;
+		left: 3% !important;
+		position: relative;
+		padding: 20px;
+		margin-top: 10px;
+		background-color: $lightblue;
+		margin-bottom: 30px;
+	}
+	
+		.storyTitle {
+		margin-top: 5px;
+		text-align: center;
+	}
+	
+	.profileLable {
+		margin-right: 20px;
+		width: 100px;
+		float: left;
+	}
+	
+	
+
+	.storyPic, .profilePic {
+		width: 130px;
+	}
+	
+	.storyPicFrame {
+		width: 130px;
+		height: 150px;
+		background-color: #96C3CC;
+		padding: 10px;
+		margin: 20px;
+		margin-bottom: 65px;
+		float: left;
+		
+		a {
+			text-decoration: none;
+			color: #000;
+		}
+	}
+	
+	.buttonFrameContainerStory {
+		width: 145px;
+		position: relative;
+		padding: 2px;
+		background-color: $darkblue;
+		margin-left: -10px;
+		margin-top: -10px;
+	}
+
+	.buttonFrameContainerStoryInfo {
+		width: 145px;
+		padding: 2px;
+		float: left;
+		background-color: $darkred;
+		margin-left: 70px;
+	}
 }
 
-.searchPic {
-	width: 100px;
-	margin-right: 50px;
+
+#registerPage {
+	
+	.h1bgRegister {
+		width: 225px;
+		background-color: $darkblue;
+		left: 20%;
+		position: relative;
+	}
+	
+	#form form {
+		padding-left: 10%;
+		margin-bottom: 110px;
+	}
 }
 
-.searchLink {
-	margin-top: 10px;
-	position: absolute;
+
+#loginPage {
+	
+	.h1bgLogin {
+		width: 110px;
+		background-color: $darkblue;
+		left: 35%;
+		position: relative;
+	}
+	
+	#form form {
+		padding-left: 10%;
+		margin-bottom: 110px;
+	}
 }
 
-.profileLable {
-	margin-right: 20px;
-	width: 100px;
-	float: left;
+
+#searchPage {
+	
+	.searchIcon {
+		font-family: FontAwesome !important;
+		font-size: 0.75em !important;
+		width: 55px !important;
+		height: 46px;
+		margin-left: -22px;
+		margin-top: -10px !important;
+		background-color: $darkblue !important;
+	}
+	
+	input.inputField {
+		font-size: 20px;
+		font-family: inherit;
+		padding: 5px;
+	}
+	
+	#form form {
+		margin-bottom: 110px;
+		padding-left: 0%;
+	}
+	
+	.h1Search {
+		text-align: center;
+		font-family: $mainFont;	
+	}
+	
+	.searchLabel input.inputField {
+		padding-top: 17px !important;
+	}
+	
+
+}
+
+
+#searchResultPage {
+	
+	margin-top: -170px;
+
+	h2 {
+		margin-left: 10%;
+		font-family: $mainFont;
+		text-decoration: underline;
+	}
+	
+	ul {
+		margin-left: 7%;
+		list-style: none;
+		line-height: 3em;
+		font-size: 28px;
+		font-family: $mainFont;
+		
+		li a {
+			text-decoration: none;
+			color: #000 !important;
+		}
+	}
+	
+	input.inputField {
+		font-size: 20px;
+		font-family: inherit;
+		padding: 5px;
+	}
+	
+	.searchPic {
+		width: 100px;
+		margin-right: 50px;
+	}
+
+	.searchLink {
+		margin-top: 10px;
+		position: absolute;
+	}
+	
+	.searchLabel input.inputField {
+		height: 30px;
+	   	padding-top: 7px;
+	}
+	
+	p.darkBlue.searchLabel {
+		font-size: 28px;
+		margin-left: -41%;
+	}
+	
+	.searchResultIcon {
+		font-family: FontAwesome !important;
+		font-size: 0.75em !important;
+		width: 55px !important;
+		height: 30px;
+		margin-left: -22px;
+		margin-top: -0px !important;
+		background-color: $darkblue !important;
+	}	
 }
