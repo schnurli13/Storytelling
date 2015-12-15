@@ -5,20 +5,19 @@ require('../../framework/modules/sessionModule.php');
 
 session_start();
 
-if($_POST['function'] == 'handlePicture'){
-    handlePicture();
-}
-
-if($_POST['function'] == 'handleName'){
-    handleName();
-}
-
-if($_POST['function'] == 'handleEmail'){
-    handleEmail();
-}
-
-if($_POST['function'] == 'handlePassword'){
-    handlePassword();
+switch($_POST['function']){
+	case 'changePic':
+		handlePicture();
+		break;
+	case 'changeName':
+		handleName();
+		break;
+	case 'changeEmail':
+		handleEmail();
+		break;
+	case 'changePassword':
+		handlePassword();
+		break;
 }
 
 function handleName(){
