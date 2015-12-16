@@ -16,7 +16,9 @@ class userListContentModule{
 	
 		$returnString = '';
 	
-		$returnString.=$this->getForm();
+		$template = new contentTemplateModule('uploadTestForm');
+	
+		$returnString.=$template->generateHtml();
 		
 		return $returnString;
 

@@ -14,13 +14,6 @@ $myPage->setAdditionalHead('default');
 $myPage->setMetaInformation('default');
 $myPage->useSource('css', 'default');
 $myPage->useSource('javascript', 'jquery-2.1.0.min');
-$myPage->useSource('pluginCss', 'fancybox/source/jquery.fancybox');
-$myPage->useSource('pluginCss', 'fancybox/source/helpers/jquery.fancybox-buttons');
-$myPage->useSource('pluginCss', 'fancybox/source/helpers/jquery.fancybox-thumbs');
-$myPage->useSource('pluginJs', 'fancybox/source/jquery.fancybox');
-$myPage->useSource('pluginJs', 'fancybox/source/helpers/jquery.fancybox-buttons');
-$myPage->useSource('pluginJs', 'fancybox/source/helpers/jquery.fancybox-media');
-$myPage->useSource('pluginJs', 'fancybox/source/helpers/jquery.fancybox-thumbs');
 $myPage->useSource('javascript', 'default');
 
 
@@ -78,7 +71,7 @@ if($myPage->getUriArray()[1] === 'index' || $myPage->getUriArray()[1] === '' || 
     $myPage->setContent($indexContentObject->generateHtml());
 	
 }else if($myPage->getUriArray()[1] === 'uploadTest'){
-	$myPage->useSource('javascript', 'uploadTest');
+	$myPage->useSource('javascript', 'formHandler');
 	$myPage->setTitle('uploadTest');
 	$userListContentObject = new userListContentModule($mySession);
 	$myPage->setContent($userListContentObject->generateHtml());
@@ -106,6 +99,8 @@ if($myPage->getUriArray()[1] === 'index' || $myPage->getUriArray()[1] === '' || 
 }else if($myPage->getUriArray()[1] === 'users'){
 
 	if(count($myPage->getUriArray()) == 3){
+	addFancyBox($myPage);
+	$myPage->useSource('javascript', 'formHandler');
 		$myPage->setTitle($myPage->getUriArray()[2]);
 		$userContentObject = new userContentModule($mySession, $myPage->getUriArray());
 		$myPage->setContent($userContentObject->generateHtml());
@@ -137,3 +132,13 @@ if($myPage->getUriArray()[1] === 'index' || $myPage->getUriArray()[1] === '' || 
 
 	$myPage->generatePage();
 
+function addFancyBox($myPage){
+	$myPage->useSource('pluginCss', 'fancybox/source/jquery.fancybox');
+	$myPage->useSource('pluginCss', 'fancybox/source/helpers/jquery.fancybox-buttons');
+	$myPage->useSource('pluginCss', 'fancybox/source/helpers/jquery.fancybox-thumbs');
+	$myPage->useSource('pluginJs', 'fancybox/source/jquery.fancybox');
+	$myPage->useSource('pluginJs', 'fancybox/source/helpers/jquery.fancybox-buttons');
+	$myPage->useSource('pluginJs', 'fancybox/source/helpers/jquery.fancybox-media');
+	$myPage->useSource('pluginJs', 'fancybox/source/helpers/jquery.fancybox-thumbs');
+	$myPage->useSource('javascript', 'activateFancyBox');
+}
