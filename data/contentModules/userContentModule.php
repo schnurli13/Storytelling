@@ -30,10 +30,12 @@ class userContentModule{
 			header('Location: '.$this->root.'/404');
 		}
 		
+		$fetchProfilePicPath = $msqlObject->queryDataBase('SELECT path FROM profile_images WHERE id = "'.$queryResult[0]['img_id'].'"');
+		
 		$template->addContent('USERNAME', $queryResult[0]['name']);
 		$template->addContent('USERMAIL', $queryResult[0]['email']);
 		$template->addContent('USERLEVEL', $queryResult[0]['tutorialDone'] ? 'Advanced User' : 'Beginner');
-		$template->addContent('USERIMAGE', ($queryResult[0]['imgPath'] != '') ? 'profile/'.$queryResult[0]['imgPath'] : 'dummyProfile.jpg');
+		$template->addContent('USERIMAGE', $fetchProfilePicPath[0]['path']);
 	
 		$storyQueryResult = $msqlObject->queryDataBase('SELECT * FROM story WHERE user = "'.$queryResult[0]['id'].'"');
 				
@@ -41,7 +43,8 @@ class userContentModule{
 		
 		if(isset($storyQueryResult[0]['name'])){
 			for ($i = 0; $i < sizeof($storyQueryResult); $i++){
-				$storyImagePath = ($storyQueryResult[$i]['imgPath'] != '') ? $this->root.'/public/images/story/'.$storyQueryResult[$i]['imgPath'] : $this->root.'/public/images/dummyStory.jpg';
+				$fetchStoryPicPath = $msqlObject->queryDataBase('SELECT path FROM story_images WHERE id = "'.$storyQueryResult[$i]['img_id'].'"');
+				$storyImagePath = $this->root.'/public/images/story/'.$fetchStoryPicPath[0]['path'];
 				$stories.='<div class="storyPicFrame clearfix">'."\n";
 					$stories.='<a href="'.$this->root.'/users/'.$this->searchedUser.'/'.$storyQueryResult[$i]['name'].'"><img class="storyPic" src="'.$storyImagePath.'" alt="story" />'."\n";
 					$stories.='<p class="storyTitle">'.$storyQueryResult[$i]['name'].'</p></a>'."\n";

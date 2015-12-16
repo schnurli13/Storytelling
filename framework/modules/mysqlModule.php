@@ -18,9 +18,9 @@ class mysqlModule{
 		} 
 		
 		if ($conn->query($sql) === TRUE) {
-			return 'command executed succesfully';
+			return true;
 		} else {
-			return 'could not execute command';
+			return false;
 		}
 		$conn->close();
 	}
