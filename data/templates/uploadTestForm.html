@@ -2,21 +2,6 @@
 <link href='https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
-
-<<<<<<< HEAD
-<form method="POST" id="changePassword" name="changePassword">
-	<label>Password:</label><br>
-	<input type="text" name="userPassword" required /><br><br>
-	<label>Password Again:</label><br>
-	<input type="text" name="userPasswordAgain" required />
-	<input type="submit" value="Change Password" />
-</form>
-
-<div id="pictureHandling">
-<img src="/Storytelling/public/images/dummyProfile.jpg" alt="CurrentPicture" id="currentPicture">
-<input type="button" id="changePictureButton" value="Change Picture" />
-</div>
-=======
 <div id="userEditPage">
     <div class="userEditFrameContainer">
         <div class="userEditContainer">
@@ -43,9 +28,11 @@
                         <div class="buttonFrameContainer"><input class="button" type="submit" value="CHANGE PASSWORD" /></div>
                 </form>
                 
-                <div class="buttonFrameContainer lastButton"><input class="button" type="button" id="changePictureButton" value="CHANGE PICTURE" /></div>
+                <div class="buttonFrameContainer lastButton" id="pictureHandling">
+					<img src="/Storytelling/public/images/dummyProfile.jpg" alt="CurrentPicture" id="currentPicture">
+					<input class="button ajaxFormTrigger" type="button" id="changePictureButton" value="CHANGE PICTURE" />
+				</div>
             </div>
         </div>
     </div>
 </div>
->>>>>>> origin/master

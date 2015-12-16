@@ -1,3 +1,6 @@
+var initialize;
+var handleReInitialize;
+
 var form;
 var submitForm;
 var activateSubmit;
@@ -156,9 +159,21 @@ loadCurrentPicture = function(){
 	return false;	
 }
 
-$(document).ready(function(){
+initialize = function(){
 	changePicLoaded = false;
 	activateSubmit();
 	loadCurrentPicture();
 	changePictureActivation();
+}
+
+$(document).ready(function(){
+	var fancybox = $('.fancybox');
+	if(fancybox.length > 0){
+		fancybox.fancybox({
+			beforeShow: function(current, previous){
+				initialize();
+			}
+		});
+	}
+	initialize();
 });
