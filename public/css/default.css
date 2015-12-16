@@ -32,6 +32,8 @@ body {
     font-size: 18px;
     float: left;
     margin: 7px 15px; }
+    #logState .LogedInHelloState a {
+      color: #000; }
 
 .buttonFrameContainerLogState {
   width: 120px;
@@ -61,8 +63,7 @@ body {
   margin-top: 15px; }
 
 input.inputField {
-  max-width: 300px;
-  width: 90%;
+  width: 100%;
   height: 35px; }
 input.button {
   width: 120px;
@@ -95,7 +96,8 @@ input.buttonStoryInfo {
 
 .loginContainer, .registerContainer {
   background-color: #96C3CC;
-  border: dotted 2px black; }
+  border: dotted 2px black;
+  padding: 0% 5%; }
   .loginContainer h1, .registerContainer h1 {
     font-family: "Architects Daughter", cursive;
     margin-top: -22px; }
@@ -109,8 +111,7 @@ input.buttonStoryInfo {
   float: left; }
 
 .secondButton {
-  float: right;
-  right: 38px; }
+  float: right; }
 
 .buttonSize {
   width: 116px;
@@ -168,7 +169,7 @@ input.buttonStoryInfo {
     left: 5%;
     position: relative; }
     #profilePage .myInfoContainer #content .firstColumn {
-      width: 420px; }
+      width: 50%; }
 #profilePage .myStoryContainer {
   background-color: #D3ECED;
   border: dotted 2px black; }
@@ -248,23 +249,37 @@ input.buttonStoryInfo {
   background-color: #E1AFB1;
   margin-top: 6px; }
 
-#registerPage .h1bgRegister {
-  width: 225px;
-  background-color: #96C3CC;
-  left: 20%;
-  position: relative; }
-#registerPage #form form {
-  padding-left: 10%;
-  margin-bottom: 110px; }
+#registerPage {
+  font-family: "Architects Daughter", cursive; }
+  #registerPage .h1bgRegister {
+    width: 225px;
+    background-color: #96C3CC;
+    left: 20%;
+    position: relative; }
+  #registerPage #form form {
+    margin-bottom: 110px; }
+  #registerPage .buttonFrameContainer {
+    width: 45%; }
+  #registerPage input.button {
+    width: 100%; }
+  #registerPage .buttonSize {
+    width: 97%; }
 
-#loginPage .h1bgLogin {
-  width: 110px;
-  background-color: #96C3CC;
-  left: 35%;
-  position: relative; }
-#loginPage #form form {
-  padding-left: 10%;
-  margin-bottom: 110px; }
+#loginPage {
+  font-family: "Architects Daughter", cursive; }
+  #loginPage .h1bgLogin {
+    width: 110px;
+    background-color: #96C3CC;
+    left: 35%;
+    position: relative; }
+  #loginPage #form form {
+    margin-bottom: 110px; }
+  #loginPage .buttonFrameContainer {
+    width: 45%; }
+  #loginPage input.button {
+    width: 100%; }
+  #loginPage .buttonSize {
+    width: 97%; }
 
 #searchPage .searchIcon {
   font-family: FontAwesome;
@@ -277,7 +292,8 @@ input.buttonStoryInfo {
 #searchPage input.inputField {
   font-size: 20px;
   font-family: inherit;
-  padding: 5px; }
+  padding: 5px;
+  width: 50%; }
 #searchPage #form form {
   margin-bottom: 110px;
   padding-left: 0%; }
@@ -305,7 +321,8 @@ input.buttonStoryInfo {
   #searchResultPage input.inputField {
     font-size: 20px;
     font-family: inherit;
-    padding: 5px; }
+    padding: 5px;
+    width: 20%; }
   #searchResultPage .searchPic {
     width: 100px;
     margin-right: 50px; }
@@ -317,7 +334,7 @@ input.buttonStoryInfo {
     padding-top: 7px; }
   #searchResultPage p.darkBlue.searchLabel {
     font-size: 28px;
-    margin-left: -41%; }
+    margin-left: -38%; }
   #searchResultPage .searchResultIcon {
     font-family: FontAwesome;
     font-size: 0.75em;
@@ -347,6 +364,48 @@ input.buttonStoryInfo {
   position: relative;
   padding: 2px;
   background-color: #96C3CC; }
+
+#userEditPage {
+  font-family: "Architects Daughter", cursive;
+  font-size: 18px; }
+  #userEditPage .userEditFrameContainer {
+    width: 30%;
+    left: 35%;
+    position: relative;
+    padding: 20px;
+    margin-top: 10px;
+    background-color: #E1AFB1; }
+  #userEditPage .userEditContainer {
+    background-color: #E1AFB1;
+    border: dotted 2px black; }
+    #userEditPage .userEditContainer h1 {
+      font-family: "Architects Daughter", cursive;
+      margin-top: -22px; }
+  #userEditPage .h1bgUserEdit {
+    width: 230px;
+    background-color: #E1AFB1;
+    left: 10%;
+    position: relative; }
+  #userEditPage #content {
+    padding: 0px 20px;
+    text-align: center; }
+  #userEditPage input.button {
+    width: 100%;
+    font-size: 18px;
+    font-family: "Architects Daughter", cursive;
+    background-color: #F3E0E1;
+    border: dotted 2px black; }
+  #userEditPage input.inputField {
+    width: 100%; }
+  #userEditPage .buttonFrameContainer {
+    width: 80%;
+    position: relative;
+    padding: 2px;
+    background-color: #F3E0E1;
+    margin-top: 5px;
+    margin-left: 10%; }
+  #userEditPage .lastButton {
+    margin-bottom: 20px; }
 
 .test {
   color: red; }
