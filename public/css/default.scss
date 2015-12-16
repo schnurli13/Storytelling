@@ -151,6 +151,17 @@ input {
 	}
 }
 
+.infoLink {
+	margin-top: 20px;
+	text-align: center;
+	left: 25%;
+	
+	a {
+		color: #000;
+		text-decoration: none;
+	}
+}
+
 
 #loginPage input.inputField, #registerPage input.inputField, #profilePage input.inputField {
 	font-family: inherit;
@@ -412,6 +423,19 @@ input {
 	
 	.buttonSize {
 		width:	97%;
+	}
+}
+
+#logoutPage {
+	font-family: $mainFont;
+	font-size: 18px;
+	
+	.infoLink {
+		left: 0%;
+	}
+	
+	#content {
+		padding: 0% 10%;
 	}
 }
 

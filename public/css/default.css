@@ -102,6 +102,14 @@ input.buttonStoryInfo {
     font-family: "Architects Daughter", cursive;
     margin-top: -22px; }
 
+.infoLink {
+  margin-top: 20px;
+  text-align: center;
+  left: 25%; }
+  .infoLink a {
+    color: #000;
+    text-decoration: none; }
+
 #loginPage input.inputField, #registerPage input.inputField, #profilePage input.inputField {
   font-family: inherit;
   font-size: 18px;
@@ -280,6 +288,14 @@ input.buttonStoryInfo {
     width: 100%; }
   #loginPage .buttonSize {
     width: 97%; }
+
+#logoutPage {
+  font-family: "Architects Daughter", cursive;
+  font-size: 18px; }
+  #logoutPage .infoLink {
+    left: 0%; }
+  #logoutPage #content {
+    padding: 0% 10%; }
 
 #searchPage .searchIcon {
   font-family: FontAwesome;
