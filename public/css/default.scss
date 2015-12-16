@@ -121,6 +121,7 @@ input {
 		font-family: $mainFont;
 		background-color: $darkred;
 		border: dotted 2px black;
+		cursor: pointer;
 	}	
 }
 
@@ -498,6 +499,27 @@ input {
 		width: 180px;
 	}
 }
+
+#userStoryPage {
+	
+	#content {
+		margin-left: 10%;	
+	}
+	
+	h2 {
+		font-family: $mainFont;
+		text-decoration: underline;
+	}
+	
+	.buttonFrameContainerUserStoryContentModule {
+		width: 120px;
+		position: relative;
+		padding: 2px;
+		background-color: $darkblue;
+	}
+}
+
+
 
 
 

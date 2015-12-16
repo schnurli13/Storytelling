@@ -53,7 +53,7 @@ class userContentModule{
 		}
 	
 		if($this->searchedUser === $this->sessionObject->getUserName()){
-			$returnString.='<div class="buttonFrameContainerStoryInfo"><a><input class="buttonStoryInfo" type="submit" value="EDIT PROFILE"/></a></div>';
+			$returnString.='<div class="buttonFrameContainerStoryInfo"><a class="fancybox fancybox.ajax" href="../data/templates/userStoryEditTemplate.html"><input class="buttonStoryInfo" type="submit" value="EDIT PROFILE"/></a></div>';
 		}
 		
 		$template->addLogState($this->sessionObject);

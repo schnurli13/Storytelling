@@ -82,7 +82,8 @@ input.buttonStoryInfo {
   font-size: 18px;
   font-family: "Architects Daughter", cursive;
   background-color: #E1AFB1;
-  border: dotted 2px black; }
+  border: dotted 2px black;
+  cursor: pointer; }
 
 .loginFrameContainer, .registerFrameContainer {
   width: 30%;
@@ -335,6 +336,17 @@ input.buttonStoryInfo {
     width: 50%; }
   #newStoryPage .buttonFrameContainer, #newStoryPage .button {
     width: 180px; }
+
+#userStoryPage #content {
+  margin-left: 10%; }
+#userStoryPage h2 {
+  font-family: "Architects Daughter", cursive;
+  text-decoration: underline; }
+#userStoryPage .buttonFrameContainerUserStoryContentModule {
+  width: 120px;
+  position: relative;
+  padding: 2px;
+  background-color: #96C3CC; }
 
 .test {
   color: red; }

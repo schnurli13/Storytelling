@@ -33,9 +33,9 @@ class userStoryContentModule{
 
 			if(isset($queryResult[0]['name'])){
 			$returnString.='<h2>'.$this->searchedStory.'</h2>'."\n";
-			$returnString.='<p><a href="published">look at it</a></p>'."\n";
+			$returnString.='<p><div class="buttonFrameContainerUserStoryContentModule"><div class="buttonSize"><a href="published" class="buttonLookLink">LOOK AT IT</a></div></div></p>'."\n";
 			if($this->searchedUser === $this->sessionObject->getUserName()){
-				$returnString.='<p><a href="edit">edit</a></p>'."\n";
+				$returnString.='<p><div class="buttonFrameContainerUserStoryContentModule"><div class="buttonSize"><a class="buttonLookLink" href="edit">EDIT</a></div></div></p>'."\n";
 			}
 		}else{
 			$returnString.='<h2>no story found!</h2>'."\n";
