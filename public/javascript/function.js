@@ -22,6 +22,7 @@ nodeEditor.module = (function($) {
         dropStyle = null,
         previousShape,
         hasChildren = false,
+        popUpShown=false,
         yDrag,
         xDrop,
         yDrop,
@@ -488,14 +489,18 @@ nodeEditor.module = (function($) {
                 var obj = $.parseJSON(data);
                 hasChildren = false;
                 if (obj[0]['NextPageID4'] == 0) {
-                    stage.find('#addRect')[0].setAttr('fill',buttonColor);
+                    if(!popUpShown) {
+                        stage.find('#addRect')[0].setAttr('fill', buttonColor);
+                    }
                  //   document.getElementById('addNode').disabled = false;
                 } else {
                     if(movementStyle != null) {
                         button1.off('click');
                         hoverPopUpButtons(['#button1Rect', '#button1Text'], buttonColorDisabled, buttonColorDisabled);
                     }
-                    stage.find('#addRect')[0].setAttr('fill',buttonColorDisabled);
+                    if(!popUpShown) {
+                        stage.find('#addRect')[0].setAttr('fill', buttonColorDisabled);
+                    }
                     //document.getElementById('addNode').disabled = true;
                 }
                 if(obj[0]['NextPageID1'] != 0){
@@ -518,10 +523,14 @@ nodeEditor.module = (function($) {
             success: function (data) {
                 var obj = $.parseJSON(data);
                 if (obj['level'] == 0) {
-                    stage.find('#delRect')[0].setAttr('fill',buttonColorDisabled);
+                    if(!popUpShown) {
+                        stage.find('#delRect')[0].setAttr('fill', buttonColorDisabled);
+                    }
                    // document.getElementById('deleteNode').disabled = true;
                 } else {
-                    stage.find('#delRect')[0].setAttr('fill',buttonColor);
+                    if(!popUpShown) {
+                        stage.find('#delRect')[0].setAttr('fill', buttonColor);
+                    }
                   //  document.getElementById('deleteNode').disabled = false;
                 }
                 interfaceLayer.draw();
@@ -642,6 +651,8 @@ nodeEditor.module = (function($) {
 
     moveQuestion = function(evt){
 
+        popUpShown = true;
+
         pause = true;
 
         setDraggable(false);
@@ -697,6 +708,7 @@ nodeEditor.module = (function($) {
             selectedNode = null;
             setDraggable(true);
             startDrawNodes();
+            popUpShown = false;
         });
 
         button1.off('click').on('click',function(e) {
@@ -726,6 +738,7 @@ nodeEditor.module = (function($) {
                     }
                     layer.add(movingGroup);
                     layer.draw();
+                    popUpShown = false;
                 },
                 error: function (xhr, status, error) {
                     alert(error);
@@ -741,6 +754,7 @@ nodeEditor.module = (function($) {
             pause = false;
             movementStyle = "one";
             layer.find('#'+evt.target.id()).draggable(true);
+           popUpShown = false;
         });
 
     };
@@ -748,6 +762,7 @@ nodeEditor.module = (function($) {
     dropQuestion = function(evt){
 
         pause = true;
+        popUpShown = true;
 
         setDraggable(false);
         evt.target.moveDown();
@@ -810,6 +825,7 @@ nodeEditor.module = (function($) {
             }
             dropReset(evt);
             startDrawNodes();
+            popUpShown = false;
         });
 
 
@@ -836,6 +852,7 @@ nodeEditor.module = (function($) {
                             dropReset(evt);
                             startDrawLines();
                             startDrawNodes();
+                            popUpShown = false;
                         },
                         error: function (xhr, status, error) {
                             alert(error);
@@ -858,6 +875,7 @@ nodeEditor.module = (function($) {
                             dropReset(evt);
                             startDrawLines();
                             startDrawNodes();
+                            popUpShown = false;
                         },
                         error: function (xhr, status, error) {
                             alert(error);
@@ -875,6 +893,7 @@ nodeEditor.module = (function($) {
             pause = false;
             dropStyle = "reorder";
             reorder(evt);
+            popUpShown = false;
             //layer.find('#'+evt.target.id()).draggable(true);
         });
 

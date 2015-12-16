@@ -146,6 +146,27 @@ function getPage($con,$id,$indexedOnly,$additionalFields,$storyID,$where){
     return $indexedOnly;
 }
 
+function checkIFparent($stoppingID, $startingID, $found,$con,$storyID){
+    while(!$found){
+        $sql="SELECT id,level FROM page WHERE NextPageID1 = ".$startingID." OR NextPageID2 = ".$startingID." OR NextPageID3 = ".$startingID." OR NextPageID4 = ".$startingID." AND story = ".$storyID;
+
+        $result = mysqli_query($con,$sql);
+        $indexedOnly = array();
+        while($row = mysqli_fetch_assoc($result)) {
+            $indexedOnly[0] =$row['id'];
+            $indexedOnly[1] =$row['level'];
+        }
+        if($indexedOnly[0] == $stoppingID){
+            return true;
+        }else if($indexedOnly[1] == 0){
+            return false;
+        }else{
+            return checkIFparent($stoppingID, $indexedOnly[0], $found,$con,$storyID);
+        }
+    }
+    return null;
+}
+
 function fixParentANDSiblings($con,$ID,$storyID){
     $indexedOnly = array();
     $sql="SELECT id,NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE NextPageID1 = ".$ID." OR NextPageID2 = ".$ID.
@@ -525,28 +546,137 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
           die('Could not connect: ' . mysqli_error($con));
       }
 
-    $indexedOnly = array();
-    $hasChildren = true;
-    $indexedOnly = getPage($con,$ID02,$indexedOnly,"",$storyID,"id =");
+    $found = checkIFparent($ID02,$ID01,false,$con,$storyID);
 
-    $string = $indexedOnly[0]['id'];
+    if($found){
+        //get children of targetid
+        $indexedOnly = array();
+        $hasChildren = true;
+        $indexedOnly = getPage($con,$ID02,$indexedOnly,"",$storyID,"id =");
 
-    $string = getChildren($indexedOnly,$hasChildren,$string,$con,$storyID,"");
-    $targetIDs =explode(",",$string);
+        $string = $indexedOnly[0]['id'];
+
+        $string = getChildren($indexedOnly,$hasChildren,$string,$con,$storyID,"");
+        $targetIDs =explode(",",$string);
 
 
-          $sql="SELECT id,level,position FROM page WHERE id IN($ID01,$ID02) AND story = ".$storyID;
-          $result = mysqli_query($con,$sql);
-          $indexedOnly = array();
+        $targetIDs = array_diff($targetIDs, $movingIDs);
+
+        //get the infos of both main ids
+        $sql="SELECT id,level,position FROM page WHERE id IN($ID01,$ID02) AND story = ".$storyID;
+        $result = mysqli_query($con,$sql);
+        $indexedOnly = array();
+
+        while($row = mysqli_fetch_assoc($result)) {
+            $indexedOnly[$row['id']] = $row;
+        }
+
+        $sql="SELECT id FROM page WHERE NextPageID1 = ".$ID02." OR NextPageID2 = ".$ID02." OR NextPageID3 = ".$ID02." OR NextPageID4 = ".$ID02." AND story = ".$storyID;
+
+        $result = mysqli_query($con,$sql);
+        $parentID = array();
+        while($row = mysqli_fetch_assoc($result)) {
+            $parentID[0] = $row['id'];
+        }
+
+        $sql="SELECT id,level FROM page WHERE id IN($x) AND story = ".$storyID;
+        $result = mysqli_query($con,$sql);
+        $i = array();
+        while($row = mysqli_fetch_assoc($result)) {
+            $i[] = $row;
+        }
+
+        $maxLevel =0 ;
+        $maxNodeID = 0;
+        for($a =01; $a < sizeof($i); $a++){
+            if($i[$a]['level'] > $maxLevel){
+                $maxLevel = $i[$a]['level'];
+                $maxNodeID = $i[$a]['id'];
+            }
+        }
+
+        $levelDiffmovingIDs = $indexedOnly[$ID02]['level']-$indexedOnly[$ID01]['level'];
+        $levelDifftargetIDs = $maxLevel-$indexedOnly[$ID02]['level'];
+
+        $sql="UPDATE page SET level = CASE id
+                                             WHEN ".$ID01."   THEN  ".$indexedOnly[$ID02]['level']."
+                                             WHEN ".$ID02."   THEN ".$maxLevel."
+                                             ELSE level
+                                             END
+                                  , position = CASE id
+                                             WHEN ".$ID01."   THEN  ".$indexedOnly[$ID02]['position']."
+                                             WHEN ".$ID02."   THEN 1
+                                             ELSE position
+                                             END
+                       WHERE id IN($ID01,$ID02) AND story = ".$storyID.";";
+
+        //changing levels of childpages
+        for($i = 1; $i < sizeof($movingIDs); $i++){
+            $sql.="UPDATE page SET level = level+".$levelDiffmovingIDs." WHERE id = ".$movingIDs[$i]." AND story = ".$storyID.";";
+        }
+
+        if(sizeof($targetIDs) > 1){
+            for($i = 1; $i < sizeof($targetIDs); $i++){
+                $sql.="UPDATE page SET level = level+".$levelDifftargetIDs." WHERE id = ".$targetIDs[$i]." AND story = ".$storyID.";";
+            }
+        }
+
+        $sql.="UPDATE page SET NextPageID1 = ".$ID02." WHERE id = ".$maxNodeID." AND story = ".$storyID.";";
+
+
+        $sql.="UPDATE page SET NextPageID1 = CASE NextPageID1
+                                                WHEN ".$ID01."   THEN  0
+                                                ELSE NextPageID1
+                                                END
+                                     ,NextPageID2 = CASE NextPageID2
+                                                WHEN ".$ID01."   THEN  0
+                                                ELSE NextPageID2
+                                                END
+                                    ,NextPageID3 = CASE NextPageID3
+                                                WHEN ".$ID01."   THEN  0
+                                                ELSE NextPageID3
+                                                END
+                                    ,NextPageID4 = CASE NextPageID4
+                                                WHEN ".$ID01."   THEN  0
+                                                ELSE NextPageID4
+                                                END
+                          WHERE NextPageID1=".$ID01."  OR NextPageID2=".$ID01." OR NextPageID3=".$ID01." OR NextPageID4=".$ID01." AND story = ".$storyID.";";
+
+        //austauschen der nextpage ids
+        $sql.="UPDATE page SET NextPageID".$indexedOnly[$ID02]['position']." = ".$ID01." WHERE id = ".$parentID[0]." AND story = ".$storyID;
+
+        echo json_encode($sql);   echo json_encode("NOT YET FINISHED");
+/*
+       $result = mysqli_multi_query($con,$sql);
+        if(!$result)
+        {
+            die('Could not update data: '. mysqli_error());
+        }
+        echo "Updated data successfully\n";*/
+
+    }else{
+        $indexedOnly = array();
+        $hasChildren = true;
+        $indexedOnly = getPage($con,$ID02,$indexedOnly,"",$storyID,"id =");
+
+        $string = $indexedOnly[0]['id'];
+
+        $string = getChildren($indexedOnly,$hasChildren,$string,$con,$storyID,"");
+        $targetIDs =explode(",",$string);
+
+
+        $sql="SELECT id,level,position FROM page WHERE id IN($ID01,$ID02) AND story = ".$storyID;
+        $result = mysqli_query($con,$sql);
+        $indexedOnly = array();
 
         while($row = mysqli_fetch_assoc($result)) {
             $indexedOnly[$row['id']] = $row;
         }
 
 
-    $levelDiffmovingIDs = $indexedOnly[$ID02]['level']-$indexedOnly[$ID01]['level'];
-    $levelDifftargetIDs = $indexedOnly[$ID01]['level']-$indexedOnly[$ID02]['level'];
-    //austauschen level und position von obersten nodes
+        $levelDiffmovingIDs = $indexedOnly[$ID02]['level']-$indexedOnly[$ID01]['level'];
+        $levelDifftargetIDs = $indexedOnly[$ID01]['level']-$indexedOnly[$ID02]['level'];
+        //austauschen level und position von obersten nodes
 
         $sql="UPDATE page SET level = CASE id
                                              WHEN ".$ID01."   THEN  ".$indexedOnly[$ID02]['level']."
@@ -560,19 +690,19 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
                                              END
                        WHERE id IN($ID01,$ID02) AND story = ".$storyID.";";
 
-    //changing levels of childpages
-    for($i = 1; $i < sizeof($movingIDs); $i++){
-        $sql.="UPDATE page SET level = level+".$levelDiffmovingIDs." WHERE id = ".$movingIDs[$i]." AND story = ".$storyID.";";
-    }
-
-    if(sizeof($targetIDs) > 1){
-        for($i = 1; $i < sizeof($targetIDs); $i++){
-            $sql.="UPDATE page SET level = level+".$levelDifftargetIDs." WHERE id = ".$targetIDs[$i]." AND story = ".$storyID.";";
+        //changing levels of childpages
+        for($i = 1; $i < sizeof($movingIDs); $i++){
+            $sql.="UPDATE page SET level = level+".$levelDiffmovingIDs." WHERE id = ".$movingIDs[$i]." AND story = ".$storyID.";";
         }
-    }
 
-    //austauschen der nextpage ids
-                $sql.="UPDATE page SET NextPageID1 = CASE NextPageID1
+        if(sizeof($targetIDs) > 1){
+            for($i = 1; $i < sizeof($targetIDs); $i++){
+                $sql.="UPDATE page SET level = level+".$levelDifftargetIDs." WHERE id = ".$targetIDs[$i]." AND story = ".$storyID.";";
+            }
+        }
+
+        //austauschen der nextpage ids
+        $sql.="UPDATE page SET NextPageID1 = CASE NextPageID1
                                                 WHEN ".$ID01."   THEN  ".$ID02."
                                                 WHEN ".$ID02."   THEN  ".$ID01."
                                                 ELSE NextPageID1
@@ -593,12 +723,13 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
                                                 ELSE NextPageID4
                                                 END
                           WHERE NextPageID1 IN($ID01,$ID02) OR NextPageID2 IN($ID01,$ID02) OR NextPageID3 IN($ID01,$ID02) OR NextPageID4 IN($ID01,$ID02) AND story = ".$storyID;
-    $result = mysqli_multi_query($con,$sql);
-    if(!$result)
-    {
-        die('Could not update data: '. mysqli_error());
+        $result = mysqli_multi_query($con,$sql);
+        if(!$result)
+        {
+            die('Could not update data: '. mysqli_error());
+        }
+        echo "Updated data successfully\n";
     }
-    echo "Updated data successfully\n";
        mysqli_close($con);
 }
 
