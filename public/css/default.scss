@@ -53,6 +53,10 @@ body {
 		font-size: 18px;
 		float: left;
 		margin: 7px 15px;
+		
+		a {
+			color: #000;
+		}
 	}
 }
 
@@ -93,8 +97,7 @@ body {
 input {
 	
 	&.inputField {
-		max-width: 300px;
-		width: 90%;
+		width: 100%;
 		height: 35px;
 	}
 	
@@ -140,10 +143,22 @@ input {
 .loginContainer, .registerContainer {
 	background-color: $darkblue;
 	border: dotted 2px black;
+	padding: 0% 5%;
 	
 	h1 {
 		font-family: $mainFont;
 		margin-top: -22px;	
+	}
+}
+
+.infoLink {
+	margin-top: 20px;
+	text-align: center;
+	left: 25%;
+	
+	a {
+		color: #000;
+		text-decoration: none;
 	}
 }
 
@@ -160,7 +175,6 @@ input {
 
 .secondButton {
 	float: right;
-	right: 38px;
 }
 
 .buttonSize {
@@ -238,7 +252,7 @@ input {
 			position: relative;
 			
 			.firstColumn {
-				width: 420px;	
+				width: 50%;	
 			}
 		}
 	}
@@ -357,6 +371,8 @@ input {
 
 #registerPage {
 	
+	font-family: $mainFont;
+	
 	.h1bgRegister {
 		width: 225px;
 		background-color: $darkblue;
@@ -365,13 +381,26 @@ input {
 	}
 	
 	#form form {
-		padding-left: 10%;
 		margin-bottom: 110px;
+	}
+	
+	.buttonFrameContainer {
+		width: 45%;
+	}
+	
+	input.button {
+		width:	100%;
+	}
+	
+	.buttonSize {
+		width:	97%;
 	}
 }
 
 
 #loginPage {
+	
+	font-family: $mainFont;
 	
 	.h1bgLogin {
 		width: 110px;
@@ -381,8 +410,32 @@ input {
 	}
 	
 	#form form {
-		padding-left: 10%;
 		margin-bottom: 110px;
+	}
+	
+	.buttonFrameContainer {
+		width: 45%;
+	}
+	
+	input.button {
+		width:	100%;
+	}
+	
+	.buttonSize {
+		width:	97%;
+	}
+}
+
+#logoutPage {
+	font-family: $mainFont;
+	font-size: 18px;
+	
+	.infoLink {
+		left: 0%;
+	}
+	
+	#content {
+		padding: 0% 10%;
 	}
 }
 
@@ -403,6 +456,7 @@ input {
 		font-size: 20px;
 		font-family: inherit;
 		padding: 5px;
+		width: 50%;
 	}
 	
 	#form form {
@@ -450,6 +504,7 @@ input {
 		font-size: 20px;
 		font-family: inherit;
 		padding: 5px;
+		width: 20%;
 	}
 	
 	.searchPic {
@@ -469,7 +524,7 @@ input {
 	
 	p.darkBlue.searchLabel {
 		font-size: 28px;
-		margin-left: -41%;
+		margin-left: -38%;
 	}
 	
 	.searchResultIcon {
@@ -517,6 +572,73 @@ input {
 		padding: 2px;
 		background-color: $darkblue;
 	}
+}
+
+#userEditPage {
+	
+	font-family: $mainFont;
+	font-size: 18px;
+	
+	.userEditFrameContainer {
+		width: 30%;
+		left: 35%;
+		position: relative;
+		padding: 20px;
+		margin-top: 10px;
+		background-color: $darkred;
+	}
+	
+	.userEditContainer {
+		background-color: $darkred;
+		border: dotted 2px black;
+		
+		h1 {
+			font-family: $mainFont;
+			margin-top: -22px;	
+		}
+	}
+	
+	.h1bgUserEdit {
+		width: 230px;
+		background-color: $darkred;
+		left: 10%;
+		position: relative;
+	}
+	
+	#content {
+		padding: 0px 20px;
+		text-align: center;
+	}
+	
+	input {
+		&.button {
+		width: 100%;
+		font-size: 18px;
+		font-family: $mainFont;
+		background-color: $lightred;
+		border: dotted 2px black;
+		}
+	
+		&.inputField {
+			width: 100%;
+		}
+	}
+	
+	.buttonFrameContainer {
+		width: 80%;
+		position: relative;
+		padding: 2px;
+		background-color: $lightred;
+		margin-top: 5px;
+		margin-left: 10%;
+	}
+	
+	.lastButton {
+		margin-bottom: 20px;
+	}
+	
+
+	
 }
 
 

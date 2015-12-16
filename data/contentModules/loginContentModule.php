@@ -29,7 +29,7 @@ class loginContentModule{
 				
 		if($this->sessionObject->getLogState()){
 			$returnString.='I just noticed, that you are already logged in!<br>'."\n".
-				'<a href="index">Click to go back to the main page</a><br>'."\n";
+				'<div class="buttonFrameContainer infoLink"><div class="buttonSize"><a class="buttonLookLink" href="index">MAIN PAGE</a></div></div><br>'."\n";
 		}else{
 			if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 			$formErrors = array();
@@ -50,7 +50,7 @@ class loginContentModule{
 			if(empty($formErrors)){
 				$this->setSession($_POST['userName']);
 				$returnString.='<h2>Login successful!</h2>'."\n".
-					'<a href="login">Click to go to login</a><br>'."\n";
+					'<div class="buttonFrameContainer infoLink"><div class="buttonSize"><a href="index">MAIN PAGE</a></div></div><br>'."\n";
 			}else{
 				for($i = 0; $i<sizeof($formErrors); $i++){
 					$returnString.=$formErrors[$i].'<br>'."\n";

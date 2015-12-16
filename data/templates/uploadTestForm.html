@@ -1,15 +1,9 @@
-<form method="POST" id="changeName" name="changeName">
-	<label>Name:</label><br>
-	<input type="text" name="userName" required />
-	<input type="submit" value="Change Name" />
-</form>
+<link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
-<form method="POST" id="changeEmail" name="changeEmail">
-	<label>E-Mail:</label><br>
-	<input type="email" name="userMail" required />
-	<input type="submit" value="Change Email" />
-</form>
 
+<<<<<<< HEAD
 <form method="POST" id="changePassword" name="changePassword">
 	<label>Password:</label><br>
 	<input type="text" name="userPassword" required /><br><br>
@@ -22,3 +16,36 @@
 <img src="/Storytelling/public/images/dummyProfile.jpg" alt="CurrentPicture" id="currentPicture">
 <input type="button" id="changePictureButton" value="Change Picture" />
 </div>
+=======
+<div id="userEditPage">
+    <div class="userEditFrameContainer">
+        <div class="userEditContainer">
+            <div id="content">
+                <div class="h1bgUserEdit"><h1>EDIT MY INFO</h1></div>
+                
+                <form method="POST" id="changeName" name="changeName">
+                        <label>NAME</label><br>
+                        <input class="inputField" type="text" name="userName" required />
+                        <div class="buttonFrameContainer"><input class="button" type="submit" value="CHANGE NAME" /></div>
+                </form>
+                
+                <form method="POST" id="changeEmail" name="changeEmail">
+                        <label>E-MAIL</label><br>
+                        <input class="inputField" type="email" name="userMail" required />
+                        <div class="buttonFrameContainer"><input class="button" type="submit" value="CHANGE E-MAIL" /></div>
+                </form>
+                
+                <form method="POST" id="changePassword" name="changePassword">
+                        <label>PASSWORD</label><br>
+                        <input class="inputField" type="text" name="userPassword" required /><br><br>
+                        <label>CONFIRM PASSWORD</label><br>
+                        <input class="inputField" type="text" name="userPasswordAgain" required />
+                        <div class="buttonFrameContainer"><input class="button" type="submit" value="CHANGE PASSWORD" /></div>
+                </form>
+                
+                <div class="buttonFrameContainer lastButton"><input class="button" type="button" id="changePictureButton" value="CHANGE PICTURE" /></div>
+            </div>
+        </div>
+    </div>
+</div>
+>>>>>>> origin/master
