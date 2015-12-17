@@ -133,9 +133,9 @@ loadPictureChangeElements = function(button){
 	var upload = $('#changePic');
 	upload.wrap('<div id="changePicSection"></div>');
 	//upload.atfter('<div id="profilePicSection"></div>');
-	upload.append('<label>Select a file:</label><br>');
-	upload.append('<input type="file" name="file" required />');
-	upload.append('<input type="submit" value="Upload Picture" />');
+	upload.append('<label class="selectFileLable" >Select a file:</label><br>');
+	upload.append('<input class="selectFileFile" type="file" name="file" required />');
+	upload.append('<input class="selectFileSubmit" type="submit" value="Upload Picture" />');
 	button.parent().after('<div id="profilePicSection"></div>');
 }
 
