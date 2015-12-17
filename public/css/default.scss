@@ -163,7 +163,7 @@ input {
 }
 
 
-#loginPage input.inputField, #registerPage input.inputField, #profilePage input.inputField {
+#loginPage input.inputField, #registerPage input.inputField, #profilePage input.inputField, #userEditPage input.inputField {
 	font-family: inherit;
 	font-size: 18px;
 	padding: 5px;
@@ -580,8 +580,8 @@ input {
 	font-size: 18px;
 	
 	.userEditFrameContainer {
-		width: 30%;
-		left: 35%;
+		width: 50%;
+		left: 25%;
 		position: relative;
 		padding: 20px;
 		margin-top: 10px;
@@ -599,15 +599,18 @@ input {
 	}
 	
 	.h1bgUserEdit {
-		width: 230px;
+		width: 245px;
 		background-color: $darkred;
-		left: 10%;
+		left: 25%;
 		position: relative;
+	}
+	
+	.saveFancyBox {
+		margin-bottom: 20px;
 	}
 	
 	#content {
 		padding: 0px 20px;
-		text-align: center;
 	}
 	
 	input {
@@ -620,21 +623,36 @@ input {
 		}
 	
 		&.inputField {
-			width: 100%;
+			width: 55%;
+			float: left;
+			height: 42px;
+			margin-right: 20px;
+			margin-bottom: 20px;
 		}
 	}
 	
 	.buttonFrameContainer {
-		width: 80%;
+		width: 40%;
 		position: relative;
 		padding: 2px;
-		background-color: $lightred;
-		margin-top: 5px;
-		margin-left: 10%;
+		background-color: #F3E0E1;
+		float: right;
+		margin-bottom: 20px;
+	}
+	
+	.dummy {
+		background-color: $darkred !important;
+		margin-bottom: 50px;
+	}
+	
+	.dummyButton {
+		background-color: $darkred !important;
+		border: none !important;
 	}
 	
 	.lastButton {
 		margin-bottom: 20px;
+		float: left;
 	}
 	
 

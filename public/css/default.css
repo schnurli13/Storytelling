@@ -110,7 +110,7 @@ input.buttonStoryInfo {
     color: #000;
     text-decoration: none; }
 
-#loginPage input.inputField, #registerPage input.inputField, #profilePage input.inputField {
+#loginPage input.inputField, #registerPage input.inputField, #profilePage input.inputField, #userEditPage input.inputField {
   font-family: inherit;
   font-size: 18px;
   padding: 5px; }
@@ -385,8 +385,8 @@ input.buttonStoryInfo {
   font-family: "Architects Daughter", cursive;
   font-size: 18px; }
   #userEditPage .userEditFrameContainer {
-    width: 30%;
-    left: 35%;
+    width: 50%;
+    left: 25%;
     position: relative;
     padding: 20px;
     margin-top: 10px;
@@ -398,13 +398,14 @@ input.buttonStoryInfo {
       font-family: "Architects Daughter", cursive;
       margin-top: -22px; }
   #userEditPage .h1bgUserEdit {
-    width: 230px;
+    width: 245px;
     background-color: #E1AFB1;
-    left: 10%;
+    left: 25%;
     position: relative; }
+  #userEditPage .saveFancyBox {
+    margin-bottom: 20px; }
   #userEditPage #content {
-    padding: 0px 20px;
-    text-align: center; }
+    padding: 0px 20px; }
   #userEditPage input.button {
     width: 100%;
     font-size: 18px;
@@ -412,16 +413,27 @@ input.buttonStoryInfo {
     background-color: #F3E0E1;
     border: dotted 2px black; }
   #userEditPage input.inputField {
-    width: 100%; }
+    width: 55%;
+    float: left;
+    height: 42px;
+    margin-right: 20px;
+    margin-bottom: 20px; }
   #userEditPage .buttonFrameContainer {
-    width: 80%;
+    width: 40%;
     position: relative;
     padding: 2px;
     background-color: #F3E0E1;
-    margin-top: 5px;
-    margin-left: 10%; }
-  #userEditPage .lastButton {
+    float: right;
     margin-bottom: 20px; }
+  #userEditPage .dummy {
+    background-color: #E1AFB1 !important;
+    margin-bottom: 50px; }
+  #userEditPage .dummyButton {
+    background-color: #E1AFB1 !important;
+    border: none !important; }
+  #userEditPage .lastButton {
+    margin-bottom: 20px;
+    float: left; }
 
 .test {
   color: red; }

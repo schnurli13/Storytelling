@@ -1,6 +1,13 @@
 <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<script>
+    // Close Fancybox and Reload
+    function closeFB() {
+        parent.location.reload(true);
+        $.fancybox.close(); 
+    } 
+</script>
 
 <div id="userEditPage">
     <div class="userEditFrameContainer">
@@ -22,16 +29,20 @@
                 
                 <form method="POST" id="changePassword" name="changePassword">
                         <label>PASSWORD</label><br>
-                        <input class="inputField" type="text" name="userPassword" required /><br><br>
+                        <input class="inputField" type="text" name="userPassword" required />
+                        <div class="buttonFrameContainer dummy"><input class="button dummyButton" type="submit" value="" /></div>
                         <label>CONFIRM PASSWORD</label><br>
                         <input class="inputField" type="text" name="userPasswordAgain" required />
                         <div class="buttonFrameContainer"><input class="button" type="submit" value="CHANGE PASSWORD" /></div>
                 </form>
                 
                 <div class="buttonFrameContainer lastButton" id="pictureHandling">
-					<img src="/Storytelling/public/images/dummyProfile.jpg" alt="CurrentPicture" id="currentPicture">
-					<input class="button ajaxFormTrigger" type="button" id="changePictureButton" value="CHANGE PICTURE" />
-				</div>
+                    <img src="/Storytelling/public/images/dummyProfile.jpg" alt="CurrentPicture" id="currentPicture">
+                    <input class="button ajaxFormTrigger" type="button" id="changePictureButton" value="CHANGE PICTURE" />
+		</div>
+                
+                <div class="saveFancyBox"><input class="button" onclick="closeFB()" type="button" value="SAVE" /></div>
+                
             </div>
         </div>
     </div>
