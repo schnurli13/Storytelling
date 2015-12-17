@@ -655,6 +655,52 @@ input {
 		float: left;
 	}
 	
+	form#changePic input {
+		width: 230px;
+		font-size: 18px;
+		font-family: $mainFont;
+		background-color: $lightred;
+		border: dotted 2px black;
+		margin-left: 10px;
+	}
+	
+	
+	
+	.fileUpload {
+		position: relative;
+		overflow: hidden;
+
+		font-size: 18px;
+		font-family: $mainFont;
+		background-color: $lightred;
+		border: dotted 2px black;
+		text-align: center;
+		height: 32.7px;
+		line-height: 1.7;
+		font-size: 18px;
+	}
+	
+	.fileUpload input.upload {
+		position: absolute;
+		top: 0;
+		right: 0;
+		margin: 0;
+		padding: 0;
+		font-size: 20px;
+		cursor: pointer;
+		opacity: 0;
+		filter: alpha(opacity=0);
+	}
+	
+	.buttonFrameContainerUpload {
+		width: 40%;
+		position: relative;
+		padding: 2px;
+		background-color: #F3E0E1;
+		float: left;
+		margin-bottom: 30px;
+	}
+	
 
 	
 }
