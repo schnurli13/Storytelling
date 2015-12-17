@@ -450,7 +450,7 @@ nodeEditor.module = (function($) {
             type: 'GET',
             data: 'functionName=reorderNodes&storyID='+storyID+'&ID01=' + ID01 + '&ID02=' + ID02,
             success: function (data) {
-                alert(data);
+                //alert(data);
                 console.log("SUCCESS");
                 startDrawNodes();
             },
@@ -466,7 +466,7 @@ nodeEditor.module = (function($) {
             type: 'GET',
             data: 'functionName=reorderBranches&storyID='+storyID+'&ID=' + ID + '&IDs=' + movementStyle,
             success: function (data) {
-                alert(data);
+               //alert(data);
                 console.log("SUCCESS");
                 startDrawLines();
                 startDrawNodes();
@@ -484,7 +484,7 @@ nodeEditor.module = (function($) {
             type: 'GET',
             data: 'functionName=maxChildren&storyID='+storyID+'&ID=' + id,
             success: function (data) {
-              //  alert(data);
+                //alert(data);
                 console.log("SUCCESS");
                 var obj = $.parseJSON(data);
                 hasChildren = false;
@@ -850,9 +850,10 @@ nodeEditor.module = (function($) {
                             pause = false;
                             dropStyle = "child";
                             dropReset(evt);
+                            popUpShown = false;
                             startDrawLines();
                             startDrawNodes();
-                            popUpShown = false;
+
                         },
                         error: function (xhr, status, error) {
                             alert(error);
@@ -864,7 +865,7 @@ nodeEditor.module = (function($) {
                         type: 'GET',
                         data: 'functionName=addBranchAsChild&storyID=' + storyID + '&ID=' + previousShape.id() + '&IDs=' + movementStyle,
                         success: function (data) {
-                             alert(data);
+                            alert(data);
                             console.log("SUCCESS");
                             tempLayer.find('#button2Rect')[0].fill(buttonColor);
                             button3.remove();
@@ -873,9 +874,10 @@ nodeEditor.module = (function($) {
                             pause = false;
                             dropStyle = "child";
                             dropReset(evt);
+                            popUpShown = false;
                             startDrawLines();
                             startDrawNodes();
-                            popUpShown = false;
+
                         },
                         error: function (xhr, status, error) {
                             alert(error);
@@ -1135,10 +1137,10 @@ nodeEditor.module = (function($) {
 
 //DRAGGEN
       stage.on("dragstart", function (e) {
-          checkAdditionalNode(e.target.id());
-          checkDeleteNode(e.target.id());
 
           if(!pause && movementStyle == null){
+              checkAdditionalNode(e.target.id());
+              checkDeleteNode(e.target.id());
               moveQuestion(e);
               e.target.fill('yellow');
              interfaceLayer.draw();

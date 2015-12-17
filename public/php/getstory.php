@@ -402,6 +402,10 @@ function reorderNodes($localhost, $user, $pw,$db,$storyID){
     }
         echo "Updated data successfully\n";
 
+    do {
+        mysqli_store_result($con);
+    } while (mysqli_next_result($con));
+
   /* $result = mysqli_multi_query($con,$sql);
     if(!$result){
         mysqli_rollback($con);// transaction rolls back
@@ -558,9 +562,10 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
 
         $string = getChildren($indexedOnly,$hasChildren,$string,$con,$storyID,"");
         $targetIDs =explode(",",$string);
-
-
-        $targetIDs = array_diff($targetIDs, $movingIDs);
+        echo json_encode($targetIDs);
+        echo json_encode($movingIDs);
+        $targetIDs = array_diff_key($targetIDs, $movingIDs);
+        echo json_encode($targetIDs);
 
         //get the infos of both main ids
         $sql="SELECT id,level,position FROM page WHERE id IN($ID01,$ID02) AND story = ".$storyID;
@@ -612,13 +617,13 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
 
         //changing levels of childpages
         //FAILUR HERE
-        for($i = 1; $i < sizeof($movingIDs); $i++){
+        for($i = 2; $i < sizeof($movingIDs); $i++){
             $sql.="UPDATE page SET level = level+".$levelDiffmovingIDs." WHERE id = ".$movingIDs[$i]." AND story = ".$storyID.";";
         }
 
         //FAILUR HERE maybe better foreach 
         if(sizeof($targetIDs) > 1){
-            for($i = 1; $i < sizeof($targetIDs); $i++){
+            for($i = 2; $i < sizeof($targetIDs); $i++){
                 $sql.="UPDATE page SET level = level+".$levelDifftargetIDs." WHERE id = ".$targetIDs[$i]." AND story = ".$storyID.";";
             }
         }
@@ -647,14 +652,18 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
         //austauschen der nextpage ids
         $sql.="UPDATE page SET NextPageID".$indexedOnly[$ID02]['position']." = ".$ID01." WHERE id = ".$parentID[0]." AND story = ".$storyID;
 
-        echo json_encode($sql);   echo json_encode("NOT YET FINISHED");
+      //  echo json_encode($sql);
 /*
        $result = mysqli_multi_query($con,$sql);
         if(!$result)
         {
             die('Could not update data: '. mysqli_error());
         }
-        echo "Updated data successfully\n";*/
+        echo "Updated data successfully\n"/;
+
+        do {
+            mysqli_store_result($con);
+        } while (mysqli_next_result($con));*/
 
     }else{
         $indexedOnly = array();
@@ -731,6 +740,10 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
             die('Could not update data: '. mysqli_error());
         }
         echo "Updated data successfully\n";
+        echo json_encode($targetIDs);
+        do {
+            mysqli_store_result($con);
+        } while (mysqli_next_result($con));
     }
        mysqli_close($con);
 }
@@ -788,6 +801,9 @@ function addNodeAsChild($localhost, $user, $pw,$db,$storyID){
     }
     echo "Updated data successfully\n";
 
+    do {
+        mysqli_store_result($con);
+    } while (mysqli_next_result($con));
 
     mysqli_close($con);
 }
@@ -851,6 +867,9 @@ function addBranchAsChild($localhost, $user, $pw,$db,$storyID){
            die('Could not update data: '. mysqli_error());
        }
        echo "Updated data successfully\n";
+    do {
+        mysqli_store_result($con);
+    } while (mysqli_next_result($con));
 
     mysqli_close($con);
 }
