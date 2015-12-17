@@ -30,6 +30,35 @@ switch($_POST['function']){
 	case 'deletePic':
 		deletePic();
 		break;
+	case 'fetchCurrentValues':
+		fetchCurrentValues();
+		break;
+	case 'getCurrentUser':
+		getCurrentUser();
+		break;
+}
+
+function getCurrentUser(){
+	$sessionObject = new sessionModule();
+	echo $sessionObject->getUserName();
+}
+
+function fetchCurrentValues(){
+	$sessionObject = new sessionModule();
+	$mysqlObject = new mysqlModule();
+	$fetchString = '';
+	switch($_POST['form_id']){
+		case 'changeName':
+			$fetchString = 'name';
+			break;
+		case 'changeEmail':
+			$fetchString = 'email';
+			break;
+		default:
+			echo 'forbidden';
+			return false;
+	}
+	echo $mysqlObject->queryDataBase('SELECT '.$fetchString.' FROM users WHERE name = "'.$sessionObject->getUserName().'"')[0][$fetchString];
 }
 
 function deletePic(){
@@ -73,7 +102,8 @@ function getAllPictures(){
 	$sessionObject = new sessionModule();
 	$mysqlObject = new mysqlModule();
 	$returnArray = array();
-	$foundPictures = $mysqlObject->queryDataBase('SELECT path FROM profile_images WHERE user = "'.$sessionObject->getUserName().'"');
+	$userID = $mysqlObject->queryDataBase('SELECT id FROM users WHERE name = "'.$sessionObject->getUserName().'"')[0]['id'];
+	$foundPictures = $mysqlObject->queryDataBase('SELECT path FROM profile_images WHERE user = "'.$userID.'"');
 	for($i = 0; $i<sizeof($foundPictures); $i++){
 		array_push($returnArray, $foundPictures[$i]['path']);
 	}
@@ -88,17 +118,28 @@ function getCurrentPicture(){
 }
 
 function handleName(){
+	$sessionObject = new sessionModule();
+	$mysqlObject = new mysqlModule();
+	$mysqlObject->commandDataBase('UPDATE `users` SET name = "'.$_POST['userName'].'" WHERE name = "'.$sessionObject->getUserName().'"');
+	$sessionObject->setUserName($_POST['userName']);
+	$sessionObject->setSafeHash($sessionObject->encodeKey($_POST['userName']));
 	echo 'New Name '.$_POST['userName'];
 }
 
 function handleEmail(){
+	$sessionObject = new sessionModule();
+	$mysqlObject = new mysqlModule();
+	$mysqlObject->commandDataBase('UPDATE `users` SET email = "'.$_POST['userMail'].'" WHERE name = "'.$sessionObject->getUserName().'"');
 	echo 'New Email '.$_POST['userMail'];
 }
 
 function handlePassword(){
+	$sessionObject = new sessionModule();
+	$mysqlObject = new mysqlModule();
 	if($_POST['userPassword'] != $_POST['userPasswordAgain']){
 		echo 'Wrong Password!';
 	}else{
+		$mysqlObject->commandDataBase('UPDATE `users` SET password = "'.$sessionObject->encodeKey($_POST['userPassword']).'" WHERE name = "'.$sessionObject->getUserName().'"');
 		echo 'New Password '.$_POST['userPassword'];
 	}
 }
@@ -134,7 +175,8 @@ function handleFileUpload(){
 			echo "Type: " . $_FILES['file']['type'] . "<br>";
 			echo "Size: " . ($_FILES["file"]["size"] / 1024) . " kB<br>";
 			echo "Temp file: " . $_FILES["file"]["tmp_name"] . "<br>";*/
-			$mysqlObject->commandDataBase('INSERT INTO `profile_images` (`user`, `path`) VALUES ("'.$sessionObject->getUserName().'", "'.$filename.'")');
+			$profileImageId = $mysqlObject->queryDataBase('SELECT id FROM users WHERE name = "'.$sessionObject->getUserName().'"')[0]['id'];
+			$mysqlObject->commandDataBase('INSERT INTO `profile_images` (`user`, `path`) VALUES ("'.$profileImageId.'", "'.$filename.'")');
 
 			move_uploaded_file($_FILES['file']['tmp_name'], '../images/profile/' . $filename);
 			echo 'Successfull upload!';

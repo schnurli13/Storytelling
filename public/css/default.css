@@ -402,7 +402,7 @@ input.buttonStoryInfo {
     background-color: #E1AFB1;
     left: 25%;
     position: relative; }
-  #userEditPage .saveFancyBox {
+  #userEditPage .closeFancyBox {
     margin-bottom: 20px; }
   #userEditPage #content {
     padding: 0px 20px; }

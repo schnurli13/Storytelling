@@ -4,6 +4,8 @@ var handleReInitialize;
 var form;
 var submitForm;
 var activateSubmit;
+var activateCloseButton;
+var loadStandardValue;
 
 var changePictureButton;
 var changePictureActivation;
@@ -16,12 +18,15 @@ var loadAndUpdatePics;
 var setAsProfilePic;
 var deleteProfilePic;
 
+var getCurrentUser;
+
 activateSubmit = function(){
 	form = $('form');
 	form.on('submit', function(e){
 		e.preventDefault();
 		submitForm($(this));
 	});
+	loadStandardValue(form);
 }
 
 submitForm = function(submitForm){
@@ -41,8 +46,34 @@ submitForm = function(submitForm){
 			if(submitForm.attr('id') === 'changePic'){
 				loadAndUpdatePics();
 			}
+			loadStandardValue(submitForm);
 		});
 	return false;	
+}
+
+loadStandardValue = function(forms){
+	forms.each(function(){
+	
+		var fd = new FormData();
+		fd.append('function', 'fetchCurrentValues');
+		fd.append('form_id', $(this).attr('id'));
+		var myElement = $(this);
+			$.ajax({
+				url: '/Storytelling/public/php/formFunctions.php',
+				type: 'POST',
+				data: fd,
+				enctype: 'multipart/form-data',
+				processData: false,  // tell jQuery not to process the data
+				contentType: false   // tell jQuery not to set contentType
+			}).done(function( data ) {
+				console.log('Data for forms:');
+				console.log(data);
+				myElement.children('input').val('');
+				myElement.children('.loadData').attr('placeholder', data);
+			});
+		
+	})
+	
 }
 
 changePictureActivation = function(){
@@ -159,6 +190,26 @@ loadCurrentPicture = function(){
 	return false;	
 }
 
+activateCloseButton = function(){
+	$('.closeFancyBox').on('click', function(){
+		$.fancybox.close();
+	});
+}
+
+getCurrentUser = function(){
+	var user = '';
+	var fd = new FormData();
+	fd.append('function', 'getCurrentUser');
+	return $.ajax({
+		url: '/Storytelling/public/php/formFunctions.php',
+		type: 'POST',
+		data: fd,
+		enctype: 'multipart/form-data',
+		processData: false,  // tell jQuery not to process the data
+		contentType: false   // tell jQuery not to set contentType
+	});
+}
+
 initialize = function(){
 	changePicLoaded = false;
 	activateSubmit();
@@ -172,6 +223,14 @@ $(document).ready(function(){
 		fancybox.fancybox({
 			beforeShow: function(current, previous){
 				initialize();
+				activateCloseButton();
+			},
+			afterClose: function() {
+				var currentUser = getCurrentUser();
+				currentUser.success(function (data) {
+					window.location.href = '/Storytelling/users/'+data;
+				});
+				
 			}
 		});
 	}
