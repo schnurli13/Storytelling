@@ -611,10 +611,12 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
                        WHERE id IN($ID01,$ID02) AND story = ".$storyID.";";
 
         //changing levels of childpages
+        //FAILUR HERE
         for($i = 1; $i < sizeof($movingIDs); $i++){
             $sql.="UPDATE page SET level = level+".$levelDiffmovingIDs." WHERE id = ".$movingIDs[$i]." AND story = ".$storyID.";";
         }
 
+        //FAILUR HERE maybe better foreach 
         if(sizeof($targetIDs) > 1){
             for($i = 1; $i < sizeof($targetIDs); $i++){
                 $sql.="UPDATE page SET level = level+".$levelDifftargetIDs." WHERE id = ".$targetIDs[$i]." AND story = ".$storyID.";";
