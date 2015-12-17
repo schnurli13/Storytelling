@@ -424,7 +424,7 @@ input.buttonStoryInfo {
     padding: 2px;
     background-color: #F3E0E1;
     float: right;
-    margin-bottom: 20px; }
+    margin-bottom: 30px; }
   #userEditPage .dummy {
     background-color: #E1AFB1 !important;
     margin-bottom: 50px; }
@@ -432,7 +432,7 @@ input.buttonStoryInfo {
     background-color: #E1AFB1 !important;
     border: none !important; }
   #userEditPage .lastButton {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     float: left; }
 
 .test {
