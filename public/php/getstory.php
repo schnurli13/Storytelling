@@ -39,6 +39,18 @@ if ($functionName == "drawLines") {
     addNodeAsChild($localhost, $user, $pw,$db,$storyID);
 }else if($functionName == "addBranchAsChild"){
     addBranchAsChild($localhost, $user, $pw,$db,$storyID);
+}else if($functionName == "checkIFParent"){
+    $x = filter_input(INPUT_GET, 'IDs');
+    $movingIDs =explode(",",$x);
+    $ID01 = $movingIDs[0];
+    $ID02 = filter_input(INPUT_GET, 'ID');
+    $con = mysqli_connect($localhost,$user, $pw, $db );
+    if (!$con) {
+        die('Could not connect: ' . mysqli_error($con));
+    }
+    $found = checkIFparent($ID02,$ID01,false,$con,$storyID);
+    echo json_encode($found);
+    mysqli_close($con);
 }
 
 
@@ -544,15 +556,15 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
     $movingIDs =explode(",",$x);
     $ID01 = $movingIDs[0];
     $ID02 = filter_input(INPUT_GET, 'ID');
+    $found = filter_input(INPUT_GET, 'found');
 
       $con = mysqli_connect($localhost,$user, $pw, $db );
       if (!$con) {
           die('Could not connect: ' . mysqli_error($con));
       }
 
-    $found = checkIFparent($ID02,$ID01,false,$con,$storyID);
 
-    if($found){
+    if($found == "true"){
         //get children of targetid
         $indexedOnly = array();
         $hasChildren = true;
@@ -561,11 +573,9 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
         $string = $indexedOnly[0]['id'];
 
         $string = getChildren($indexedOnly,$hasChildren,$string,$con,$storyID,"");
+        $string = str_replace($x,"",$string);
         $targetIDs =explode(",",$string);
-        echo json_encode($targetIDs);
-        echo json_encode($movingIDs);
-        $targetIDs = array_diff_key($targetIDs, $movingIDs);
-        echo json_encode($targetIDs);
+        $targetIDs = array_filter($targetIDs);
 
         //get the infos of both main ids
         $sql="SELECT id,level,position FROM page WHERE id IN($ID01,$ID02) AND story = ".$storyID;
@@ -578,13 +588,15 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
 
         $sql="SELECT id FROM page WHERE NextPageID1 = ".$ID02." OR NextPageID2 = ".$ID02." OR NextPageID3 = ".$ID02." OR NextPageID4 = ".$ID02." AND story = ".$storyID;
 
-        $result = mysqli_query($con,$sql);
         $parentID = array();
-        while($row = mysqli_fetch_assoc($result)) {
-            $parentID[0] = $row['id'];
+        if( $indexedOnly[$ID02]['level'] != 0) {
+            $result = mysqli_query($con, $sql);
+            while ($row = mysqli_fetch_assoc($result)) {
+                $parentID[0] = $row['id'];
+            }
         }
 
-        $sql="SELECT id,level FROM page WHERE id IN($x) AND story = ".$storyID;
+        $sql="SELECT id,level,position FROM page WHERE id IN($x) AND story = ".$storyID."  ORDER BY level ASC";
         $result = mysqli_query($con,$sql);
         $i = array();
         while($row = mysqli_fetch_assoc($result)) {
@@ -593,22 +605,18 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
 
         $maxLevel =0 ;
         $maxNodeID = 0;
-        for($a =01; $a < sizeof($i); $a++){
-            if($i[$a]['level'] > $maxLevel){
+        for($a =0; $a < sizeof($i); $a++){
+            if($i[$a]['level'] > $maxLevel && $i[$a]['position'] == 1){
                 $maxLevel = $i[$a]['level'];
                 $maxNodeID = $i[$a]['id'];
             }
         }
 
-        $levelDiffmovingIDs = $indexedOnly[$ID02]['level']-$indexedOnly[$ID01]['level'];
-        $levelDifftargetIDs = $maxLevel-$indexedOnly[$ID02]['level'];
 
-        $sql="UPDATE page SET level = CASE id
-                                             WHEN ".$ID01."   THEN  ".$indexedOnly[$ID02]['level']."
-                                             WHEN ".$ID02."   THEN ".$maxLevel."
-                                             ELSE level
-                                             END
-                                  , position = CASE id
+        $levelDiffmovingIDs = $indexedOnly[$ID02]['level']-$indexedOnly[$ID01]['level'];
+        $levelDifftargetIDs =(($maxLevel+$levelDiffmovingIDs)+1)- $indexedOnly[$ID02]['level'];
+
+        $sql="UPDATE page SET position = CASE id
                                              WHEN ".$ID01."   THEN  ".$indexedOnly[$ID02]['position']."
                                              WHEN ".$ID02."   THEN 1
                                              ELSE position
@@ -616,17 +624,15 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
                        WHERE id IN($ID01,$ID02) AND story = ".$storyID.";";
 
         //changing levels of childpages
-        //FAILUR HERE
-        for($i = 2; $i < sizeof($movingIDs); $i++){
+
+        for($i = 0; $i < sizeof($movingIDs); $i++){
             $sql.="UPDATE page SET level = level+".$levelDiffmovingIDs." WHERE id = ".$movingIDs[$i]." AND story = ".$storyID.";";
         }
 
-        //FAILUR HERE maybe better foreach 
-        if(sizeof($targetIDs) > 1){
-            for($i = 2; $i < sizeof($targetIDs); $i++){
-                $sql.="UPDATE page SET level = level+".$levelDifftargetIDs." WHERE id = ".$targetIDs[$i]." AND story = ".$storyID.";";
+            foreach($targetIDs as $key => $val){
+                $sql.="UPDATE page SET level = level+".$levelDifftargetIDs." WHERE id = ".$targetIDs[$key]." AND story = ".$storyID.";";
             }
-        }
+
 
         $sql.="UPDATE page SET NextPageID1 = ".$ID02." WHERE id = ".$maxNodeID." AND story = ".$storyID.";";
 
@@ -649,21 +655,20 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
                                                 END
                           WHERE NextPageID1=".$ID01."  OR NextPageID2=".$ID01." OR NextPageID3=".$ID01." OR NextPageID4=".$ID01." AND story = ".$storyID.";";
 
-        //austauschen der nextpage ids
-        $sql.="UPDATE page SET NextPageID".$indexedOnly[$ID02]['position']." = ".$ID01." WHERE id = ".$parentID[0]." AND story = ".$storyID;
+        if($indexedOnly[$ID02]['level'] != 0) {
+            //austauschen der nextpage ids
+            $sql .= "UPDATE page SET NextPageID" . $indexedOnly[$ID02]['position'] . " = " . $ID01 . " WHERE id = " . $parentID[0] . " AND story = " . $storyID;
+        }
 
-      //  echo json_encode($sql);
-/*
-       $result = mysqli_multi_query($con,$sql);
+     $result = mysqli_multi_query($con,$sql);
         if(!$result)
         {
             die('Could not update data: '. mysqli_error());
         }
-        echo "Updated data successfully\n"/;
-
+        echo json_encode($targetIDs);
         do {
             mysqli_store_result($con);
-        } while (mysqli_next_result($con));*/
+        } while (mysqli_next_result($con));
 
     }else{
         $indexedOnly = array();
@@ -740,7 +745,7 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
             die('Could not update data: '. mysqli_error());
         }
         echo "Updated data successfully\n";
-        echo json_encode($targetIDs);
+       // echo json_encode($targetIDs);
         do {
             mysqli_store_result($con);
         } while (mysqli_next_result($con));

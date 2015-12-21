@@ -20,9 +20,11 @@ nodeEditor.module = (function($) {
         pause = false,
         movementStyle = null,
         dropStyle = null,
+        found = false,
         previousShape,
         hasChildren = false,
         popUpShown=false,
+        highLight = null,
         yDrag,
         xDrop,
         yDrop,
@@ -30,6 +32,7 @@ nodeEditor.module = (function($) {
         deleteText = "ATTENTION:\n All sub-pages will be deleted as well.\nDo you really want to delete this page?",
         moveText = "Do you want to move only this page or all sub-pages as well?",
         dropText = "Do you want replace this page with the dragged one or do you want to add the moving page as sub-page to this page?",
+        drop2Text = "Do you really want to replace this branch with the dragged one? This action will influence the sub-pages!",
 
         stage = new Konva.Stage({
             container: 'container',
@@ -84,9 +87,9 @@ nodeEditor.module = (function($) {
             dash: [4, 2]
         }),
         dottedLineDel = dottedLineAdd.clone(),
-        dottedLineBack = dottedLineAdd.clone({
-            points: [5, 5, width-5, 5, width-5, height-5, 5, height-5,5,5]
-        }),
+       // dottedLineBack = dottedLineAdd.clone({
+       //     points: [5, 5, width-5, 5, width-5, height-5, 5, height-5,5,5]
+       // }),
         dottedLinePopUp=  dottedLineAdd.clone({
             points: [10, 10, 390, 10, 390, 240, 10,240,10,10],
             strokeWidth: 2
@@ -103,7 +106,8 @@ nodeEditor.module = (function($) {
         popUp = new Konva.Group({
             x: width/2-200,
             y: height/2-125,
-            id: "popUp"
+            id: "popUp",
+            draggable:true
         }),
 
         addRect = new Konva.Rect({
@@ -164,6 +168,7 @@ nodeEditor.module = (function($) {
         disable,
         moveQuestion,
         dropQuestion,
+        dropQuestion2,
         dropReset,
         reorder,
         hoverPopUpButtons
@@ -181,7 +186,9 @@ nodeEditor.module = (function($) {
                drawLines(obj['MAX(level)']);
             },
             error: function (xhr, status, error) {
-                alert(error);
+                debugText.text(error);
+                debugText.setAttr('fontSize','20');
+                interfaceLayer.draw();
             }
         });
     };
@@ -227,7 +234,9 @@ nodeEditor.module = (function($) {
                 drawNodes(obj);
             },
             error: function (xhr, status, error) {
-                alert(error);
+                debugText.text(error);
+                debugText.setAttr('fontSize','20');
+                interfaceLayer.draw();
             }
         });
     };
@@ -268,6 +277,8 @@ nodeEditor.module = (function($) {
         var IDs = [];
         var z = 0;
         var nodeCounter = 0;
+        var color = buttonColorHover;
+
 
 
         for (var i = 0; i < data.length; i++) {
@@ -328,6 +339,7 @@ nodeEditor.module = (function($) {
             }
 
             var sh = IDs.shift();
+
             //get next node id
             for (var q = 1; q < 5; q++) {
                 if(i != 0){
@@ -351,10 +363,15 @@ nodeEditor.module = (function($) {
                         center = 0;
                         multiple = levelX;
                     }
+                    if(highLight != null && highLight.indexOf(data[nextPageIDinData]['id']) != -1){
+                        color = '#e2b0b3';
+                    }else{
+                        color = buttonColorHover;
+                    }
                     star = new Konva.Circle({
                         x: multiple - center,
                         y: (parseInt(data[nextPageIDinData]['level']) + 1) * levelY,
-                        fill: buttonColorHover,
+                        fill: color,
                         radius: 20,
                         draggable: true,
                         name: 'star ' + data[nextPageIDinData]['id'],
@@ -426,13 +443,15 @@ nodeEditor.module = (function($) {
         layer.draw();
         layerConn.draw();
         layerTEXT.draw();
+        highLight = null;
 
     };
 
     nodeSelection = function(e) {
-        if (selectedNode == null || e.target.id() == selectedNode) {
+        if (selectedNode == null || e.target.id() == selectedNode && !popUpShown) {
             var fill = e.target.fill() == 'yellow' ? buttonColorHover : 'yellow';
             e.target.fill(fill);
+            debugText.setAttr('fontSize','15');
             debugText.text('Selected ' + e.target.name());
             if (fill == 'yellow') {
                 selectedNode = e.target.id();
@@ -453,26 +472,40 @@ nodeEditor.module = (function($) {
                 //alert(data);
                 console.log("SUCCESS");
                 startDrawNodes();
+                debugText.text('Successfully updated!');
+                debugText.setAttr('fontSize','20');
+                interfaceLayer.draw();
             },
             error: function (xhr, status, error) {
-                alert(error);
+                debugText.text(error);
+                debugText.setAttr('fontSize','20');
+                interfaceLayer.draw();
             }
         });
     };
 
-    reorderBranches = function(ID){
+    reorderBranches = function(ID,found){
         $.ajax({
             url: ajaxLink,
             type: 'GET',
-            data: 'functionName=reorderBranches&storyID='+storyID+'&ID=' + ID + '&IDs=' + movementStyle,
+            data: 'functionName=reorderBranches&storyID='+storyID+'&ID=' + ID + '&IDs=' + movementStyle +'&found='+found,
             success: function (data) {
-               //alert(data);
+                if(data != "Updated data successfully\n") {
+                    highLight = data;
+                }
                 console.log("SUCCESS");
                 startDrawLines();
                 startDrawNodes();
+                found = false;
+                debugText.text('Successfully updated!');
+                debugText.setAttr('fontSize','20');
+                interfaceLayer.draw();
+
             },
             error: function (xhr, status, error) {
-                alert(error);
+                debugText.text(error);
+                debugText.setAttr('fontSize','20');
+                interfaceLayer.draw();
             }
         });
     };
@@ -510,7 +543,9 @@ nodeEditor.module = (function($) {
 
             },
             error: function (xhr, status, error) {
-                alert(error);
+                debugText.text(error);
+                debugText.setAttr('fontSize','20');
+                interfaceLayer.draw();
             }
         });
     };
@@ -536,7 +571,9 @@ nodeEditor.module = (function($) {
                 interfaceLayer.draw();
             },
             error: function (xhr, status, error) {
-                alert(error);
+                debugText.text(error);
+                debugText.setAttr('fontSize','20');
+                interfaceLayer.draw();
             }
         });
     };
@@ -547,14 +584,19 @@ nodeEditor.module = (function($) {
             type: 'GET',
             data: 'functionName=addNewNode&storyID='+storyID+'&ID=' + id,
             success: function (data) {
-                alert(data);
+               // alert(data);
                 console.log("SUCCESS");
                 startDrawLines();
                 startDrawNodes();
+                debugText.text('Successfully inserted!');
+                debugText.setAttr('fontSize','20');
+                interfaceLayer.draw();
                 //var obj = $.parseJSON(data);
             },
             error: function (xhr, status, error) {
-                alert(error);
+                debugText.text(error);
+                debugText.setAttr('fontSize','20');
+                interfaceLayer.draw();
             }
         });
     };
@@ -608,17 +650,22 @@ nodeEditor.module = (function($) {
                      type: 'GET',
                      data: 'functionName=deleteNode&storyID=' + storyID + '&ID=' + id,
                      success: function (data) {
-                     alert(data);
-                     console.log("SUCCESS");
-                     tempLayer.find('#button1Rect')[0].fill(buttonColor);
-                     popUp.hide();
-                     tempLayer.draw();
-                     setDraggable(true);
-                     startDrawLines();
-                     startDrawNodes();
+                     //alert(data);
+                         console.log("SUCCESS");
+                         tempLayer.find('#button1Rect')[0].fill(buttonColor);
+                         popUp.hide();
+                         tempLayer.draw();
+                         setDraggable(true);
+                         startDrawLines();
+                         startDrawNodes();
+                         debugText.text('Successfully deleted!');
+                         debugText.setAttr('fontSize','20');
+                         interfaceLayer.draw();
                  },
                  error: function (xhr, status, error) {
-                     alert(error);
+                     debugText.text(error);
+                     debugText.setAttr('fontSize','20');
+                     interfaceLayer.draw();
                  }
              });
         });
@@ -741,7 +788,9 @@ nodeEditor.module = (function($) {
                     popUpShown = false;
                 },
                 error: function (xhr, status, error) {
-                    alert(error);
+                    debugText.text(error);
+                    debugText.setAttr('fontSize','20');
+                    interfaceLayer.draw();
                 }
             });
         });
@@ -755,6 +804,68 @@ nodeEditor.module = (function($) {
             movementStyle = "one";
             layer.find('#'+evt.target.id()).draggable(true);
            popUpShown = false;
+        });
+
+    };
+
+    dropQuestion2 = function(evt){ //alert("hhh");
+
+        pause = true;
+        popUpShown = true;
+
+        setDraggable(false);
+        evt.target.moveDown();
+
+        popText.setAttr('text',drop2Text);
+        popText.setAttr('x','10');
+        popText.setAttr('y','55');
+        popText.setAttr('width','480');
+
+        tempLayer.find('#button1Text')[0].setAttr('text','YES');
+        tempLayer.find('#button1Text')[0].setAttr('x','55');
+
+        tempLayer.find('#button2Text')[0].setAttr('text','CANCEL');
+        tempLayer.find('#button2Text')[0].setAttr('x','45');
+
+        popUpRect.setAttr('width','500');
+        popUp.setAttr('x',width/2-250);
+
+        dottedLinePopUp.setAttr('points',[10, 10, 490, 10, 490, 240, 10,240,10,10]);
+
+        button1.setAttr('x','70');
+        button2.setAttr('x','270');
+
+        popUp.show();
+        tempLayer.draw();
+
+        hoverPopUpButtons(['#button1Rect','#button1Text'],buttonColorHover,buttonColor);
+        hoverPopUpButtons(['#button2Rect','#button2Text'],buttonColorHover,buttonColor);
+
+        button2.off('click').on('click',function(e){
+            tempLayer.find('#button2Rect')[0].fill(buttonColor);
+            popUp.hide();
+            tempLayer.draw();
+            pause = false;
+            selectedNode = null;
+            setDraggable(true);
+
+            if (movementStyle == "one") {
+                evt.target.setAttr("x", xDrag);
+                evt.target.setAttr("y", yDrag);
+                evt.target.fill(buttonColorHover);
+            } else {
+                evt.target.setAttr("x", 0);
+                evt.target.setAttr("y", 0);
+            }
+            dropReset(evt);
+            startDrawNodes();
+            popUpShown = false;
+        });
+
+
+        button1.off('click').on('click',function(e){
+            tempLayer.find('#button1Rect')[0].fill(buttonColor);
+            reorder(evt);
         });
 
     };
@@ -841,7 +952,7 @@ nodeEditor.module = (function($) {
                         type: 'GET',
                         data: 'functionName=addNodeAsChild&storyID=' + storyID + '&ID01=' + previousShape.id() + '&ID02=' + evt.target.id(),
                         success: function (data) {
-                            alert(data);
+                           // alert(data);
                             console.log("SUCCESS");
                             tempLayer.find('#button2Rect')[0].fill(buttonColor);
                             button3.remove();
@@ -853,10 +964,15 @@ nodeEditor.module = (function($) {
                             popUpShown = false;
                             startDrawLines();
                             startDrawNodes();
+                            debugText.text('Successfully updated!');
+                            debugText.setAttr('fontSize','20');
+                            interfaceLayer.draw();
 
                         },
                         error: function (xhr, status, error) {
-                            alert(error);
+                            debugText.text(error);
+                            debugText.setAttr('fontSize','20');
+                            interfaceLayer.draw();
                         }
                     });
                 }else{
@@ -865,7 +981,7 @@ nodeEditor.module = (function($) {
                         type: 'GET',
                         data: 'functionName=addBranchAsChild&storyID=' + storyID + '&ID=' + previousShape.id() + '&IDs=' + movementStyle,
                         success: function (data) {
-                            alert(data);
+                            //alert(data);
                             console.log("SUCCESS");
                             tempLayer.find('#button2Rect')[0].fill(buttonColor);
                             button3.remove();
@@ -877,10 +993,14 @@ nodeEditor.module = (function($) {
                             popUpShown = false;
                             startDrawLines();
                             startDrawNodes();
-
+                            debugText.text('Successfully updated!');
+                            debugText.setAttr('fontSize','20');
+                            interfaceLayer.draw();
                         },
                         error: function (xhr, status, error) {
-                            alert(error);
+                            debugText.text(error);
+                            debugText.setAttr('fontSize','20');
+                            interfaceLayer.draw();
                         }
                     });
                 }
@@ -888,18 +1008,45 @@ nodeEditor.module = (function($) {
         }
 
         button2.off('click').on('click',function(e){
-            tempLayer.find('#button2Rect')[0].fill(buttonColor);
-            button3.remove();
-            popUp.hide();
-            tempLayer.draw();
-            pause = false;
-            dropStyle = "reorder";
-            reorder(evt);
-            popUpShown = false;
-            //layer.find('#'+evt.target.id()).draggable(true);
+            if(movementStyle != "one") {
+                $.ajax({
+                    url: ajaxLink,
+                    type: 'GET',
+                    data: 'functionName=checkIFParent&storyID=' + storyID + '&ID=' + previousShape.id() + '&IDs=' + movementStyle,
+                    success: function (data) {
+                      if(data == 'false'){
+                          found = false;
+                          tempLayer.find('#button2Rect')[0].fill(buttonColor);
+                          button3.remove();
+                          reorder(evt);
+                       }else{
+                          found = true;
+                          tempLayer.find('#button2Rect')[0].fill(buttonColor);
+                          button3.remove();
+                          popUp.hide();
+                          tempLayer.draw();
+                          pause = false;
+                          dropStyle = "reorder";
+                          popUpShown = false;
+                          dropQuestion2(evt);
+                      }
+
+                    },
+                    error: function (xhr, status, error) {
+                        debugText.text(error);
+                        debugText.setAttr('fontSize','20');
+                        interfaceLayer.draw();
+                    }
+                });
+            }else{
+                tempLayer.find('#button2Rect')[0].fill(buttonColor);
+                button3.remove();
+                reorder(evt);
+            }
         });
 
     };
+
 
 //helpers
     count = function(data, level) {
@@ -941,6 +1088,11 @@ nodeEditor.module = (function($) {
     };
 
     reorder = function(e){
+        popUp.hide();
+        tempLayer.draw();
+        pause = false;
+        dropStyle = "reorder";
+        popUpShown = false;
         if (movementStyle == "one") {
             e.target.setAttr("x", xDrop);
             e.target.setAttr("y", yDrop);
@@ -953,7 +1105,7 @@ nodeEditor.module = (function($) {
             e.target.fill('green');
 
         } else {
-            reorderBranches(previousShape.id());
+            reorderBranches(previousShape.id(),found);
             previousShape.fire('drop', {
                 type: 'drop',
                 target: previousShape,
@@ -1015,7 +1167,7 @@ nodeEditor.module = (function($) {
 
         //HOVERTEXT + BACKGROUND
         interfaceLayer.add(debugText);
-        interfaceLayer.add(dottedLineBack);
+        //interfaceLayer.add(dottedLineBack);
 
         //DELETE POPUP
         popUp.add(popUpRect);
@@ -1059,6 +1211,7 @@ nodeEditor.module = (function($) {
         layer.on("mouseover", function (e) {
             var fill = e.target.fill() == 'yellow' ? 'yellow' : 'orange';
             e.target.fill(fill);
+            debugText.setAttr('fontSize','15');
             debugText.text('Choose ' + e.target.name());
             layer.draw();
             interfaceLayer.draw();
@@ -1136,9 +1289,10 @@ nodeEditor.module = (function($) {
 //END
 
 //DRAGGEN
-      stage.on("dragstart", function (e) {
+      layer.on("dragstart", function (e) {
 
           if(!pause && movementStyle == null){
+              selectedNode=e.target.id();
               checkAdditionalNode(e.target.id());
               checkDeleteNode(e.target.id());
               moveQuestion(e);
@@ -1151,6 +1305,7 @@ nodeEditor.module = (function($) {
                 // alert(xDrag + ":"+yDrag);
                 e.target.moveTo(tempLayer);
                 e.target.fill('yellow');
+              debugText.setAttr('fontSize','15');
                 debugText.text('Moving ' + e.target.name());
                 interfaceLayer.draw();
                 layer.draw();
@@ -1158,6 +1313,7 @@ nodeEditor.module = (function($) {
                // nodeSelection(e.target.find('#'+movementStyle[0]));
                 selectedNode= e.target.find('#'+movementStyle[0])[0].getAttr('id');
                 movingGroup.moveTo(tempLayer);
+              debugText.setAttr('fontSize','15');
                 debugText.text('Moving ' + e.target.id() + ' and children');
                 interfaceLayer.draw();
                 layer.draw();
@@ -1227,8 +1383,10 @@ nodeEditor.module = (function($) {
                         e.target.setAttr("y", yDrag);
                         e.target.fill(buttonColorHover);
                     } else {
-                        e.target.setAttr("x", 0);
-                        e.target.setAttr("y", 0);
+                        if(e.target.id() != "popUp") {
+                            e.target.setAttr("x", 0);
+                            e.target.setAttr("y", 0);
+                        }
                     }
                    dropReset(e);
                 }
@@ -1237,6 +1395,7 @@ nodeEditor.module = (function($) {
 
         stage.on("dragenter", function (e) {
            if(!pause) {
+               debugText.setAttr('fontSize','15');
                 debugText.text('dragenter ' + e.target.name());
                 layer.draw();
                 interfaceLayer.draw();
@@ -1247,6 +1406,7 @@ nodeEditor.module = (function($) {
             if(!pause) {
                 over = false;
                 e.target.fill(buttonColorHover);
+                debugText.setAttr('fontSize','15');
                 debugText.text('dragleave ' + e.target.name());
                 layer.draw();
                 interfaceLayer.draw();
@@ -1259,6 +1419,7 @@ nodeEditor.module = (function($) {
                 e.target.fill('green');
                 xDrop = e.target.getAbsolutePosition().x;
                 yDrop = e.target.getAbsolutePosition().y;
+                debugText.setAttr('fontSize','15');
                 debugText.text('dragover ' + e.target.name());
                 layer.draw();
                 interfaceLayer.draw();
@@ -1271,6 +1432,7 @@ nodeEditor.module = (function($) {
                 e.target.setAttr("y", yDrag);
 
                 e.target.fill('green');
+                debugText.setAttr('fontSize','15');
                 debugText.text('drop ' + e.target.name());
                 layer.draw();
                 interfaceLayer.draw();
