@@ -118,6 +118,15 @@ if($myPage->getUriArray()[1] === 'index' || $myPage->getUriArray()[1] === '' || 
 		$userStoryEditContentObject = new userStoryEditContentModule($mySession, $myPage->getUriArray());
 		$myPage->setContent($userStoryEditContentObject->generateHtml());
 		
+	}else if(count($myPage->getUriArray()) == 5 && $myPage->getUriArray()[4] == "published"){
+		$myPage->setTitle($myPage->getUriArray()[3]);
+		$myPage->setBodyTemplate('publishedModeBodyTemplate');
+		$myPage->discardSource('css', 'default');
+		$myPage->useSource('css', 'publishedView');
+		$myPage->useSource('javascript', 'publishedStoryHandler');
+		$userStoryPresentationObject = new userStoryPresentationModule($mySession, $myPage->getUriArray());
+		$myPage->setContent($userStoryPresentationObject->generateHtml());
+				
 	}else{
 		header('Location: '.$myPage->getUriArray()[0].'/404');
 	}

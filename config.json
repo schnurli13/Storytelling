@@ -1,0 +1,9 @@
+{
+	'root': 'Storytelling',
+	'db_connection': {
+		'servername': 'localhost',
+		'username': 'root',
+		'password': '',
+		'dbname': 'storytelling_platform'
+	}
+}

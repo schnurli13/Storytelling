@@ -14,6 +14,7 @@ class userStoryContentModule{
 		$this->sessionObject = $sessionObject;
 		$this->searchedUser = $uriArray[2];
 		$this->searchedStory = $uriArray[3];
+		$this->root = $uriArray[0];
 	}
 
 	function generateHtml(){
@@ -33,9 +34,9 @@ class userStoryContentModule{
 
 			if(isset($queryResult[0]['name'])){
 			$returnString.='<h2>'.$this->searchedStory.'</h2>'."\n";
-			$returnString.='<p><div class="buttonFrameContainerUserStoryContentModule"><div class="buttonSize"><a href="published" class="buttonLookLink">LOOK AT IT</a></div></div></p>'."\n";
+			$returnString.='<p><div class="buttonFrameContainerUserStoryContentModule"><div class="buttonSize"><a href="'.$this->root.'/users/'.$this->searchedUser.'/'.$this->searchedStory.'/published" class="buttonLookLink">LOOK AT IT</a></div></div></p>'."\n";
 			if($this->searchedUser === $this->sessionObject->getUserName()){
-				$returnString.='<p><div class="buttonFrameContainerUserStoryContentModule"><div class="buttonSize"><a class="buttonLookLink" href="edit">EDIT</a></div></div></p>'."\n";
+				$returnString.='<p><div class="buttonFrameContainerUserStoryContentModule"><div class="buttonSize"><a class="buttonLookLink" href="'.$this->root.'/users/'.$this->searchedUser.'/'.$this->searchedStory.'/edit">EDIT</a></div></div></p>'."\n";
 			}
 		}else{
 			$returnString.='<h2>no story found!</h2>'."\n";

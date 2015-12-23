@@ -12,6 +12,7 @@ require('data/contentModules/userListContentModule.php');
 require('data/contentModules/userContentModule.php');
 require('data/contentModules/userStoryContentModule.php');
 require('data/contentModules/userStoryEditContentModule.php');
+require('data/contentModules/userStoryPresentationModule.php');
 
 require('data/contentModules/indexContentModule.php');
 require('data/contentModules/errorContentModule.php');
