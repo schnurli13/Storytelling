@@ -88,7 +88,8 @@ input.buttonStoryInfo {
 
 .loginFrameContainer, .registerFrameContainer {
   width: 30%;
-  left: 35%;
+  min-width: 300px;
+  margin: 0 auto;
   position: relative;
   padding: 20px;
   margin-top: 10px;
@@ -189,27 +190,28 @@ input.buttonStoryInfo {
 #profilePage .h1bgProfile {
   width: 140px;
   background-color: #fff;
-  left: 43%;
+  margin: 0 auto;
   position: relative; }
 #profilePage .h1bgProfileInfo {
   width: 140px;
   background-color: #F3E0E1;
-  left: 42.5%;
+  margin: 0 auto;
   position: relative; }
 #profilePage .h1bgProfileStory {
   width: 200px;
   background-color: #D3ECED;
-  left: 39%;
+  margin: 0 auto;
   position: relative; }
 #profilePage .profileFrameContainer {
   width: 75%;
-  left: 11%;
+  min-width: 430px;
+  margin: 0 auto;
   position: relative;
   padding: 20px;
   margin-top: 10px; }
 #profilePage .myInfoFrameContainer {
   width: 90%;
-  left: 3%;
+  margin: 0 auto;
   position: relative;
   padding: 20px;
   margin-top: 10px;
@@ -217,7 +219,7 @@ input.buttonStoryInfo {
   margin-bottom: 30px; }
 #profilePage .myStoryFrameContainer {
   width: 90%;
-  left: 3%;
+  margin: 0 auto;
   position: relative;
   padding: 20px;
   margin-top: 10px;
@@ -262,7 +264,7 @@ input.buttonStoryInfo {
   #registerPage .h1bgRegister {
     width: 225px;
     background-color: #96C3CC;
-    left: 20%;
+    margin: 0 auto;
     position: relative; }
   #registerPage #form form {
     margin-bottom: 110px; }
@@ -278,7 +280,7 @@ input.buttonStoryInfo {
   #loginPage .h1bgLogin {
     width: 110px;
     background-color: #96C3CC;
-    left: 35%;
+    margin: 0 auto;
     position: relative; }
   #loginPage #form form {
     margin-bottom: 110px; }
@@ -400,7 +402,7 @@ input.buttonStoryInfo {
   #userEditPage .h1bgUserEdit {
     width: 245px;
     background-color: #E1AFB1;
-    left: 25%;
+    margin: 0 auto;
     position: relative; }
   #userEditPage .closeFancyBox {
     margin-bottom: 20px; }

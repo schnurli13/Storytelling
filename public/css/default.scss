@@ -133,7 +133,8 @@ input {
 
 .loginFrameContainer, .registerFrameContainer {
 	width: 30%;
-	left: 35%;
+	min-width: 300px;
+	margin: 0 auto;
 	position: relative;
 	padding: 20px;
 	margin-top: 10px;
@@ -272,27 +273,28 @@ input {
 	.h1bgProfile {
 		width: 140px;
 		background-color: #fff;
-		left: 43%;
+		margin: 0 auto;
 		position: relative;
 	}
 	
 	.h1bgProfileInfo {
 		width: 140px;
 		background-color: $lightred;
-		left: 42.5%;
+		margin: 0 auto;
 		position: relative;
 	}
 
 	.h1bgProfileStory {
 		width: 200px;
 		background-color: $lightblue;
-		left: 39%;
+		margin: 0 auto;
 		position: relative;
 	}
 	
 	.profileFrameContainer {
 		width: 75%;
-		left: 11%;
+		min-width: 430px;
+		margin: 0 auto;
 		position: relative;
 		padding: 20px;
 		margin-top: 10px;
@@ -300,7 +302,7 @@ input {
 	
 	.myInfoFrameContainer {
 		width: 90%;
-		left: 3%;
+		margin: 0 auto;
 		position: relative;
 		padding: 20px;
 		margin-top: 10px;
@@ -310,7 +312,7 @@ input {
 
 	.myStoryFrameContainer {
 		width: 90%;
-		left: 3%;
+		margin: 0 auto;
 		position: relative;
 		padding: 20px;
 		margin-top: 10px;
@@ -376,7 +378,7 @@ input {
 	.h1bgRegister {
 		width: 225px;
 		background-color: $darkblue;
-		left: 20%;
+		margin: 0 auto;
 		position: relative;
 	}
 	
@@ -405,7 +407,7 @@ input {
 	.h1bgLogin {
 		width: 110px;
 		background-color: $darkblue;
-		left: 35%;
+		margin: 0 auto;
 		position: relative;
 	}
 	
@@ -601,7 +603,7 @@ input {
 	.h1bgUserEdit {
 		width: 245px;
 		background-color: $darkred;
-		left: 25%;
+		margin: 0 auto;
 		position: relative;
 	}
 	
