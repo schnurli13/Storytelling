@@ -71,6 +71,7 @@ if($myPage->getUriArray()[1] === 'index' || $myPage->getUriArray()[1] === '' || 
     $myPage->setContent($indexContentObject->generateHtml());
 	
 }else if($myPage->getUriArray()[1] === 'uploadTest'){
+	addCroppic($myPage);
 	$myPage->useSource('javascript', 'formHandler');
 	$myPage->setTitle('uploadTest');
 	$userListContentObject = new userListContentModule($mySession);
@@ -99,6 +100,7 @@ if($myPage->getUriArray()[1] === 'index' || $myPage->getUriArray()[1] === '' || 
 }else if($myPage->getUriArray()[1] === 'users'){
 
 	if(count($myPage->getUriArray()) == 3){
+	addCroppic($myPage);
 	addFancyBox($myPage);
 	$myPage->useSource('javascript', 'formHandler');
 		$myPage->setTitle($myPage->getUriArray()[2]);
@@ -150,4 +152,10 @@ function addFancyBox($myPage){
 	$myPage->useSource('pluginJs', 'fancybox/source/helpers/jquery.fancybox-media');
 	$myPage->useSource('pluginJs', 'fancybox/source/helpers/jquery.fancybox-thumbs');
 	$myPage->useSource('javascript', 'activateFancyBox');
+}
+
+function addCroppic($myPage){
+	$myPage->useSource('pluginCss', 'croppic/croppic');
+	$myPage->useSource('pluginJs', 'croppic/croppic');
+	$myPage->useSource('css', 'crop');
 }

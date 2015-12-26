@@ -20,6 +20,8 @@ var deleteProfilePic;
 
 var getCurrentUser;
 
+var loadCropper;
+
 activateSubmit = function(){
 	form = $('form');
 	form.on('submit', function(e){
@@ -164,10 +166,13 @@ loadPictureChangeElements = function(button){
 	var upload = $('#changePic');
 	upload.wrap('<div id="changePicSection"></div>');
 	//upload.atfter('<div id="profilePicSection"></div>');
-	upload.append('<label class="selectFileLable" >Select a file:</label><br>');
-	upload.append('<input class="selectFileFile" type="file" name="file" required />');
-	upload.append('<input class="selectFileSubmit" type="submit" value="Upload Picture" />');
+	//upload.append('<label class="selectFileLable" >Select a file:</label><br>');
+	//upload.append('<input class="selectFileFile" type="file" name="file" required />');
+	//upload.append('<input class="selectFileSubmit" type="submit" value="Upload Picture" />');
+	upload.append('<div id="cropField" />');
 	button.parent().after('<div id="profilePicSection"></div>');
+	
+	loadCropper();
 }
 
 loadCurrentPicture = function(){
@@ -217,6 +222,18 @@ initialize = function(){
 	changePictureActivation();
 }
 
+loadCropper = function(){
+
+	var cropperOptions = {
+			uploadUrl:'/Storytelling/public/plugins/croppic/img_save_to_file.php',
+			cropUrl:'/Storytelling/public/plugins/croppic/img_crop_to_file.php',
+			onAfterImgCrop:	function(){ loadAndUpdatePics() }
+		}		
+		
+	var cropperHeader = new Croppic('cropField', cropperOptions);
+
+}
+
 $(document).ready(function(){
 	var fancybox = $('.fancybox');
 	if(fancybox.length > 0){
@@ -234,5 +251,10 @@ $(document).ready(function(){
 			}
 		});
 	}
+	
 	initialize();
+	
+		
+	
+
 });
