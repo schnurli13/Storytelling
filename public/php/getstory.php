@@ -5,6 +5,7 @@
  * Date: 05.11.2015
  * Time: 11:00
  */
+require('../../framework/modules/mysqlModule.php');
 
 $functionName = filter_input(INPUT_GET, 'functionName');
 $storyID = filter_input(INPUT_GET, 'storyID');
@@ -14,25 +15,25 @@ $user = "root";
 $pw = "";
 $db = "storytelling_platform";
 
-$storyID = findStoryID($localhost, $user, $pw,$db,$storyID);
+$storyID = findStoryID($storyID);
 
 
 if ($functionName == "drawLines") {
-    drawLines($localhost, $user, $pw,$db,$storyID);
+    drawLines($storyID);
 }else if($functionName == "drawNodes"){
-    drawNodes($localhost, $user, $pw,$db,$storyID);
+    drawNodes($storyID);
 }else if($functionName == "reorderNodes"){
     reorderNodes($localhost, $user, $pw,$db,$storyID);
 }else if($functionName == "maxChildren"){
-    maxChildren($localhost, $user, $pw,$db,$storyID);
+    maxChildren($storyID);
 }else if($functionName == "addNewNode"){
-    addNewNode($localhost, $user, $pw,$db,$storyID);
+    addNewNode($storyID);
 }else if($functionName == "deleteNode"){
     deleteNode($localhost, $user, $pw,$db,$storyID);
 }else if($functionName == "isFirstNode"){
-    isFirstNode($localhost, $user, $pw,$db,$storyID);
+    isFirstNode($storyID);
 }else if($functionName == "moveBranch"){
-    moveBranch($localhost, $user, $pw,$db,$storyID);
+    moveBranch($storyID);
 }else if($functionName == "reorderBranches"){
     reorderBranches($localhost, $user, $pw,$db,$storyID);
 }else if($functionName == "addNodeAsChild"){
@@ -44,103 +45,61 @@ if ($functionName == "drawLines") {
     $movingIDs =explode(",",$x);
     $ID01 = $movingIDs[0];
     $ID02 = filter_input(INPUT_GET, 'ID');
-    $con = mysqli_connect($localhost,$user, $pw, $db );
-    if (!$con) {
-        die('Could not connect: ' . mysqli_error($con));
-    }
-    $found = checkIFparent($ID02,$ID01,false,$con,$storyID);
+    $found = checkIFparent($ID02,$ID01,false,$storyID);
     echo json_encode($found);
-    mysqli_close($con);
 }
 
 
-
-function isFirstNode($localhost, $user, $pw,$db,$storyID){
+function isFirstNode($storyID){
     $ID = filter_input(INPUT_GET, 'ID');
-    $con = mysqli_connect($localhost,$user, $pw, $db );
-    if (!$con) {
-        die('Could not connect: ' . mysqli_error($con));
-    }
-
-    $sql="SELECT level FROM page WHERE story = ".$storyID." AND id = ".$ID;
-    $result = mysqli_query($con,$sql);
-    while($row = mysqli_fetch_assoc($result)) {
-        echo json_encode($row);
-
-    }
-    mysqli_free_result($result);
-    mysqli_close($con);
+    $mysqlObject = new mysqlModule();
+    echo json_encode($mysqlObject->queryDataBase("SELECT level FROM page WHERE story = ".$storyID." AND id = ".$ID));
 }
 
 
-function findStoryID($localhost, $user, $pw,$db,$storyID){
-    $con = mysqli_connect($localhost,$user, $pw, $db );
-    if (!$con) {
-        die('Could not connect: ' . mysqli_error($con));
-    }
-
-    $sql="SELECT id FROM story WHERE name = '".$storyID."'";
-    $result = mysqli_query($con,$sql);
-    $indexedOnly = array();
-    while($row = mysqli_fetch_assoc($result)) {
-        $indexedOnly[] =$row['id'];
-    }
-    return $indexedOnly[0];
-    mysqli_free_result($result);
-    mysqli_close($con);
+function findStoryID($storyID){
+    $mysqlObject = new mysqlModule();
+    $result = $mysqlObject->queryDataBase("SELECT id FROM story WHERE name = '".$storyID."'");
+    return $result[0]['id'];
 }
 
-function maxChildren($localhost, $user, $pw,$db,$storyID){
+function maxChildren($storyID){
     $ID = filter_input(INPUT_GET, 'ID');
-    $con = mysqli_connect($localhost,$user, $pw, $db );
-    if (!$con) {
-        die('Could not connect: ' . mysqli_error($con));
-    }
-
-    $sql="SELECT NextPageID1,NextPageID4 FROM page WHERE story = ".$storyID." AND id = ".$ID;
-    $result = mysqli_query($con,$sql);
-    $indexedOnly = array();
-    while($row = mysqli_fetch_assoc($result)) {
-        $indexedOnly[] = $row;
-
-    }
-    echo json_encode($indexedOnly);
-    mysqli_free_result($result);
-    mysqli_close($con);
+    $mysqlObject = new mysqlModule();
+    echo json_encode($mysqlObject->queryDataBase("SELECT NextPageID1,NextPageID4 FROM page WHERE story = ".$storyID." AND id = ".$ID));
 }
 
 
-
-function getChildren($parentNode,$hasChildren,$deleteString,$con,$storyID,$additionalFields){
+function getChildren($parentNode,$hasChildren,$deleteString,$storyID,$additionalFields){
     $id =null;
     while($hasChildren) {
         if ($parentNode[0]['NextPageID1'] != 0 ) {
             $hasChildren = true;
             $deleteString .= "," . $parentNode[0]['NextPageID1'];
             $id = $parentNode[0]['NextPageID1'];
-            $newParentNode = getPage($con, $id, array(), $additionalFields,$storyID,"id =");
-            $deleteString = getChildren($newParentNode,$hasChildren,$deleteString,$con,$storyID,$additionalFields);
+            $newParentNode = getPage($id, $additionalFields,$storyID,"id =");
+            $deleteString = getChildren($newParentNode,$hasChildren,$deleteString,$storyID,$additionalFields);
             $parentNode[0]['NextPageID1']=0;
         } else if ($parentNode[0]['NextPageID2'] != 0) {
             $hasChildren = true;
             $deleteString .= "," . $parentNode[0]['NextPageID2'];
             $id = $parentNode[0]['NextPageID2'];
-            $newParentNode = getPage($con, $id, array(), $additionalFields,$storyID,"id =");
-            $deleteString = getChildren($newParentNode,$hasChildren,$deleteString,$con,$storyID,$additionalFields);
+            $newParentNode = getPage($id, $additionalFields,$storyID,"id =");
+            $deleteString = getChildren($newParentNode,$hasChildren,$deleteString,$storyID,$additionalFields);
             $parentNode[0]['NextPageID2']=0;
         } else if ($parentNode[0]['NextPageID3'] != 0) {
             $hasChildren = true;
             $deleteString .= "," . $parentNode[0]['NextPageID3'];
             $id = $parentNode[0]['NextPageID3'];
-            $newParentNode = getPage($con, $id, array(), $additionalFields,$storyID,"id =");
-            $deleteString = getChildren($newParentNode,$hasChildren,$deleteString,$con,$storyID,$additionalFields);
+            $newParentNode = getPage($id, $additionalFields,$storyID,"id =");
+            $deleteString = getChildren($newParentNode,$hasChildren,$deleteString,$storyID,$additionalFields);
             $parentNode[0]['NextPageID3']=0;
         } else if ($parentNode[0]['NextPageID4'] != 0) {
             $hasChildren = true;
             $deleteString .= "," . $parentNode[0]['NextPageID4'];
             $id = $parentNode[0]['NextPageID4'];
-            $newParentNode = getPage($con, $id, array(), $additionalFields,$storyID,"id =");
-            $deleteString = getChildren($newParentNode,$hasChildren,$deleteString,$con,$storyID,$additionalFields);
+            $newParentNode = getPage($id, $additionalFields,$storyID,"id =");
+            $deleteString = getChildren($newParentNode,$hasChildren,$deleteString,$storyID,$additionalFields);
             $parentNode[0]['NextPageID4']=0;
         } else {
             return $deleteString;
@@ -149,44 +108,40 @@ function getChildren($parentNode,$hasChildren,$deleteString,$con,$storyID,$addit
     return null;
 }
 
-function getPage($con,$id,$indexedOnly,$additionalFields,$storyID,$where){
-    $sql="SELECT id,".$additionalFields."NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE ".$where.$id." AND story = ".$storyID;
-    $result = mysqli_query($con,$sql);
-    while($row = mysqli_fetch_assoc($result)) {
-        $indexedOnly[] =$row;
-    }
-    return $indexedOnly;
+function getPage($id,$additionalFields,$storyID,$where){
+    $mysqlObject = new mysqlModule();
+    $result = $mysqlObject->queryDataBase("SELECT id,".$additionalFields."NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE ".$where.$id." AND story = ".$storyID);
+    return $result;
 }
 
-function checkIFparent($stoppingID, $startingID, $found,$con,$storyID){
+function checkIFparent($stoppingID, $startingID, $found,$storyID){
     while(!$found){
-        $sql="SELECT id,level FROM page WHERE NextPageID1 = ".$startingID." OR NextPageID2 = ".$startingID." OR NextPageID3 = ".$startingID." OR NextPageID4 = ".$startingID." AND story = ".$storyID;
-
-        $result = mysqli_query($con,$sql);
-        $indexedOnly = array();
-        while($row = mysqli_fetch_assoc($result)) {
-            $indexedOnly[0] =$row['id'];
-            $indexedOnly[1] =$row['level'];
-        }
-        if($indexedOnly[0] == $stoppingID){
+        $mysqlObject = new mysqlModule();
+        $result = $mysqlObject->queryDataBase("SELECT id,level FROM page WHERE NextPageID1 = ".$startingID." OR NextPageID2 = ".$startingID." OR NextPageID3 = ".$startingID." OR NextPageID4 = ".$startingID." AND story = ".$storyID);
+        if($result[0]['id'] == $stoppingID){
             return true;
-        }else if($indexedOnly[1] == 0){
+        }else if($result[0]['level'] == 0){
             return false;
         }else{
-            return checkIFparent($stoppingID, $indexedOnly[0], $found,$con,$storyID);
+            return checkIFparent($stoppingID, $result[0]['id'], $found,$storyID);
         }
     }
     return null;
 }
 
 function fixParentANDSiblings($con,$ID,$storyID){
-    $indexedOnly = array();
+    $mysqlObject = new mysqlModule();
+    $indexedOnly = $mysqlObject->queryDataBase(
+        "SELECT id,NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE NextPageID1 = ".$ID." OR NextPageID2 = ".$ID.
+        " OR NextPageID3 = ".$ID." OR NextPageID4 = ".$ID." AND story = ".$storyID);
+
+   /* $indexedOnly = array();
     $sql="SELECT id,NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE NextPageID1 = ".$ID." OR NextPageID2 = ".$ID.
         " OR NextPageID3 = ".$ID." OR NextPageID4 = ".$ID." AND story = ".$storyID;
     $result = mysqli_query($con,$sql);
     while($row = mysqli_fetch_assoc($result)) {
         $indexedOnly[] =$row;
-    }
+    }*/
 
     if($indexedOnly[0]['NextPageID1'] == $ID){
         $indexedOnly[0]['NextPageID1'] = $indexedOnly[0]['NextPageID2'];
@@ -253,44 +208,18 @@ function fixParentANDSiblings($con,$ID,$storyID){
 
 
 
-function drawLines($localhost, $user, $pw,$db,$storyID){
-
-    $con = mysqli_connect($localhost,$user, $pw, $db );
-    if (!$con) {
-        die('Could not connect: ' . mysqli_error($con));
-    }
-
-    $sql="SELECT MAX(level) FROM page WHERE story = ".$storyID;
-    $result = mysqli_query($con,$sql);
-
-    while($row = mysqli_fetch_assoc($result)) {
-        echo json_encode($row);
-    }
-    mysqli_free_result($result);
-    mysqli_close($con);
+function drawLines($storyID){
+    $mysqlObject = new mysqlModule();
+    echo json_encode($mysqlObject->queryDataBase("SELECT MAX(level) FROM page WHERE story = ".$storyID));
 }
 
 
-function drawNodes($localhost, $user, $pw,$db,$storyID){
-    $con = mysqli_connect($localhost,$user, $pw, $db );
-    if (!$con) {
-        die('Could not connect: ' . mysqli_error($con));
-    }
-
-    $sql="SELECT id,level,position,NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE story = ".$storyID." ORDER BY level,position ASC";
-    $result = mysqli_query($con,$sql);
-    $indexedOnly = array();
-
-    while($row = mysqli_fetch_assoc($result)) {
-        $indexedOnly[] = $row;
-    }
-
-    echo json_encode($indexedOnly);
-    mysqli_free_result($result);
-    mysqli_close($con);
+function drawNodes($storyID){
+    $mysqlObject = new mysqlModule();
+    echo json_encode($mysqlObject->queryDataBase("SELECT id,level,position,NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE story = ".$storyID." ORDER BY level,position ASC"));
 }
 
-
+//HERE
 function reorderNodes($localhost, $user, $pw,$db,$storyID){
     $ID01 = filter_input(INPUT_GET, 'ID01');
     $ID02 = filter_input(INPUT_GET, 'ID02');
@@ -433,38 +362,30 @@ function reorderNodes($localhost, $user, $pw,$db,$storyID){
 }
 
 
-function addNewNode($localhost, $user, $pw,$db,$storyID){
+function addNewNode($storyID){
     $ID = filter_input(INPUT_GET, 'ID');
-    $con = mysqli_connect($localhost,$user, $pw, $db );
-    if (!$con) {
-        die('Could not connect: ' . mysqli_error($con));
-    }
 
-    $sql="SELECT MAX(id) FROM page WHERE story = ".$storyID;
-    $result = mysqli_query($con,$sql);
-    $indexedOnly = array();
-    while($row = mysqli_fetch_assoc($result)) {
+    $mysqlObject = new mysqlModule();
+    $indexedOnly = $mysqlObject->queryDataBase("SELECT MAX(id) FROM page WHERE story = ".$storyID);
 
-        $indexedOnly[] =$row;
-    }
     $newID = $indexedOnly[0]['MAX(id)']+1;
 
-    $indexedOnly =getPage($con,$ID,$indexedOnly,"level,position,",$storyID,"id =");
+    $res =getPage($ID,"level,position,",$storyID,"id =");
 
-    $newLevel = $indexedOnly[1]['level']+1;
+    $newLevel = $res[0]['level']+1;
 
     $sql="SELECT position FROM page WHERE story = ".$storyID." AND id = ";
 
-    if($indexedOnly[1]['NextPageID3'] != 0){
-        $sql.=$indexedOnly[1]['NextPageID3'];
+    if($res[0]['NextPageID3'] != 0){
+        $sql.=$res[0]['NextPageID3'];
         $changeNN="NextPageID4";
         $first=null;
-    }else if($indexedOnly[1]['NextPageID2'] != 0){
-        $sql.=$indexedOnly[1]['NextPageID2'];
+    }else if($res[0]['NextPageID2'] != 0){
+        $sql.=$res[0]['NextPageID2'];
         $changeNN="NextPageID3";
         $first=null;
-    }else if($indexedOnly[1]['NextPageID1'] != 0){
-        $sql.=$indexedOnly[1]['NextPageID1'];
+    }else if($res[0]['NextPageID1'] != 0){
+        $sql.=$res[0]['NextPageID1'];
         $changeNN="NextPageID2";
         $first=null;
     }else{
@@ -473,80 +394,51 @@ function addNewNode($localhost, $user, $pw,$db,$storyID){
     }
 
     if($first != 1){
-        $result = mysqli_query($con,$sql);
-        while($row = mysqli_fetch_assoc($result)) {
-            $indexedOnly[] =$row;
-        }
-        $newPos = $indexedOnly[2]['position']+1;
+        $indexedOnly = $mysqlObject->queryDataBase($sql);
+        $newPos = $indexedOnly[0]['position']+1;
     }else{
         $newPos = 1;
     }
 
     $sql="UPDATE page SET ".$changeNN." = ".$newID." WHERE id = ".$ID." AND story = ".$storyID;
-    $result = mysqli_query($con,$sql);
-    if(!$result)
-    {
-        die('Could not update data: '. mysqli_error());
-    }
-    echo "Updated data successfully\n";
+    echo json_encode($mysqlObject->commandDataBase($sql));
 
     $sql="INSERT INTO page (id,level, position, NextPageID1, NextPageID2, NextPageID3,NextPageID4,story,title,text,imageLink,OptionText1,OptionText2,OptionText3,OptionText4)
     VALUES (".$newID.",".$newLevel.",".$newPos.",0,0,0,0,".$storyID.",'Page".$newID."','Text".$newID."','Link".$newID."','Option".$newID."_1','Option".$newID."_2','Option".$newID."_3','Option".$newID."_4')";
-    $result = mysqli_query($con,$sql);
-    if(!$result)
-    {
-        die('Could not insert data: '. mysqli_error());
-    }
-    echo "Inserted data successfully\n";
-
-    //mysqli_free_result($result);
-    mysqli_close($con);
+    echo json_encode($mysqlObject->commandDataBase($sql));
 }
 
 
 function deleteNode($localhost, $user, $pw,$db,$storyID){
     $ID = filter_input(INPUT_GET, 'ID');
+    $mysqlObject = new mysqlModule();
     $con = mysqli_connect($localhost,$user, $pw, $db );
     if (!$con) {
         die('Could not connect: ' . mysqli_error($con));
     }
 
-    $indexedOnly = array();
     $hasChildren = true;
-    $indexedOnly = getPage($con,$ID,$indexedOnly,"",$storyID,"id =");
+    $indexedOnly = getPage($ID,"",$storyID,"id =");
 
     $deleteString = "(".$indexedOnly[0]['id'];
 
-     $deleteString = getChildren($indexedOnly,$hasChildren,$deleteString,$con,$storyID,"");
+     $deleteString = getChildren($indexedOnly,$hasChildren,$deleteString,$storyID,"");
      $deleteString.=")";
 
     $sql = "DELETE FROM page WHERE story = ".$storyID." AND id IN".$deleteString;
-
-     echo $sql."\n";
-     if ($con->query($sql) === TRUE) {
-         echo "Record deleted successfully";
-     } else {
-         echo "Error deleting record: " . $con->error;
-     }
-
+    echo json_encode($mysqlObject->commandDataBase($sql));
 
     fixParentANDSiblings($con,$ID,$storyID);
 
     $con->close();
 }
 
-function moveBranch($localhost, $user, $pw,$db,$storyID){
+function moveBranch($storyID){
     $ID = filter_input(INPUT_GET, 'ID');
-    $con = mysqli_connect($localhost,$user, $pw, $db );
-    if (!$con) {
-        die('Could not connect: ' . mysqli_error($con));
-    }
-
-    $indexedOnly = array();
     $hasChildren = true;
-    $indexedOnly = getPage($con,$ID,$indexedOnly,"",$storyID,"id =");
+    $indexedOnly = getPage($ID,"",$storyID,"id =");
     $string = $indexedOnly[0]['id'];
-    $string = getChildren($indexedOnly,$hasChildren,$string,$con,$storyID,"");
+    $string = getChildren($indexedOnly,$hasChildren,$string,$storyID,"");
     echo json_encode($string);
 }
 
@@ -568,11 +460,11 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
         //get children of targetid
         $indexedOnly = array();
         $hasChildren = true;
-        $indexedOnly = getPage($con,$ID02,$indexedOnly,"",$storyID,"id =");
+        $indexedOnly = getPage($ID02,"",$storyID,"id =");
 
         $string = $indexedOnly[0]['id'];
 
-        $string = getChildren($indexedOnly,$hasChildren,$string,$con,$storyID,"");
+        $string = getChildren($indexedOnly,$hasChildren,$string,$storyID,"");
         $string = str_replace($x,"",$string);
         $targetIDs =explode(",",$string);
         $targetIDs = array_filter($targetIDs);
@@ -671,13 +563,12 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
         } while (mysqli_next_result($con));
 
     }else{
-        $indexedOnly = array();
         $hasChildren = true;
-        $indexedOnly = getPage($con,$ID02,$indexedOnly,"",$storyID,"id =");
+        $indexedOnly = getPage($ID02,"",$storyID,"id =");
 
         $string = $indexedOnly[0]['id'];
 
-        $string = getChildren($indexedOnly,$hasChildren,$string,$con,$storyID,"");
+        $string = getChildren($indexedOnly,$hasChildren,$string,$storyID,"");
         $targetIDs =explode(",",$string);
 
 

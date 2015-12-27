@@ -182,8 +182,8 @@ nodeEditor.module = (function($) {
             type: 'GET',
             data: 'functionName=drawLines&storyID='+storyID,
             success: function (data) {
-               var obj = $.parseJSON(data);
-               drawLines(obj['MAX(level)']);
+                var obj = $.parseJSON(data);
+               drawLines(obj[0]['MAX(level)']);
             },
             error: function (xhr, status, error) {
                 debugText.text(error);
@@ -517,7 +517,6 @@ nodeEditor.module = (function($) {
             type: 'GET',
             data: 'functionName=maxChildren&storyID='+storyID+'&ID=' + id,
             success: function (data) {
-                //alert(data);
                 console.log("SUCCESS");
                 var obj = $.parseJSON(data);
                 hasChildren = false;
@@ -557,7 +556,7 @@ nodeEditor.module = (function($) {
             data: 'functionName=isFirstNode&storyID='+storyID+'&ID=' + id,
             success: function (data) {
                 var obj = $.parseJSON(data);
-                if (obj['level'] == 0) {
+                if (obj[0]['level'] == 0) {
                     if(!popUpShown) {
                         stage.find('#delRect')[0].setAttr('fill', buttonColorDisabled);
                     }
