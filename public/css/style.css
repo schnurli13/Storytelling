@@ -16,8 +16,16 @@ body {
     overflow:hidden;
     width: 60%;
     margin:20px;
+    float:left;
 }
 
 #wrapper{
     position:relative;
+}
+
+#pageeditor{
+    float:right;
+    width:35%;
+    margin:20px;
+    background-color: #dedeff;
 }

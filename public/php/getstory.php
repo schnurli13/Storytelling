@@ -47,8 +47,26 @@ if ($functionName == "drawLines") {
     $ID02 = filter_input(INPUT_GET, 'ID');
     $found = checkIFparent($ID02,$ID01,false,$storyID);
     echo json_encode($found);
+}else if($functionName == "getContent"){
+    getContent($storyID);
+}else if($functionName == "saveContent"){
+    saveContent($storyID);
 }
 
+function saveContent($storyID){
+    $ID = filter_input(INPUT_GET, 'ID');
+    $text = filter_input(INPUT_GET, 'text');
+    $mysqlObject = new mysqlModule();
+    echo json_encode("UPDATE page SET text = '".$text."' WHERE story = ".$storyID." AND id = ".$ID);
+    echo json_encode($mysqlObject->commandDataBase("UPDATE page SET text ='".$text."' WHERE story = ".$storyID." AND id = ".$ID));
+}
+
+
+function getContent($storyID){
+    $ID = filter_input(INPUT_GET, 'ID');
+    $mysqlObject = new mysqlModule();
+    echo json_encode($mysqlObject->queryDataBase("SELECT title,text,imageLink,OptionText1,OptionText2,OptionText3,OptionText4 FROM page WHERE story = ".$storyID." AND id = ".$ID));
+}
 
 function isFirstNode($storyID){
     $ID = filter_input(INPUT_GET, 'ID');

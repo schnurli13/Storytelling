@@ -160,6 +160,8 @@ nodeEditor.module = (function($) {
         nodeSelection,
         reorderNodes,
         reorderBranches,
+        zoomOut,
+        zoomIn,
         checkAdditionalNode,
         checkDeleteNode,
         addNewNode,
@@ -218,7 +220,7 @@ nodeEditor.module = (function($) {
             backgroundLayer.add(levelText);
             backgroundLayer.add(line);
 
-            h += 100;
+            h += levelY;
         }
         backgroundLayer.draw();
 
@@ -455,12 +457,131 @@ nodeEditor.module = (function($) {
             debugText.text('Selected ' + e.target.name());
             if (fill == 'yellow') {
                 selectedNode = e.target.id();
+                zoomIn(e);
+                $.ajax({
+                    url: ajaxLink,
+                    type: 'GET',
+                    data: 'functionName=getContent&storyID='+storyID+'&ID=' + selectedNode,
+                    success: function (data) {//alert(data);
+                        var obj = $.parseJSON(data);
+                        $('#textEdit').val(obj[0]['text']);
+                    },
+                    error: function (xhr, status, error) {
+                        debugText.text(error);
+                        debugText.setAttr('fontSize','20');
+                        interfaceLayer.draw();
+                    }
+                });
+
             } else if (fill == buttonColorHover) {
                 selectedNode = null;
+                zoomOut();
+                $('#textEdit').val('click on node');
+
             }
             layer.draw();
             backgroundLayer.draw();
         }
+    };
+
+    zoomIn = function(e){
+        var zoomin = 1.5;
+        var clickX = e.target.x();
+        var clickY = e.target.y();
+        var distX = (width/2)-clickX;
+        var distY = (height/2)-clickY;
+        var oldWidth = layer.width()*layer.getAttr('scale').x;
+        var oldHeight = layer.height()*layer.getAttr('scale').y;
+
+        layer.scale({
+            x : zoomin,
+            y : zoomin
+        });
+        layerConn.scale({
+            x : zoomin,
+            y : zoomin
+        });
+
+        backgroundLayer.scale({
+            x : zoomin,
+            y : zoomin
+        });
+        layerTEXT.scale({
+            x : zoomin,
+            y : zoomin
+        });
+
+        backgroundLayer.draw();
+        layerConn.draw();
+        layer.draw();
+        layerTEXT.draw();
+
+
+        var newWidth = layer.width()*layer.getAttr('scale').x;
+        var newHeight = layer.height()*layer.getAttr('scale').y;
+
+        var diffX = ((newWidth-oldWidth)/3)-distX;
+        var diffY = ((newHeight-oldHeight)/3)-distY;
+        layer.offset({
+            x: diffX,
+            y: diffY
+        });
+        layerConn.offset({
+            x: diffX,
+            y: diffY
+        });
+        backgroundLayer.offset({
+            x: diffX,
+            y: diffY
+        });
+        layerTEXT.offset({
+            x: diffX,
+            y: diffY
+        });
+        backgroundLayer.draw();
+        layerConn.draw();
+        layer.draw();
+        layerTEXT.draw();
+    };
+
+    zoomOut = function(){
+        var zoomout = 1;
+        layer.scale({
+            x : zoomout,
+            y : zoomout
+        });
+        layerTEXT.scale({
+            x : zoomout,
+            y : zoomout
+        });
+        layer.offset({
+            x: 0,
+            y: 0
+        });
+        layerConn.scale({
+            x : zoomout,
+            y : zoomout
+        });
+        layerConn.offset({
+            x: 0,
+            y: 0
+        });
+        backgroundLayer.scale({
+            x : zoomout,
+            y : zoomout
+        });
+        backgroundLayer.offset({
+            x: 0,
+            y: 0
+        });
+        layerTEXT.offset({
+            x: 0,
+            y: 0
+        });
+        backgroundLayer.draw();
+        layerConn.draw();
+        layer.draw();
+        layerTEXT.draw();
     };
 
     reorderNodes = function(ID01, ID02) {
@@ -524,7 +645,6 @@ nodeEditor.module = (function($) {
                     if(!popUpShown) {
                         stage.find('#addRect')[0].setAttr('fill', buttonColor);
                     }
-                 //   document.getElementById('addNode').disabled = false;
                 } else {
                     if(movementStyle != null) {
                         button1.off('click');
@@ -533,7 +653,6 @@ nodeEditor.module = (function($) {
                     if(!popUpShown) {
                         stage.find('#addRect')[0].setAttr('fill', buttonColorDisabled);
                     }
-                    //document.getElementById('addNode').disabled = true;
                 }
                 if(obj[0]['NextPageID1'] != 0){
                     hasChildren = true; // alert(obj[0]['NextPageID1']);
@@ -560,12 +679,10 @@ nodeEditor.module = (function($) {
                     if(!popUpShown) {
                         stage.find('#delRect')[0].setAttr('fill', buttonColorDisabled);
                     }
-                   // document.getElementById('deleteNode').disabled = true;
                 } else {
                     if(!popUpShown) {
                         stage.find('#delRect')[0].setAttr('fill', buttonColor);
                     }
-                  //  document.getElementById('deleteNode').disabled = false;
                 }
                 interfaceLayer.draw();
             },
@@ -1224,6 +1341,7 @@ nodeEditor.module = (function($) {
 
         //add new page
         stage.find('#addButton')[0].on('click',function(e){
+            zoomOut();
             var rect =  stage.find('#addRect')[0];
             var fill = rect.fill() == buttonColorDisabled ? buttonColorDisabled : buttonColorHover;
             if(fill != buttonColorDisabled){
@@ -1255,6 +1373,7 @@ nodeEditor.module = (function($) {
 
        //delete page
         stage.find('#deleteButton')[0].off('click').on('click',function(e){
+            zoomOut();
             var rect =  stage.find('#delRect')[0];
             var fill = rect.fill() == buttonColorDisabled ? buttonColorDisabled: buttonColorHover;
             if(fill != buttonColorDisabled){
@@ -1284,6 +1403,24 @@ nodeEditor.module = (function($) {
             }
         });
 
+        $('#save').click(function() {
+            if($('#textEdit').val() != "click on node") {
+                $.ajax({
+                    url: ajaxLink,
+                    type: 'GET',
+                    data: 'functionName=saveContent&storyID=' + storyID + '&ID=' + selectedNode + '&text=' + $('#textEdit').val(),
+                    success: function (data) {
+                        alert(data);
+                    },
+                    error: function (xhr, status, error) {
+                        debugText.text(error);
+                        debugText.setAttr('fontSize', '20');
+                        interfaceLayer.draw();
+                    }
+                });
+            }
+        });
+
 
 //END
 
@@ -1291,6 +1428,7 @@ nodeEditor.module = (function($) {
       layer.on("dragstart", function (e) {
 
           if(!pause && movementStyle == null){
+              zoomOut();
               selectedNode=e.target.id();
               checkAdditionalNode(e.target.id());
               checkDeleteNode(e.target.id());
@@ -1437,6 +1575,8 @@ nodeEditor.module = (function($) {
                 interfaceLayer.draw();
             }
         });
+
+
 
     };
 

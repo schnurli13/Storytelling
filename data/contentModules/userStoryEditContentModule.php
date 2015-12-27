@@ -35,8 +35,9 @@ class userStoryEditContentModule{
 	/*	$returnString.='<div id="buttons">';
 		$returnString.='<input type="button" value="Add new page" id="addNode" disabled="true">';
 		$returnString.='<input type="button" value="Delete page" id="deleteNode" disabled="true">';*/
-		$returnString.='</div>';
 
+		$returnString.='<div id="pageeditor"><input type="text" value="click on node" id="textEdit"><input type="button" value="Save" id="save"></div>';
+		$returnString.='</div>';
 		$returnString.='<script type="text/javascript" src="/Storytelling/public/javascript/function.js"></script>';
 		
 		return $returnString;
