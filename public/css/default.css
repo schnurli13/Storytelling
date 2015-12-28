@@ -426,7 +426,7 @@ input.buttonStoryInfo {
     padding: 2px;
     background-color: #F3E0E1;
     float: right;
-    margin-bottom: 30px; }
+    margin-bottom: 160px; }
   #userEditPage .dummy {
     background-color: #E1AFB1 !important;
     margin-bottom: 50px; }
@@ -472,6 +472,29 @@ input.buttonStoryInfo {
     float: left;
     margin-bottom: 30px; }
 
+#userEditPage #profilePicSection {
+  margin-top: 20px; }
+#userEditPage .deleteThisPic {
+  font-size: 2em; }
+#userEditPage #pictureHandling .buttonFrameContainer {
+  margin-top: -40px; }
+#userEditPage #currentPicture {
+  float: left;
+  margin-bottom: 15px;
+  margin-right: 10px; }
+
+/*.profilePic {
+margin-right: 20px;
+}
+
+.currPicDiv {
+width: 55%;
+}
+
+.closeFancyBox input.button {
+    margin-top: 20px;
+}
+*/
 .test {
   color: red; }
 

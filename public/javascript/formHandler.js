@@ -109,7 +109,7 @@ loadAndUpdatePics = function(){
 		var parsedArray = JSON.parse(data);
 		for(i = 0; i<parsedArray.length; i++){
 			picNumber = i+1;
-			picSection.append('<div class="profilePicContainer"><span class="deleteThisPic">X</span><img src="/Storytelling/public/images/profile/'+parsedArray[i]+'" class="profilePic" alt="pic'+picNumber+'"></div>');
+			picSection.append('<div class="profilePicContainer"><img src="/Storytelling/public/images/profile/'+parsedArray[i]+'" class="profilePic" alt="pic'+picNumber+'"><span class="deleteThisPic">X</span></div>');
 		}
 		$('.profilePic').on('click', function(){
 			setAsProfilePic($(this));

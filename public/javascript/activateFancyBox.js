@@ -4,4 +4,10 @@ $(document).ready(function(){
 			
 		}
 	});
+	
+	$('.fancybox-frame').fancybox({
+		width     : '90%',
+		height    : '90%',
+    	autoSize    : false,
+	});
 });

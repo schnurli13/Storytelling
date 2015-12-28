@@ -639,7 +639,7 @@ input {
 		padding: 2px;
 		background-color: #F3E0E1;
 		float: right;
-		margin-bottom: 30px;
+		margin-bottom: 160px;
 	}
 	
 	.dummy {
@@ -707,6 +707,41 @@ input {
 	
 }
 
+
+#userEditPage {
+	
+	#profilePicSection {
+		margin-top: 20px;
+	}
+	
+	.deleteThisPic {
+		font-size: 2em;
+	}
+	
+	#pictureHandling .buttonFrameContainer {
+		margin-top: -40px;
+	}
+	
+	#currentPicture {
+		float: left;
+		margin-bottom: 15px;
+		margin-right: 10px;
+	}	
+}
+
+
+/*.profilePic {
+margin-right: 20px;
+}
+
+.currPicDiv {
+width: 55%;
+}
+
+.closeFancyBox input.button {
+    margin-top: 20px;
+}
+*/
 
 
 
