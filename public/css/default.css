@@ -80,7 +80,7 @@ input.buttonStory {
   cursor: pointer; }
 input.buttonStoryInfo {
   width: 145px;
-  font-size: 18px;
+  font-size: 0.8em;
   font-family: "Architects Daughter", cursive;
   background-color: #E1AFB1;
   border: dotted 2px black;
@@ -101,7 +101,8 @@ input.buttonStoryInfo {
   padding: 0% 5%; }
   .loginContainer h1, .registerContainer h1 {
     font-family: "Architects Daughter", cursive;
-    margin-top: -22px; }
+    margin-top: -22px;
+    font-size: 1.6em; }
 
 .infoLink {
   margin-top: 20px;
@@ -124,7 +125,7 @@ input.buttonStoryInfo {
 
 .buttonSize {
   width: 116px;
-  height: 30px;
+  height: 32px;
   border: black dotted 2px;
   line-height: 2em;
   text-align: center; }
@@ -167,7 +168,8 @@ input.buttonStoryInfo {
   border: dotted 2px black; }
   #profilePage .profileContainer h1 {
     font-family: "Architects Daughter", cursive;
-    margin-top: -22px; }
+    margin-top: -22px;
+    font-size: 1.6em; }
 #profilePage .myInfoContainer {
   background-color: #F3E0E1;
   border: dotted 2px black; }
@@ -227,10 +229,11 @@ input.buttonStoryInfo {
   margin-bottom: 30px; }
 #profilePage .storyTitle {
   margin-top: 5px;
-  text-align: center; }
+  text-align: center;
+  font-size: 0.9em; }
 #profilePage .profileLable {
   margin-right: 20px;
-  width: 100px;
+  width: 110px;
   float: left; }
 #profilePage .storyPic, #profilePage .profilePic {
   width: 130px; }
@@ -271,7 +274,8 @@ input.buttonStoryInfo {
   #registerPage .buttonFrameContainer {
     width: 45%; }
   #registerPage input.button {
-    width: 100%; }
+    width: 100%;
+    height: 36px; }
   #registerPage .buttonSize {
     width: 97%; }
 
@@ -287,7 +291,8 @@ input.buttonStoryInfo {
   #loginPage .buttonFrameContainer {
     width: 45%; }
   #loginPage input.button {
-    width: 100%; }
+    width: 100%;
+    height: 36px; }
   #loginPage .buttonSize {
     width: 97%; }
 
@@ -304,7 +309,7 @@ input.buttonStoryInfo {
   font-size: 0.75em;
   width: 55px;
   height: 46px;
-  margin-left: -22px;
+  margin-left: -27px;
   margin-top: -10px;
   background-color: #96C3CC; }
 #searchPage input.inputField {
@@ -348,7 +353,7 @@ input.buttonStoryInfo {
     margin-top: 10px;
     position: absolute; }
   #searchResultPage .searchLabel input.inputField {
-    height: 30px;
+    height: 40px;
     padding-top: 7px; }
   #searchResultPage p.darkBlue.searchLabel {
     font-size: 28px;
@@ -357,7 +362,7 @@ input.buttonStoryInfo {
     font-family: FontAwesome;
     font-size: 0.75em;
     width: 55px;
-    height: 30px;
+    height: 40px;
     margin-left: -22px;
     margin-top: -0px;
     background-color: #96C3CC; }
@@ -398,7 +403,8 @@ input.buttonStoryInfo {
     border: dotted 2px black; }
     #userEditPage .userEditContainer h1 {
       font-family: "Architects Daughter", cursive;
-      margin-top: -22px; }
+      margin-top: -22px;
+      font-size: 1.6em; }
   #userEditPage .h1bgUserEdit {
     width: 245px;
     background-color: #E1AFB1;
@@ -410,7 +416,7 @@ input.buttonStoryInfo {
     padding: 0px 20px; }
   #userEditPage input.button {
     width: 100%;
-    font-size: 18px;
+    font-size: 0.8em;
     font-family: "Architects Daughter", cursive;
     background-color: #F3E0E1;
     border: dotted 2px black; }
@@ -426,7 +432,7 @@ input.buttonStoryInfo {
     padding: 2px;
     background-color: #F3E0E1;
     float: right;
-    margin-bottom: 160px; }
+    margin-bottom: 30px; }
   #userEditPage .dummy {
     background-color: #E1AFB1 !important;
     margin-bottom: 50px; }
@@ -471,30 +477,22 @@ input.buttonStoryInfo {
     background-color: #F3E0E1;
     float: left;
     margin-bottom: 30px; }
+  #userEditPage #profilePicSection {
+    margin-top: 20px; }
+  #userEditPage .deleteThisPic {
+    font-size: 1.5em;
+    margin-left: 10px; }
+  #userEditPage #pictureHandling .buttonFrameContainer {
+    margin-top: -40px; }
+  #userEditPage #pictureHandling {
+    margin-top: -195px; }
+  #userEditPage #currentPicture {
+    margin-bottom: 15px;
+    margin-right: 10px; }
 
-#userEditPage #profilePicSection {
-  margin-top: 20px; }
-#userEditPage .deleteThisPic {
-  font-size: 2em; }
-#userEditPage #pictureHandling .buttonFrameContainer {
-  margin-top: -40px; }
-#userEditPage #currentPicture {
-  float: left;
-  margin-bottom: 15px;
-  margin-right: 10px; }
+.fancybox-wrap {
+  position: absolute !important; }
 
-/*.profilePic {
-margin-right: 20px;
-}
-
-.currPicDiv {
-width: 55%;
-}
-
-.closeFancyBox input.button {
-    margin-top: 20px;
-}
-*/
 .test {
   color: red; }
 

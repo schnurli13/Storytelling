@@ -120,7 +120,7 @@ input {
 	
 	&.buttonStoryInfo {
 		width: 145px;
-		font-size: 18px;
+		font-size: 0.8em;
 		font-family: $mainFont;
 		background-color: $darkred;
 		border: dotted 2px black;
@@ -148,7 +148,8 @@ input {
 	
 	h1 {
 		font-family: $mainFont;
-		margin-top: -22px;	
+		margin-top: -22px;
+		font-size: 1.6em;
 	}
 }
 
@@ -180,7 +181,7 @@ input {
 
 .buttonSize {
 	width: 116px;
-	height: 30px;
+	height: 32px;
 	border: black dotted 2px;
 	line-height: 2em;
 	text-align: center;
@@ -237,7 +238,8 @@ input {
 			
 		h1 {
 			font-family: $mainFont;
-			margin-top: -22px;	
+			margin-top: -22px;
+			font-size: 1.6em;
 		}
 	}
 	
@@ -320,14 +322,15 @@ input {
 		margin-bottom: 30px;
 	}
 	
-		.storyTitle {
+	.storyTitle {
 		margin-top: 5px;
 		text-align: center;
+		font-size: 0.9em;
 	}
 	
 	.profileLable {
 		margin-right: 20px;
-		width: 100px;
+		width: 110px;
 		float: left;
 	}
 	
@@ -392,6 +395,7 @@ input {
 	
 	input.button {
 		width:	100%;
+		height: 36px;
 	}
 	
 	.buttonSize {
@@ -421,6 +425,7 @@ input {
 	
 	input.button {
 		width:	100%;
+		height: 36px;
 	}
 	
 	.buttonSize {
@@ -449,7 +454,7 @@ input {
 		font-size: 0.75em;
 		width: 55px;
 		height: 46px;
-		margin-left: -22px;
+		margin-left: -27px;
 		margin-top: -10px;
 		background-color: $darkblue;
 	}
@@ -520,7 +525,7 @@ input {
 	}
 	
 	.searchLabel input.inputField {
-		height: 30px;
+		height: 40px;
 	   	padding-top: 7px;
 	}
 	
@@ -533,7 +538,7 @@ input {
 		font-family: FontAwesome;
 		font-size: 0.75em;
 		width: 55px;
-		height: 30px;
+		height: 40px;
 		margin-left: -22px;
 		margin-top: -0px;
 		background-color: $darkblue;
@@ -596,7 +601,8 @@ input {
 		
 		h1 {
 			font-family: $mainFont;
-			margin-top: -22px;	
+			margin-top: -22px;
+			font-size: 1.6em;
 		}
 	}
 	
@@ -618,7 +624,7 @@ input {
 	input {
 		&.button {
 		width: 100%;
-		font-size: 18px;
+		font-size: 0.8em;
 		font-family: $mainFont;
 		background-color: $lightred;
 		border: dotted 2px black;
@@ -639,7 +645,7 @@ input {
 		padding: 2px;
 		background-color: #F3E0E1;
 		float: right;
-		margin-bottom: 160px;
+		margin-bottom: 30px;
 	}
 	
 	.dummy {
@@ -703,45 +709,39 @@ input {
 		margin-bottom: 30px;
 	}
 	
-
-	
-}
-
-
-#userEditPage {
-	
 	#profilePicSection {
 		margin-top: 20px;
 	}
 	
 	.deleteThisPic {
-		font-size: 2em;
+		font-size: 1.5em;
+		margin-left: 10px;
 	}
 	
 	#pictureHandling .buttonFrameContainer {
 		margin-top: -40px;
 	}
 	
+	#pictureHandling {
+		margin-top: -195px;
+	}
+	
 	#currentPicture {
-		float: left;
 		margin-bottom: 15px;
 		margin-right: 10px;
-	}	
+	}
+	
+
+	
 }
 
+	
 
-/*.profilePic {
-margin-right: 20px;
+
+.fancybox-wrap {
+	position: absolute !important;
 }
 
-.currPicDiv {
-width: 55%;
-}
-
-.closeFancyBox input.button {
-    margin-top: 20px;
-}
-*/
 
 
 
