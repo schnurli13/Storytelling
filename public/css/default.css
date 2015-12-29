@@ -86,6 +86,9 @@ input.buttonStoryInfo {
   border: dotted 2px black;
   cursor: pointer; }
 
+.fancybox-wrap {
+  position: absolute !important; }
+
 .loginFrameContainer, .registerFrameContainer {
   width: 30%;
   min-width: 300px;
@@ -490,10 +493,99 @@ input.buttonStoryInfo {
     margin-bottom: 15px;
     margin-right: 10px; }
 
-.fancybox-wrap {
-  position: absolute !important; }
-
-.test {
-  color: red; }
+#newStoryPage {
+  font-family: "Architects Daughter", cursive;
+  font-size: 18px; }
+  #newStoryPage .newStoryFrameContainer {
+    width: 50%;
+    left: 25%;
+    position: relative;
+    padding: 20px;
+    margin-top: 10px;
+    background-color: #96C3CC; }
+  #newStoryPage .newStoryContainer {
+    background-color: #96C3CC;
+    border: dotted 2px black; }
+    #newStoryPage .newStoryContainer h1 {
+      font-family: "Architects Daughter", cursive;
+      margin-top: -22px;
+      font-size: 1.6em; }
+  #newStoryPage .h1bgNewStory {
+    width: 220px;
+    background-color: #96C3CC;
+    margin: 0 auto;
+    position: relative; }
+  #newStoryPage .closeFancyBox {
+    margin-bottom: 20px; }
+  #newStoryPage #content {
+    padding: 0px 20px; }
+  #newStoryPage input.button {
+    width: 100%;
+    font-size: 0.8em;
+    font-family: "Architects Daughter", cursive;
+    background-color: #D3ECED;
+    border: dotted 2px black; }
+  #newStoryPage input.inputField {
+    width: 100%;
+    float: left;
+    height: 42px;
+    margin-right: 20px;
+    margin-bottom: 20px; }
+  #newStoryPage .buttonFrameContainer {
+    width: 40%;
+    position: relative;
+    padding: 2px;
+    background-color: #D3ECED;
+    float: right;
+    margin-bottom: 30px; }
+  #newStoryPage form#changePic input {
+    width: 230px;
+    font-size: 18px;
+    font-family: "Architects Daughter", cursive;
+    background-color: #D3ECED;
+    border: dotted 2px black;
+    margin-left: 10px; }
+  #newStoryPage .fileUpload {
+    position: relative;
+    overflow: hidden;
+    font-size: 18px;
+    font-family: "Architects Daughter", cursive;
+    background-color: #D3ECED;
+    border: dotted 2px black;
+    text-align: center;
+    height: 32.7px;
+    line-height: 1.7;
+    font-size: 18px; }
+  #newStoryPage .fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0); }
+  #newStoryPage .buttonFrameContainerUpload {
+    width: 40%;
+    position: relative;
+    padding: 2px;
+    background-color: #D3ECED;
+    float: left;
+    margin-bottom: 30px; }
+  #newStoryPage #profilePicSection {
+    margin-top: 20px; }
+  #newStoryPage .deleteThisPic {
+    font-size: 1.5em;
+    margin-left: 10px; }
+  #newStoryPage #pictureHandling .buttonFrameContainer {
+    margin-top: -40px; }
+  #newStoryPage .fullwidth {
+    width: 100%; }
+  #newStoryPage input[type='checkbox'],
+  #newStoryPage input[type='radio'] {
+    width: auto;
+    height: auto;
+    zoom: 2; }
 
 /*# sourceMappingURL=default.css.map */

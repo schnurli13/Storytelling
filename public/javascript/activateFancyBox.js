@@ -5,9 +5,10 @@ $(document).ready(function(){
 		}
 	});
 	
-	$('.fancybox-frame').fancybox({
+	$(".fancybox").fancybox({ 
 		width     : '90%',
 		height    : '90%',
-    	autoSize    : false,
+		autoSize    : false,
+		scrolling : 'yes'
 	});
 });

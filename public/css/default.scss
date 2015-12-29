@@ -128,6 +128,10 @@ input {
 	}	
 }
 
+.fancybox-wrap {
+	position: absolute !important;
+}
+
 
 ///// NEEDED FOR MORE PAGES /////
 
@@ -643,7 +647,7 @@ input {
 		width: 40%;
 		position: relative;
 		padding: 2px;
-		background-color: #F3E0E1;
+		background-color: $lightred;
 		float: right;
 		margin-bottom: 30px;
 	}
@@ -671,8 +675,6 @@ input {
 		border: dotted 2px black;
 		margin-left: 10px;
 	}
-	
-	
 	
 	.fileUpload {
 		position: relative;
@@ -704,7 +706,7 @@ input {
 		width: 40%;
 		position: relative;
 		padding: 2px;
-		background-color: #F3E0E1;
+		background-color: $lightred;
 		float: left;
 		margin-bottom: 30px;
 	}
@@ -729,24 +731,140 @@ input {
 	#currentPicture {
 		margin-bottom: 15px;
 		margin-right: 10px;
+	}	
+}
+
+#newStoryPage {
+	font-family: $mainFont;
+	font-size: 18px;
+	
+	.newStoryFrameContainer {
+		width: 50%;
+		left: 25%;
+		position: relative;
+		padding: 20px;
+		margin-top: 10px;
+		background-color: $darkblue;
 	}
 	
-
+	.newStoryContainer {
+		background-color: $darkblue;
+		border: dotted 2px black;
+		
+		h1 {
+			font-family: $mainFont;
+			margin-top: -22px;
+			font-size: 1.6em;
+		}
+	}
 	
-}
-
+	.h1bgNewStory {
+		width: 220px;
+		background-color: $darkblue;
+		margin: 0 auto;
+		position: relative;
+	}
 	
+	.closeFancyBox {
+		margin-bottom: 20px;
+	}
+	
+	#content {
+		padding: 0px 20px;
+	}
+	
+	input {
+		&.button {
+		width: 100%;
+		font-size: 0.8em;
+		font-family: $mainFont;
+		background-color: $lightblue;
+		border: dotted 2px black;
+		}
+	
+		&.inputField {
+			width: 100%;
+			float: left;
+			height: 42px;
+			margin-right: 20px;
+			margin-bottom: 20px;
+		}
+	}
+	
+	.buttonFrameContainer {
+		width: 40%;
+		position: relative;
+		padding: 2px;
+		background-color: $lightblue;
+		float: right;
+		margin-bottom: 30px;
+	}
+	
+	form#changePic input {
+		width: 230px;
+		font-size: 18px;
+		font-family: $mainFont;
+		background-color: $lightblue;
+		border: dotted 2px black;
+		margin-left: 10px;
+	}
+	
+	.fileUpload {
+		position: relative;
+		overflow: hidden;
 
+		font-size: 18px;
+		font-family: $mainFont;
+		background-color: $lightblue;
+		border: dotted 2px black;
+		text-align: center;
+		height: 32.7px;
+		line-height: 1.7;
+		font-size: 18px;
+	}
+	
+	.fileUpload input.upload {
+		position: absolute;
+		top: 0;
+		right: 0;
+		margin: 0;
+		padding: 0;
+		font-size: 20px;
+		cursor: pointer;
+		opacity: 0;
+		filter: alpha(opacity=0);
+	}
+	
+	.buttonFrameContainerUpload {
+		width: 40%;
+		position: relative;
+		padding: 2px;
+		background-color: $lightblue;
+		float: left;
+		margin-bottom: 30px;
+	}
+	
+	#profilePicSection {
+		margin-top: 20px;
+	}
+	
+	.deleteThisPic {
+		font-size: 1.5em;
+		margin-left: 10px;
+	}
+	
+	#pictureHandling .buttonFrameContainer {
+		margin-top: -40px;
+	}
+	
+	.fullwidth {
+		width: 100%;
+	}
 
-.fancybox-wrap {
-	position: absolute !important;
-}
-
-
-
-
-
-
-.test {
-	color: red;
+	input[type='checkbox'],
+	input[type='radio'] {
+		width: auto;
+		height: auto;
+		zoom: 2;
+	}	
 }
