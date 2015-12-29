@@ -10,7 +10,7 @@ DESIGN
 body {
   background-color: #FFFFFF; }
 
-#mainContentWrapper #loginPage, #mainContentWrapper #registerPage, #mainContentWrapper #profilePage {
+#mainContentWrapper #loginPage, #mainContentWrapper #registerPage, #mainContentWrapper #profilePage, #errorPage {
   text-align: center; }
 
 .left {
@@ -153,7 +153,7 @@ input.buttonStoryInfo {
 .lastLabel {
   margin-bottom: 40px; }
 
-.loginContainer p, .registerContainer p, .profileContainer p {
+.loginContainer p, .registerContainer p, .profileContainer p, .errorContainer p {
   text-align: left;
   font-size: 18px;
   font-family: "Architects Daughter", cursive; }
@@ -587,5 +587,36 @@ input.buttonStoryInfo {
     width: auto;
     height: auto;
     zoom: 2; }
+
+#errorPage {
+  font-family: "Architects Daughter", cursive; }
+  #errorPage .errorFrameContainer {
+    width: 30%;
+    min-width: 300px;
+    margin: 0 auto;
+    position: relative;
+    padding: 20px;
+    margin-top: 10px;
+    background-color: #96C3CC; }
+  #errorPage .errorContainer {
+    background-color: #96C3CC;
+    border: dotted 2px black;
+    padding: 0% 5%; }
+    #errorPage .errorContainer h1 {
+      font-family: "Architects Daughter", cursive;
+      margin-top: -22px;
+      font-size: 1.6em; }
+  #errorPage .h1bgError {
+    width: 110px;
+    background-color: #96C3CC;
+    margin: 0 auto;
+    position: relative; }
+  #errorPage .buttonFrameContainer {
+    width: 200px;
+    margin-bottom: 20px; }
+  #errorPage .buttonSize {
+    width: 196px; }
+  #errorPage .errorContainer p {
+    text-align: center; }
 
 /*# sourceMappingURL=default.css.map */

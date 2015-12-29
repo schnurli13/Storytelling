@@ -26,7 +26,7 @@ body {
 	background-color: #FFFFFF;
 }
 
-#mainContentWrapper #loginPage, #mainContentWrapper #registerPage, #mainContentWrapper #profilePage {
+#mainContentWrapper #loginPage, #mainContentWrapper #registerPage, #mainContentWrapper #profilePage, #errorPage {
 	text-align: center;
 }
 
@@ -215,7 +215,7 @@ input {
 	margin-bottom: 40px;
 }
 
-.loginContainer p, .registerContainer p, .profileContainer p {
+.loginContainer p, .registerContainer p, .profileContainer p, .errorContainer p {
 	text-align: left;
 	font-size: 18px;
 	font-family: $mainFont;
@@ -867,4 +867,52 @@ input {
 		height: auto;
 		zoom: 2;
 	}	
+}
+
+#errorPage {
+	
+	.errorFrameContainer {
+		width: 30%;
+		min-width: 300px;
+		margin: 0 auto;
+		position: relative;
+		padding: 20px;
+		margin-top: 10px;
+		background-color: $darkblue;
+	}
+	
+	.errorContainer {
+		background-color: $darkblue;
+		border: dotted 2px black;
+		padding: 0% 5%;
+		
+		h1 {
+			font-family: $mainFont;
+			margin-top: -22px;
+			font-size: 1.6em;
+		}
+	}
+	
+		font-family: $mainFont;
+	
+	.h1bgError {
+		width: 110px;
+		background-color: $darkblue;
+		margin: 0 auto;
+		position: relative;
+	}
+	
+	.buttonFrameContainer {
+		width: 200px;
+		margin-bottom: 20px;
+	}
+	
+	.buttonSize {
+		width: 196px;
+	}
+	
+	.errorContainer p {
+		text-align: center;
+	}
+	
 }
