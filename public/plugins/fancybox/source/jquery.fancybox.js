@@ -64,7 +64,7 @@
 			maxHeight : 9999,
 			pixelRatio: 1, // Set to 2 for retina display support
 
-			autoSize   : false,
+			autoSize   : false, // was true
 			autoHeight : false,
 			autoWidth  : false,
 
@@ -75,7 +75,7 @@
 			topRatio    : 0.5,
 			leftRatio   : 0.5,
 
-			scrolling : 'auto', // 'auto', 'yes' or 'no'
+			scrolling : 'yes', // 'auto', 'yes' or 'no' - was auto
 			wrapCSS   : '',
 
 			arrows     : true,

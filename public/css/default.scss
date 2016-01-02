@@ -26,7 +26,7 @@ body {
 	background-color: #FFFFFF;
 }
 
-#mainContentWrapper #loginPage, #mainContentWrapper #registerPage, #mainContentWrapper #profilePage {
+#mainContentWrapper #loginPage, #mainContentWrapper #registerPage, #mainContentWrapper #profilePage, #errorPage {
 	text-align: center;
 }
 
@@ -120,12 +120,16 @@ input {
 	
 	&.buttonStoryInfo {
 		width: 145px;
-		font-size: 18px;
+		font-size: 0.8em;
 		font-family: $mainFont;
 		background-color: $darkred;
 		border: dotted 2px black;
 		cursor: pointer;
 	}	
+}
+
+.fancybox-wrap {
+	position: absolute !important;
 }
 
 
@@ -148,14 +152,15 @@ input {
 	
 	h1 {
 		font-family: $mainFont;
-		margin-top: -22px;	
+		margin-top: -22px;
+		font-size: 1.6em;
 	}
 }
 
 .infoLink {
 	margin-top: 20px;
 	text-align: center;
-	left: 25%;
+	margin: 0 auto;
 	
 	a {
 		color: #000;
@@ -180,7 +185,7 @@ input {
 
 .buttonSize {
 	width: 116px;
-	height: 30px;
+	height: 32px;
 	border: black dotted 2px;
 	line-height: 2em;
 	text-align: center;
@@ -210,7 +215,7 @@ input {
 	margin-bottom: 40px;
 }
 
-.loginContainer p, .registerContainer p, .profileContainer p {
+.loginContainer p, .registerContainer p, .profileContainer p, .errorContainer p {
 	text-align: left;
 	font-size: 18px;
 	font-family: $mainFont;
@@ -237,7 +242,8 @@ input {
 			
 		h1 {
 			font-family: $mainFont;
-			margin-top: -22px;	
+			margin-top: -22px;
+			font-size: 1.6em;
 		}
 	}
 	
@@ -320,14 +326,15 @@ input {
 		margin-bottom: 30px;
 	}
 	
-		.storyTitle {
+	.storyTitle {
 		margin-top: 5px;
 		text-align: center;
+		font-size: 0.9em;
 	}
 	
 	.profileLable {
 		margin-right: 20px;
-		width: 100px;
+		width: 110px;
 		float: left;
 	}
 	
@@ -392,6 +399,7 @@ input {
 	
 	input.button {
 		width:	100%;
+		height: 36px;
 	}
 	
 	.buttonSize {
@@ -421,6 +429,7 @@ input {
 	
 	input.button {
 		width:	100%;
+		height: 36px;
 	}
 	
 	.buttonSize {
@@ -449,7 +458,7 @@ input {
 		font-size: 0.75em;
 		width: 55px;
 		height: 46px;
-		margin-left: -22px;
+		margin-left: -27px;
 		margin-top: -10px;
 		background-color: $darkblue;
 	}
@@ -520,7 +529,7 @@ input {
 	}
 	
 	.searchLabel input.inputField {
-		height: 30px;
+		height: 40px;
 	   	padding-top: 7px;
 	}
 	
@@ -533,7 +542,7 @@ input {
 		font-family: FontAwesome;
 		font-size: 0.75em;
 		width: 55px;
-		height: 30px;
+		height: 40px;
 		margin-left: -22px;
 		margin-top: -0px;
 		background-color: $darkblue;
@@ -596,7 +605,8 @@ input {
 		
 		h1 {
 			font-family: $mainFont;
-			margin-top: -22px;	
+			margin-top: -22px;
+			font-size: 1.6em;
 		}
 	}
 	
@@ -618,7 +628,7 @@ input {
 	input {
 		&.button {
 		width: 100%;
-		font-size: 18px;
+		font-size: 0.8em;
 		font-family: $mainFont;
 		background-color: $lightred;
 		border: dotted 2px black;
@@ -637,7 +647,7 @@ input {
 		width: 40%;
 		position: relative;
 		padding: 2px;
-		background-color: #F3E0E1;
+		background-color: $lightred;
 		float: right;
 		margin-bottom: 30px;
 	}
@@ -665,8 +675,6 @@ input {
 		border: dotted 2px black;
 		margin-left: 10px;
 	}
-	
-	
 	
 	.fileUpload {
 		position: relative;
@@ -698,20 +706,213 @@ input {
 		width: 40%;
 		position: relative;
 		padding: 2px;
-		background-color: #F3E0E1;
+		background-color: $lightred;
 		float: left;
 		margin-bottom: 30px;
 	}
 	
-
+	#profilePicSection {
+		margin-top: 20px;
+	}
 	
+	.deleteThisPic {
+		font-size: 1.5em;
+		margin-left: 10px;
+	}
+	
+	#pictureHandling .buttonFrameContainer {
+		margin-top: -40px;
+	}
+	
+	#pictureHandling {
+		margin-top: -195px;
+	}
+	
+	#currentPicture {
+		margin-bottom: 15px;
+		margin-right: 10px;
+	}	
 }
 
+#newStoryPage {
+	font-family: $mainFont;
+	font-size: 18px;
+	
+	.newStoryFrameContainer {
+		width: 50%;
+		left: 25%;
+		position: relative;
+		padding: 20px;
+		margin-top: 10px;
+		background-color: $darkblue;
+	}
+	
+	.newStoryContainer {
+		background-color: $darkblue;
+		border: dotted 2px black;
+		
+		h1 {
+			font-family: $mainFont;
+			margin-top: -22px;
+			font-size: 1.6em;
+		}
+	}
+	
+	.h1bgNewStory {
+		width: 220px;
+		background-color: $darkblue;
+		margin: 0 auto;
+		position: relative;
+	}
+	
+	.closeFancyBox {
+		margin-bottom: 20px;
+	}
+	
+	#content {
+		padding: 0px 20px;
+	}
+	
+	input {
+		&.button {
+		width: 100%;
+		font-size: 0.8em;
+		font-family: $mainFont;
+		background-color: $lightblue;
+		border: dotted 2px black;
+		}
+	
+		&.inputField {
+			width: 100%;
+			float: left;
+			height: 42px;
+			margin-right: 20px;
+			margin-bottom: 20px;
+		}
+	}
+	
+	.buttonFrameContainer {
+		width: 40%;
+		position: relative;
+		padding: 2px;
+		background-color: $lightblue;
+		float: right;
+		margin-bottom: 30px;
+	}
+	
+	form#changePic input {
+		width: 230px;
+		font-size: 18px;
+		font-family: $mainFont;
+		background-color: $lightblue;
+		border: dotted 2px black;
+		margin-left: 10px;
+	}
+	
+	.fileUpload {
+		position: relative;
+		overflow: hidden;
 
+		font-size: 18px;
+		font-family: $mainFont;
+		background-color: $lightblue;
+		border: dotted 2px black;
+		text-align: center;
+		height: 32.7px;
+		line-height: 1.7;
+		font-size: 18px;
+	}
+	
+	.fileUpload input.upload {
+		position: absolute;
+		top: 0;
+		right: 0;
+		margin: 0;
+		padding: 0;
+		font-size: 20px;
+		cursor: pointer;
+		opacity: 0;
+		filter: alpha(opacity=0);
+	}
+	
+	.buttonFrameContainerUpload {
+		width: 40%;
+		position: relative;
+		padding: 2px;
+		background-color: $lightblue;
+		float: left;
+		margin-bottom: 30px;
+	}
+	
+	#profilePicSection {
+		margin-top: 20px;
+	}
+	
+	.deleteThisPic {
+		font-size: 1.5em;
+		margin-left: 10px;
+	}
+	
+	#pictureHandling .buttonFrameContainer {
+		margin-top: -40px;
+	}
+	
+	.fullwidth {
+		width: 100%;
+	}
 
+	input[type='checkbox'],
+	input[type='radio'] {
+		width: auto;
+		height: auto;
+		zoom: 2;
+	}	
+}
 
-
-
-.test {
-	color: red;
+#errorPage {
+	
+	.errorFrameContainer {
+		width: 30%;
+		min-width: 300px;
+		margin: 0 auto;
+		position: relative;
+		padding: 20px;
+		margin-top: 10px;
+		background-color: $darkblue;
+	}
+	
+	.errorContainer {
+		background-color: $darkblue;
+		border: dotted 2px black;
+		padding: 0% 5%;
+		
+		h1 {
+			font-family: $mainFont;
+			margin-top: -22px;
+			font-size: 1.6em;
+		}
+	}
+	
+		font-family: $mainFont;
+	
+	.h1bgError {
+		width: 110px;
+		background-color: $darkblue;
+		margin: 0 auto;
+		position: relative;
+	}
+	
+	.buttonFrameContainer {
+		width: 200px;
+		margin-bottom: 20px;
+	}
+	
+	.buttonSize {
+		width: 196px;
+	}
+	
+	.errorContainer p {
+		text-align: center;
+	}
+	
 }
