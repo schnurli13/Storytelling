@@ -24,12 +24,6 @@ class userStoryEditContentModule{
 	
 		$returnString = '';
 	
-		if($this->sessionObject->getLogState()){
-			$returnString.='Hey '.$this->sessionObject->getUserName().'!<br/>'."\n";
-		}
-		
-		$returnString.='Hier wird folgende Story editiert: '.$this->searchedStory.',<br/>';
-		$returnString.='von folgendem User: '.$this->searchedUser;
 
 		$returnString.='<div id="wrapper"><div id="container"></div>';
 	/*	$returnString.='<div id="buttons">';
@@ -39,6 +33,12 @@ class userStoryEditContentModule{
 		$returnString.='<div id="pageeditor"><input type="text" value="click on node" id="textEdit"><input type="button" value="Save" id="save"></div>';
 		$returnString.='</div>';
 		$returnString.='<script type="text/javascript" src="/Storytelling/public/javascript/function.js"></script>';
+
+		if($this->sessionObject->getLogState()){
+			$returnString.='Hey '.$this->sessionObject->getUserName().'!<br/>'."\n";
+		}
+		$returnString.='Hier wird folgende Story editiert: '.$this->searchedStory.',<br/>';
+		$returnString.='von folgendem User: '.$this->searchedUser;
 		
 		return $returnString;
 	}

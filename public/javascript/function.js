@@ -17,6 +17,7 @@ nodeEditor.module = (function($) {
         buttonColor='#96c4cd',
         buttonColorHover='#6b878c',
         buttonColorDisabled='white',
+        emptyRectangle,
         pause = false,
         movementStyle = null,
         dropStyle = null,
@@ -25,7 +26,16 @@ nodeEditor.module = (function($) {
         hasChildren = false,
         popUpShown=false,
         highLight = null,
+        zoomStyle = "zoomScroll",
+        zoom = 1.8,
+        zooming = false,
+        zoomSc,
+        startScale = 1.0,
+        startOffsetX = 0.0,
+        startOffsetY = 0.0,
         yDrag,
+        diffX,
+        diffY,
         xDrop,
         yDrop,
         over,
@@ -42,13 +52,22 @@ nodeEditor.module = (function($) {
         }),
         backgroundLayer = new Konva.Layer({
             width: width,
-            height:height
+            height:height,
+            scale:{
+                x: startScale,
+                y: startScale
+            }
         }),
         layer  = backgroundLayer.clone(),
         layerConn = backgroundLayer.clone(),
         layerTEXT = backgroundLayer.clone(),
-        tempLayer = backgroundLayer.clone(),
-        interfaceLayer = backgroundLayer.clone(),
+
+        tempLayer = new Konva.Layer({
+            width: width,
+            height:height
+        }),
+        emptyLayer = tempLayer.clone(),
+        interfaceLayer = tempLayer.clone(),
 
         debugText = new Konva.Text({
             fill: 'black',
@@ -173,7 +192,11 @@ nodeEditor.module = (function($) {
         dropQuestion2,
         dropReset,
         reorder,
-        hoverPopUpButtons
+        hoverPopUpButtons,
+        preventDefault,
+        preventDefaultForScrollKeys,
+        disableScroll,
+        enableScroll
     ;
 
 
@@ -257,6 +280,7 @@ nodeEditor.module = (function($) {
 
 
     drawNodes = function (data) {
+        startScale=1.0;
         layer.destroyChildren();
         layerTEXT.destroyChildren();
         layerConn.destroyChildren();
@@ -265,8 +289,6 @@ nodeEditor.module = (function($) {
         stage.find('#delRect')[0].setAttr('fill',buttonColorDisabled);
         interfaceLayer.draw();
 
-        //document.getElementById('addNode').disabled = true;
-        //document.getElementById('deleteNode').disabled = true;
         selectedNode = null;
 
         var star;
@@ -280,7 +302,6 @@ nodeEditor.module = (function($) {
         var z = 0;
         var nodeCounter = 0;
         var color = buttonColorHover;
-
 
 
         for (var i = 0; i < data.length; i++) {
@@ -311,8 +332,8 @@ nodeEditor.module = (function($) {
 
                 //TITLE
                 idText = new Konva.Text({
-                    x: star.getAbsolutePosition().x-6,
-                    y: star.getAbsolutePosition().y-6,
+                    x: star.getAttr('x')-6,
+                    y: star.getAttr('y')-6,
                     text: star.getAttr('id'),
                     fontSize: 20,
                     fill: 'black'
@@ -323,8 +344,8 @@ nodeEditor.module = (function($) {
                 //connection saving
                 if (data[i]['NextPageID1']) {
                     points[z] = [];
-                    points[z]['pointX'] = star.getAbsolutePosition().x;
-                    points[z]['pointY'] = star.getAbsolutePosition().y;
+                    points[z]['pointX'] = star.getAttr('x');
+                    points[z]['pointY'] = star.getAttr('y');
                     points[z][0] = data[i]['NextPageID1'];
                     if (data[i]['NextPageID2']) {
                         points[z][1] = data[i]['NextPageID2'];
@@ -390,12 +411,16 @@ nodeEditor.module = (function($) {
 
                     });
 
+                 /*   if(star.getAbsolutePosition().x < 10 ||  star.getAbsolutePosition().x > width-10){
+                      startScale = layer.scaleX().toFixed(2)-0.15;
+                    }*/
+
                     layer.add(star);
 
                     //TITLE
                     idText = new Konva.Text({
-                        x: star.getAbsolutePosition().x-6,
-                        y: star.getAbsolutePosition().y-6 ,
+                        x: star.getAttr('x')-6,
+                        y: star.getAttr('y')-6 ,
                         text: star.getAttr('id'),
                         fontSize: 20,
                         fill: 'black'
@@ -406,8 +431,8 @@ nodeEditor.module = (function($) {
                     //connection saving
                     if (data[nextPageIDinData]['NextPageID1']) {
                         points[z] = [];
-                        points[z]['pointX'] = star.getAbsolutePosition().x;
-                        points[z]['pointY'] = star.getAbsolutePosition().y;
+                        points[z]['pointX'] = star.getAttr('x');
+                        points[z]['pointY'] = star.getAttr('y');
                         points[z][0] = data[nextPageIDinData]['NextPageID1'];
                         if (data[nextPageIDinData]['NextPageID2']) {
                             points[z][1] = data[nextPageIDinData]['NextPageID2'];
@@ -425,7 +450,7 @@ nodeEditor.module = (function($) {
                     for (var j = 0; j < points.length; j++) {
                         for (var k = 0; k < 4; k++) {
                             if (points[j][k] == data[nextPageIDinData]['id']) {
-                                drawConnection(points[j][k], data[i]['id'], points[j]['pointX'], points[j]['pointY'], star.getAbsolutePosition().x, star.getAbsolutePosition().y);
+                                drawConnection(points[j][k], data[i]['id'], points[j]['pointX'], points[j]['pointY'], star.getAttr('x'), star.getAttr('y'));
                             }
                         }
                     }
@@ -446,7 +471,50 @@ nodeEditor.module = (function($) {
         layerConn.draw();
         layerTEXT.draw();
         highLight = null;
+        emptyLayer.draw();
 
+        if(startScale != 1.0){alert("Hhh");
+            layer.scale({
+                x : startScale,
+                y : startScale
+            });
+            layerConn.scale({
+                x : startScale,
+                y : startScale
+            });
+            backgroundLayer.scale({
+                x : 1,
+                y : startScale
+            });
+            layerTEXT.scale({
+                x : startScale,
+                y : startScale
+            });
+
+            layerConn.offset({
+                x : layer.offsetX()-distance,
+                y : 0
+            });
+
+            layerTEXT.offset({
+                x : layer.offsetX()-distance,
+                y : 0
+            });
+            layer.offset({
+                x : layer.offsetX()-distance,
+                y : 0
+            });
+
+            startOffsetX=layer.offsetX()-distance;
+
+            //alert(layer.offsetX());
+            layer.draw();
+            layerConn.draw();
+            layerTEXT.draw();
+            backgroundLayer.draw();
+
+
+        }
     };
 
     nodeSelection = function(e) {
@@ -457,7 +525,9 @@ nodeEditor.module = (function($) {
             debugText.text('Selected ' + e.target.name());
             if (fill == 'yellow') {
                 selectedNode = e.target.id();
-                zoomIn(e);
+                if(zoomStyle == "zoomJump") {
+                    zoomIn(e, null);
+                }
                 $.ajax({
                     url: ajaxLink,
                     type: 'GET',
@@ -475,7 +545,8 @@ nodeEditor.module = (function($) {
 
             } else if (fill == buttonColorHover) {
                 selectedNode = null;
-                zoomOut();
+                    zoomOut();
+
                 $('#textEdit').val('click on node');
 
             }
@@ -484,104 +555,171 @@ nodeEditor.module = (function($) {
         }
     };
 
-    zoomIn = function(e){
-        var zoomin = 1.5;
-        var clickX = e.target.x();
-        var clickY = e.target.y();
+    zoomIn = function(e,zoomin){
+        zooming = true;
+        var zoomInit = zoomin;
+        if(zoomin == null){
+            zoomin = zoom;
+        }
+
+        zoomSc = zoomin;
+        var clickX;
+        var clickY;
+        if(zoomInit == null){
+             clickX = e.target.x();
+             clickY = e.target.y();
+        }else{
+             clickX = stage.getPointerPosition().x;
+             clickY = stage.getPointerPosition().y;
+        }
+
         var distX = (width/2)-clickX;
         var distY = (height/2)-clickY;
         var oldWidth = layer.width()*layer.getAttr('scale').x;
         var oldHeight = layer.height()*layer.getAttr('scale').y;
+        var newWidth = layer.width()*zoomin;
+        var newHeight = layer.height()*zoomin;
+        diffX = ((newWidth-oldWidth)/3)-distX;
+        diffY = ((newHeight-oldHeight)/3)-distY;
 
-        layer.scale({
-            x : zoomin,
-            y : zoomin
-        });
-        layerConn.scale({
-            x : zoomin,
-            y : zoomin
-        });
+        var anim = new Konva.Animation(function(frame) {
+            var scale = 0;
+            var diff = 0;
+            if(layer.scaleX().toFixed(2) < zoomin && layer.scaleX().toFixed(2) < zoom ){
+                diff = 0.01;
+                scale = layer.scaleX() + diff;
+                layer.scale({
+                    x : scale,
+                    y : scale
+                });
+                layerConn.scale({
+                    x : scale,
+                    y : scale
+                });
+                backgroundLayer.scale({
+                    x : scale,
+                    y : scale
+                });
+                layerTEXT.scale({
+                    x : scale,
+                    y : scale
+                });
+            }
 
-        backgroundLayer.scale({
-            x : zoomin,
-            y : zoomin
-        });
-        layerTEXT.scale({
-            x : zoomin,
-            y : zoomin
-        });
+    //  if(zoomInit == null){
+           var moveX = 0;
+            if(layer.offsetX().toFixed(2) != diffX.toFixed(2) && layer.scaleX().toFixed(2) < zoom){
+                moveX = layer.offsetX() + diffX/((zoomin-startScale)/diff);
+                layer.offsetX(moveX);
+                layerConn.offsetX(moveX);
+                backgroundLayer.offsetX(moveX);
+                layerTEXT.offsetX(moveX);
+            }
+            var moveY = 0;
+            if(layer.offsetY().toFixed(2)!= diffY.toFixed(2) && layer.scaleX().toFixed(2) < zoom ){
+                moveY = layer.offsetY() + diffY/((zoomin-startScale)/diff);
+                layer.offsetY(moveY);
+                layerConn.offsetY(moveY);
+                backgroundLayer.offsetY(moveY);
+                layerTEXT.offsetY(moveY);
+            }
 
-        backgroundLayer.draw();
-        layerConn.draw();
-        layer.draw();
-        layerTEXT.draw();
+       //  }
 
 
-        var newWidth = layer.width()*layer.getAttr('scale').x;
-        var newHeight = layer.height()*layer.getAttr('scale').y;
+        //alert(diffX);
+           // if(zoomInit == null) {
+              /*  if (layer.scaleX().toFixed(2) >= zoomin && layer.offsetX().toFixed(2)== diffX.toFixed(2) && layer.offsetY().toFixed(2) == diffY.toFixed(2)) {
+                    anim.stop();
+                }*/
+          //  }else{
+                if (layer.scaleX().toFixed(2) >= zoomin || layer.scaleX().toFixed(2) >= zoom) {
+                    anim.stop();
+                }
+           // }
 
-        var diffX = ((newWidth-oldWidth)/3)-distX;
-        var diffY = ((newHeight-oldHeight)/3)-distY;
-        layer.offset({
-            x: diffX,
-            y: diffY
-        });
-        layerConn.offset({
-            x: diffX,
-            y: diffY
-        });
-        backgroundLayer.offset({
-            x: diffX,
-            y: diffY
-        });
-        layerTEXT.offset({
-            x: diffX,
-            y: diffY
-        });
-        backgroundLayer.draw();
-        layerConn.draw();
-        layer.draw();
-        layerTEXT.draw();
+
+        }, [layer,layerConn,layerTEXT,backgroundLayer]);
+
+        anim.start();
+
     };
 
     zoomOut = function(){
-        var zoomout = 1;
-        layer.scale({
-            x : zoomout,
-            y : zoomout
-        });
-        layerTEXT.scale({
-            x : zoomout,
-            y : zoomout
-        });
-        layer.offset({
-            x: 0,
-            y: 0
-        });
-        layerConn.scale({
-            x : zoomout,
-            y : zoomout
-        });
-        layerConn.offset({
-            x: 0,
-            y: 0
-        });
-        backgroundLayer.scale({
-            x : zoomout,
-            y : zoomout
-        });
-        backgroundLayer.offset({
-            x: 0,
-            y: 0
-        });
-        layerTEXT.offset({
-            x: 0,
-            y: 0
-        });
-        backgroundLayer.draw();
-        layerConn.draw();
-        layer.draw();
-        layerTEXT.draw();
+        var zoomout = startScale;
+        zooming = false;
+        var zoomin = layer.scaleX().toFixed(2);
+
+        diffX = layer.offsetX().toFixed(2);
+        diffY = layer.offsetY().toFixed(2);
+
+        var anim = new Konva.Animation(function(frame) {
+            var scale = 0;
+            var diff = 0;
+            console.log("scroll");
+            if(layer.scaleX().toFixed(2) > zoomout ){
+                diff = /*frame.timeDiff/10000 +*/ 0.02;
+                scale = layer.scaleX().toFixed(2) - diff;
+                layer.scale({
+                    x : scale,
+                    y : scale
+                });
+                layerConn.scale({
+                    x : scale,
+                    y : scale
+                });
+                backgroundLayer.scale({
+                    x : scale,
+                    y : scale
+                });
+                layerTEXT.scale({
+                    x : scale,
+                    y : scale
+                });
+            }
+
+
+           var moveX = 0;
+            if(layer.offsetX().toFixed(2) != startOffsetX.toFixed(2)){
+                moveX = layer.offsetX().toFixed(2) - (diffX/((zoomin-zoomout)/diff));
+                layer.offsetX(moveX);
+                layerConn.offsetX(moveX);
+                backgroundLayer.offsetX(moveX);
+                layerTEXT.offsetX(moveX);
+            }
+
+            var moveY = 0;
+            if(layer.offsetY().toFixed(2)!= startOffsetY){
+                moveY = layer.offsetY().toFixed(2) - (diffY/((zoomin-zoomout)/diff));
+                layer.offsetY(moveY);
+                layerConn.offsetY(moveY);
+                backgroundLayer.offsetY(moveY);
+                layerTEXT.offsetY(moveY);
+            }
+
+
+            //alert(diffX);
+           /* if(layer.scaleX().toFixed(2) <= zoomout && layer.offsetX().toFixed(2)== 0.00 && layer.offsetY().toFixed(2) == 0.00){
+                anim.stop();
+            }*/
+
+           if (layer.scaleX().toFixed(2) <= zoomout || zooming == true) {
+                anim.stop();
+               layer.offsetX(startOffsetX);
+               layer.offsetY(startOffsetY);
+               layerConn.offsetX(startOffsetX);
+               layerConn.offsetY(startOffsetY);
+               layerTEXT.offsetX(startOffsetX);
+               layerTEXT.offsetY(startOffsetY);
+               backgroundLayer.offsetX(startOffsetX);
+               backgroundLayer.offsetY(startOffsetY);
+            }
+
+
+        }, [layer,layerConn,layerTEXT,backgroundLayer]);
+
+        anim.start();
+
     };
 
     reorderNodes = function(ID01, ID02) {
@@ -777,6 +915,7 @@ nodeEditor.module = (function($) {
                          debugText.text('Successfully deleted!');
                          debugText.setAttr('fontSize','20');
                          interfaceLayer.draw();
+
                  },
                  error: function (xhr, status, error) {
                      debugText.text(error);
@@ -1260,6 +1399,42 @@ nodeEditor.module = (function($) {
         movementStyle = null;
     };
 
+    // left: 37, up: 38, right: 39, down: 40,
+// spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
+    var keys = {37: 1, 38: 1, 39: 1, 40: 1};
+
+    preventDefault =  function(e) {
+        e = e || window.event;
+        if (e.preventDefault)
+            e.preventDefault();
+        e.returnValue = false;
+    };
+
+    preventDefaultForScrollKeys = function(e) {
+        if (keys[e.keyCode]) {
+            preventDefault(e);
+            return false;
+        }
+    };
+
+    disableScroll= function() {
+        if (window.addEventListener) // older FF
+            window.addEventListener('DOMMouseScroll', preventDefault, false);
+        window.onwheel = preventDefault; // modern standard
+        window.onmousewheel = document.onmousewheel = preventDefault; // older browsers, IE
+        window.ontouchmove  = preventDefault; // mobile
+        document.onkeydown  = preventDefaultForScrollKeys;
+    };
+
+    enableScroll = function() {
+        if (window.removeEventListener)
+            window.removeEventListener('DOMMouseScroll', preventDefault, false);
+        window.onmousewheel = document.onmousewheel = null;
+        window.onwheel = null;
+        window.ontouchmove = null;
+        document.onkeydown = null;
+    };
+
 //END
 
 // IIIIIIIIIIIIINIT
@@ -1268,6 +1443,18 @@ nodeEditor.module = (function($) {
         var array = res.split("/");
         storyID = array[array.length-2];
 
+        emptyRectangle = new Konva.Rect({
+            x: 0,
+            y: 0,
+            width: width,
+            height: height,
+            id: "emptyRectangle",
+            fill:'green',
+            opacity: 0
+        });
+
+        emptyLayer.add(emptyRectangle);
+        emptyRectangle.moveToBottom();
 
         //ADD NEW PAGE BUTTON
         addButton.add(addRect);
@@ -1306,6 +1493,7 @@ nodeEditor.module = (function($) {
         tempLayer.find('#popUp')[0].hide();
        // tempLayer.draw();
 
+        stage.add(emptyLayer);
         stage.add(backgroundLayer);
         stage.add(layerConn);
         stage.add(layer);
@@ -1316,6 +1504,8 @@ nodeEditor.module = (function($) {
         startDrawLines();
         startDrawNodes();
 
+
+
 //SELECT EVENTS
         layer.on('click', function (e) {
             if(movementStyle == null) {
@@ -1323,6 +1513,8 @@ nodeEditor.module = (function($) {
                 disable(e.target.id());
             }
         });
+
+
 
         layer.on("mouseover", function (e) {
             var fill = e.target.fill() == 'yellow' ? 'yellow' : 'orange';
@@ -1338,10 +1530,13 @@ nodeEditor.module = (function($) {
             e.target.fill(fill);
             layer.draw();
         });
+        stage.on("mouseout", function (e) {
+           enableScroll();
+        });
 
         //add new page
         stage.find('#addButton')[0].on('click',function(e){
-            zoomOut();
+
             var rect =  stage.find('#addRect')[0];
             var fill = rect.fill() == buttonColorDisabled ? buttonColorDisabled : buttonColorHover;
             if(fill != buttonColorDisabled){
@@ -1373,7 +1568,6 @@ nodeEditor.module = (function($) {
 
        //delete page
         stage.find('#deleteButton')[0].off('click').on('click',function(e){
-            zoomOut();
             var rect =  stage.find('#delRect')[0];
             var fill = rect.fill() == buttonColorDisabled ? buttonColorDisabled: buttonColorHover;
             if(fill != buttonColorDisabled){
@@ -1404,7 +1598,7 @@ nodeEditor.module = (function($) {
         });
 
         $('#save').click(function() {
-            if($('#textEdit').val() != "click on node") {
+            if(selectedNode != null) {
                 $.ajax({
                     url: ajaxLink,
                     type: 'GET',
@@ -1421,6 +1615,34 @@ nodeEditor.module = (function($) {
             }
         });
 
+        stage.off('mousewheel').on('mousewheel', function(e) {
+            disableScroll();
+            var deltaY = e.evt.deltaY;
+            if (deltaY != undefined) {
+                if (deltaY > 0) {
+                    //alert("zoomout");
+                  zoomOut();
+                } else {
+                    if(zoomStyle == "zoomScroll") {
+                        zoomIn(e,layer.scaleX()+0.1);
+                    }
+                   // alert("zoomin");
+
+                }
+            }
+
+        //  scroll
+          //  e.target.x(stage.getPointerPosition().x);
+          //  e.target.y(stage.getPointerPosition().y);
+          //  zoomIn(e,layer.scaleX()+0.1);
+        });
+
+        emptyRectangle.on('click', function(e) {
+
+               zoomOut();
+
+        });
+
 
 //END
 
@@ -1428,7 +1650,9 @@ nodeEditor.module = (function($) {
       layer.on("dragstart", function (e) {
 
           if(!pause && movementStyle == null){
-              zoomOut();
+
+                  zoomOut();
+
               selectedNode=e.target.id();
               checkAdditionalNode(e.target.id());
               checkDeleteNode(e.target.id());
