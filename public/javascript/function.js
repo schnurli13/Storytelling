@@ -308,10 +308,14 @@ nodeEditor.module = (function($) {
         for (var i = 0; i < data.length; i++) {
             var nextPageIDinData;
             var nextID;
+            var scaleFactor = 1.0;
+            if(layer.getAttr('scale').x <=1){
+                scaleFactor = layer.getAttr('scale').x;
+            }
             //first node
             if (i == 0) {
                 star = new Konva.Circle({
-                    x: (multiple - center)*layer.getAttr('scale').x,
+                    x: (multiple - center)*scaleFactor,
                     y: (parseInt(data[i]['level']) + 1) * levelY,
                     fill: buttonColorHover,
                     radius: 20,
@@ -392,8 +396,9 @@ nodeEditor.module = (function($) {
                     } else {
                         color = buttonColorHover;
                     }
+
                     star = new Konva.Circle({
-                        x:(multiple - center)*layer.getAttr('scale').x,
+                        x:(multiple - center)*scaleFactor,
                         y: ((parseInt(data[nextPageIDinData]['level']) + 1) * levelY),
                         fill: color,
                         radius: 20,
@@ -413,7 +418,7 @@ nodeEditor.module = (function($) {
                     });
                     layer.add(star);
 
-                  if (star.getAbsolutePosition().x < 20 || star.getAbsolutePosition().x > width - 20|| star.getAbsolutePosition().y > height - 20) {
+                  if ((star.getAbsolutePosition().x < 20 || star.getAbsolutePosition().x > width - 20|| star.getAbsolutePosition().y > height - 20)&&layer.getAttr('scale').x <=1) {
 
                      startScale = layer.scaleX().toFixed(2) - 0.02;
 
@@ -616,7 +621,6 @@ nodeEditor.module = (function($) {
                 });
             }
 
-    //  if(zoomInit == null){
            var moveX = 0;
             if(layer.offsetX().toFixed(2) != diffX.toFixed(2) && layer.scaleX().toFixed(2) < zoom){
                 moveX = layer.offsetX() + diffX/((zoomin-startScale)/diff);
@@ -634,20 +638,10 @@ nodeEditor.module = (function($) {
                 layerTEXT.offsetY(moveY);
             }
 
-       //  }
 
-
-        //alert(diffX);
-           // if(zoomInit == null) {
-              /*  if (layer.scaleX().toFixed(2) >= zoomin && layer.offsetX().toFixed(2)== diffX.toFixed(2) && layer.offsetY().toFixed(2) == diffY.toFixed(2)) {
-                    anim.stop();
-                }*/
-          //  }else{
                 if (layer.scaleX().toFixed(2) >= zoomin || layer.scaleX().toFixed(2) >= zoom) {
                     anim.stop();
                 }
-           // }
-
 
         }, [layer,layerConn,layerTEXT,backgroundLayer]);
 
