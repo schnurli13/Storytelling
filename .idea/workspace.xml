@@ -25,8 +25,8 @@
       <file leaf-file-name="function.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/javascript/function.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.47740114">
-              <caret line="406" column="41" selection-start-line="406" selection-start-column="41" selection-end-line="406" selection-end-column="41" />
+            <state vertical-scroll-proportion="0.8692098">
+              <caret line="726" column="13" selection-start-line="726" selection-start-column="13" selection-end-line="726" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -91,7 +91,7 @@
             <state vertical-scroll-proportion="0.0">
               <caret line="260" column="0" selection-start-line="260" selection-start-column="0" selection-end-line="260" selection-end-column="0" />
               <folding>
-                <marker date="1451208954455" expanded="true" signature="6791:6793" placeholder="{...}" />
+                <marker date="1451741093951" expanded="true" signature="6791:6793" placeholder="{...}" />
               </folding>
             </state>
           </provider>
@@ -818,13 +818,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/css/default.css.map">
+      <provider editor-type-id="sourcemapFileViewerProvider">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
-      </provider>
-      <provider editor-type-id="sourcemapFileViewerProvider">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/.htaccess">
@@ -916,7 +916,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="260" column="0" selection-start-line="260" selection-start-column="0" selection-end-line="260" selection-end-column="0" />
           <folding>
-            <marker date="1451208954455" expanded="true" signature="6791:6793" placeholder="{...}" />
+            <marker date="1451741093951" expanded="true" signature="6791:6793" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -1048,8 +1048,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/javascript/function.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.47740114">
-          <caret line="406" column="41" selection-start-line="406" selection-start-column="41" selection-end-line="406" selection-end-column="41" />
+        <state vertical-scroll-proportion="0.8692098">
+          <caret line="726" column="13" selection-start-line="726" selection-start-column="13" selection-end-line="726" selection-end-column="13" />
           <folding />
         </state>
       </provider>

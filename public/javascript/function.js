@@ -249,6 +249,7 @@ nodeEditor.module = (function($) {
 
     };
 
+
     startDrawNodes = function() {
         $.ajax({
             url: ajaxLink,
@@ -280,7 +281,7 @@ nodeEditor.module = (function($) {
 
 
     drawNodes = function (data) {
-        startScale=1.0;
+        //startScale=1.0;
         layer.destroyChildren();
         layerTEXT.destroyChildren();
         layerConn.destroyChildren();
@@ -296,7 +297,7 @@ nodeEditor.module = (function($) {
         var multiple = levelX;
         var center = 0;
         var distance = 70;
-        var numb;
+        var numb = 0;
         var points = [];
         var IDs = [];
         var z = 0;
@@ -310,7 +311,7 @@ nodeEditor.module = (function($) {
             //first node
             if (i == 0) {
                 star = new Konva.Circle({
-                    x: multiple - center,
+                    x: (multiple - center)*layer.getAttr('scale').x,
                     y: (parseInt(data[i]['level']) + 1) * levelY,
                     fill: buttonColorHover,
                     radius: 20,
@@ -365,12 +366,12 @@ nodeEditor.module = (function($) {
 
             //get next node id
             for (var q = 1; q < 5; q++) {
-                if(i != 0){
+                if (i != 0) {
                     nextPageIDinData = findID(data, data[sh]["NextPageID" + q]);
                     nextID = nextPageIDinData;
 
-                }else{
-                    nextPageIDinData = findID(data,data[i]["NextPageID" + q]);
+                } else {
+                    nextPageIDinData = findID(data, data[i]["NextPageID" + q]);
                     nextID = nextPageIDinData;
                 }
                 if (nextID != 0) {
@@ -378,22 +379,22 @@ nodeEditor.module = (function($) {
                     numb = count(data, nextPageIDinData);
 
                     nodeCounter++;
-
+                   // alert(numb);
                     if (numb > 1) {
-                        center = ((numb * (distance)) / 2) + distance / 2;
+                        center = (((numb * (distance)) / 2) + distance / 2);
                         multiple += distance;
                     } else {
                         center = 0;
                         multiple = levelX;
                     }
-                    if(highLight != null && highLight.indexOf(data[nextPageIDinData]['id']) != -1){
+                    if (highLight != null && highLight.indexOf(data[nextPageIDinData]['id']) != -1) {
                         color = '#e2b0b3';
-                    }else{
+                    } else {
                         color = buttonColorHover;
                     }
                     star = new Konva.Circle({
-                        x: multiple - center,
-                        y: (parseInt(data[nextPageIDinData]['level']) + 1) * levelY,
+                        x:(multiple - center)*layer.getAttr('scale').x,
+                        y: ((parseInt(data[nextPageIDinData]['level']) + 1) * levelY),
                         fill: color,
                         radius: 20,
                         draggable: true,
@@ -410,111 +411,120 @@ nodeEditor.module = (function($) {
                         }
 
                     });
-
-                 /*   if(star.getAbsolutePosition().x < 10 ||  star.getAbsolutePosition().x > width-10){
-                      startScale = layer.scaleX().toFixed(2)-0.15;
-                    }*/
-
                     layer.add(star);
 
-                    //TITLE
-                    idText = new Konva.Text({
-                        x: star.getAttr('x')-6,
-                        y: star.getAttr('y')-6 ,
-                        text: star.getAttr('id'),
-                        fontSize: 20,
-                        fill: 'black'
-                    });
-                    layerTEXT.add(idText);
+                  if (star.getAbsolutePosition().x < 20 || star.getAbsolutePosition().x > width - 20|| star.getAbsolutePosition().y > height - 20) {
+
+                     startScale = layer.scaleX().toFixed(2) - 0.02;
+
+                        layer.scale({
+                            x : startScale,
+                            y : startScale
+                        });
+                        layerConn.scale({
+                            x : startScale,
+                            y : startScale
+                        });
+                        backgroundLayer.scale({
+                            x : startScale,
+                            y : startScale
+                        });
+                        layerTEXT.scale({
+                            x : startScale,
+                            y : startScale
+                        });
+                          tempLayer.scale({
+                              x : startScale,
+                              y : startScale
+                          });
+
+                        layerConn.offset({
+                            x : layer.offsetX()-20,
+                            y : 0
+                        });
+
+                        layerTEXT.offset({
+                            x : layer.offsetX()-20,
+                            y : 0
+                        });
+                        layer.offset({
+                            x : layer.offsetX()-20,
+                            y : 0
+                        });
+
+                      tempLayer.offset({
+                          x : layer.offsetX()-20,
+                          y : 0
+                      });
 
 
-                    //connection saving
-                    if (data[nextPageIDinData]['NextPageID1']) {
-                        points[z] = [];
-                        points[z]['pointX'] = star.getAttr('x');
-                        points[z]['pointY'] = star.getAttr('y');
-                        points[z][0] = data[nextPageIDinData]['NextPageID1'];
-                        if (data[nextPageIDinData]['NextPageID2']) {
-                            points[z][1] = data[nextPageIDinData]['NextPageID2'];
-                        }
-                        if (data[nextPageIDinData]['NextPageID3']) {
-                            points[z][2] = data[nextPageIDinData]['NextPageID3'];
-                        }
-                        if (data[nextPageIDinData]['NextPageID4']) {
-                            points[z][3] = data[nextPageIDinData]['NextPageID4'];
-                        }
-                        z++;
-                    }
+                        startOffsetX=layer.offsetX()-20;
 
-                    //connection drawing
-                    for (var j = 0; j < points.length; j++) {
-                        for (var k = 0; k < 4; k++) {
-                            if (points[j][k] == data[nextPageIDinData]['id']) {
-                                drawConnection(points[j][k], data[i]['id'], points[j]['pointX'], points[j]['pointY'], star.getAttr('x'), star.getAttr('y'));
+                        startDrawLines();
+                        startDrawNodes();
+                    } else {
+                        //TITLE
+
+                        idText = new Konva.Text({
+                            x: star.getAttr('x') - (6),
+                            y: star.getAttr('y') - 6,
+                            text: star.getAttr('id'),
+                            fontSize: 20,
+                            fill: 'black'
+                        });
+                        layerTEXT.add(idText);
+
+
+                        //connection saving
+                        if (data[nextPageIDinData]['NextPageID1']) {
+                            points[z] = [];
+                            points[z]['pointX'] = star.getAttr('x');
+                            points[z]['pointY'] = star.getAttr('y');
+                            points[z][0] = data[nextPageIDinData]['NextPageID1'];
+                            if (data[nextPageIDinData]['NextPageID2']) {
+                                points[z][1] = data[nextPageIDinData]['NextPageID2'];
+                            }
+                            if (data[nextPageIDinData]['NextPageID3']) {
+                                points[z][2] = data[nextPageIDinData]['NextPageID3'];
+                            }
+                            if (data[nextPageIDinData]['NextPageID4']) {
+                                points[z][3] = data[nextPageIDinData]['NextPageID4'];
+                            }
+                            z++;
+                        }
+
+                        //connection drawing
+                        for (var j = 0; j < points.length; j++) {
+                            for (var k = 0; k < 4; k++) {
+                                if (points[j][k] == data[nextPageIDinData]['id']) {
+                                    drawConnection(points[j][k], data[i]['id'], points[j]['pointX'], points[j]['pointY'], star.getAttr('x'), star.getAttr('y'));
+                                }
                             }
                         }
+
                     }
 
                 }
+               // if (startScale == 1.0) {
+                    // console.log(IDs);
+                    //check if END of level
+                    if (nodeCounter == numb) {
+                        nodeCounter = 0;
+                        center = 0;
+                        multiple = levelX;
+                    }
+               // }
 
-            }
-
-           // console.log(IDs);
-            //check if END of level
-            if (nodeCounter == numb) {
-                nodeCounter = 0;
-                center = 0;
-                multiple = levelX;
             }
         }
-        layer.draw();
-        layerConn.draw();
-        layerTEXT.draw();
-        highLight = null;
-        emptyLayer.draw();
-
-        if(startScale != 1.0){alert("Hhh");
-            layer.scale({
-                x : startScale,
-                y : startScale
-            });
-            layerConn.scale({
-                x : startScale,
-                y : startScale
-            });
-            backgroundLayer.scale({
-                x : 1,
-                y : startScale
-            });
-            layerTEXT.scale({
-                x : startScale,
-                y : startScale
-            });
-
-            layerConn.offset({
-                x : layer.offsetX()-distance,
-                y : 0
-            });
-
-            layerTEXT.offset({
-                x : layer.offsetX()-distance,
-                y : 0
-            });
-            layer.offset({
-                x : layer.offsetX()-distance,
-                y : 0
-            });
-
-            startOffsetX=layer.offsetX()-distance;
-
-            //alert(layer.offsetX());
+        //if (startScale == 1.0) {
             layer.draw();
             layerConn.draw();
             layerTEXT.draw();
-            backgroundLayer.draw();
+            highLight = null;
+            emptyLayer.draw();
+       // }
 
-
-        }
     };
 
     nodeSelection = function(e) {
@@ -612,7 +622,7 @@ nodeEditor.module = (function($) {
                 moveX = layer.offsetX() + diffX/((zoomin-startScale)/diff);
                 layer.offsetX(moveX);
                 layerConn.offsetX(moveX);
-                backgroundLayer.offsetX(moveX);
+              //  backgroundLayer.offsetX(moveX);
                 layerTEXT.offsetX(moveX);
             }
             var moveY = 0;
@@ -646,12 +656,13 @@ nodeEditor.module = (function($) {
     };
 
     zoomOut = function(){
+
         var zoomout = startScale;
         zooming = false;
         var zoomin = layer.scaleX().toFixed(2);
 
-        diffX = layer.offsetX().toFixed(2);
-        diffY = layer.offsetY().toFixed(2);
+        diffX = (startOffsetX-layer.offsetX().toFixed(2))*-1;
+        diffY = (startOffsetY-layer.offsetY().toFixed(2))*-1;
 
         var anim = new Konva.Animation(function(frame) {
             var scale = 0;
@@ -684,7 +695,7 @@ nodeEditor.module = (function($) {
                 moveX = layer.offsetX().toFixed(2) - (diffX/((zoomin-zoomout)/diff));
                 layer.offsetX(moveX);
                 layerConn.offsetX(moveX);
-                backgroundLayer.offsetX(moveX);
+               // backgroundLayer.offsetX(moveX);
                 layerTEXT.offsetX(moveX);
             }
 
@@ -705,13 +716,14 @@ nodeEditor.module = (function($) {
 
            if (layer.scaleX().toFixed(2) <= zoomout || zooming == true) {
                 anim.stop();
+            //   alert(startOffsetX +" : "+startScale);
                layer.offsetX(startOffsetX);
                layer.offsetY(startOffsetY);
                layerConn.offsetX(startOffsetX);
                layerConn.offsetY(startOffsetY);
                layerTEXT.offsetX(startOffsetX);
                layerTEXT.offsetY(startOffsetY);
-               backgroundLayer.offsetX(startOffsetX);
+            //   backgroundLayer.offsetX(startOffsetX);
                backgroundLayer.offsetY(startOffsetY);
             }
 
