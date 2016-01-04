@@ -196,7 +196,8 @@ nodeEditor.module = (function($) {
         preventDefault,
         preventDefaultForScrollKeys,
         disableScroll,
-        enableScroll
+        enableScroll,
+        checkScaleFactor
     ;
 
 
@@ -257,6 +258,7 @@ nodeEditor.module = (function($) {
             data: 'functionName=drawNodes&storyID='+storyID,
             success: function (data) {
                 var obj = $.parseJSON(data);
+                //checkScaleFactor(obj);
                 drawNodes(obj);
             },
             error: function (xhr, status, error) {
@@ -280,6 +282,7 @@ nodeEditor.module = (function($) {
     };
 
 
+
     drawNodes = function (data) {
         //startScale=1.0;
         layer.destroyChildren();
@@ -291,6 +294,7 @@ nodeEditor.module = (function($) {
         interfaceLayer.draw();
 
         selectedNode = null;
+        $('#textEdit').val('click on node');
 
         var star;
         var idText;
@@ -298,6 +302,7 @@ nodeEditor.module = (function($) {
         var center = 0;
         var distance = 70;
         var numb = 0;
+        var toBig = null;
         var points = [];
         var IDs = [];
         var z = 0;
@@ -419,7 +424,7 @@ nodeEditor.module = (function($) {
                     layer.add(star);
 
                   if ((star.getAbsolutePosition().x < 20 || star.getAbsolutePosition().x > width - 20|| star.getAbsolutePosition().y > height - 20)&&layer.getAttr('scale').x <=1) {
-
+                      toBig =true;
                      startScale = layer.scaleX().toFixed(2) - 0.02;
 
                         layer.scale({
@@ -469,7 +474,7 @@ nodeEditor.module = (function($) {
                         startDrawNodes();
                     } else {
                         //TITLE
-
+                        toBig = false;
                         idText = new Konva.Text({
                             x: star.getAttr('x') - (6),
                             y: star.getAttr('y') - 6,
@@ -522,13 +527,13 @@ nodeEditor.module = (function($) {
 
             }
         }
-        //if (startScale == 1.0) {
+        if (toBig == false) {
             layer.draw();
             layerConn.draw();
             layerTEXT.draw();
             highLight = null;
             emptyLayer.draw();
-       // }
+        }
 
     };
 
@@ -560,8 +565,9 @@ nodeEditor.module = (function($) {
 
             } else if (fill == buttonColorHover) {
                 selectedNode = null;
+                if(zoomStyle == "zoomJump"){
                     zoomOut();
-
+                }
                 $('#textEdit').val('click on node');
 
             }
@@ -650,7 +656,6 @@ nodeEditor.module = (function($) {
     };
 
     zoomOut = function(){
-
         var zoomout = startScale;
         zooming = false;
         var zoomin = layer.scaleX().toFixed(2);
@@ -694,7 +699,7 @@ nodeEditor.module = (function($) {
             }
 
             var moveY = 0;
-            if(layer.offsetY().toFixed(2)!= startOffsetY){
+            if(layer.offsetY().toFixed(2)!= startOffsetY.toFixed(2)){
                 moveY = layer.offsetY().toFixed(2) - (diffY/((zoomin-zoomout)/diff));
                 layer.offsetY(moveY);
                 layerConn.offsetY(moveY);
@@ -702,24 +707,24 @@ nodeEditor.module = (function($) {
                 layerTEXT.offsetY(moveY);
             }
 
-
-            //alert(diffX);
-           /* if(layer.scaleX().toFixed(2) <= zoomout && layer.offsetX().toFixed(2)== 0.00 && layer.offsetY().toFixed(2) == 0.00){
-                anim.stop();
-            }*/
-
            if (layer.scaleX().toFixed(2) <= zoomout || zooming == true) {
                 anim.stop();
-            //   alert(startOffsetX +" : "+startScale);
-               layer.offsetX(startOffsetX);
+
+               var offset = 0;
+               if(startScale != 1.0) {
+                   offset = 20;
+               }else{
+                   offset = 0;
+               }
+               layer.offsetX(startOffsetX + offset);
                layer.offsetY(startOffsetY);
-               layerConn.offsetX(startOffsetX);
+               layerConn.offsetX(startOffsetX + offset );
                layerConn.offsetY(startOffsetY);
-               layerTEXT.offsetX(startOffsetX);
+               layerTEXT.offsetX(startOffsetX + offset );
                layerTEXT.offsetY(startOffsetY);
-            //   backgroundLayer.offsetX(startOffsetX);
+               //   backgroundLayer.offsetX(startOffsetX);
                backgroundLayer.offsetY(startOffsetY);
-            }
+        }
 
 
         }, [layer,layerConn,layerTEXT,backgroundLayer]);
@@ -1015,7 +1020,7 @@ nodeEditor.module = (function($) {
             layer.draw();
             selectedNode = null;
             setDraggable(true);
-            startDrawNodes();
+           // startDrawNodes();
             popUpShown = false;
         });
 
@@ -1626,7 +1631,6 @@ nodeEditor.module = (function($) {
             var deltaY = e.evt.deltaY;
             if (deltaY != undefined) {
                 if (deltaY > 0) {
-                    //alert("zoomout");
                   zoomOut();
                 } else {
                     if(zoomStyle == "zoomScroll") {
@@ -1637,10 +1641,6 @@ nodeEditor.module = (function($) {
                 }
             }
 
-        //  scroll
-          //  e.target.x(stage.getPointerPosition().x);
-          //  e.target.y(stage.getPointerPosition().y);
-          //  zoomIn(e,layer.scaleX()+0.1);
         });
 
         emptyRectangle.on('click', function(e) {
