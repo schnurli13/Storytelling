@@ -283,9 +283,12 @@ function reorderNodes($localhost, $user, $pw,$db,$storyID){
     //begin($con); // transaction begins
 
     //  echo json_encode($indexedOnly);
+    $sql="";
+    if($indexedOnly[$ID01]['level'] == '0'){
+        $sql="UPDATE story SET firstPage = ".$ID02." WHERE id = ".$storyID.";";
+    }
 
-
-   $sql="UPDATE page SET level = CASE id
+   $sql.="UPDATE page SET level = CASE id
                                     WHEN ".$ID01."   THEN  ".$indexedOnly[$ID02]['level']."
                                     WHEN ".$ID02."   THEN ".$indexedOnly[$ID01]['level']."
                                     ELSE level
@@ -354,7 +357,10 @@ function reorderNodes($localhost, $user, $pw,$db,$storyID){
                                     ELSE NextPageID4
                                     END
               WHERE NextPageID1 IN($ID01,$ID02) OR NextPageID2 IN($ID01,$ID02) OR NextPageID3 IN($ID01,$ID02) OR NextPageID4 IN($ID01,$ID02) AND story = ".$storyID;
-    $result =mysqli_multi_query($con,$sql);
+
+    //echo json_encode($sql);
+
+   $result =mysqli_multi_query($con,$sql);
     if(!$result)
     {
         die('Could not update data: '. mysqli_error());
@@ -568,7 +574,10 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
         if($indexedOnly[$ID02]['level'] != 0) {
             //austauschen der nextpage ids
             $sql .= "UPDATE page SET NextPageID" . $indexedOnly[$ID02]['position'] . " = " . $ID01 . " WHERE id = " . $parentID[0] . " AND story = " . $storyID;
+        }else{
+           $sql.="UPDATE story SET firstPage = ".$ID01." WHERE id = ".$storyID;
         }
+
 
      $result = mysqli_multi_query($con,$sql);
         if(!$result)

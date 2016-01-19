@@ -742,7 +742,7 @@ nodeEditor.module = (function($) {
                 //alert(data);
                 console.log("SUCCESS");
                 startDrawNodes();
-                debugText.text('Successfully updated!');
+                debugText.text(data);
                 debugText.setAttr('fontSize','20');
                 interfaceLayer.draw();
             },
@@ -781,15 +781,18 @@ nodeEditor.module = (function($) {
     };
 
     checkAdditionalNode = function(id) {
-
-        $.ajax({
+       return $.ajax({
             url: ajaxLink,
             type: 'GET',
             data: 'functionName=maxChildren&storyID='+storyID+'&ID=' + id,
             success: function (data) {
                 console.log("SUCCESS");
                 var obj = $.parseJSON(data);
+
                 hasChildren = false;
+                if(obj[0]['NextPageID1'] != 0){
+                    hasChildren = true;
+                }
                 if (obj[0]['NextPageID4'] == 0) {
                     if(!popUpShown) {
                         stage.find('#addRect')[0].setAttr('fill', buttonColor);
@@ -802,9 +805,6 @@ nodeEditor.module = (function($) {
                     if(!popUpShown) {
                         stage.find('#addRect')[0].setAttr('fill', buttonColorDisabled);
                     }
-                }
-                if(obj[0]['NextPageID1'] != 0){
-                    hasChildren = true; // alert(obj[0]['NextPageID1']);
                 }
                 interfaceLayer.draw();
 
@@ -964,11 +964,6 @@ nodeEditor.module = (function($) {
 
     moveQuestion = function(evt){
 
-        popUpShown = true;
-
-        pause = true;
-
-        setDraggable(false);
 
         popText.setAttr('text',moveText);
         popText.setAttr('x','10');
@@ -1005,7 +1000,6 @@ nodeEditor.module = (function($) {
         popUp.show();
         tempLayer.draw();
 
-        hoverPopUpButtons(['#button1Rect','#button1Text'],buttonColorHover,buttonColor);
         hoverPopUpButtons(['#button2Rect','#button2Text'],buttonColorHover,buttonColor);
         hoverPopUpButtons(['#button3Rect','#button3Text'],buttonColorHover,buttonColor);
 
@@ -1024,42 +1018,49 @@ nodeEditor.module = (function($) {
             popUpShown = false;
         });
 
-        button1.off('click').on('click',function(e) {
-           $.ajax({
-                url: ajaxLink,
-                type: 'GET',
-                data: 'functionName=moveBranch&storyID=' + storyID + '&ID=' + evt.target.id(),
-                success: function (data) {
-                    tempLayer.find('#button1Rect')[0].fill(buttonColor);
-                    button3.remove();
-                    popUp.hide();
-                    tempLayer.draw();
-                    pause = false;
-                    movementStyle = data;
-                    movementStyle = movementStyle.replace(/"/g,"");
-                    movementStyle = movementStyle.split(",");
 
-                    xDrag = evt.target.getAbsolutePosition().x;
-                    yDrag = evt.target.getAbsolutePosition().y;
+        if(hasChildren == false) {
+            button1.off('click');
+            hoverPopUpButtons(['#button1Rect','#button1Text'],buttonColorDisabled,buttonColorDisabled);
+        }else {
+            hoverPopUpButtons(['#button1Rect', '#button1Text'], buttonColorHover, buttonColor);
+            button1.off('click').on('click', function (e) {
+                $.ajax({
+                    url: ajaxLink,
+                    type: 'GET',
+                    data: 'functionName=moveBranch&storyID=' + storyID + '&ID=' + evt.target.id(),
+                    success: function (data) {
+                        tempLayer.find('#button1Rect')[0].fill(buttonColor);
+                        button3.remove();
+                        popUp.hide();
+                        tempLayer.draw();
+                        pause = false;
+                        movementStyle = data;
+                        movementStyle = movementStyle.replace(/"/g, "");
+                        movementStyle = movementStyle.split(",");
 
-                    movingGroup.setAttr('x',0);
-                    movingGroup.setAttr('y',0);
-                    for(var i = 0; i < movementStyle.length; i++){
-                        var node = layer.find('#'+ movementStyle[i]);
-                        node.fill('yellow');
-                        node.moveTo(movingGroup);
+                        xDrag = evt.target.getAbsolutePosition().x;
+                        yDrag = evt.target.getAbsolutePosition().y;
+
+                        movingGroup.setAttr('x', 0);
+                        movingGroup.setAttr('y', 0);
+                        for (var i = 0; i < movementStyle.length; i++) {
+                            var node = layer.find('#' + movementStyle[i]);
+                            node.fill('yellow');
+                            node.moveTo(movingGroup);
+                        }
+                        layer.add(movingGroup);
+                        layer.draw();
+                        popUpShown = false;
+                    },
+                    error: function (xhr, status, error) {
+                        debugText.text(error);
+                        debugText.setAttr('fontSize', '20');
+                        interfaceLayer.draw();
                     }
-                    layer.add(movingGroup);
-                    layer.draw();
-                    popUpShown = false;
-                },
-                error: function (xhr, status, error) {
-                    debugText.text(error);
-                    debugText.setAttr('fontSize','20');
-                    interfaceLayer.draw();
-                }
+                });
             });
-        });
+        }
 
        button2.off('click').on('click',function(e){
             tempLayer.find('#button2Rect')[0].fill(buttonColor);
@@ -1654,22 +1655,21 @@ nodeEditor.module = (function($) {
 
 //DRAGGEN
       layer.on("dragstart", function (e) {
-
           if(!pause && movementStyle == null){
-
-                  zoomOut();
-
+              zoomOut();
               selectedNode=e.target.id();
-              checkAdditionalNode(e.target.id());
-              checkDeleteNode(e.target.id());
-              moveQuestion(e);
+              popUpShown = true;
+              pause = true;
+              setDraggable(false);
+              $.when(checkAdditionalNode(e.target.id()),checkDeleteNode(e.target.id())).done(function(a1,a2){
+                  moveQuestion(e);
+              });
               e.target.fill('yellow');
-             interfaceLayer.draw();
+              interfaceLayer.draw();
             }else if(!pause && movementStyle == "one"){
                 xDrag = e.target.getAbsolutePosition().x;
                 yDrag = e.target.getAbsolutePosition().y;
 
-                // alert(xDrag + ":"+yDrag);
                 e.target.moveTo(tempLayer);
                 e.target.fill('yellow');
               debugText.setAttr('fontSize','15');
