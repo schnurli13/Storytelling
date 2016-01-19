@@ -117,8 +117,12 @@ if($myPage->getUriArray()[1] === 'index' || $myPage->getUriArray()[1] === '' || 
 		$myPage->useSource('javascript', 'konva');
 		$myPage->useSource('javascript', 'function');
 		$myPage->useSource('css', 'style');
+		$myPage->useSource('css', 'component');
+		$myPage->useSource('javascript', 'classie');
+		$myPage->useSource('javascript', 'modernizr.custom');
 		$userStoryEditContentObject = new userStoryEditContentModule($mySession, $myPage->getUriArray());
 		$myPage->setContent($userStoryEditContentObject->generateHtml());
+
 		
 	}else if(count($myPage->getUriArray()) == 5 && $myPage->getUriArray()[4] == "published"){
 		$myPage->setTitle($myPage->getUriArray()[3]);
