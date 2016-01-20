@@ -33,6 +33,7 @@ nodeEditor.module = (function($) {
         startScale = 1.0,
         startOffsetX = 0.0,
         startOffsetY = 0.0,
+        tooltip,
         yDrag,
         diffX,
         diffY,
@@ -43,6 +44,7 @@ nodeEditor.module = (function($) {
         moveText = "Do you want to move only this page or all sub-pages as well?",
         dropText = "Do you want replace this page with the dragged one or do you want to add the moving page as sub-page to this page?",
         drop2Text = "Do you really want to replace this branch with the dragged one? This action will influence the sub-pages!",
+        toolTipText="",
 
         stage = new Konva.Stage({
             container: 'container',
@@ -197,6 +199,7 @@ nodeEditor.module = (function($) {
         preventDefaultForScrollKeys,
         disableScroll,
         enableScroll,
+        setToolTip,
         checkScaleFactor
     ;
 
@@ -340,15 +343,44 @@ nodeEditor.module = (function($) {
 
                 layer.add(star);
 
+                tooltip = new Konva.Group({
+                    visible: false
+                });
+                var tooltext = new Konva.Text({
+                    text: "",
+                    fontFamily: "Calibri",
+                    fontSize: 18,
+                    padding: 8,
+                    fill: "black",
+                    opacity: 1.0,
+                    textFill: "white"
+                });
+
+                var rect = new Konva.Rect({
+                    stroke: '#555',
+                    strokeWidth: 2,
+                    fill: '#ddd',
+                    shadowColor: 'black',
+                    shadowBlur: 10,
+                    shadowOffset: [10, 10],
+                    shadowOpacity: 0.2
+                    //cornerRadius: 10
+                });
+
+                rect.moveTo(tooltip);
+                tooltext.moveTo(tooltip);
+
+                layerTEXT.add(tooltip);
+
                 //TITLE
-                idText = new Konva.Text({
+                /*idText = new Konva.Text({
                     x: star.getAttr('x')-6,
                     y: star.getAttr('y')-6,
                     text: star.getAttr('id'),
                     fontSize: 20,
                     fill: 'black'
                 });
-                layerTEXT.add(idText);
+                layerTEXT.add(idText);*/
 
 
                 //connection saving
@@ -443,46 +475,47 @@ nodeEditor.module = (function($) {
                             x : startScale,
                             y : startScale
                         });
-                          tempLayer.scale({
-                              x : startScale,
-                              y : startScale
-                          });
+                        tempLayer.scale({
+                            x : startScale,
+                            y : startScale
+                        });
 
                         layerConn.offset({
                             x : layer.offsetX()-20,
                             y : 0
                         });
-
                         layerTEXT.offset({
                             x : layer.offsetX()-20,
                             y : 0
                         });
+
+                          tempLayer.offset({
+                              x : layer.offsetX()-20,
+                              y : 0
+                          });
                         layer.offset({
                             x : layer.offsetX()-20,
                             y : 0
                         });
 
-                      tempLayer.offset({
-                          x : layer.offsetX()-20,
-                          y : 0
-                      });
 
 
-                        startOffsetX=layer.offsetX()-20;
+
+                        startOffsetX=layer.offsetX();
 
                         startDrawLines();
                         startDrawNodes();
                     } else {
                         //TITLE
                         toBig = false;
-                        idText = new Konva.Text({
+                       /* idText = new Konva.Text({
                             x: star.getAttr('x') - (6),
                             y: star.getAttr('y') - 6,
                             text: star.getAttr('id'),
                             fontSize: 20,
                             fill: 'black'
                         });
-                        layerTEXT.add(idText);
+                        layerTEXT.add(idText);*/
 
 
                         //connection saving
@@ -716,11 +749,11 @@ nodeEditor.module = (function($) {
                }else{
                    offset = 0;
                }
-               layer.offsetX(startOffsetX + offset);
+               layer.offsetX(startOffsetX);
                layer.offsetY(startOffsetY);
-               layerConn.offsetX(startOffsetX + offset );
+               layerConn.offsetX(startOffsetX);
                layerConn.offsetY(startOffsetY);
-               layerTEXT.offsetX(startOffsetX + offset );
+               layerTEXT.offsetX(startOffsetX);
                layerTEXT.offsetY(startOffsetY);
                //   backgroundLayer.offsetX(startOffsetX);
                backgroundLayer.offsetY(startOffsetY);
@@ -1039,17 +1072,17 @@ nodeEditor.module = (function($) {
                         movementStyle = movementStyle.replace(/"/g, "");
                         movementStyle = movementStyle.split(",");
 
-                        xDrag = evt.target.getAbsolutePosition().x;
-                        yDrag = evt.target.getAbsolutePosition().y;
-
                         movingGroup.setAttr('x', 0);
                         movingGroup.setAttr('y', 0);
+
                         for (var i = 0; i < movementStyle.length; i++) {
                             var node = layer.find('#' + movementStyle[i]);
                             node.fill('yellow');
                             node.moveTo(movingGroup);
                         }
                         layer.add(movingGroup);
+                        xDrag = movingGroup.getAttr('x');
+                        yDrag = movingGroup.getAttr('y');
                         layer.draw();
                         popUpShown = false;
                     },
@@ -1395,8 +1428,8 @@ nodeEditor.module = (function($) {
             e.target.getChildren(function (n) {
                 return n.getClassName() === "Circle";
             }).each(function (shape, n) {
-                var x = shape.getAbsolutePosition().x;
-                var y = shape.getAbsolutePosition().y;
+                var x = shape.getAttr('x');
+                var y = shape.getAttr('y');
                 shape.moveTo(layer);
                 shape.setAttr('x', x);
                 shape.setAttr('y', y);
@@ -1411,8 +1444,27 @@ nodeEditor.module = (function($) {
         movementStyle = null;
     };
 
+    setToolTip = function(toolTipText){
+        var textToolT;
+        tooltip.getChildren(function (n) {
+            return n.getClassName() === "Text";
+        }).each(function (text, n) {
+            textToolT = text;
+            textToolT.text(toolTipText);
+        });
+        tooltip.getChildren(function (n) {
+            return n.getClassName() === "Rect";
+        }).each(function (rect, n) {
+            rect.setAttr('width',textToolT.getAttr('width'));
+            rect.setAttr('height',textToolT.getAttr('height'));
+        });
+
+        tooltip.show();
+        layerTEXT.draw();
+    };
+
     // left: 37, up: 38, right: 39, down: 40,
-// spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
+    // spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
     var keys = {37: 1, 38: 1, 39: 1, 40: 1};
 
     preventDefault =  function(e) {
@@ -1526,8 +1578,6 @@ nodeEditor.module = (function($) {
             }
         });
 
-
-
         layer.on("mouseover", function (e) {
             var fill = e.target.fill() == 'yellow' ? 'yellow' : 'orange';
             e.target.fill(fill);
@@ -1541,9 +1591,39 @@ nodeEditor.module = (function($) {
             var fill = e.target.fill() == 'yellow' ? 'yellow' : buttonColorHover;
             e.target.fill(fill);
             layer.draw();
+            tooltip.hide();
+            layerTEXT.draw();
+            toolTipText="";
         });
         stage.on("mouseout", function (e) {
            enableScroll();
+        });
+        layer.on("mouseover", function(e) {
+            // update tooltip
+            var mousePos = stage.getPointerPosition();
+            tooltip.position({
+                x : mousePos.x + 5,
+                y : mousePos.y + 5
+            });
+
+            if(toolTipText == ""){
+                $.ajax({
+                    url: ajaxLink,
+                    type: 'GET',
+                    data: 'functionName=getTitle&storyID=' + storyID + '&ID=' + e.target.id(),
+                    success: function (data) {
+                        var obj = $.parseJSON(data);
+                        setToolTip(obj[0]['title']);
+                    },
+                    error: function (xhr, status, error) {
+                        debugText.text(error);
+                        debugText.setAttr('fontSize', '20');
+                        interfaceLayer.draw();
+                    }
+                });
+            }else{
+                setToolTip(toolTipText);
+            }
         });
 
         //add new page
@@ -1680,10 +1760,11 @@ nodeEditor.module = (function($) {
                // nodeSelection(e.target.find('#'+movementStyle[0]));
                 selectedNode= e.target.find('#'+movementStyle[0])[0].getAttr('id');
                 movingGroup.moveTo(tempLayer);
-              debugText.setAttr('fontSize','15');
+                debugText.setAttr('fontSize','15');
                 debugText.text('Moving ' + e.target.id() + ' and children');
                 interfaceLayer.draw();
                 layer.draw();
+                tempLayer.draw();
             }
         });
 
@@ -1751,8 +1832,9 @@ nodeEditor.module = (function($) {
                         e.target.fill(buttonColorHover);
                     } else {
                         if(e.target.id() != "popUp") {
-                            e.target.setAttr("x", 0);
-                            e.target.setAttr("y", 0);
+                            e.target.setAttr("x", xDrag);
+                            e.target.setAttr("y", yDrag);
+
                         }
                     }
                    dropReset(e);

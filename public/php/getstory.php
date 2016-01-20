@@ -51,6 +51,8 @@ if ($functionName == "drawLines") {
     getContent($storyID);
 }else if($functionName == "saveContent"){
     saveContent($storyID);
+}else if($functionName == "getTitle"){
+    getTitle($storyID);
 }
 
 function saveContent($storyID){
@@ -66,6 +68,12 @@ function getContent($storyID){
     $ID = filter_input(INPUT_GET, 'ID');
     $mysqlObject = new mysqlModule();
     echo json_encode($mysqlObject->queryDataBase("SELECT title,text,imageLink,OptionText1,OptionText2,OptionText3,OptionText4 FROM page WHERE story = ".$storyID." AND id = ".$ID));
+}
+
+function getTitle($storyID){
+    $ID = filter_input(INPUT_GET, 'ID');
+    $mysqlObject = new mysqlModule();
+    echo json_encode($mysqlObject->queryDataBase("SELECT title FROM page WHERE story = ".$storyID." AND id = ".$ID));
 }
 
 function isFirstNode($storyID){
