@@ -428,7 +428,7 @@ input.buttonStoryInfo {
     float: left;
     height: 42px;
     margin-right: 20px;
-    margin-bottom: 20px; }
+    margin-bottom: 18px; }
   #userEditPage .buttonFrameContainer {
     width: 40%;
     position: relative;
@@ -488,7 +488,9 @@ input.buttonStoryInfo {
   #userEditPage #pictureHandling .buttonFrameContainer {
     margin-top: -40px; }
   #userEditPage #pictureHandling {
-    margin-top: -195px; }
+    margin-top: -15px;
+    float: left;
+    width: 174px; }
   #userEditPage #currentPicture {
     margin-bottom: 15px;
     margin-right: 10px; }
@@ -618,5 +620,92 @@ input.buttonStoryInfo {
     width: 196px; }
   #errorPage .errorContainer p {
     text-align: center; }
+
+#nodeEditorPage #editors {
+  width: 35%;
+  float: right;
+  margin-top: 20px;
+  margin-right: 20px; }
+#nodeEditorPage #storyEditor {
+  background: #D3E2D8;
+  /*height: 31.5%;*/
+  margin-bottom: 20px; }
+  #nodeEditorPage #storyEditor .editorFrameContainer {
+    background: #D3E2D8; }
+  #nodeEditorPage #storyEditor .editorContainer {
+    background: #D3E2D8; }
+  #nodeEditorPage #storyEditor .h1bgEditor {
+    background: #D3E2D8; }
+  #nodeEditorPage #storyEditor input.button, #nodeEditorPage #storyEditor .buttonFrameContainer {
+    background: #879D8E; }
+  #nodeEditorPage #storyEditor .buttonFrameContainer {
+    margin-top: -45px; }
+#nodeEditorPage #pageEditor {
+  background-color: #F3E0E1;
+  /*height: 31.5%;*/
+  margin-bottom: 20px; }
+  #nodeEditorPage #pageEditor .editorFrameContainer {
+    background: #F3E0E1; }
+  #nodeEditorPage #pageEditor .editorContainer {
+    background: #F3E0E1; }
+  #nodeEditorPage #pageEditor .h1bgEditor {
+    background: #F3E0E1; }
+  #nodeEditorPage #pageEditor input.button, #nodeEditorPage #pageEditor .buttonFrameContainer {
+    background: #E1AFB1; }
+#nodeEditorPage #previewEditor {
+  background: #D6D5C5;
+  /*height: 31.5%;*/ }
+  #nodeEditorPage #previewEditor .editorFrameContainer {
+    background: #D6D5C5; }
+  #nodeEditorPage #previewEditor .editorContainer {
+    background: #D6D5C5; }
+  #nodeEditorPage #previewEditor .h1bgEditor {
+    background: #D6D5C5; }
+#nodeEditorPage .editorFrameContainer {
+  margin: 0 auto;
+  position: relative;
+  padding: 20px; }
+#nodeEditorPage .h1bgEditor {
+  width: 230px;
+  margin: 0 auto;
+  position: relative; }
+  #nodeEditorPage .h1bgEditor h1 {
+    text-align: center; }
+#nodeEditorPage .editorContainer {
+  border: dotted 2px black;
+  padding: 0% 5%; }
+  #nodeEditorPage .editorContainer h1 {
+    font-family: "Architects Daughter", cursive;
+    margin-top: -22px;
+    font-size: 1.6em; }
+#nodeEditorPage .label {
+  font-family: "Architects Daughter", cursive; }
+#nodeEditorPage .optionsLabel {
+  margin-bottom: 25px; }
+#nodeEditorPage .tellLabel {
+  margin-top: 50px;
+  margin-bottom: 60px; }
+#nodeEditorPage input.inputField {
+  width: 70%;
+  float: right;
+  height: 30px;
+  font-family: "Architects Daughter", cursive; }
+#nodeEditorPage input.inputField.option {
+  width: 34%;
+  margin: 2px; }
+#nodeEditorPage input.button {
+  height: 30px;
+  line-height: 1.3em; }
+#nodeEditorPage .buttonFrameContainer {
+  float: right;
+  height: 30px; }
+#nodeEditorPage .buttonFrameContainerPic {
+  float: left;
+  margin-right: 5px; }
+#nodeEditorPage .buttons {
+  float: right;
+  margin-top: -45px; }
+#nodeEditorPage .cbp-spmenu {
+  background: #fff; }
 
 /*# sourceMappingURL=default.css.map */

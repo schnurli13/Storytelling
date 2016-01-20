@@ -8,13 +8,146 @@
 
 <div id="nodeEditorPage">
 
-    
+
     <div class="canvas">NODE-EDITOR</div>
     
-    <div class="editors">
-        <div id="wrapper"><div id="container"></div>
-		</div>
-		<script type="text/javascript" src="/Storytelling/public/javascript/function.js"></script>
-    </div>
+    <button id="showRight">Show/Hide Editors Responsive</button>
+    
+        <div id="wrapper">
+                <div id="container"></div>
+        </div>
+                    
+                            
+        <script type="text/javascript" src="/Storytelling/public/javascript/function.js"></script>
+        
+        <div id="editors">
+            <div id="storyEditor">
+                <div class="editorFrameContainer">
+                    <div class="editorContainer">
+                        <div class="h1bgEditor"><h1>STORY-EDITOR</h1></div>
+                        <form>
+                            <p class="label">TITLE <input class="inputField" type="text" name="storyTitle" value=""/></p>
+                            <p class="label">AUTOR <input class="inputField" type="text" name="storyAutor" value=""/></p>
+                            <p class="label">CO-AUTOR <input class="inputField" type="text" name="storyCoAutor" value=""/></p>
+                            <p class="label">PUBLISH <input class="inputField" type="checkbox" name="storyPublished"/></p>
+                            
+                            <div class="buttonFrameContainer"><input class="button" type="submit" value="SAVE" /></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            
+             <div id="pageEditor">
+                <div class="editorFrameContainer">
+                    <div class="editorContainer">
+                        <div class="h1bgEditor"><h1>PAGE-EDITOR</h1></div>
+                        <form>
+                            <p class="label">TITLE <input class="inputField" type="text" name="pageTitle" value=""/></p>
+                            <p class="label optionsLabel">OPTIONS
+                                                        <input class="inputField option" type="text" name="pageOption1" value=""/>
+                                                        <input class="inputField  option" type="text" name="pageOption2" value=""/>
+                                                        <input class="inputField option" type="text" name="pageOption3" value=""/>
+                                                        <input class="inputField option" type="text" name="pageOption4" value=""/></p>
+                            <p class="label tellLabel">TELL <input class="inputField" type="text" name="pageTell" value=""/></p>
+                            
+                           <!-- FILEUPLOAD SELBST GEH…RT NOCH REIN!!-->
+                            <div class="buttons">
+                                <div class="buttonFrameContainer buttonFrameContainerPic" id="pictureHandling">
+                                    <input class="button ajaxFormTrigger" type="button" id="changePictureButton" value="SAVE PIC" /><br>
+                                </div>
+                                
+                                <div class="buttonFrameContainer"><input class="button" type="submit" value="SAVE" /></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="previewEditor">
+                <div class="editorFrameContainer">
+                    <div class="editorContainer">
+                        <div class="h1bgEditor"><h1>PREVIEW</h1></div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    
+    
+    
+<!--            ///// RESPONSIVE EDITORS ///////-->
+        <div class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
+            <div id="storyEditor">
+                <div class="editorFrameContainer">
+                    <div class="editorContainer">
+                        <div class="h1bgEditor"><h1>STORY-EDITOR</h1></div>
+                        <form>
+                            <p class="label">TITLE <input class="inputField" type="text" name="storyTitle" value=""/></p>
+                            <p class="label">AUTOR <input class="inputField" type="text" name="storyAutor" value=""/></p>
+                            <p class="label">CO-AUTOR <input class="inputField" type="text" name="storyCoAutor" value=""/></p>
+                            <p class="label">PUBLISH <input class="inputField" type="checkbox" name="storyPublished"/></p>
+                            
+                            <div class="buttonFrameContainer"><input class="button" type="submit" value="SAVE" /></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            
+             <div id="pageEditor">
+                <div class="editorFrameContainer">
+                    <div class="editorContainer">
+                        <div class="h1bgEditor"><h1>PAGE-EDITOR</h1></div>
+                        <form>
+                            <p class="label">TITLE <input class="inputField" type="text" name="pageTitle" value=""/></p>
+                            <p class="label optionsLabel">OPTIONS <input class="inputField option" type="text" name="pageOption1" value=""/>
+                                                        <input class="inputField  option" type="text" name="pageOption2" value=""/>
+                                                        <input class="inputField option" type="text" name="pageOption3" value=""/>
+                                                        <input class="inputField option" type="text" name="pageOption4" value=""/></p>
+                            <p class="label tellLabel">TELL <input class="inputField" type="text" name="pageTell" value=""/></p>
+                            <div class="buttons">
+                                <div class="buttonFrameContainer buttonFrameContainerPic" id="pictureHandling">
+                                    <input class="button ajaxFormTrigger" type="button" id="changePictureButton" value="SAVE PIC" /><br>
+                                </div>
+                                
+                                <div class="buttonFrameContainer"><input class="button" type="submit" value="SAVE" /></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="previewEditor">
+                <div class="editorFrameContainer">
+                    <div class="editorContainer">
+                        <div class="h1bgEditor"><h1>PREVIEW</h1></div>
+                    </div>
+                </div>
+            </div>  
+        </div>
+    
+    
+    
+    <script src="js/classie.js"></script>
+    <script>
+        var menuRight = document.getElementById( 'cbp-spmenu-s2' ),
+            showRight = document.getElementById( 'showRight' ),
+            body = document.body;
+                
+        showRight.onclick = function() {
+            classie.toggle( this, 'active' );
+            classie.toggle( menuRight, 'cbp-spmenu-open' );
+            disableOther( 'showRight' );
+        };
+        
+
+        function disableOther( button ) {
+            if( button !== 'showRight' ) {
+                    classie.toggle( showRight, 'disabled' );
+            }
+        }
+    </script>
+
     
 </div>

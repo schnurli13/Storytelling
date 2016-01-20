@@ -2,6 +2,9 @@ $darkblue: #96C3CC;
 $lightblue:  #D3ECED;
 $lightred: #F3E0E1;
 $darkred: #E1AFB1;
+$lightgreen: #D3E2D8;
+$darkgreen: #879D8E;
+$lightbrown: #D6D5C5;
 $mainFont:  'Architects Daughter', cursive;
 
 
@@ -639,7 +642,7 @@ input {
 			float: left;
 			height: 42px;
 			margin-right: 20px;
-			margin-bottom: 20px;
+			margin-bottom: 18px;
 		}
 	}
 	
@@ -725,7 +728,9 @@ input {
 	}
 	
 	#pictureHandling {
-		margin-top: -195px;
+		margin-top: -15px;
+		float: left;
+		width: 174px;
 	}
 	
 	#currentPicture {
@@ -913,6 +918,157 @@ input {
 	
 	.errorContainer p {
 		text-align: center;
+	}	
+}
+
+#nodeEditorPage {
+	#editors {
+		width: 35%;
+		float: right;
+		margin-top: 20px;
+		margin-right: 20px;
 	}
+		
+	#storyEditor {
+		background: $lightgreen;
+		/*height: 31.5%;*/
+		margin-bottom: 20px;
+		
+		.editorFrameContainer {
+			background: $lightgreen;	
+		}
+		
+		.editorContainer {
+			background: $lightgreen;	
+		}
+		
+		.h1bgEditor {
+			background: $lightgreen;
+		}
+		
+		input.button, .buttonFrameContainer {
+			background: $darkgreen;
+		}
+		
+		.buttonFrameContainer {
+			margin-top: -45px;
+		}
+	}
+	
+	#pageEditor {
+		background-color: $lightred;
+		/*height: 31.5%;*/
+		margin-bottom: 20px;
+		
+		.editorFrameContainer {
+			background: $lightred;	
+		}
+		
+		.editorContainer {
+			background: $lightred;	
+		}
+		
+		.h1bgEditor {
+			background: $lightred;
+		}
+		
+		input.button, .buttonFrameContainer {
+			background: $darkred;
+		}
+	}
+	
+	#previewEditor {
+		background: $lightbrown;
+		/*height: 31.5%;*/
+		
+		.editorFrameContainer {
+			background: $lightbrown;	
+		}
+		
+		.editorContainer {
+			background: $lightbrown;	
+		}
+		
+		.h1bgEditor {
+			background: $lightbrown;
+		}
+	}
+	
+	.editorFrameContainer {
+		margin: 0 auto;
+		position: relative;
+		padding: 20px;
+	}
+	
+	.h1bgEditor {
+		width: 230px;
+		margin: 0 auto;
+		position: relative;
+		
+		h1 {
+			text-align: center;
+		}
+	}
+	
+	.editorContainer{
+		border: dotted 2px black;
+		padding: 0% 5%;
+		
+		h1 {
+			font-family: $mainFont;
+			margin-top: -22px;
+			font-size: 1.6em;
+		}
+	}
+	
+	.label {
+		font-family: $mainFont;
+	}
+	
+	.optionsLabel {
+		margin-bottom: 25px;
+	}
+	
+	.tellLabel {
+		margin-top: 50px;
+		margin-bottom: 60px;
+	}
+	
+	input.inputField {
+		width: 70%;
+		float: right;
+		height: 30px;
+		font-family: $mainFont;
+	}
+	
+	input.inputField.option {
+		width: 34%;
+		margin: 2px;
+	}
+	
+	input.button {
+		height: 30px;
+		line-height: 1.3em;
+	}
+	
+	.buttonFrameContainer {
+		float: right;
+		height: 30px;
+	}
+	
+	.buttonFrameContainerPic {
+		float: left;
+		margin-right: 5px;
+	}
+	
+	.buttons {
+		float: right;
+		margin-top: -45px;
+	}
+	
+	.cbp-spmenu {
+		background: #fff;
+	}
+
 	
 }
