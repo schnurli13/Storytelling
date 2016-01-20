@@ -58,9 +58,16 @@ if ($functionName == "drawLines") {
 function saveContent($storyID){
     $ID = filter_input(INPUT_GET, 'ID');
     $text = filter_input(INPUT_GET, 'text');
+    $title = filter_input(INPUT_GET, 'title');
+    $opt1 = filter_input(INPUT_GET, 'opt1');
+    $opt2 = filter_input(INPUT_GET, 'opt2');
+    $opt3 = filter_input(INPUT_GET, 'opt3');
+    $opt4 = filter_input(INPUT_GET, 'opt4');
     $mysqlObject = new mysqlModule();
-    echo json_encode("UPDATE page SET text = '".$text."' WHERE story = ".$storyID." AND id = ".$ID);
-    echo json_encode($mysqlObject->commandDataBase("UPDATE page SET text ='".$text."' WHERE story = ".$storyID." AND id = ".$ID));
+    echo json_encode("UPDATE page SET text = '".$text."', title = '".$title."', OptionText1 = '".$opt1."', OptionText2 = '".$opt2."'
+    , OptionText3 = '".$opt3."', OptionText4 = '".$opt4."' WHERE story = ".$storyID." AND id = ".$ID);
+    echo json_encode($mysqlObject->commandDataBase("UPDATE page SET text = '".$text."', title = '".$title."', OptionText1 = '".$opt1."', OptionText2 = '".$opt2."'
+    , OptionText3 = '".$opt3."', OptionText4 = '".$opt4."' WHERE story = ".$storyID." AND id = ".$ID));
 }
 
 

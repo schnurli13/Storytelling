@@ -4,21 +4,18 @@ body {
     background-color: #FFFFFF;
 }
 
-#buttons {
-    position: absolute;
-    left: 30px;
-    top: 20px;
-}
 
 #container{
-    background-color: #d3edf0;
     overflow:hidden;
-    width: 60%;
-    margin:20px;
-    float:left;
+    border: 2px dotted #000;
 }
 
 #wrapper{
+    width: 60%;
+    margin:10px;
+    padding:20px;
+    float:left;
+    background-color: #d3edf0;
     position:relative;
 }
 

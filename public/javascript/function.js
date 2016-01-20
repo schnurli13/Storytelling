@@ -101,7 +101,7 @@ nodeEditor.module = (function($) {
         button3 = button1.clone({x: 335,id: "button3"}),
 
         dottedLineAdd = new Konva.Line({
-            points: [5, 5, 145, 5, 145, 45, 5, 45,5,5],
+            points: [5, 5, 175, 5, 175, 45, 5, 45,5,5],
             stroke: 'black',
             strokeWidth: 1,
             lineJoin: 'round',
@@ -134,7 +134,7 @@ nodeEditor.module = (function($) {
         addRect = new Konva.Rect({
             x: 0,
             y: 0,
-            width: 150,
+            width: 180,
             height: 50,
             id: "addRect",
             fill: buttonColorDisabled
@@ -150,16 +150,18 @@ nodeEditor.module = (function($) {
         addText = new Konva.Text({
         fill: 'black',
         fontSize: 18,
-        x: 22,
+        x: 18,
         y: 18,
         id: "addText",
-        text: "Add new Page",
-        fontFamily: 'Calibri'
+        text: "ADD NEW PAGE",
+        align: 'center',
+        fontFamily: "Architects Daughter"
         }),
 
         delText = addText.clone({
             id: "delText",
-            text: "Delete Page"
+            x:26,
+            text: "DELETE PAGE"
         }),
 
         popText = addText.clone({
@@ -200,6 +202,8 @@ nodeEditor.module = (function($) {
         disableScroll,
         enableScroll,
         setToolTip,
+        drawToolTip,
+        resetInputFields,
         checkScaleFactor
     ;
 
@@ -238,10 +242,11 @@ nodeEditor.module = (function($) {
 
             levelText = new Konva.Text({
                 fill: 'black',
-                fontSize: 15,
+                fontSize:20,
+                fontFamily: "Architects Daughter",
                 text: j,
                 x: 10,
-                y: h-15
+                y: h-20
             });
 
             backgroundLayer.add(levelText);
@@ -284,6 +289,35 @@ nodeEditor.module = (function($) {
         return idNEW;
     };
 
+    drawToolTip = function(){
+        tooltip = new Konva.Group({
+            visible: false
+        });
+        var tooltext = new Konva.Text({
+            text: "",
+            fontFamily:  "Architects Daughter",
+            fontSize: 20,
+            padding: 8,
+            fill: "black",
+            opacity: 1.0,
+            textFill: "white"
+        });
+
+        var rect = new Konva.Rect({
+            /*  stroke: 'black',
+             strokeWidth: 1,*/
+            fill: '#F3E0E1',
+            shadowColor: 'black',
+            shadowBlur: 10,
+            shadowOffset: [10, 10],
+            shadowOpacity: 0.5
+            //cornerRadius: 10
+        });
+        rect.moveTo(tooltip);
+        tooltext.moveTo(tooltip);
+        layerTEXT.add(tooltip);
+        layerTEXT.draw();
+    };
 
 
     drawNodes = function (data) {
@@ -297,7 +331,7 @@ nodeEditor.module = (function($) {
         interfaceLayer.draw();
 
         selectedNode = null;
-        $('#textEdit').val('click on node');
+        resetInputFields();
 
         var star;
         var idText;
@@ -343,34 +377,7 @@ nodeEditor.module = (function($) {
 
                 layer.add(star);
 
-                tooltip = new Konva.Group({
-                    visible: false
-                });
-                var tooltext = new Konva.Text({
-                    text: "",
-                    fontFamily: "Calibri",
-                    fontSize: 18,
-                    padding: 8,
-                    fill: "black",
-                    opacity: 1.0,
-                    textFill: "white"
-                });
 
-                var rect = new Konva.Rect({
-                    stroke: '#555',
-                    strokeWidth: 2,
-                    fill: '#ddd',
-                    shadowColor: 'black',
-                    shadowBlur: 10,
-                    shadowOffset: [10, 10],
-                    shadowOpacity: 0.2
-                    //cornerRadius: 10
-                });
-
-                rect.moveTo(tooltip);
-                tooltext.moveTo(tooltip);
-
-                layerTEXT.add(tooltip);
 
                 //TITLE
                 /*idText = new Konva.Text({
@@ -489,7 +496,7 @@ nodeEditor.module = (function($) {
                             y : 0
                         });
 
-                          tempLayer.offset({
+                        tempLayer.offset({
                               x : layer.offsetX()-20,
                               y : 0
                           });
@@ -567,7 +574,7 @@ nodeEditor.module = (function($) {
             highLight = null;
             emptyLayer.draw();
         }
-
+        drawToolTip();
     };
 
     nodeSelection = function(e) {
@@ -587,7 +594,12 @@ nodeEditor.module = (function($) {
                     data: 'functionName=getContent&storyID='+storyID+'&ID=' + selectedNode,
                     success: function (data) {//alert(data);
                         var obj = $.parseJSON(data);
-                        $('#textEdit').val(obj[0]['text']);
+                        $('.textEdit').val(obj[0]['text']);
+                        $('.titleEdit').val(obj[0]['title']);
+                        $('.opt1').val(obj[0]['OptionText1']);
+                        $('.opt2').val(obj[0]['OptionText2']);
+                        $('.opt3').val(obj[0]['OptionText3']);
+                        $('.opt4').val(obj[0]['OptionText4']);
                     },
                     error: function (xhr, status, error) {
                         debugText.text(error);
@@ -601,7 +613,7 @@ nodeEditor.module = (function($) {
                 if(zoomStyle == "zoomJump"){
                     zoomOut();
                 }
-                $('#textEdit').val('click on node');
+                resetInputFields();
 
             }
             layer.draw();
@@ -689,6 +701,10 @@ nodeEditor.module = (function($) {
     };
 
     zoomOut = function(){
+        tooltip.hide();
+        layerTEXT.draw();
+        toolTipText="";
+
         var zoomout = startScale;
         zooming = false;
         var zoomin = layer.scaleX().toFixed(2);
@@ -914,20 +930,20 @@ nodeEditor.module = (function($) {
         popText.setAttr('text',deleteText);
         popText.setAttr('x','20');
         popText.setAttr('y','25');
-        popText.setAttr('width','380');
+        popText.setAttr('width',(addRect.getAttr('width')*2+80)-20);
 
         tempLayer.find('#button1Text')[0].setAttr('text','DELETE');
-        tempLayer.find('#button1Text')[0].setAttr('x','45');
+        tempLayer.find('#button1Text')[0].setAttr('x','48');
 
         tempLayer.find('#button2Text')[0].setAttr('text','CANCEL');
-        tempLayer.find('#button2Text')[0].setAttr('x','45');
+        tempLayer.find('#button2Text')[0].setAttr('x','48');
 
-        popUpRect.setAttr('width','400');
-        popUp.setAttr('x',width/2-200);
+        popUpRect.setAttr('width',addRect.getAttr('width')*2+80);
+        popUp.setAttr('x',width/2-((addRect.getAttr('width')*2+80)/2));
 
-        dottedLinePopUp.setAttr('points',[10, 10, 390, 10, 390, 240, 10,240,10,10]);
-        button1.setAttr('x','30');
-        button2.setAttr('x','220');
+        dottedLinePopUp.setAttr('points',[10, 10, popUpRect.getAttr('width')-10, 10, popUpRect.getAttr('width')-10, 240, 10,240,10,10]);
+        button1.setAttr('x',(popUpRect.getAttr('width')/2)-button1Rect.getAttr('width')-10);
+        button2.setAttr('x',button1.getAttr('x')+button1Rect.getAttr('width')+20);
        // button2.setAttr('id','button2');
 
         popUp.show();
@@ -997,25 +1013,23 @@ nodeEditor.module = (function($) {
 
     moveQuestion = function(evt){
 
-
         popText.setAttr('text',moveText);
         popText.setAttr('x','10');
         popText.setAttr('y','65');
-        popText.setAttr('width','480');
+        popText.setAttr('width',(addRect.getAttr('width')*3+80)-20);
 
         tempLayer.find('#button1Text')[0].setAttr('text','MOVE BRANCH');
         tempLayer.find('#button1Text')[0].setAttr('x','20');
 
         tempLayer.find('#button2Text')[0].setAttr('text','MOVE PAGE');
-        tempLayer.find('#button2Text')[0].setAttr('x','25');
+        tempLayer.find('#button2Text')[0].setAttr('x','28');
 
-        popUpRect.setAttr('width','500');
-        popUp.setAttr('x',width/2-250);
+        popUpRect.setAttr('width',addRect.getAttr('width')*3+80);
+        popUp.setAttr('x',width/2-((addRect.getAttr('width')*3+80)/2));
 
-        dottedLinePopUp.setAttr('points',[10, 10, 490, 10, 490, 240, 10,240,10,10]);
+        dottedLinePopUp.setAttr('points',[10, 10, popUpRect.getAttr('width')-10, 10, popUpRect.getAttr('width')-10, 240, 10,240,10,10]);
 
-        button1.setAttr('x','15');
-        button2.setAttr('x','175');
+
       // button2.setAttr('id','button2Move');
 
         button3.add(button1Rect.clone({id:'button3Rect'}));
@@ -1024,8 +1038,12 @@ nodeEditor.module = (function($) {
       //  button3.setAttr('id','button3Move');
         popUp.add(button3);
 
+        button1.setAttr('x',15);
+        button2.setAttr('x', button1.getAttr('x')+button1Rect.getAttr('width')+20);
+        button3.setAttr('x',button2.getAttr('x')+button1Rect.getAttr('width')+20);
+
         tempLayer.find('#button3Text')[0].setAttr('text','CANCEL');
-        tempLayer.find('#button3Text')[0].setAttr('x','45');
+        tempLayer.find('#button3Text')[0].setAttr('x','48');
         tempLayer.find('#button3Text')[0].setAttr('id','button3Text');
 
         tempLayer.find('#button3Rect')[0].setAttr('id','button3Rect');
@@ -1119,21 +1137,21 @@ nodeEditor.module = (function($) {
         popText.setAttr('text',drop2Text);
         popText.setAttr('x','10');
         popText.setAttr('y','55');
-        popText.setAttr('width','480');
+        popText.setAttr('width',(addRect.getAttr('width')*3+80)-20);
 
         tempLayer.find('#button1Text')[0].setAttr('text','YES');
-        tempLayer.find('#button1Text')[0].setAttr('x','55');
+        tempLayer.find('#button1Text')[0].setAttr('x','65');
 
         tempLayer.find('#button2Text')[0].setAttr('text','CANCEL');
-        tempLayer.find('#button2Text')[0].setAttr('x','45');
+        tempLayer.find('#button2Text')[0].setAttr('x','48');
 
-        popUpRect.setAttr('width','500');
-        popUp.setAttr('x',width/2-250);
+        popUpRect.setAttr('width',(addRect.getAttr('width')*3+80));
+        popUp.setAttr('x',width/2-((addRect.getAttr('width')*3+80)/2));
 
-        dottedLinePopUp.setAttr('points',[10, 10, 490, 10, 490, 240, 10,240,10,10]);
+        dottedLinePopUp.setAttr('points',[10, 10, (addRect.getAttr('width')*3+80)-10, 10, (addRect.getAttr('width')*3+80)-10, 240, 10,240,10,10]);
 
-        button1.setAttr('x','70');
-        button2.setAttr('x','270');
+        button1.setAttr('x',(popUpRect.getAttr('width')/2)-button1Rect.getAttr('width')-10);
+        button2.setAttr('x',button1.getAttr('x')+button1Rect.getAttr('width')+20);
 
         popUp.show();
         tempLayer.draw();
@@ -1181,7 +1199,7 @@ nodeEditor.module = (function($) {
         popText.setAttr('text',dropText);
         popText.setAttr('x','10');
         popText.setAttr('y','55');
-        popText.setAttr('width','480');
+        popText.setAttr('width',(addRect.getAttr('width')*3+80)-20);
 
         tempLayer.find('#button1Text')[0].setAttr('text','ADD AS SUB-PAGE');
         tempLayer.find('#button1Text')[0].setAttr('x','8');
@@ -1189,23 +1207,23 @@ nodeEditor.module = (function($) {
         tempLayer.find('#button2Text')[0].setAttr('text','REPLACE PAGES');
         tempLayer.find('#button2Text')[0].setAttr('x','18');
 
-        popUpRect.setAttr('width','500');
-        popUp.setAttr('x',width/2-250);
+        popUpRect.setAttr('width',(addRect.getAttr('width')*3+80));
+        popUp.setAttr('x',width/2-((addRect.getAttr('width')*3+80)/2));
 
-        dottedLinePopUp.setAttr('points',[10, 10, 490, 10, 490, 240, 10,240,10,10]);
+        dottedLinePopUp.setAttr('points',[10, 10, (addRect.getAttr('width')*3+80)-10, 10, (addRect.getAttr('width')*3+80)-10, 240, 10,240,10,10]);
 
-        button1.setAttr('x','15');
-        button2.setAttr('x','175');
-     //   button2.setAttr('id','button2Drop');
-       // button3.setAttr('id','button3Drop');
+        button1.setAttr('x',15);
+        button2.setAttr('x', button1.getAttr('x')+button1Rect.getAttr('width')+20);
+        button3.setAttr('x',button2.getAttr('x')+button1Rect.getAttr('width')+20);
+
 
         button3.add(button1Rect.clone({id:'button3Rect'}));
-        button3.add(dottedLineAdd.clone());
+        button3.add(dottedLineAdd.clone({id:'button3dotted'}));
         button3.add(delText.clone({id:'button3Text'}));
         popUp.add(button3);
 
         tempLayer.find('#button3Text')[0].setAttr('text','CANCEL');
-        tempLayer.find('#button3Text')[0].setAttr('x','45');
+        tempLayer.find('#button3Text')[0].setAttr('x','43');
         tempLayer.find('#button3Text')[0].setAttr('id','button3Text');
 
         tempLayer.find('#button3Rect')[0].setAttr('id','button3Rect');
@@ -1463,6 +1481,10 @@ nodeEditor.module = (function($) {
         layerTEXT.draw();
     };
 
+    resetInputFields = function(){
+        $("#pageEditor .inputField").val('click on node');
+    };
+
     // left: 37, up: 38, right: 39, down: 40,
     // spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
     var keys = {37: 1, 38: 1, 39: 1, 40: 1};
@@ -1541,13 +1563,13 @@ nodeEditor.module = (function($) {
         popUp.add(popText);
 
         button1.add(button1Rect);
-        button1.add(dottedLineAdd.clone());
+        button1.add(dottedLineAdd.clone({id:'button1dotted'}));
         button1.add(delText.clone({id:'button1Text'}));
         popUp.add(button1);
 
 
         button2.add(button1Rect.clone({id:'button2Rect'}));
-        button2.add(dottedLineAdd.clone());
+        button2.add(dottedLineAdd.clone({id:'button2dotted'}));
         button2.add(delText.clone({id:'button2Text'}));
         popUp.add(button2);
 
@@ -1595,16 +1617,23 @@ nodeEditor.module = (function($) {
             layerTEXT.draw();
             toolTipText="";
         });
+
         stage.on("mouseout", function (e) {
            enableScroll();
         });
+        stage.on("mouseout", function (e) {
+            tooltip.hide();
+            layerTEXT.draw();
+        });
+
         layer.on("mouseover", function(e) {
             // update tooltip
             var mousePos = stage.getPointerPosition();
             tooltip.position({
-                x : mousePos.x + 5,
-                y : mousePos.y + 5
+                x : e.target.getAttr('x'),
+                y :  e.target.getAttr('y')
             });
+            //alert(mousePos.x + 5);
 
             if(toolTipText == ""){
                 $.ajax({
@@ -1689,12 +1718,13 @@ nodeEditor.module = (function($) {
             }
         });
 
-        $('#save').click(function() {
+        $('.save').click(function() {
             if(selectedNode != null) {
                 $.ajax({
                     url: ajaxLink,
                     type: 'GET',
-                    data: 'functionName=saveContent&storyID=' + storyID + '&ID=' + selectedNode + '&text=' + $('#textEdit').val(),
+                    data: 'functionName=saveContent&storyID=' + storyID + '&ID=' + selectedNode + '&text=' + $('.textEdit').val()+ '&title=' + $('.titleEdit').val()
+                    + '&opt1=' + $('.opt1').val()+ '&opt2=' + $('.opt2').val()+ '&opt3=' + $('.opt3').val()+ '&opt4=' + $('.opt4').val(),
                     success: function (data) {
                         alert(data);
                     },
@@ -1735,6 +1765,9 @@ nodeEditor.module = (function($) {
 
 //DRAGGEN
       layer.on("dragstart", function (e) {
+          tooltip.hide();
+          layerTEXT.draw();
+          toolTipText="";
           if(!pause && movementStyle == null){
               zoomOut();
               selectedNode=e.target.id();
