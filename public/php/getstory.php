@@ -53,6 +53,30 @@ if ($functionName == "drawLines") {
     saveContent($storyID);
 }else if($functionName == "getTitle"){
     getTitle($storyID);
+}else if($functionName == "getStoryDetails"){
+    getStoryDetails($storyID);
+}else if($functionName == "getAuthorDetails"){
+    getAuthorDetails($storyID);
+}else if($functionName == "saveStory"){
+    saveStory($storyID);
+}
+
+function saveStory($storyID){
+    $title = filter_input(INPUT_GET, 'title');
+    $mysqlObject = new mysqlModule();
+    echo json_encode($mysqlObject->commandDataBase("UPDATE story SET name = '".$title."' WHERE id = ".$storyID));
+}
+
+function getAuthorDetails($storyID){
+    $id = filter_input(INPUT_GET, 'authorID');
+    $mysqlObject = new mysqlModule();
+    echo json_encode($mysqlObject->queryDataBase("SELECT name FROM users WHERE id = '".$id."'"));
+}
+
+function getStoryDetails($storyID){
+    $name = filter_input(INPUT_GET, 'storyID');
+    $mysqlObject = new mysqlModule();
+    echo json_encode($mysqlObject->queryDataBase("SELECT user,isPublished FROM story WHERE name = '".$name."'"));
 }
 
 function saveContent($storyID){
@@ -64,8 +88,6 @@ function saveContent($storyID){
     $opt3 = filter_input(INPUT_GET, 'opt3');
     $opt4 = filter_input(INPUT_GET, 'opt4');
     $mysqlObject = new mysqlModule();
-    echo json_encode("UPDATE page SET text = '".$text."', title = '".$title."', OptionText1 = '".$opt1."', OptionText2 = '".$opt2."'
-    , OptionText3 = '".$opt3."', OptionText4 = '".$opt4."' WHERE story = ".$storyID." AND id = ".$ID);
     echo json_encode($mysqlObject->commandDataBase("UPDATE page SET text = '".$text."', title = '".$title."', OptionText1 = '".$opt1."', OptionText2 = '".$opt2."'
     , OptionText3 = '".$opt3."', OptionText4 = '".$opt4."' WHERE story = ".$storyID." AND id = ".$ID));
 }

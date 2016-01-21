@@ -49,7 +49,8 @@ nodeEditor.module = (function($) {
         stage = new Konva.Stage({
             container: 'container',
             width: width,
-            height:height
+            height:height,
+            draggable:false
 
         }),
         backgroundLayer = new Konva.Layer({
@@ -63,6 +64,7 @@ nodeEditor.module = (function($) {
         layer  = backgroundLayer.clone(),
         layerConn = backgroundLayer.clone(),
         layerTEXT = backgroundLayer.clone(),
+        levelTextLayer= backgroundLayer.clone(),
 
         tempLayer = new Konva.Layer({
             width: width,
@@ -73,9 +75,11 @@ nodeEditor.module = (function($) {
 
         debugText = new Konva.Text({
             fill: 'black',
-            fontSize: 15,
+            fontSize: 20,
             x: width/2 - 50,
-            y: 25
+            y: 25,
+            align: 'center',
+            fontFamily: "Architects Daughter"
         }),
         deleteButton= new Konva.Group({
             x: 30,
@@ -204,6 +208,8 @@ nodeEditor.module = (function($) {
         setToolTip,
         drawToolTip,
         resetInputFields,
+        getStoryDetails,
+        setStoryDetails,
         checkScaleFactor
     ;
 
@@ -220,7 +226,7 @@ nodeEditor.module = (function($) {
             },
             error: function (xhr, status, error) {
                 debugText.text(error);
-                debugText.setAttr('fontSize','20');
+                debugText.setAttr('fontSize','25');
                 interfaceLayer.draw();
             }
         });
@@ -228,6 +234,7 @@ nodeEditor.module = (function($) {
 
     drawLines = function(levelNumb) {
         backgroundLayer.destroyChildren();
+        levelTextLayer.destroyChildren();
         var line;
         var levelText;
         var h = levelY;
@@ -249,12 +256,13 @@ nodeEditor.module = (function($) {
                 y: h-20
             });
 
-            backgroundLayer.add(levelText);
+            levelTextLayer.add(levelText);
             backgroundLayer.add(line);
 
             h += levelY;
         }
         backgroundLayer.draw();
+        levelTextLayer.draw();
 
     };
 
@@ -271,7 +279,7 @@ nodeEditor.module = (function($) {
             },
             error: function (xhr, status, error) {
                 debugText.text(error);
-                debugText.setAttr('fontSize','20');
+                debugText.setAttr('fontSize','25');
                 interfaceLayer.draw();
             }
         });
@@ -475,9 +483,13 @@ nodeEditor.module = (function($) {
                             y : startScale
                         });
                         backgroundLayer.scale({
-                            x : startScale,
+                            x : 1.0,
                             y : startScale
                         });
+                       levelTextLayer.scale({
+                           x: startScale,
+                           y:startScale
+                       });
                         layerTEXT.scale({
                             x : startScale,
                             y : startScale
@@ -581,7 +593,7 @@ nodeEditor.module = (function($) {
         if (selectedNode == null || e.target.id() == selectedNode && !popUpShown) {
             var fill = e.target.fill() == 'yellow' ? buttonColorHover : 'yellow';
             e.target.fill(fill);
-            debugText.setAttr('fontSize','15');
+            debugText.setAttr('fontSize','20');
             debugText.text('Selected ' + e.target.name());
             if (fill == 'yellow') {
                 selectedNode = e.target.id();
@@ -603,7 +615,7 @@ nodeEditor.module = (function($) {
                     },
                     error: function (xhr, status, error) {
                         debugText.text(error);
-                        debugText.setAttr('fontSize','20');
+                        debugText.setAttr('fontSize','25');
                         interfaceLayer.draw();
                     }
                 });
@@ -618,10 +630,12 @@ nodeEditor.module = (function($) {
             }
             layer.draw();
             backgroundLayer.draw();
+            levelTextLayer.draw();
         }
     };
 
     zoomIn = function(e,zoomin){
+        stage.setAttr('draggable', true);
         zooming = true;
         var zoomInit = zoomin;
         if(zoomin == null){
@@ -663,8 +677,12 @@ nodeEditor.module = (function($) {
                     y : scale
                 });
                 backgroundLayer.scale({
-                    x : scale,
+                    x : 1.0,
                     y : scale
+                });
+                levelTextLayer.scale({
+                    x: scale,
+                    y: scale
                 });
                 layerTEXT.scale({
                     x : scale,
@@ -677,7 +695,7 @@ nodeEditor.module = (function($) {
                 moveX = layer.offsetX() + diffX/((zoomin-startScale)/diff);
                 layer.offsetX(moveX);
                 layerConn.offsetX(moveX);
-              //  backgroundLayer.offsetX(moveX);
+               // backgroundLayer.offsetX(moveX);
                 layerTEXT.offsetX(moveX);
             }
             var moveY = 0;
@@ -686,6 +704,7 @@ nodeEditor.module = (function($) {
                 layer.offsetY(moveY);
                 layerConn.offsetY(moveY);
                 backgroundLayer.offsetY(moveY);
+                levelTextLayer.offsetY(moveY);
                 layerTEXT.offsetY(moveY);
             }
 
@@ -694,13 +713,16 @@ nodeEditor.module = (function($) {
                     anim.stop();
                 }
 
-        }, [layer,layerConn,layerTEXT,backgroundLayer]);
+        }, [layer,layerConn,layerTEXT,backgroundLayer,levelTextLayer]);
 
         anim.start();
 
     };
 
     zoomOut = function(){
+        stage.setAttr('draggable', false);
+        stage.setAttr('x',0);
+        stage.setAttr('y',0);
         tooltip.hide();
         layerTEXT.draw();
         toolTipText="";
@@ -728,8 +750,12 @@ nodeEditor.module = (function($) {
                     y : scale
                 });
                 backgroundLayer.scale({
-                    x : scale,
+                    x : 1.0,
                     y : scale
+                });
+                levelTextLayer.scale({
+                    x: scale,
+                    y: scale
                 });
                 layerTEXT.scale({
                     x : scale,
@@ -753,6 +779,7 @@ nodeEditor.module = (function($) {
                 layer.offsetY(moveY);
                 layerConn.offsetY(moveY);
                 backgroundLayer.offsetY(moveY);
+                levelTextLayer.offsetY(moveY);
                 layerTEXT.offsetY(moveY);
             }
 
@@ -771,12 +798,12 @@ nodeEditor.module = (function($) {
                layerConn.offsetY(startOffsetY);
                layerTEXT.offsetX(startOffsetX);
                layerTEXT.offsetY(startOffsetY);
-               //   backgroundLayer.offsetX(startOffsetX);
+              //   backgroundLayer.offsetX(startOffsetX);
                backgroundLayer.offsetY(startOffsetY);
         }
 
 
-        }, [layer,layerConn,layerTEXT,backgroundLayer]);
+        }, [layer,layerConn,layerTEXT,backgroundLayer,levelTextLayer]);
 
         anim.start();
 
@@ -792,12 +819,12 @@ nodeEditor.module = (function($) {
                 console.log("SUCCESS");
                 startDrawNodes();
                 debugText.text(data);
-                debugText.setAttr('fontSize','20');
+                debugText.setAttr('fontSize','25');
                 interfaceLayer.draw();
             },
             error: function (xhr, status, error) {
                 debugText.text(error);
-                debugText.setAttr('fontSize','20');
+                debugText.setAttr('fontSize','25');
                 interfaceLayer.draw();
             }
         });
@@ -817,13 +844,13 @@ nodeEditor.module = (function($) {
                 startDrawNodes();
                 found = false;
                 debugText.text('Successfully updated!');
-                debugText.setAttr('fontSize','20');
+                debugText.setAttr('fontSize','25');
                 interfaceLayer.draw();
 
             },
             error: function (xhr, status, error) {
                 debugText.text(error);
-                debugText.setAttr('fontSize','20');
+                debugText.setAttr('fontSize','25');
                 interfaceLayer.draw();
             }
         });
@@ -848,7 +875,7 @@ nodeEditor.module = (function($) {
                     }
                 } else {
                     if(movementStyle != null) {
-                        button1.off('click');
+                        button1.off('click tap');
                         hoverPopUpButtons(['#button1Rect', '#button1Text'], buttonColorDisabled, buttonColorDisabled);
                     }
                     if(!popUpShown) {
@@ -860,7 +887,7 @@ nodeEditor.module = (function($) {
             },
             error: function (xhr, status, error) {
                 debugText.text(error);
-                debugText.setAttr('fontSize','20');
+                debugText.setAttr('fontSize','25');
                 interfaceLayer.draw();
             }
         });
@@ -886,7 +913,7 @@ nodeEditor.module = (function($) {
             },
             error: function (xhr, status, error) {
                 debugText.text(error);
-                debugText.setAttr('fontSize','20');
+                debugText.setAttr('fontSize','25');
                 interfaceLayer.draw();
             }
         });
@@ -903,13 +930,13 @@ nodeEditor.module = (function($) {
                 startDrawLines();
                 startDrawNodes();
                 debugText.text('Successfully inserted!');
-                debugText.setAttr('fontSize','20');
+                debugText.setAttr('fontSize','25');
                 interfaceLayer.draw();
                 //var obj = $.parseJSON(data);
             },
             error: function (xhr, status, error) {
                 debugText.text(error);
-                debugText.setAttr('fontSize','20');
+                debugText.setAttr('fontSize','25');
                 interfaceLayer.draw();
             }
         });
@@ -950,7 +977,7 @@ nodeEditor.module = (function($) {
         tempLayer.draw();
 
 
-       button2.off('click').on('click',function(e){
+       button2.off('click tap').on('click tap',function(e){
             tempLayer.find('#button2Rect')[0].fill(buttonColor);
             popUp.hide();
             tempLayer.draw();
@@ -958,7 +985,7 @@ nodeEditor.module = (function($) {
         });
 
 
-        button1.off('click').on('click',function(e){
+        button1.off('click tap').on('click tap',function(e){
             $.ajax({
                      url: ajaxLink,
                      type: 'GET',
@@ -973,13 +1000,13 @@ nodeEditor.module = (function($) {
                          startDrawLines();
                          startDrawNodes();
                          debugText.text('Successfully deleted!');
-                         debugText.setAttr('fontSize','20');
+                         debugText.setAttr('fontSize','25');
                          interfaceLayer.draw();
 
                  },
                  error: function (xhr, status, error) {
                      debugText.text(error);
-                     debugText.setAttr('fontSize','20');
+                     debugText.setAttr('fontSize','25');
                      interfaceLayer.draw();
                  }
              });
@@ -1054,7 +1081,7 @@ nodeEditor.module = (function($) {
         hoverPopUpButtons(['#button2Rect','#button2Text'],buttonColorHover,buttonColor);
         hoverPopUpButtons(['#button3Rect','#button3Text'],buttonColorHover,buttonColor);
 
-        button3.off('click').on('click',function(e){
+        button3.off('click tap').on('click tap',function(e){
             tempLayer.find('#button3Rect')[0].fill(buttonColor);
             button3.remove();
             popUp.hide();
@@ -1071,11 +1098,11 @@ nodeEditor.module = (function($) {
 
 
         if(hasChildren == false) {
-            button1.off('click');
+            button1.off('click tap');
             hoverPopUpButtons(['#button1Rect','#button1Text'],buttonColorDisabled,buttonColorDisabled);
         }else {
             hoverPopUpButtons(['#button1Rect', '#button1Text'], buttonColorHover, buttonColor);
-            button1.off('click').on('click', function (e) {
+            button1.off('click tap').on('click tap', function (e) {
                 $.ajax({
                     url: ajaxLink,
                     type: 'GET',
@@ -1106,14 +1133,14 @@ nodeEditor.module = (function($) {
                     },
                     error: function (xhr, status, error) {
                         debugText.text(error);
-                        debugText.setAttr('fontSize', '20');
+                        debugText.setAttr('fontSize', '25');
                         interfaceLayer.draw();
                     }
                 });
             });
         }
 
-       button2.off('click').on('click',function(e){
+       button2.off('click tap').on('click tap',function(e){
             tempLayer.find('#button2Rect')[0].fill(buttonColor);
             button3.remove();
             popUp.hide();
@@ -1159,7 +1186,7 @@ nodeEditor.module = (function($) {
         hoverPopUpButtons(['#button1Rect','#button1Text'],buttonColorHover,buttonColor);
         hoverPopUpButtons(['#button2Rect','#button2Text'],buttonColorHover,buttonColor);
 
-        button2.off('click').on('click',function(e){
+        button2.off('click tap').on('click tap',function(e){
             tempLayer.find('#button2Rect')[0].fill(buttonColor);
             popUp.hide();
             tempLayer.draw();
@@ -1181,7 +1208,7 @@ nodeEditor.module = (function($) {
         });
 
 
-        button1.off('click').on('click',function(e){
+        button1.off('click tap').on('click tap',function(e){
             tempLayer.find('#button1Rect')[0].fill(buttonColor);
             reorder(evt);
         });
@@ -1235,7 +1262,7 @@ nodeEditor.module = (function($) {
         hoverPopUpButtons(['#button2Rect','#button2Text'],buttonColorHover,buttonColor);
         hoverPopUpButtons(['#button3Rect','#button3Text'],buttonColorHover,buttonColor);
 
-        button3.off('click').on('click',function(e){
+        button3.off('click tap').on('click tap',function(e){
             tempLayer.find('#button3Rect')[0].fill(buttonColor);
             button3.remove();
             popUp.hide();
@@ -1259,11 +1286,11 @@ nodeEditor.module = (function($) {
 
 
         if(hasChildren && movementStyle == "one") {
-            button1.off('click');
+            button1.off('click tap');
             hoverPopUpButtons(['#button1Rect','#button1Text'],buttonColorDisabled,buttonColorDisabled);
         }else{
             hoverPopUpButtons(['#button1Rect','#button1Text'],buttonColorHover,buttonColor);
-            button1.off('click').on('click', function (e) {
+            button1.off('click tap').on('click tap', function (e) {
                 if(movementStyle == "one") {
                    $.ajax({
                         url: ajaxLink,
@@ -1283,13 +1310,13 @@ nodeEditor.module = (function($) {
                             startDrawLines();
                             startDrawNodes();
                             debugText.text('Successfully updated!');
-                            debugText.setAttr('fontSize','20');
+                            debugText.setAttr('fontSize','25');
                             interfaceLayer.draw();
 
                         },
                         error: function (xhr, status, error) {
                             debugText.text(error);
-                            debugText.setAttr('fontSize','20');
+                            debugText.setAttr('fontSize','25');
                             interfaceLayer.draw();
                         }
                     });
@@ -1312,12 +1339,12 @@ nodeEditor.module = (function($) {
                             startDrawLines();
                             startDrawNodes();
                             debugText.text('Successfully updated!');
-                            debugText.setAttr('fontSize','20');
+                            debugText.setAttr('fontSize','25');
                             interfaceLayer.draw();
                         },
                         error: function (xhr, status, error) {
                             debugText.text(error);
-                            debugText.setAttr('fontSize','20');
+                            debugText.setAttr('fontSize','25');
                             interfaceLayer.draw();
                         }
                     });
@@ -1325,7 +1352,7 @@ nodeEditor.module = (function($) {
             });
         }
 
-        button2.off('click').on('click',function(e){
+        button2.off('click tap').on('click tap',function(e){
             if(movementStyle != "one") {
                 $.ajax({
                     url: ajaxLink,
@@ -1352,7 +1379,7 @@ nodeEditor.module = (function($) {
                     },
                     error: function (xhr, status, error) {
                         debugText.text(error);
-                        debugText.setAttr('fontSize','20');
+                        debugText.setAttr('fontSize','25');
                         interfaceLayer.draw();
                     }
                 });
@@ -1481,6 +1508,50 @@ nodeEditor.module = (function($) {
         layerTEXT.draw();
     };
 
+
+
+    setStoryDetails = function(){
+        $(".storyTitle").val(storyID);
+        $.ajax({
+            url: ajaxLink,
+            type: 'GET',
+            data: 'functionName=getStoryDetails&storyID=' + storyID,
+            success: function (data) {
+               //alert(data);
+                var obj = $.parseJSON(data);
+                if(obj[0]['isPublished'] == '1'){
+                    $(".isPublished").attr("checked", true);
+                }else{
+                    $(".isPublished").attr("checked", false);
+                }
+                $.ajax({
+                    url: ajaxLink,
+                    type: 'GET',
+                    data: 'functionName=getAuthorDetails&storyID=' + storyID+'&authorID='+obj[0]['user'],
+                    success: function (data) {
+                      //  alert(data);
+                        var obj = $.parseJSON(data);
+                         $(".storyAuthor").val(obj[0]['name']);
+                    },
+                    error: function (xhr, status, error) {
+                        debugText.text(error);
+                        debugText.setAttr('fontSize','25');
+                        interfaceLayer.draw();
+                    }
+                });
+
+               // $(".storyTitle").val(storyID);
+
+            },
+            error: function (xhr, status, error) {
+                debugText.text(error);
+                debugText.setAttr('fontSize','25');
+                interfaceLayer.draw();
+            }
+        });
+
+    };
+
     resetInputFields = function(){
         $("#pageEditor .inputField").val('click on node');
     };
@@ -1581,6 +1652,7 @@ nodeEditor.module = (function($) {
 
         stage.add(emptyLayer);
         stage.add(backgroundLayer);
+        stage.add(levelTextLayer);
         stage.add(layerConn);
         stage.add(layer);
         stage.add(layerTEXT);
@@ -1591,9 +1663,13 @@ nodeEditor.module = (function($) {
         startDrawNodes();
 
 
+        //fill in story details
+        setStoryDetails();
+
+
 
 //SELECT EVENTS
-        layer.on('click', function (e) {
+        layer.on('click tap', function (e) {
             if(movementStyle == null) {
                 nodeSelection(e);
                 disable(e.target.id());
@@ -1603,7 +1679,7 @@ nodeEditor.module = (function($) {
         layer.on("mouseover", function (e) {
             var fill = e.target.fill() == 'yellow' ? 'yellow' : 'orange';
             e.target.fill(fill);
-            debugText.setAttr('fontSize','15');
+            debugText.setAttr('fontSize','20');
             debugText.text('Choose ' + e.target.name());
             layer.draw();
             interfaceLayer.draw();
@@ -1646,7 +1722,7 @@ nodeEditor.module = (function($) {
                     },
                     error: function (xhr, status, error) {
                         debugText.text(error);
-                        debugText.setAttr('fontSize', '20');
+                        debugText.setAttr('fontSize', '25');
                         interfaceLayer.draw();
                     }
                 });
@@ -1656,7 +1732,7 @@ nodeEditor.module = (function($) {
         });
 
         //add new page
-        stage.find('#addButton')[0].on('click',function(e){
+        stage.find('#addButton')[0].on('click tap',function(e){
 
             var rect =  stage.find('#addRect')[0];
             var fill = rect.fill() == buttonColorDisabled ? buttonColorDisabled : buttonColorHover;
@@ -1688,7 +1764,7 @@ nodeEditor.module = (function($) {
         });
 
        //delete page
-        stage.find('#deleteButton')[0].off('click').on('click',function(e){
+        stage.find('#deleteButton')[0].off('click tap').on('click tap',function(e){
             var rect =  stage.find('#delRect')[0];
             var fill = rect.fill() == buttonColorDisabled ? buttonColorDisabled: buttonColorHover;
             if(fill != buttonColorDisabled){
@@ -1718,7 +1794,7 @@ nodeEditor.module = (function($) {
             }
         });
 
-        $('.save').click(function() {
+        $('.savePage').click(function() {
             if(selectedNode != null) {
                 $.ajax({
                     url: ajaxLink,
@@ -1730,11 +1806,28 @@ nodeEditor.module = (function($) {
                     },
                     error: function (xhr, status, error) {
                         debugText.text(error);
-                        debugText.setAttr('fontSize', '20');
+                        debugText.setAttr('fontSize', '25');
                         interfaceLayer.draw();
                     }
                 });
             }
+        });
+
+        //change url !!!!!!!!!!!
+        $('.saveStory').click(function() {
+               /* $.ajax({
+                    url: ajaxLink,
+                    type: 'GET',
+                    data: 'functionName=saveStory&storyID=' + storyID + '&title=' + $('.storyTitle').val(),
+                    success: function (data) {
+
+                    },
+                    error: function (xhr, status, error) {
+                        debugText.text(error);
+                        debugText.setAttr('fontSize', '25');
+                        interfaceLayer.draw();
+                    }
+                });*/
         });
 
         stage.off('mousewheel').on('mousewheel', function(e) {
@@ -1754,7 +1847,7 @@ nodeEditor.module = (function($) {
 
         });
 
-        emptyRectangle.on('click', function(e) {
+        emptyRectangle.on('click tap', function(e) {
 
                zoomOut();
 
@@ -1785,7 +1878,7 @@ nodeEditor.module = (function($) {
 
                 e.target.moveTo(tempLayer);
                 e.target.fill('yellow');
-              debugText.setAttr('fontSize','15');
+              debugText.setAttr('fontSize','20');
                 debugText.text('Moving ' + e.target.name());
                 interfaceLayer.draw();
                 layer.draw();
@@ -1793,7 +1886,7 @@ nodeEditor.module = (function($) {
                // nodeSelection(e.target.find('#'+movementStyle[0]));
                 selectedNode= e.target.find('#'+movementStyle[0])[0].getAttr('id');
                 movingGroup.moveTo(tempLayer);
-                debugText.setAttr('fontSize','15');
+                debugText.setAttr('fontSize','20');
                 debugText.text('Moving ' + e.target.id() + ' and children');
                 interfaceLayer.draw();
                 layer.draw();
@@ -1877,7 +1970,7 @@ nodeEditor.module = (function($) {
 
         stage.on("dragenter", function (e) {
            if(!pause) {
-               debugText.setAttr('fontSize','15');
+               debugText.setAttr('fontSize','20');
                 debugText.text('dragenter ' + e.target.name());
                 layer.draw();
                 interfaceLayer.draw();
@@ -1888,7 +1981,7 @@ nodeEditor.module = (function($) {
             if(!pause) {
                 over = false;
                 e.target.fill(buttonColorHover);
-                debugText.setAttr('fontSize','15');
+                debugText.setAttr('fontSize','20');
                 debugText.text('dragleave ' + e.target.name());
                 layer.draw();
                 interfaceLayer.draw();
@@ -1901,7 +1994,7 @@ nodeEditor.module = (function($) {
                 e.target.fill('green');
                 xDrop = e.target.getAbsolutePosition().x;
                 yDrop = e.target.getAbsolutePosition().y;
-                debugText.setAttr('fontSize','15');
+                debugText.setAttr('fontSize','20');
                 debugText.text('dragover ' + e.target.name());
                 layer.draw();
                 interfaceLayer.draw();
@@ -1914,7 +2007,7 @@ nodeEditor.module = (function($) {
                 e.target.setAttr("y", yDrag);
 
                 e.target.fill('green');
-                debugText.setAttr('fontSize','15');
+                debugText.setAttr('fontSize','20');
                 debugText.text('drop ' + e.target.name());
                 layer.draw();
                 interfaceLayer.draw();
