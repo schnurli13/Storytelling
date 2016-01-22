@@ -549,13 +549,14 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
             }
         }
 
-        $sql="SELECT id,level,position FROM page WHERE id IN($x) AND story = ".$storyID."  ORDER BY level ASC";
+        $sql="SELECT id,level,position,NextPageID1 FROM page WHERE id IN($x) AND story = ".$storyID."  ORDER BY level ASC";
         $result = mysqli_query($con,$sql);
         $i = array();
         while($row = mysqli_fetch_assoc($result)) {
             $i[] = $row;
         }
 
+       // echo json_encode($i);
         $maxLevel =0 ;
         $maxNodeID = 0;
         for($a =0; $a < sizeof($i); $a++){

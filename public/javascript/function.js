@@ -50,7 +50,8 @@ nodeEditor.module = (function($) {
             container: 'container',
             width: width,
             height:height,
-            draggable:false
+            draggable:false,
+            id: "stage"
 
         }),
         backgroundLayer = new Konva.Layer({
@@ -112,9 +113,9 @@ nodeEditor.module = (function($) {
             dash: [4, 2]
         }),
         dottedLineDel = dottedLineAdd.clone(),
-       // dottedLineBack = dottedLineAdd.clone({
-       //     points: [5, 5, width-5, 5, width-5, height-5, 5, height-5,5,5]
-       // }),
+        layerGroup = new Konva.Group({
+            id: "layergroup"
+        }),
         dottedLinePopUp=  dottedLineAdd.clone({
             points: [10, 10, 390, 10, 390, 240, 10,240,10,10],
             strokeWidth: 2
@@ -240,7 +241,7 @@ nodeEditor.module = (function($) {
         var h = levelY;
         for (var j = 0; j <= levelNumb; j++) {
             line = new Konva.Line({
-                points: [0, h, stage.getWidth(), h],
+                points: [-stage.getWidth()*10, h, stage.getWidth()*10, h],
                 stroke: 'grey',
                 strokeWidth: 1,
                 lineCap: 'round',
@@ -720,7 +721,9 @@ nodeEditor.module = (function($) {
     };
 
     zoomOut = function(){
-        stage.setAttr('draggable', false);
+       stage.setAttr('draggable', false);
+        interfaceLayer.setAttr('x',0);
+        interfaceLayer.setAttr('y',0);
         stage.setAttr('x',0);
         stage.setAttr('y',0);
         tooltip.hide();
@@ -836,6 +839,7 @@ nodeEditor.module = (function($) {
             type: 'GET',
             data: 'functionName=reorderBranches&storyID='+storyID+'&ID=' + ID + '&IDs=' + movementStyle +'&found='+found,
             success: function (data) {
+                alert(data);
                 if(data != "Updated data successfully\n") {
                     highLight = data;
                 }
@@ -1894,6 +1898,24 @@ nodeEditor.module = (function($) {
             }
         });
 
+        //drag the whole canvas except interfaceLayer
+        var stageX,stageY;
+        stage.on("dragstart",function(e){
+            if(e.target.id() == "stage"){
+                stageX= stage.getAttr('x');
+                stageY = stage.getAttr('y');
+            }
+        });
+        stage.on("dragmove",function(e){
+            if(e.target.id() == "stage"){
+                var diffX = stage.getAttr('x') - stageX;
+                var diffY = stage.getAttr('y') - stageY;
+                interfaceLayer.setAttr('x',interfaceLayer.getAttr('x')+(diffX*(-1)));
+                interfaceLayer.setAttr('y',interfaceLayer.getAttr('y')+(diffY*(-1)));
+            }
+            stageX= stage.getAttr('x');
+            stageY = stage.getAttr('y');
+        });
 
         stage.on("dragmove", function (evt) {
             if(!pause) {
