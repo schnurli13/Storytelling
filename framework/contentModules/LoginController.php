@@ -4,26 +4,11 @@
  * Version: 0.1
  */
 
-class loginContentModule{
+class LoginController extends MotherController{
 
-	private $sessionObject;
-
-	function __construct($sessionObject){
-		$this->sessionObject = $sessionObject;
-	}
-
-	function setSession($userName){
-		$this->sessionObject->setUserName($userName);
-		$this->sessionObject->setSafeHash($this->sessionObject->encodeKey($userName));
-		$this->sessionObject->setLogState(true);
-	}
+	function actions(){
 	
-	function generateHtml(){
-	
-		$msqlObject = new mysqlModule();
-		
-		$template = new contentTemplateModule('loginTemplate');
-		$template->addLogState($this->sessionObject);
+		$this->model->addLogState($this->sessionObject);
 	
 		$returnString = '';
 				
@@ -39,10 +24,10 @@ class loginContentModule{
 			if(strlen($_POST['userName']) < 4){
 				array_push($formErrors, 'username too short/ atleast 4 signs');
 			}
-			if(!$msqlObject->isUserExisting($_POST['userName'])){
+			if(!$this->msqlObject->isUserExisting($_POST['userName'])){
 				array_push($formErrors, 'User does not exists');
 			}else{
-				$queryResult = $msqlObject->queryDataBase('SELECT name, password FROM users WHERE name = "'.$_POST['userName'].'"');
+				$queryResult = $this->msqlObject->queryDataBase('SELECT name, password FROM users WHERE name = "'.$_POST['userName'].'"');
 				if($queryResult[0]['password'] != $this->sessionObject->encodeKey($_POST['passWord'])){
 					array_push($formErrors, 'Wrong password');
 				}
@@ -61,10 +46,13 @@ class loginContentModule{
 			$returnString.=$this->getForm('');
 		}
 	}	
+			$this->model->addAttribute('FORM', $returnString);
+	}
 	
-		//$returnString.='Session: '.$this->sessionObject->getUserName().' | '.($this->sessionObject->getLogState() ? 'true' : 'false')."\n";
-		$template->addContent('FORM', $returnString);
-		return $template->generateHtml();
+	function setSession($userName){
+		$this->sessionObject->setUserName($userName);
+		$this->sessionObject->setSafeHash($this->sessionObject->encodeKey($userName));
+		$this->sessionObject->setLogState(true);
 	}
 	
 	function getForm($name){

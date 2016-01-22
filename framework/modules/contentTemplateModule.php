@@ -14,11 +14,11 @@ class contentTemplateModule{
 	function __construct($templateName){
 		$this->template = file_get_contents('data/templates/'.$templateName.'.html', true);
 		$this->basicInformationObject = new basicInformationModule();
-		$this->addContent('ROOT', $this->basicInformationObject->getRoot());
-		$this->addContent('PICPATH', $this->basicInformationObject->getRoot().'/public/images');
+		$this->addAttribute('ROOT', $this->basicInformationObject->getRoot());
+		$this->addAttribute('PICPATH', $this->basicInformationObject->getRoot().'/public/images');
 	}
 	
-	function addContent($keyWord, $content){
+	function addAttribute($keyWord, $content){
 		array_push($this->contents, array($keyWord, $content));
 	}
 	
@@ -34,7 +34,7 @@ class contentTemplateModule{
 			<div class="buttonFrameContainerLogState left"><div class="buttonSize"><a class="buttonLookLink" href="'.$this->basicInformationObject->getRoot().'/register">REGISTER</a></div></div><br/>';
 		}
 		
-		$this->addContent('LOGSTATE', $returnString);
+		$this->addAttribute('LOGSTATE', $returnString);
 
 	}
 	

@@ -4,24 +4,12 @@
  * Version: 0.1
  */
  
- require('framework/modules/mysqlModule.php');
- 
-class registerContentModule{
+class RegisterController extends MotherController{
 
-	private $sessionObject;
-
-	function __construct($sessionObject){
-		$this->sessionObject = $sessionObject;
-	}
-
-	function generateHtml(){
-		
-		$msqlObject = new mysqlModule();
-			
+	function actions(){
+	
 		$returnString = '';
-		
-		$template = new contentTemplateModule('registrationTemplate');
-		
+				
 		if($this->sessionObject->getLogState()){
 			$returnString.='I just noticed, that you are already logged in!<br>'."\n".
 				'<a href="index">Click to go back to the main page</a><br>'."\n";
@@ -34,7 +22,7 @@ class registerContentModule{
 			if(strlen($_POST['userName']) < 4){
 				array_push($formErrors, 'username too short/ atleast 4 signs');
 			}
-			if($msqlObject->isUserExisting($_POST['userName'])){
+			if($this->msqlObject->isUserExisting($_POST['userName'])){
 				array_push($formErrors, 'already exists');
 			}
 			if($_POST['eMail'] === ''){
@@ -53,7 +41,7 @@ class registerContentModule{
 				array_push($formErrors, 'password doesn\'t match first and second time');
 			}
 			if(empty($formErrors)){
-				$msqlObject->commandDataBase('INSERT INTO `users` (`name`, `email`, `password`) VALUES ("'.$_POST['userName'].'", "'.$_POST['eMail'].'", "'.$this->sessionObject->encodeKey($_POST['pwOriginal']).'")');
+				$this->msqlObject->commandDataBase('INSERT INTO `users` (`name`, `email`, `password`) VALUES ("'.$_POST['userName'].'", "'.$_POST['eMail'].'", "'.$this->sessionObject->encodeKey($_POST['pwOriginal']).'")');
 				$returnString.='<h2>Registration successful!</h2>'."\n".
 					'<a href="login">Click to go to login</a>';
 			}else{
@@ -65,12 +53,10 @@ class registerContentModule{
 		}else{
 			$returnString.=$this->getForm('', '');
 		}
-	}				
+	}			
+		//echo $returnString;
 
-		$template->addContent('FORM', $returnString);
-		
-		 return $template->generateHtml();
-		
+		$this->model->addAttribute('FORM', $returnString);		
 	}
 	
 	function getForm($name, $email){

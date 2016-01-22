@@ -2,20 +2,22 @@
 
 require('framework/pageObject.php');
 require('framework/modules/sessionModule.php');
+require('framework/modules/mysqlModule.php');
+require('framework/contentModules/mother/MotherController.php');
 
-require('data/contentModules/loginContentModule.php');
-require('data/contentModules/logoutContentModule.php');
-require('data/contentModules/registerContentModule.php');
-require('data/contentModules/searchContentModule.php');
+require('framework/contentModules/LoginController.php');
+require('framework/contentModules/LogoutController.php');
+require('framework/contentModules/RegisterController.php');
+require('framework/contentModules/SearchController.php');
 
-require('data/contentModules/userListContentModule.php');
-require('data/contentModules/userContentModule.php');
-require('data/contentModules/userStoryContentModule.php');
-require('data/contentModules/userStoryEditContentModule.php');
-require('data/contentModules/userStoryPresentationModule.php');
+require('framework/contentModules/UserListContentController.php');
+require('framework/contentModules/UserContentController.php');
+require('framework/contentModules/UserStoryContentController.php');
+require('framework/contentModules/UserStoryEditContentController.php');
+require('framework/contentModules/UserStoryPresentationController.php');
 
-require('data/contentModules/indexContentModule.php');
-require('data/contentModules/errorContentModule.php');
+require('framework/contentModules/IndexController.php');
+require('framework/contentModules/ErrorController.php');
 
 require('framework/modules/contentTemplateModule.php');
 require('framework/modules/basicInformationModule.php');

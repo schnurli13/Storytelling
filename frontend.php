@@ -67,8 +67,8 @@ if(substr($myPage->getCurrentUri(), -3) == 'css'){
 
 if($myPage->getUriArray()[1] === 'index' || $myPage->getUriArray()[1] === '' || $myPage->getUriArray()[1] === 'de'){
 	$myPage->setTitle('Index');
-	$indexContentObject = new indexContentModule($mySession);
-    $myPage->setContent($indexContentObject->generateHtml());
+	$indexControllerObject = new IndexController('indexTemplate');
+    $myPage->setContent($indexControllerObject->execute());
 	
 }else if($myPage->getUriArray()[1] === 'uploadTest'){
 	addCroppic($myPage);
@@ -79,23 +79,23 @@ if($myPage->getUriArray()[1] === 'index' || $myPage->getUriArray()[1] === '' || 
 	
 }else if($myPage->getUriArray()[1] === 'register'){
 	$myPage->setTitle('Register');
-	$registerContentObject = new registerContentModule($mySession);
-	$myPage->setContent($registerContentObject->generateHtml());
+	$registerControllerObject = new RegisterController('registrationTemplate');
+	$myPage->setContent($registerControllerObject->execute());
 
 }else if($myPage->getUriArray()[1] === 'login'){
 	$myPage->setTitle('Login');
-	$loginContentObject = new loginContentModule($mySession);
-	$myPage->setContent($loginContentObject->generateHtml());
+	$loginControllerObject = new LoginController('loginTemplate');
+	$myPage->setContent($loginControllerObject->execute());
 
 }else if($myPage->getUriArray()[1] === 'logout'){
 	$myPage->setTitle('Logout');
-	$logoutContentObject = new logoutContentModule($mySession);
-	$myPage->setContent($logoutContentObject->generateHtml());
+	$logoutControllerObject = new LogoutController('logoutTemplate');
+	$myPage->setContent($logoutControllerObject->execute());
 	
 }else if($myPage->getUriArray()[1] === 'search'){
 	$myPage->setTitle('Search');
-	$searchContentObject = new searchContentModule($mySession, $myPage->getUriArray());
-	$myPage->setContent($searchContentObject->generateHtml());
+	$searchControllerObject = new SearchController('searchTemplate');
+	$myPage->setContent($searchControllerObject->execute());
 
 }else if($myPage->getUriArray()[1] === 'users'){
 
@@ -104,13 +104,13 @@ if($myPage->getUriArray()[1] === 'index' || $myPage->getUriArray()[1] === '' || 
 	addFancyBox($myPage);
 	$myPage->useSource('javascript', 'formHandler');
 		$myPage->setTitle($myPage->getUriArray()[2]);
-		$userContentObject = new userContentModule($mySession, $myPage->getUriArray());
-		$myPage->setContent($userContentObject->generateHtml());
+		$userContentObject = new UserContentController('userTemplate');
+		$myPage->setContent($userContentObject->execute());
 		
 	}else if(count($myPage->getUriArray()) == 4){
 		$myPage->setTitle($myPage->getUriArray()[3].'/ '.$myPage->getUriArray()[2]);
-		$userStoryContentObject = new userStoryContentModule($mySession, $myPage->getUriArray());
-		$myPage->setContent($userStoryContentObject->generateHtml());
+		$userStoryContentControllerObject = new UserStoryContentController('userStoryTemplate');
+		$myPage->setContent($userStoryContentControllerObject->execute());
 		
 	}else if(count($myPage->getUriArray()) == 5 && $myPage->getUriArray()[4] == "edit"){
 		$myPage->setTitle('Edit: '.$myPage->getUriArray()[3]);
@@ -120,8 +120,8 @@ if($myPage->getUriArray()[1] === 'index' || $myPage->getUriArray()[1] === '' || 
 		$myPage->useSource('css', 'component');
 		$myPage->useSource('javascript', 'classie');
 		$myPage->useSource('javascript', 'modernizr.custom');
-		$userStoryEditContentObject = new userStoryEditContentModule($mySession, $myPage->getUriArray());
-		$myPage->setContent($userStoryEditContentObject->generateHtml());
+		$userStoryEditContentControllerObject = new UserStoryEditContentController('nodeEditorTemplate');
+		$myPage->setContent($userStoryEditContentControllerObject->execute());
 
 		
 	}else if(count($myPage->getUriArray()) == 5 && $myPage->getUriArray()[4] == "published"){
@@ -130,16 +130,16 @@ if($myPage->getUriArray()[1] === 'index' || $myPage->getUriArray()[1] === '' || 
 		$myPage->discardSource('css', 'default');
 		$myPage->useSource('css', 'publishedView');
 		$myPage->useSource('javascript', 'publishedStoryHandler');
-		$userStoryPresentationObject = new userStoryPresentationModule($mySession, $myPage->getUriArray());
-		$myPage->setContent($userStoryPresentationObject->generateHtml());
+		$userStoryPresentationControllerObject = new UserStoryPresentationController('userStoryPresentationTemplate');
+		$myPage->setContent($userStoryPresentationControllerObject->execute());
 				
 	}else{
 		header('Location: '.$myPage->getUriArray()[0].'/404');
 	}
 
 }else if($myPage->getUriArray()[1] === '404'){
-	$errorContentObject = new errorContentModule($mySession);
-	$myPage->setContent($errorContentObject->generateHtml());
+	$errorControllerObject = new ErrorController('errorTemplate');
+	$myPage->setContent($errorControllerObject->execute());
 	
 }else{
 	header('Location: '.$myPage->getUriArray()[0].'/404');
