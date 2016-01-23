@@ -19,6 +19,12 @@ body {
     position:relative;
 }
 
+@media screen and (max-width: 800px) {
+    #wrapper {
+        width: 100%;
+    }
+}
+
 /*#pageeditor{
     float:right;
     width:35%;

@@ -10,7 +10,7 @@ nodeEditor.module = (function($) {
     var width = window.innerWidth*0.595,
         height = window.innerHeight ,
         levelY = 100,
-        levelX = width/2,
+        levelX,
         storyID,
         selectedNode = null,
         xDrag,
@@ -29,6 +29,7 @@ nodeEditor.module = (function($) {
         zoomStyle = "zoomScroll",
         zoom = 1.8,
         zooming = false,
+        isMobile= false,
         zoomSc,
         startScale = 1.0,
         startOffsetX = 0.0,
@@ -77,7 +78,6 @@ nodeEditor.module = (function($) {
         debugText = new Konva.Text({
             fill: 'black',
             fontSize: 20,
-            x: width/2 - 50,
             y: 25,
             align: 'center',
             fontFamily: "Architects Daughter"
@@ -91,6 +91,14 @@ nodeEditor.module = (function($) {
             x: 30,
             y: 20,
             id: "addButton"
+        }),
+        zoomInButton = deleteButton.clone({
+            y: 20,
+            id: "zoomInButton"
+        }),
+        zoomOutButton = deleteButton.clone({
+            y: 20,
+            id: "zoomOutButton"
         }),
         button1 = deleteButton.clone({
             y: 130,
@@ -113,6 +121,10 @@ nodeEditor.module = (function($) {
             dash: [4, 2]
         }),
         dottedLineDel = dottedLineAdd.clone(),
+        dottedLineZoomIn = dottedLineAdd.clone({
+            points: [5, 5, 45, 5, 45, 45, 5,45,5,5]
+        }),
+        dottedLineZoomOut = dottedLineZoomIn.clone(),
         layerGroup = new Konva.Group({
             id: "layergroup"
         }),
@@ -147,6 +159,18 @@ nodeEditor.module = (function($) {
         delRect = addRect.clone({
             id: "delRect"
         }),
+        zoomInRect = addRect.clone({
+            width: 50,
+            height: 50,
+            fill: buttonColor,
+            id: "zoomInRect"
+        }),
+        zoomOutRect = addRect.clone({
+            width: 50,
+            height: 50,
+            fill: buttonColor,
+            id: "zoomOutRect"
+        }),
         button1Rect = addRect.clone({
             fill: buttonColor,
             id: "button1Rect"
@@ -167,6 +191,20 @@ nodeEditor.module = (function($) {
             id: "delText",
             x:26,
             text: "DELETE PAGE"
+        }),
+        zoomInText = addText.clone({
+            id: "zoomInText",
+            fontSize: 40,
+            x:14,
+            y:8,
+            text: "+"
+        }),
+        zoomOutText = addText.clone({
+            id: "zoomOutText",
+            fontSize: 40,
+            x:10,
+            y:0,
+            text: "_"
         }),
 
         popText = addText.clone({
@@ -202,6 +240,7 @@ nodeEditor.module = (function($) {
         dropReset,
         reorder,
         hoverPopUpButtons,
+        hoverInterfaceButtons,
         preventDefault,
         preventDefaultForScrollKeys,
         disableScroll,
@@ -641,6 +680,8 @@ nodeEditor.module = (function($) {
         var zoomInit = zoomin;
         if(zoomin == null){
             zoomin = zoom;
+        }else if(zoomin == 'default'){
+            zoomin = layer.scaleX()+0.05;
         }
 
         zoomSc = zoomin;
@@ -649,6 +690,9 @@ nodeEditor.module = (function($) {
         if(zoomInit == null){
              clickX = e.target.x();
              clickY = e.target.y();
+        }else if(zoomInit == 'default'){
+            clickX = stage.getAttr('width')/2;
+            clickY = stage.getAttr('height')/2;
         }else{
              clickX = stage.getPointerPosition().x;
              clickY = stage.getPointerPosition().y;
@@ -839,7 +883,7 @@ nodeEditor.module = (function($) {
             type: 'GET',
             data: 'functionName=reorderBranches&storyID='+storyID+'&ID=' + ID + '&IDs=' + movementStyle +'&found='+found,
             success: function (data) {
-                alert(data);
+               // alert(data);
                 if(data != "Updated data successfully\n") {
                     highLight = data;
                 }
@@ -959,32 +1003,52 @@ nodeEditor.module = (function($) {
        setDraggable(false);
 
         popText.setAttr('text',deleteText);
-        popText.setAttr('x','20');
-        popText.setAttr('y','25');
-        popText.setAttr('width',(addRect.getAttr('width')*2+80)-20);
+        popText.setAttr('x',20);
+        popText.setAttr('y',25);
+        if(!isMobile){
+            popText.setAttr('width',(addRect.getAttr('width')*2+80)-20);
+        }else{
+            popText.setAttr('width',(addRect.getAttr('width')*2+80)-20);
+        }
 
-        tempLayer.find('#button1Text')[0].setAttr('text','DELETE');
-        tempLayer.find('#button1Text')[0].setAttr('x','48');
 
-        tempLayer.find('#button2Text')[0].setAttr('text','CANCEL');
-        tempLayer.find('#button2Text')[0].setAttr('x','48');
+        interfaceLayer.find('#button1Text')[0].setAttr('text','DELETE');
+        interfaceLayer.find('#button1Text')[0].setAttr('x','48');
 
-        popUpRect.setAttr('width',addRect.getAttr('width')*2+80);
-        popUp.setAttr('x',width/2-((addRect.getAttr('width')*2+80)/2));
+        interfaceLayer.find('#button2Text')[0].setAttr('text','CANCEL');
+        interfaceLayer.find('#button2Text')[0].setAttr('x','48');
 
-        dottedLinePopUp.setAttr('points',[10, 10, popUpRect.getAttr('width')-10, 10, popUpRect.getAttr('width')-10, 240, 10,240,10,10]);
-        button1.setAttr('x',(popUpRect.getAttr('width')/2)-button1Rect.getAttr('width')-10);
-        button2.setAttr('x',button1.getAttr('x')+button1Rect.getAttr('width')+20);
+        if(!isMobile){
+            popUpRect.setAttr('width',addRect.getAttr('width')*2+80);
+            popUp.setAttr('x',width/2-((addRect.getAttr('width')*2+80)/2));
+        }else{
+            popUpRect.setAttr('width',addRect.getAttr('width')*2+80);
+            popUpRect.setAttr('height',(addRect.getAttr('height')*2+100+popText.getAttr('height'))-20);
+            popUp.setAttr('x',width/2-((addRect.getAttr('width')*2+80)/2));
+        }
+
+
+        dottedLinePopUp.setAttr('points',[10, 10, popUpRect.getAttr('width')-10, 10, popUpRect.getAttr('width')-10, popUpRect.getAttr('height')-10, 10,popUpRect.getAttr('height')-10,10,10]);
+        if(!isMobile){
+            button1.setAttr('x',(popUpRect.getAttr('width')/2)-button1Rect.getAttr('width')-10);
+            button2.setAttr('x',button1.getAttr('x')+button1Rect.getAttr('width')+20);
+        }else{
+            button1.setAttr('x',(popUpRect.getAttr('width')/2)-button1Rect.getAttr('width')/2);
+            button1.setAttr('y',popText.getAttr('y')+ popText.getAttr('height')+10);
+            button2.setAttr('x',(popUpRect.getAttr('width')/2)-button1Rect.getAttr('width')/2);
+            button2.setAttr('y',button1.getAttr('y')+button1Rect.getAttr('height')+10);
+        }
+
        // button2.setAttr('id','button2');
 
         popUp.show();
-        tempLayer.draw();
+        interfaceLayer.draw();
 
 
        button2.off('click tap').on('click tap',function(e){
-            tempLayer.find('#button2Rect')[0].fill(buttonColor);
+           interfaceLayer.find('#button2Rect')[0].fill(buttonColor);
             popUp.hide();
-            tempLayer.draw();
+           interfaceLayer.draw();
             setDraggable(true);
         });
 
@@ -997,9 +1061,8 @@ nodeEditor.module = (function($) {
                      success: function (data) {
                      //alert(data);
                          console.log("SUCCESS");
-                         tempLayer.find('#button1Rect')[0].fill(buttonColor);
+                         interfaceLayer.find('#button1Rect')[0].fill(buttonColor);
                          popUp.hide();
-                         tempLayer.draw();
                          setDraggable(true);
                          startDrawLines();
                          startDrawNodes();
@@ -1024,20 +1087,20 @@ nodeEditor.module = (function($) {
 
     hoverPopUpButtons = function(element,colorHover, colorOut){
 
-        tempLayer.find(element[0])[0].setAttr('fill',colorOut);
-        tempLayer.draw();
+        interfaceLayer.find(element[0])[0].setAttr('fill',colorOut);
+        interfaceLayer.draw();
 
-        tempLayer.find(element[0])[0].off('mouseover').on('mouseover',function(e){
+        interfaceLayer.find(element[0])[0].off('mouseover').on('mouseover',function(e){
             e.target.fill(colorHover);
-            tempLayer.draw();
+            interfaceLayer.draw();
         });
-        tempLayer.find(element[1])[0].off('mouseover').on('mouseover',function(e){
-            tempLayer.find(element[0])[0].fill(colorHover);
-            tempLayer.draw();
+        interfaceLayer.find(element[1])[0].off('mouseover').on('mouseover',function(e){
+            interfaceLayer.find(element[0])[0].fill(colorHover);
+            interfaceLayer.draw();
         });
-        tempLayer.find(element[0])[0].off('mouseout').on('mouseout',function(e){
+        interfaceLayer.find(element[0])[0].off('mouseout').on('mouseout',function(e){
             e.target.fill(colorOut);
-            tempLayer.draw();
+            interfaceLayer.draw();
         });
 
     };
@@ -1049,11 +1112,11 @@ nodeEditor.module = (function($) {
         popText.setAttr('y','65');
         popText.setAttr('width',(addRect.getAttr('width')*3+80)-20);
 
-        tempLayer.find('#button1Text')[0].setAttr('text','MOVE BRANCH');
-        tempLayer.find('#button1Text')[0].setAttr('x','20');
+        interfaceLayer.find('#button1Text')[0].setAttr('text','MOVE BRANCH');
+        interfaceLayer.find('#button1Text')[0].setAttr('x','20');
 
-        tempLayer.find('#button2Text')[0].setAttr('text','MOVE PAGE');
-        tempLayer.find('#button2Text')[0].setAttr('x','28');
+        interfaceLayer.find('#button2Text')[0].setAttr('text','MOVE PAGE');
+        interfaceLayer.find('#button2Text')[0].setAttr('x','28');
 
         popUpRect.setAttr('width',addRect.getAttr('width')*3+80);
         popUp.setAttr('x',width/2-((addRect.getAttr('width')*3+80)/2));
@@ -1073,23 +1136,23 @@ nodeEditor.module = (function($) {
         button2.setAttr('x', button1.getAttr('x')+button1Rect.getAttr('width')+20);
         button3.setAttr('x',button2.getAttr('x')+button1Rect.getAttr('width')+20);
 
-        tempLayer.find('#button3Text')[0].setAttr('text','CANCEL');
-        tempLayer.find('#button3Text')[0].setAttr('x','48');
-        tempLayer.find('#button3Text')[0].setAttr('id','button3Text');
+        interfaceLayer.find('#button3Text')[0].setAttr('text','CANCEL');
+        interfaceLayer.find('#button3Text')[0].setAttr('x','48');
+        interfaceLayer.find('#button3Text')[0].setAttr('id','button3Text');
 
-        tempLayer.find('#button3Rect')[0].setAttr('id','button3Rect');
+        interfaceLayer.find('#button3Rect')[0].setAttr('id','button3Rect');
 
         popUp.show();
-        tempLayer.draw();
+        interfaceLayer.draw();
 
         hoverPopUpButtons(['#button2Rect','#button2Text'],buttonColorHover,buttonColor);
         hoverPopUpButtons(['#button3Rect','#button3Text'],buttonColorHover,buttonColor);
 
         button3.off('click tap').on('click tap',function(e){
-            tempLayer.find('#button3Rect')[0].fill(buttonColor);
+            interfaceLayer.find('#button3Rect')[0].fill(buttonColor);
             button3.remove();
             popUp.hide();
-            tempLayer.draw();
+            interfaceLayer.draw();
             pause = false;
             movementStyle = null;
             evt.target.fill(buttonColorHover);
@@ -1112,10 +1175,10 @@ nodeEditor.module = (function($) {
                     type: 'GET',
                     data: 'functionName=moveBranch&storyID=' + storyID + '&ID=' + evt.target.id(),
                     success: function (data) {
-                        tempLayer.find('#button1Rect')[0].fill(buttonColor);
+                        interfaceLayer.find('#button1Rect')[0].fill(buttonColor);
                         button3.remove();
                         popUp.hide();
-                        tempLayer.draw();
+                        interfaceLayer.draw();
                         pause = false;
                         movementStyle = data;
                         movementStyle = movementStyle.replace(/"/g, "");
@@ -1145,10 +1208,10 @@ nodeEditor.module = (function($) {
         }
 
        button2.off('click tap').on('click tap',function(e){
-            tempLayer.find('#button2Rect')[0].fill(buttonColor);
+           interfaceLayer.find('#button2Rect')[0].fill(buttonColor);
             button3.remove();
             popUp.hide();
-            tempLayer.draw();
+           interfaceLayer.draw();
             pause = false;
             movementStyle = "one";
             layer.find('#'+evt.target.id()).draggable(true);
@@ -1170,11 +1233,11 @@ nodeEditor.module = (function($) {
         popText.setAttr('y','55');
         popText.setAttr('width',(addRect.getAttr('width')*3+80)-20);
 
-        tempLayer.find('#button1Text')[0].setAttr('text','YES');
-        tempLayer.find('#button1Text')[0].setAttr('x','65');
+        interfaceLayer.find('#button1Text')[0].setAttr('text','YES');
+        interfaceLayer.find('#button1Text')[0].setAttr('x','65');
 
-        tempLayer.find('#button2Text')[0].setAttr('text','CANCEL');
-        tempLayer.find('#button2Text')[0].setAttr('x','48');
+        interfaceLayer.find('#button2Text')[0].setAttr('text','CANCEL');
+        interfaceLayer.find('#button2Text')[0].setAttr('x','48');
 
         popUpRect.setAttr('width',(addRect.getAttr('width')*3+80));
         popUp.setAttr('x',width/2-((addRect.getAttr('width')*3+80)/2));
@@ -1185,15 +1248,15 @@ nodeEditor.module = (function($) {
         button2.setAttr('x',button1.getAttr('x')+button1Rect.getAttr('width')+20);
 
         popUp.show();
-        tempLayer.draw();
+        interfaceLayer.draw();
 
         hoverPopUpButtons(['#button1Rect','#button1Text'],buttonColorHover,buttonColor);
         hoverPopUpButtons(['#button2Rect','#button2Text'],buttonColorHover,buttonColor);
 
         button2.off('click tap').on('click tap',function(e){
-            tempLayer.find('#button2Rect')[0].fill(buttonColor);
+            interfaceLayer.find('#button2Rect')[0].fill(buttonColor);
             popUp.hide();
-            tempLayer.draw();
+            interfaceLayer.draw();
             pause = false;
             selectedNode = null;
             setDraggable(true);
@@ -1213,7 +1276,7 @@ nodeEditor.module = (function($) {
 
 
         button1.off('click tap').on('click tap',function(e){
-            tempLayer.find('#button1Rect')[0].fill(buttonColor);
+            interfaceLayer.find('#button1Rect')[0].fill(buttonColor);
             reorder(evt);
         });
 
@@ -1232,11 +1295,11 @@ nodeEditor.module = (function($) {
         popText.setAttr('y','55');
         popText.setAttr('width',(addRect.getAttr('width')*3+80)-20);
 
-        tempLayer.find('#button1Text')[0].setAttr('text','ADD AS SUB-PAGE');
-        tempLayer.find('#button1Text')[0].setAttr('x','8');
+        interfaceLayer.find('#button1Text')[0].setAttr('text','ADD AS SUB-PAGE');
+        interfaceLayer.find('#button1Text')[0].setAttr('x','8');
 
-        tempLayer.find('#button2Text')[0].setAttr('text','REPLACE PAGES');
-        tempLayer.find('#button2Text')[0].setAttr('x','18');
+        interfaceLayer.find('#button2Text')[0].setAttr('text','REPLACE PAGES');
+        interfaceLayer.find('#button2Text')[0].setAttr('x','18');
 
         popUpRect.setAttr('width',(addRect.getAttr('width')*3+80));
         popUp.setAttr('x',width/2-((addRect.getAttr('width')*3+80)/2));
@@ -1253,24 +1316,24 @@ nodeEditor.module = (function($) {
         button3.add(delText.clone({id:'button3Text'}));
         popUp.add(button3);
 
-        tempLayer.find('#button3Text')[0].setAttr('text','CANCEL');
-        tempLayer.find('#button3Text')[0].setAttr('x','43');
-        tempLayer.find('#button3Text')[0].setAttr('id','button3Text');
+        interfaceLayer.find('#button3Text')[0].setAttr('text','CANCEL');
+        interfaceLayer.find('#button3Text')[0].setAttr('x','43');
+        interfaceLayer.find('#button3Text')[0].setAttr('id','button3Text');
 
-        tempLayer.find('#button3Rect')[0].setAttr('id','button3Rect');
+        interfaceLayer.find('#button3Rect')[0].setAttr('id','button3Rect');
 
         popUp.show();
-        tempLayer.draw();
+        interfaceLayer.draw();
 
         hoverPopUpButtons(['#button1Rect','#button1Text'],buttonColorHover,buttonColor);
         hoverPopUpButtons(['#button2Rect','#button2Text'],buttonColorHover,buttonColor);
         hoverPopUpButtons(['#button3Rect','#button3Text'],buttonColorHover,buttonColor);
 
         button3.off('click tap').on('click tap',function(e){
-            tempLayer.find('#button3Rect')[0].fill(buttonColor);
+            interfaceLayer.find('#button3Rect')[0].fill(buttonColor);
             button3.remove();
             popUp.hide();
-            tempLayer.draw();
+            interfaceLayer.draw();
             pause = false;
             selectedNode = null;
             setDraggable(true);
@@ -1303,10 +1366,9 @@ nodeEditor.module = (function($) {
                         success: function (data) {
                            // alert(data);
                             console.log("SUCCESS");
-                            tempLayer.find('#button2Rect')[0].fill(buttonColor);
+                            interfaceLayer.find('#button2Rect')[0].fill(buttonColor);
                             button3.remove();
                             popUp.hide();
-                            tempLayer.draw();
                             pause = false;
                             dropStyle = "child";
                             dropReset(evt);
@@ -1332,10 +1394,9 @@ nodeEditor.module = (function($) {
                         success: function (data) {
                             //alert(data);
                             console.log("SUCCESS");
-                            tempLayer.find('#button2Rect')[0].fill(buttonColor);
+                            interfaceLayer.find('#button2Rect')[0].fill(buttonColor);
                             button3.remove();
                             popUp.hide();
-                            tempLayer.draw();
                             pause = false;
                             dropStyle = "child";
                             dropReset(evt);
@@ -1365,15 +1426,15 @@ nodeEditor.module = (function($) {
                     success: function (data) {
                       if(data == 'false'){
                           found = false;
-                          tempLayer.find('#button2Rect')[0].fill(buttonColor);
+                          interfaceLayer.find('#button2Rect')[0].fill(buttonColor);
                           button3.remove();
                           reorder(evt);
                        }else{
                           found = true;
-                          tempLayer.find('#button2Rect')[0].fill(buttonColor);
+                          interfaceLayer.find('#button2Rect')[0].fill(buttonColor);
                           button3.remove();
                           popUp.hide();
-                          tempLayer.draw();
+                          interfaceLayer.draw();
                           pause = false;
                           dropStyle = "reorder";
                           popUpShown = false;
@@ -1388,7 +1449,7 @@ nodeEditor.module = (function($) {
                     }
                 });
             }else{
-                tempLayer.find('#button2Rect')[0].fill(buttonColor);
+                interfaceLayer.find('#button2Rect')[0].fill(buttonColor);
                 button3.remove();
                 reorder(evt);
             }
@@ -1438,7 +1499,7 @@ nodeEditor.module = (function($) {
 
     reorder = function(e){
         popUp.hide();
-        tempLayer.draw();
+        interfaceLayer.draw();
         pause = false;
         dropStyle = "reorder";
         popUpShown = false;
@@ -1596,6 +1657,33 @@ nodeEditor.module = (function($) {
         document.onkeydown = null;
     };
 
+
+    hoverInterfaceButtons = function(rect, text){
+        stage.find(rect)[0].on('mouseover',function(e){
+            var fill = e.target.fill() == buttonColorDisabled ? buttonColorDisabled : buttonColor;
+            if(fill != buttonColorDisabled){
+                e.target.fill(buttonColorHover);
+                interfaceLayer.draw();
+            }
+        });
+        stage.find(rect)[0].on('mouseout',function(e){
+            var fill = e.target.fill() == buttonColorDisabled ? buttonColorDisabled : buttonColorHover;
+            if(fill != buttonColorDisabled) {
+                e.target.fill(buttonColor);
+                interfaceLayer.draw();
+            }
+        });
+        stage.find(text)[0].on('mouseover',function(e){
+            var rec =  stage.find(rect)[0];
+            var fill = rec.fill() == buttonColorDisabled ? buttonColorDisabled : buttonColor;
+            if(fill != buttonColorDisabled){
+                rec.fill(buttonColorHover);
+                interfaceLayer.draw();
+            }
+        });
+
+    };
+
 //END
 
 // IIIIIIIIIIIIINIT
@@ -1603,6 +1691,12 @@ nodeEditor.module = (function($) {
         var res = window.location.href;
         var array = res.split("/");
         storyID = array[array.length-2];
+
+        if(window.innerWidth < 800){
+            width = window.innerWidth;
+            stage.setAttr('width',window.innerWidth);
+        }
+
 
         emptyRectangle = new Konva.Rect({
             x: 0,
@@ -1629,7 +1723,30 @@ nodeEditor.module = (function($) {
         deleteButton.add(dottedLineDel);
         interfaceLayer.add(deleteButton);
 
+        //zoomin  BUTTON
+        zoomInButton.setAttr('x',width-150);
+        zoomInButton.add(zoomInRect);
+        zoomInButton.add(zoomInText);
+        zoomInButton.add(dottedLineZoomIn);
+        interfaceLayer.add(zoomInButton);
+
+        //zoomout PAGE BUTTON
+        zoomOutButton.setAttr('x',width-80);
+        zoomOutButton.add(zoomOutRect);
+        zoomOutButton.add(zoomOutText);
+        zoomOutButton.add(dottedLineZoomOut);
+        interfaceLayer.add(zoomOutButton);
+
+        if(stage.getAttr('width')<800){
+            zoomInButton.show();
+            zoomOutButton.show();
+        }else{
+            zoomInButton.hide();
+            zoomOutButton.hide();
+        }
+
         //HOVERTEXT + BACKGROUND
+        debugText.setAttr('x', width/2 - 50);
         interfaceLayer.add(debugText);
         //interfaceLayer.add(dottedLineBack);
 
@@ -1649,9 +1766,9 @@ nodeEditor.module = (function($) {
         popUp.add(button2);
 
         popUp.add(dottedLinePopUp);
-        tempLayer.add(popUp);
+        interfaceLayer.add(popUp);
 
-        tempLayer.find('#popUp')[0].hide();
+        interfaceLayer.find('#popUp')[0].hide();
        // tempLayer.draw();
 
         stage.add(emptyLayer);
@@ -1663,6 +1780,21 @@ nodeEditor.module = (function($) {
         stage.add(tempLayer);
         stage.add(interfaceLayer);
 
+        if(stage.getAttr('width')> 800){
+            levelX = width/2;
+        }
+        if(stage.getAttr('width')<800){
+            levelX = width/3;
+        }
+        if(stage.getAttr('width')<600){
+            levelX = width/4;
+        }
+
+        if(stage.getAttr('width') <750){
+            //mobile version meldungen
+            isMobile = true;
+        }
+
         startDrawLines();
         startDrawNodes();
 
@@ -1670,7 +1802,7 @@ nodeEditor.module = (function($) {
         //fill in story details
         setStoryDetails();
 
-
+        console.log(stage.getAttr('width'));
 
 //SELECT EVENTS
         layer.on('click tap', function (e) {
@@ -1737,35 +1869,15 @@ nodeEditor.module = (function($) {
 
         //add new page
         stage.find('#addButton')[0].on('click tap',function(e){
-
             var rect =  stage.find('#addRect')[0];
             var fill = rect.fill() == buttonColorDisabled ? buttonColorDisabled : buttonColorHover;
             if(fill != buttonColorDisabled){
                 addNewNode(selectedNode);
             }
         });
-        stage.find('#addRect')[0].on('mouseover',function(e){
-            var fill = e.target.fill() == buttonColorDisabled ? buttonColorDisabled : buttonColor;
-            if(fill != buttonColorDisabled){
-                e.target.fill(buttonColorHover);
-                interfaceLayer.draw();
-            }
-        });
-        stage.find('#addRect')[0].on('mouseout',function(e){
-            var fill = e.target.fill() == buttonColorDisabled ? buttonColorDisabled : buttonColorHover;
-            if(fill != buttonColorDisabled) {
-                e.target.fill(buttonColor);
-                interfaceLayer.draw();
-            }
-        });
-        stage.find('#addText')[0].on('mouseover',function(e){
-            var rect =  stage.find('#addRect')[0];
-            var fill = rect.fill() == buttonColorDisabled ? buttonColorDisabled : buttonColor;
-            if(fill != buttonColorDisabled){
-                rect.fill(buttonColorHover);
-                interfaceLayer.draw();
-            }
-        });
+
+        hoverInterfaceButtons('#addRect','#addText');
+
 
        //delete page
         stage.find('#deleteButton')[0].off('click tap').on('click tap',function(e){
@@ -1775,28 +1887,31 @@ nodeEditor.module = (function($) {
                deleteNode(selectedNode);
             }
         });
-        stage.find('#delRect')[0].off('mouseover').on('mouseover',function(e){
-            var fill = e.target.fill() == buttonColorDisabled ? buttonColorDisabled : buttonColor;
+
+        hoverInterfaceButtons('#delRect','#delText');
+
+        //zoomIn button
+        stage.find('#zoomInButton')[0].off('click tap').on('click tap',function(e){
+            var rect =  stage.find('#zoomInRect')[0];
+            var fill = rect.fill() == buttonColorDisabled ? buttonColorDisabled: buttonColorHover;
             if(fill != buttonColorDisabled){
-                e.target.fill(buttonColorHover);
-                interfaceLayer.draw();
+                zoomIn(e,'default');
             }
         });
-        stage.find('#delRect')[0].off('mouseout').on('mouseout',function(e){
-            var fill = e.target.fill() == buttonColorDisabled ? buttonColorDisabled : buttonColorHover;
-            if(fill != buttonColorDisabled) {
-                e.target.fill(buttonColor);
-                interfaceLayer.draw();
-            }
-        });
-        stage.find('#delText')[0].off('mouseover').on('mouseover',function(e){
-            var rect =  stage.find('#delRect')[0];
-            var fill = rect.fill() == buttonColorDisabled ? buttonColorDisabled : buttonColor;
+
+        hoverInterfaceButtons('#zoomInRect','#zoomInText');
+
+        //zoomOut button
+        stage.find('#zoomOutButton')[0].off('click tap').on('click tap',function(e){
+            var rect =  stage.find('#zoomOutRect')[0];
+            var fill = rect.fill() == buttonColorDisabled ? buttonColorDisabled: buttonColorHover;
             if(fill != buttonColorDisabled){
-                rect.fill(buttonColorHover);
-                interfaceLayer.draw();
+                zoomOut();
             }
         });
+
+        hoverInterfaceButtons('#zoomOutRect','#zoomOutText');
+
 
         $('.savePage').click(function() {
             if(selectedNode != null) {
