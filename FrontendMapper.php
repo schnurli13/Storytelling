@@ -16,55 +16,55 @@ class FrontendMapper extends MotherMapper{
 		$this->myPage->useSource('javascript', 'default');
 		
 		//values if another url is called
-		if($this->myPage->getUriArray()[1] === 'index' || $this->myPage->getUriArray()[1] === '' || $this->myPage->getUriArray()[1] === 'de'){
+		if($this->basicInformationObject->getUriArray()[1] === 'index' || $this->basicInformationObject->getUriArray()[1] === '' || $this->basicInformationObject->getUriArray()[1] === 'de'){
 			$this->myPage->setTitle('Index');
 			$indexControllerObject = new IndexController('indexTemplate');
 			$this->myPage->setContent($indexControllerObject->execute());
 			
-		}else if($this->myPage->getUriArray()[1] === 'uploadTest'){
+		}else if($this->basicInformationObject->getUriArray()[1] === 'uploadTest'){
 			$this->addCroppic();
 			$this->myPage->useSource('javascript', 'formHandler');
 			$this->myPage->setTitle('uploadTest');
 			$userListContentObject = new userListContentModule($mySession);
 			$this->myPage->setContent($userListContentObject->generateHtml());
 			
-		}else if($this->myPage->getUriArray()[1] === 'register'){
+		}else if($this->basicInformationObject->getUriArray()[1] === 'register'){
 			$this->myPage->setTitle('Register');
 			$registerControllerObject = new RegisterController('registrationTemplate');
 			$this->myPage->setContent($registerControllerObject->execute());
 
-		}else if($this->myPage->getUriArray()[1] === 'login'){
+		}else if($this->basicInformationObject->getUriArray()[1] === 'login'){
 			$this->myPage->setTitle('Login');
 			$loginControllerObject = new LoginController('loginTemplate');
 			$this->myPage->setContent($loginControllerObject->execute());
 
-		}else if($this->myPage->getUriArray()[1] === 'logout'){
+		}else if($this->basicInformationObject->getUriArray()[1] === 'logout'){
 			$this->myPage->setTitle('Logout');
 			$logoutControllerObject = new LogoutController('logoutTemplate');
 			$this->myPage->setContent($logoutControllerObject->execute());
 			
-		}else if($this->myPage->getUriArray()[1] === 'search'){
+		}else if($this->basicInformationObject->getUriArray()[1] === 'search'){
 			$this->myPage->setTitle('Search');
 			$searchControllerObject = new SearchController('searchTemplate');
 			$this->myPage->setContent($searchControllerObject->execute());
 
-		}else if($this->myPage->getUriArray()[1] === 'users'){
+		}else if($this->basicInformationObject->getUriArray()[1] === 'users'){
 
-			if(count($this->myPage->getUriArray()) == 3){
+			if(count($this->basicInformationObject->getUriArray()) == 3){
 			$this->addCroppic();
 			$this->addFancyBox();
 			$this->myPage->useSource('javascript', 'formHandler');
-				$this->myPage->setTitle($this->myPage->getUriArray()[2]);
+				$this->myPage->setTitle($this->basicInformationObject->getUriArray()[2]);
 				$userContentObject = new UserContentController('userTemplate');
 				$this->myPage->setContent($userContentObject->execute());
 				
-			}else if(count($this->myPage->getUriArray()) == 4){
-				$this->myPage->setTitle($this->myPage->getUriArray()[3].'/ '.$this->myPage->getUriArray()[2]);
+			}else if(count($this->basicInformationObject->getUriArray()) == 4){
+				$this->myPage->setTitle($this->basicInformationObject->getUriArray()[3].'/ '.$this->basicInformationObject->getUriArray()[2]);
 				$userStoryContentControllerObject = new UserStoryContentController('userStoryTemplate');
 				$this->myPage->setContent($userStoryContentControllerObject->execute());
 				
-			}else if(count($this->myPage->getUriArray()) == 5 && $this->myPage->getUriArray()[4] == "edit"){
-				$this->myPage->setTitle('Edit: '.$this->myPage->getUriArray()[3]);
+			}else if(count($this->basicInformationObject->getUriArray()) == 5 && $this->basicInformationObject->getUriArray()[4] == "edit"){
+				$this->myPage->setTitle('Edit: '.$this->basicInformationObject->getUriArray()[3]);
 				$this->myPage->useSource('javascript', 'konva');
 				$this->myPage->useSource('javascript', 'function');
 				$this->myPage->useSource('css', 'style');
@@ -75,8 +75,8 @@ class FrontendMapper extends MotherMapper{
 				$this->myPage->setContent($userStoryEditContentControllerObject->execute());
 
 				
-			}else if(count($this->myPage->getUriArray()) == 5 && $this->myPage->getUriArray()[4] == "published"){
-				$this->myPage->setTitle($this->myPage->getUriArray()[3]);
+			}else if(count($this->basicInformationObject->getUriArray()) == 5 && $this->basicInformationObject->getUriArray()[4] == "published"){
+				$this->myPage->setTitle($this->basicInformationObject->getUriArray()[3]);
 				$this->myPage->setBodyTemplate('publishedModeBodyTemplate');
 				$this->myPage->discardSource('css', 'default');
 				$this->myPage->useSource('css', 'publishedView');
@@ -85,15 +85,15 @@ class FrontendMapper extends MotherMapper{
 				$this->myPage->setContent($userStoryPresentationControllerObject->execute());
 						
 			}else{
-				header('Location: '.$this->myPage->getUriArray()[0].'/404');
+				header('Location: '.$this->basicInformationObject->getUriArray()[0].'/404');
 			}
 
-		}else if($this->myPage->getUriArray()[1] === '404'){
+		}else if($this->basicInformationObject->getUriArray()[1] === '404'){
 			$errorControllerObject = new ErrorController('errorTemplate');
 			$this->myPage->setContent($errorControllerObject->execute());
 			
 		}else{
-			header('Location: '.$this->myPage->getUriArray()[0].'/404');
+			header('Location: '.$this->basicInformationObject->getUriArray()[0].'/404');
 		}
 	
 	}

@@ -34,6 +34,7 @@ class LoginController extends MotherController{
 			}
 			if(empty($formErrors)){
 				$this->setSession($_POST['userName']);
+				header('Location: '.$this->basicInformationObject->getUriArray()[0].'/index');
 				$returnString.='<h2>Login successful!</h2>'."\n".
 					'<div class="buttonFrameContainer infoLink"><div class="buttonSize"><a href="index">MAIN PAGE</a></div></div><br>'."\n";
 			}else{

@@ -7,7 +7,10 @@
 class UserStoryEditContentController extends MotherController{
 
 	function actions(){
-		$this->model->addLogState($this->sessionObject);
+		if($this->sessionObject->encodeKey($this->basicInformationObject->getUriArray()[2]) != $this->sessionObject->getSafeHash()){
+			header('Location: .');
+		}else{
+			$this->model->addLogState($this->sessionObject);
+		}	
 	}
-	
 }
