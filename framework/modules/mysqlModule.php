@@ -15,11 +15,14 @@ class mysqlModule{
 		$conn = new mysqli($this->servername, $this->username, $this->password, $this->dbname);
 		if ($conn->connect_error) {
 			die('Connection failed: ' . $conn->connect_error);
-		} 
-		
+		}
+		mysqli_autocommit($conn,FALSE);
+
 		if ($conn->query($sql) === TRUE) {
+			mysqli_commit($conn);
 			return true;
 		} else {
+			mysqli_rollback($conn);
 			return false;
 		}
 		$conn->close();

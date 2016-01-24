@@ -369,6 +369,7 @@ nodeEditor.module = (function($) {
 
 
     drawNodes = function (data) {
+
         //startScale=1.0;
         layer.destroyChildren();
         layerTEXT.destroyChildren();
@@ -387,7 +388,7 @@ nodeEditor.module = (function($) {
         var center = 0;
         var distance = 70;
         var numb = 0;
-        var toBig = null;
+        var toBig = false;
         var points = [];
         var IDs = [];
         var z = 0;
@@ -891,9 +892,14 @@ nodeEditor.module = (function($) {
                 startDrawLines();
                 startDrawNodes();
                 found = false;
-                debugText.text('Successfully updated!');
+                if(data == "Error: Transaction rolled back"){
+                    debugText.text(data);
+                }else{
+                    debugText.text('Successfully updated!');
+                }
                 debugText.setAttr('fontSize','25');
                 interfaceLayer.draw();
+
 
             },
             error: function (xhr, status, error) {
@@ -977,7 +983,7 @@ nodeEditor.module = (function($) {
                 console.log("SUCCESS");
                 startDrawLines();
                 startDrawNodes();
-                debugText.text('Successfully inserted!');
+                debugText.text(data);
                 debugText.setAttr('fontSize','25');
                 interfaceLayer.draw();
                 //var obj = $.parseJSON(data);
@@ -1065,7 +1071,7 @@ nodeEditor.module = (function($) {
                          setDraggable(true);
                          startDrawLines();
                          startDrawNodes();
-                         debugText.text('Successfully deleted!');
+                         debugText.text(data);
                          debugText.setAttr('fontSize','25');
                          interfaceLayer.draw();
 
@@ -1214,8 +1220,8 @@ nodeEditor.module = (function($) {
                             node.moveTo(movingGroup);
                         }
                         layer.add(movingGroup);
-                        xDrag = movingGroup.getAttr('x');
-                        yDrag = movingGroup.getAttr('y');
+                        xDrag = evt.target.getAbsolutePosition().x;
+                        yDrag = evt.target.getAbsolutePosition().y;
                         layer.draw();
                         popUpShown = false;
                     },
@@ -1307,8 +1313,8 @@ nodeEditor.module = (function($) {
                 evt.target.setAttr("y", yDrag);
                 evt.target.fill(buttonColorHover);
             } else {
-                evt.target.setAttr("x", 0);
-                evt.target.setAttr("y", 0);
+                evt.target.setAttr("x", xDrag);
+                evt.target.setAttr("y", yDrag);
             }
             dropReset(evt);
             startDrawNodes();
@@ -1397,14 +1403,13 @@ nodeEditor.module = (function($) {
             pause = false;
             selectedNode = null;
             setDraggable(true);
-
             if (movementStyle == "one") {
                 evt.target.setAttr("x", xDrag);
                 evt.target.setAttr("y", yDrag);
                 evt.target.fill(buttonColorHover);
             } else {
-                evt.target.setAttr("x", 0);
-                evt.target.setAttr("y", 0);
+                evt.target.setAttr("x", xDrag);
+                evt.target.setAttr("y", yDrag);
             }
             dropReset(evt);
             startDrawNodes();
@@ -1435,7 +1440,7 @@ nodeEditor.module = (function($) {
                             popUpShown = false;
                             startDrawLines();
                             startDrawNodes();
-                            debugText.text('Successfully updated!');
+                            debugText.text(data);
                             debugText.setAttr('fontSize','25');
                             interfaceLayer.draw();
 
@@ -1463,7 +1468,7 @@ nodeEditor.module = (function($) {
                             popUpShown = false;
                             startDrawLines();
                             startDrawNodes();
-                            debugText.text('Successfully updated!');
+                            debugText.text(data);
                             debugText.setAttr('fontSize','25');
                             interfaceLayer.draw();
                         },
@@ -1982,7 +1987,9 @@ nodeEditor.module = (function($) {
                     data: 'functionName=saveContent&storyID=' + storyID + '&ID=' + selectedNode + '&text=' + $('.textEdit').val()+ '&title=' + $('.titleEdit').val()
                     + '&opt1=' + $('.opt1').val()+ '&opt2=' + $('.opt2').val()+ '&opt3=' + $('.opt3').val()+ '&opt4=' + $('.opt4').val(),
                     success: function (data) {
-                        alert(data);
+                        debugText.text(data);
+                        debugText.setAttr('fontSize','25');
+                        interfaceLayer.draw();
                     },
                     error: function (xhr, status, error) {
                         debugText.text(error);
@@ -2202,7 +2209,7 @@ nodeEditor.module = (function($) {
         stage.on("drop", function (e) {
             if(!pause) {
                 e.target.setAttr("x", xDrag);
-                e.target.setAttr("y", yDrag);
+               e.target.setAttr("y", yDrag);
 
                 e.target.fill('green');
                 debugText.setAttr('fontSize','20');

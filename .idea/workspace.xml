@@ -25,8 +25,8 @@
       <file leaf-file-name="function.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/javascript/function.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-15.153846">
-              <caret line="1693" column="29" selection-start-line="1693" selection-start-column="29" selection-end-line="1693" selection-end-column="29" />
+            <state vertical-scroll-proportion="-15.807693">
+              <caret line="1991" column="46" selection-start-line="1991" selection-start-column="46" selection-end-line="1991" selection-end-column="46" />
               <folding />
             </state>
           </provider>
@@ -72,85 +72,84 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="style.css" pinned="false" current-in-tab="true">
+      <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/css/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6573333">
+            <state vertical-scroll-proportion="0.0">
               <caret line="29" column="1" selection-start-line="29" selection-start-column="1" selection-end-line="29" selection-end-column="1" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="getstory.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="getstory.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/php/getstory.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="368" column="0" selection-start-line="368" selection-start-column="0" selection-end-line="368" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.74641836">
+              <caret line="549" column="0" selection-start-line="549" selection-start-column="0" selection-end-line="549" selection-end-column="0" />
               <folding>
-                <marker date="1453459995000" expanded="true" signature="2133:2158" placeholder="UPDATE story..." />
-                <marker date="1453459995000" expanded="true" signature="2133:2181" placeholder="UPDATE story..." />
-                <marker date="1453459995000" expanded="true" signature="2133:2191" placeholder="UPDATE page ..." />
-                <marker date="1453459995000" expanded="true" signature="2133:2193" placeholder="UPDATE story..." />
-                <marker date="1453459995000" expanded="true" signature="2370:2413" placeholder="SELECT user,..story..." />
-                <marker date="1453459995000" expanded="true" signature="2593:2642" placeholder="SELECT user ..story..." />
-                <marker date="1453459995000" expanded="true" signature="2593:2649" placeholder="SELECT title..page..." />
-                <marker date="1453459995000" expanded="true" signature="2593:2652" placeholder="SELECT user,..story..." />
-                <marker date="1453459995000" expanded="true" signature="2593:2653" placeholder="SELECT user ..story..." />
-                <marker date="1453459995000" expanded="true" signature="3095:3117" placeholder="UPDATE page ..." />
-                <marker date="1453459995000" expanded="true" signature="3095:3301" placeholder="UPDATE page ..." />
-                <marker date="1453459995000" expanded="true" signature="3264:3301" placeholder="SELECT title..page..." />
-                <marker date="1453459995000" expanded="true" signature="3474:3596" placeholder="SELECT title..page..." />
-                <marker date="1453459995000" expanded="true" signature="3766:3825" placeholder="SELECT title..page..." />
-                <marker date="1453459995000" expanded="true" signature="3998:4005" placeholder="SELECT MAX(l..page..." />
-                <marker date="1453459995000" expanded="true" signature="3998:4057" placeholder="SELECT level..page..." />
-                <marker date="1453459995000" expanded="true" signature="4183:4231" placeholder="SELECT id, F..story..." />
-                <marker date="1453459995000" expanded="true" signature="4428:4505" placeholder="SELECT NextP..page..." />
-                <marker date="1453459995000" expanded="true" signature="6623:6632" placeholder="SELECT id FR..story..." />
-                <marker date="1453459995000" expanded="true" signature="6957:7130" placeholder="SELECT id,le..page..." />
-                <marker date="1453459995000" expanded="true" signature="7561:7753" placeholder="SELECT id,Ne..page..." />
-                <marker date="1453459995000" expanded="true" signature="7807:7999" placeholder="SELECT id,Ne..page..." />
-                <marker date="1453459995000" expanded="true" signature="9015:9299" placeholder="UPDATE page ..." />
-                <marker date="1453459995000" expanded="true" signature="9622:9707" placeholder="UPDATE page ..." />
-                <marker date="1453459995000" expanded="true" signature="9801:9886" placeholder="UPDATE page ..." />
-                <marker date="1453459995000" expanded="true" signature="9980:10065" placeholder="UPDATE page ..." />
-                <marker date="1453459995000" expanded="true" signature="10155:10240" placeholder="UPDATE page ..." />
-                <marker date="1453459995000" expanded="true" signature="10684:10726" placeholder="SELECT MAX(l..page..." />
-                <marker date="1453459995000" expanded="true" signature="10862:10869" placeholder="SELECT MAX(l..page..." />
-                <marker date="1453459995000" expanded="true" signature="10862:10999" placeholder="SELECT id,le..page..." />
-                <marker date="1453459995000" expanded="true" signature="11328:11448" placeholder="SELECT id,le..page..." />
-                <marker date="1453459995000" expanded="true" signature="12377:12427" placeholder="UPDATE story..." />
-                <marker date="1453459995000" expanded="true" signature="12377:12441" placeholder="UPDATE story..." />
-                <marker date="1453459995000" expanded="true" signature="12460:14485" placeholder="UPDATE page ..." />
-                <marker date="1453459995000" expanded="true" signature="14976:16269" placeholder="UPDATE page ..." />
-                <marker date="1453459995000" expanded="true" signature="17098:17137" placeholder="SELECT MAX(i..page..." />
-                <marker date="1453459995000" expanded="true" signature="17301:17362" placeholder="SELECT posit..page..." />
-                <marker date="1453459995000" expanded="true" signature="18014:18088" placeholder="UPDATE page ..." />
-                <marker date="1453459995000" expanded="true" signature="18170:18539" placeholder="INSERT INTO ..." />
-                <marker date="1453459995000" expanded="true" signature="19130:19183" placeholder="DELETE FROM ..." />
-                <marker date="1453459995000" expanded="true" signature="20516:20588" placeholder="SELECT id,le..page..." />
-                <marker date="1453459995000" expanded="true" signature="20798:20941" placeholder="SELECT id FR..page..." />
-                <marker date="1453459995000" expanded="true" signature="21219:21294" placeholder="SELECT id,le..page..." />
-                <marker date="1453459995000" expanded="true" signature="21219:21326" placeholder="SELECT id,le..page..." />
-                <marker date="1453459995000" expanded="true" signature="21990:22366" placeholder="UPDATE page ..." />
-                <marker date="1453459995000" expanded="true" signature="22495:22591" placeholder="UPDATE page ..." />
-                <marker date="1453459995000" expanded="true" signature="22690:22788" placeholder="UPDATE page ..." />
-                <marker date="1453459995000" expanded="true" signature="22835:22913" placeholder="UPDATE page ..." />
-                <marker date="1453459995000" expanded="true" signature="22946:24100" placeholder="UPDATE page ..." />
-                <marker date="1453459995000" expanded="true" signature="24229:24355" placeholder="UPDATE page ..." />
-                <marker date="1453459995000" expanded="true" signature="24402:24452" placeholder="UPDATE story..." />
-                <marker date="1453459995000" expanded="true" signature="25035:25107" placeholder="SELECT id,le..page..." />
-                <marker date="1453459995000" expanded="true" signature="25557:26325" placeholder="UPDATE page ..." />
-                <marker date="1453459995000" expanded="true" signature="26453:26549" placeholder="UPDATE page ..." />
-                <marker date="1453459995000" expanded="true" signature="26691:26787" placeholder="UPDATE page ..." />
-                <marker date="1453459995000" expanded="true" signature="26882:28415" placeholder="UPDATE page ..." />
-                <marker date="1453459995000" expanded="true" signature="29097:29220" placeholder="SELECT id,le..page..." />
-                <marker date="1453459995000" expanded="true" signature="29930:30008" placeholder="UPDATE page ..." />
-                <marker date="1453459995000" expanded="true" signature="30063:30179" placeholder="UPDATE page ..." />
-                <marker date="1453459995000" expanded="true" signature="30866:30989" placeholder="SELECT id,le..page..." />
-                <marker date="1453459995000" expanded="true" signature="31708:31786" placeholder="UPDATE page ..." />
-                <marker date="1453459995000" expanded="true" signature="31847:31963" placeholder="UPDATE page ..." />
-                <marker date="1453459995000" expanded="true" signature="32179:32275" placeholder="UPDATE page ..." />
+                <marker date="1453652257214" expanded="true" signature="2120:2145" placeholder="UPDATE story..." />
+                <marker date="1453652257214" expanded="true" signature="2120:2168" placeholder="UPDATE story..." />
+                <marker date="1453652257214" expanded="true" signature="2120:2178" placeholder="UPDATE story..." />
+                <marker date="1453652257214" expanded="true" signature="2505:2548" placeholder="SELECT user,..story..." />
+                <marker date="1453652257214" expanded="true" signature="2728:2777" placeholder="SELECT user ..story..." />
+                <marker date="1453652257214" expanded="true" signature="2728:2784" placeholder="SELECT title..page..." />
+                <marker date="1453652257214" expanded="true" signature="2728:2787" placeholder="SELECT user,..story..." />
+                <marker date="1453652257214" expanded="true" signature="2728:2788" placeholder="SELECT user ..story..." />
+                <marker date="1453652257214" expanded="true" signature="3190:3212" placeholder="UPDATE page ..." />
+                <marker date="1453652257214" expanded="true" signature="3190:3396" placeholder="UPDATE page ..." />
+                <marker date="1453652257214" expanded="true" signature="3359:3396" placeholder="SELECT title..page..." />
+                <marker date="1453652257214" expanded="true" signature="3717:3839" placeholder="SELECT title..page..." />
+                <marker date="1453652257214" expanded="true" signature="4009:4068" placeholder="SELECT title..page..." />
+                <marker date="1453652257214" expanded="true" signature="4241:4248" placeholder="SELECT MAX(l..page..." />
+                <marker date="1453652257214" expanded="true" signature="4241:4300" placeholder="SELECT level..page..." />
+                <marker date="1453652257214" expanded="true" signature="4426:4474" placeholder="SELECT id, F..story..." />
+                <marker date="1453652257214" expanded="true" signature="4671:4748" placeholder="SELECT NextP..page..." />
+                <marker date="1453652257214" expanded="true" signature="6866:6875" placeholder="SELECT id FR..story..." />
+                <marker date="1453652257214" expanded="true" signature="7200:7373" placeholder="SELECT id,le..page..." />
+                <marker date="1453652257214" expanded="true" signature="7812:8004" placeholder="SELECT id,Ne..page..." />
+                <marker date="1453652257214" expanded="true" signature="8058:8250" placeholder="SELECT id,Ne..page..." />
+                <marker date="1453652257214" expanded="true" signature="9268:9552" placeholder="UPDATE page ..." />
+                <marker date="1453652257214" expanded="true" signature="10020:10105" placeholder="UPDATE page ..." />
+                <marker date="1453652257214" expanded="true" signature="10352:10437" placeholder="UPDATE page ..." />
+                <marker date="1453652257214" expanded="true" signature="10684:10769" placeholder="UPDATE page ..." />
+                <marker date="1453652257214" expanded="true" signature="11016:11101" placeholder="UPDATE page ..." />
+                <marker date="1453652257214" expanded="true" signature="11729:11771" placeholder="SELECT MAX(l..page..." />
+                <marker date="1453652257214" expanded="true" signature="11907:11914" placeholder="SELECT MAX(l..page..." />
+                <marker date="1453652257214" expanded="true" signature="11907:12044" placeholder="SELECT id,le..page..." />
+                <marker date="1453652257214" expanded="true" signature="12373:12493" placeholder="SELECT id,le..page..." />
+                <marker date="1453652257214" expanded="true" signature="13440:13490" placeholder="UPDATE story..." />
+                <marker date="1453652257214" expanded="true" signature="13440:13500" placeholder="UPDATE story..." />
+                <marker date="1453652257214" expanded="true" signature="13563:15588" placeholder="UPDATE page ..." />
+                <marker date="1453652257214" expanded="true" signature="15874:17167" placeholder="UPDATE page ..." />
+                <marker date="1453652257214" expanded="true" signature="18541:18580" placeholder="SELECT MAX(i..page..." />
+                <marker date="1453652257214" expanded="true" signature="18744:18805" placeholder="SELECT posit..page..." />
+                <marker date="1453652257214" expanded="true" signature="19511:19585" placeholder="UPDATE page ..." />
+                <marker date="1453652257214" expanded="true" signature="19726:20095" placeholder="INSERT INTO ..." />
+                <marker date="1453652257214" expanded="true" signature="21042:21095" placeholder="DELETE FROM ..." />
+                <marker date="1453652257214" expanded="true" signature="22767:22839" placeholder="SELECT id,le..page..." />
+                <marker date="1453652257214" expanded="true" signature="23049:23192" placeholder="SELECT id FR..page..." />
+                <marker date="1453652257214" expanded="true" signature="23470:23545" placeholder="SELECT id,le..page..." />
+                <marker date="1453652257214" expanded="true" signature="23470:23577" placeholder="SELECT id,le..page..." />
+                <marker date="1453652257214" expanded="true" signature="24306:24682" placeholder="UPDATE page ..." />
+                <marker date="1453652257214" expanded="true" signature="24944:25040" placeholder="UPDATE page ..." />
+                <marker date="1453652257214" expanded="true" signature="25292:25390" placeholder="UPDATE page ..." />
+                <marker date="1453652257214" expanded="true" signature="25610:25688" placeholder="UPDATE page ..." />
+                <marker date="1453652257214" expanded="true" signature="25853:27007" placeholder="UPDATE page ..." />
+                <marker date="1453652257214" expanded="true" signature="27269:27395" placeholder="UPDATE page ..." />
+                <marker date="1453652257214" expanded="true" signature="27441:27491" placeholder="UPDATE story..." />
+                <marker date="1453652257214" expanded="true" signature="28512:28584" placeholder="SELECT id,le..page..." />
+                <marker date="1453652257214" expanded="true" signature="29098:29866" placeholder="UPDATE page ..." />
+                <marker date="1453652257214" expanded="true" signature="30128:30224" placeholder="UPDATE page ..." />
+                <marker date="1453652257214" expanded="true" signature="30519:30615" placeholder="UPDATE page ..." />
+                <marker date="1453652257214" expanded="true" signature="30883:32416" placeholder="UPDATE page ..." />
+                <marker date="1453652257214" expanded="true" signature="33536:33659" placeholder="SELECT id,le..page..." />
+                <marker date="1453652257214" expanded="true" signature="34443:34521" placeholder="UPDATE page ..." />
+                <marker date="1453652257214" expanded="true" signature="34689:34805" placeholder="UPDATE page ..." />
+                <marker date="1453652257214" expanded="true" signature="35874:35997" placeholder="SELECT id,le..page..." />
+                <marker date="1453652257214" expanded="true" signature="36785:36863" placeholder="UPDATE page ..." />
+                <marker date="1453652257214" expanded="true" signature="37059:37175" placeholder="UPDATE page ..." />
+                <marker date="1453652257214" expanded="true" signature="37524:37620" placeholder="UPDATE page ..." />
               </folding>
             </state>
           </provider>
@@ -159,10 +158,10 @@
       <file leaf-file-name="mysqlModule.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/framework/modules/mysqlModule.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="46" column="38" selection-start-line="46" selection-start-column="38" selection-end-line="46" selection-end-column="38" />
+            <state vertical-scroll-proportion="-4.529412">
+              <caret line="18" column="39" selection-start-line="18" selection-start-column="39" selection-end-line="18" selection-end-column="39" />
               <folding>
-                <marker date="1450301820708" expanded="true" signature="1104:1148" placeholder="SELECT * FRO..users..." />
+                <marker date="1453651330955" expanded="true" signature="1187:1231" placeholder="SELECT * FRO..users..." />
               </folding>
             </state>
           </provider>
@@ -191,10 +190,11 @@
         <option value="$PROJECT_DIR$/frontend.php" />
         <option value="$PROJECT_DIR$/public/javascript/formHandler.js" />
         <option value="$PROJECT_DIR$/data/contentModules/userStoryEditContentModule.php" />
-        <option value="$PROJECT_DIR$/public/php/getstory.php" />
         <option value="$PROJECT_DIR$/data/templates/nodeEditorTemplate.html" />
         <option value="$PROJECT_DIR$/public/css/style.css" />
+        <option value="$PROJECT_DIR$/framework/modules/mysqlModule.php" />
         <option value="$PROJECT_DIR$/public/javascript/function.js" />
+        <option value="$PROJECT_DIR$/public/php/getstory.php" />
       </list>
     </option>
   </component>
@@ -508,69 +508,68 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1453459995000" expanded="true" signature="2133:2158" placeholder="UPDATE story..." />
-            <marker date="1453459995000" expanded="true" signature="2133:2181" placeholder="UPDATE story..." />
-            <marker date="1453459995000" expanded="true" signature="2133:2191" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="2133:2193" placeholder="UPDATE story..." />
-            <marker date="1453459995000" expanded="true" signature="2370:2413" placeholder="SELECT user,..story..." />
-            <marker date="1453459995000" expanded="true" signature="2593:2642" placeholder="SELECT user ..story..." />
-            <marker date="1453459995000" expanded="true" signature="2593:2649" placeholder="SELECT title..page..." />
-            <marker date="1453459995000" expanded="true" signature="2593:2652" placeholder="SELECT user,..story..." />
-            <marker date="1453459995000" expanded="true" signature="2593:2653" placeholder="SELECT user ..story..." />
-            <marker date="1453459995000" expanded="true" signature="3095:3117" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="3095:3301" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="3264:3301" placeholder="SELECT title..page..." />
-            <marker date="1453459995000" expanded="true" signature="3474:3596" placeholder="SELECT title..page..." />
-            <marker date="1453459995000" expanded="true" signature="3766:3825" placeholder="SELECT title..page..." />
-            <marker date="1453459995000" expanded="true" signature="3998:4005" placeholder="SELECT MAX(l..page..." />
-            <marker date="1453459995000" expanded="true" signature="3998:4057" placeholder="SELECT level..page..." />
-            <marker date="1453459995000" expanded="true" signature="4183:4231" placeholder="SELECT id, F..story..." />
-            <marker date="1453459995000" expanded="true" signature="4428:4505" placeholder="SELECT NextP..page..." />
-            <marker date="1453459995000" expanded="true" signature="6623:6632" placeholder="SELECT id FR..story..." />
-            <marker date="1453459995000" expanded="true" signature="6957:7130" placeholder="SELECT id,le..page..." />
-            <marker date="1453459995000" expanded="true" signature="7561:7753" placeholder="SELECT id,Ne..page..." />
-            <marker date="1453459995000" expanded="true" signature="7807:7999" placeholder="SELECT id,Ne..page..." />
-            <marker date="1453459995000" expanded="true" signature="9015:9299" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="9622:9707" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="9801:9886" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="9980:10065" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="10155:10240" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="10684:10726" placeholder="SELECT MAX(l..page..." />
-            <marker date="1453459995000" expanded="true" signature="10862:10869" placeholder="SELECT MAX(l..page..." />
-            <marker date="1453459995000" expanded="true" signature="10862:10999" placeholder="SELECT id,le..page..." />
-            <marker date="1453459995000" expanded="true" signature="11328:11448" placeholder="SELECT id,le..page..." />
-            <marker date="1453459995000" expanded="true" signature="12377:12427" placeholder="UPDATE story..." />
-            <marker date="1453459995000" expanded="true" signature="12377:12441" placeholder="UPDATE story..." />
-            <marker date="1453459995000" expanded="true" signature="12460:14485" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="14976:16269" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="17098:17137" placeholder="SELECT MAX(i..page..." />
-            <marker date="1453459995000" expanded="true" signature="17301:17362" placeholder="SELECT posit..page..." />
-            <marker date="1453459995000" expanded="true" signature="18014:18088" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="18170:18539" placeholder="INSERT INTO ..." />
-            <marker date="1453459995000" expanded="true" signature="19130:19183" placeholder="DELETE FROM ..." />
-            <marker date="1453459995000" expanded="true" signature="20516:20588" placeholder="SELECT id,le..page..." />
-            <marker date="1453459995000" expanded="true" signature="20798:20941" placeholder="SELECT id FR..page..." />
-            <marker date="1453459995000" expanded="true" signature="21219:21294" placeholder="SELECT id,le..page..." />
-            <marker date="1453459995000" expanded="true" signature="21219:21326" placeholder="SELECT id,le..page..." />
-            <marker date="1453459995000" expanded="true" signature="21990:22366" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="22495:22591" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="22690:22788" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="22835:22913" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="22946:24100" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="24229:24355" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="24402:24452" placeholder="UPDATE story..." />
-            <marker date="1453459995000" expanded="true" signature="25035:25107" placeholder="SELECT id,le..page..." />
-            <marker date="1453459995000" expanded="true" signature="25557:26325" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="26453:26549" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="26691:26787" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="26882:28415" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="29097:29220" placeholder="SELECT id,le..page..." />
-            <marker date="1453459995000" expanded="true" signature="29930:30008" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="30063:30179" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="30866:30989" placeholder="SELECT id,le..page..." />
-            <marker date="1453459995000" expanded="true" signature="31708:31786" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="31847:31963" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="32179:32275" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="2120:2145" placeholder="UPDATE story..." />
+            <marker date="1453652257214" expanded="true" signature="2120:2168" placeholder="UPDATE story..." />
+            <marker date="1453652257214" expanded="true" signature="2120:2178" placeholder="UPDATE story..." />
+            <marker date="1453652257214" expanded="true" signature="2505:2548" placeholder="SELECT user,..story..." />
+            <marker date="1453652257214" expanded="true" signature="2728:2777" placeholder="SELECT user ..story..." />
+            <marker date="1453652257214" expanded="true" signature="2728:2784" placeholder="SELECT title..page..." />
+            <marker date="1453652257214" expanded="true" signature="2728:2787" placeholder="SELECT user,..story..." />
+            <marker date="1453652257214" expanded="true" signature="2728:2788" placeholder="SELECT user ..story..." />
+            <marker date="1453652257214" expanded="true" signature="3190:3212" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="3190:3396" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="3359:3396" placeholder="SELECT title..page..." />
+            <marker date="1453652257214" expanded="true" signature="3717:3839" placeholder="SELECT title..page..." />
+            <marker date="1453652257214" expanded="true" signature="4009:4068" placeholder="SELECT title..page..." />
+            <marker date="1453652257214" expanded="true" signature="4241:4248" placeholder="SELECT MAX(l..page..." />
+            <marker date="1453652257214" expanded="true" signature="4241:4300" placeholder="SELECT level..page..." />
+            <marker date="1453652257214" expanded="true" signature="4426:4474" placeholder="SELECT id, F..story..." />
+            <marker date="1453652257214" expanded="true" signature="4671:4748" placeholder="SELECT NextP..page..." />
+            <marker date="1453652257214" expanded="true" signature="6866:6875" placeholder="SELECT id FR..story..." />
+            <marker date="1453652257214" expanded="true" signature="7200:7373" placeholder="SELECT id,le..page..." />
+            <marker date="1453652257214" expanded="true" signature="7812:8004" placeholder="SELECT id,Ne..page..." />
+            <marker date="1453652257214" expanded="true" signature="8058:8250" placeholder="SELECT id,Ne..page..." />
+            <marker date="1453652257214" expanded="true" signature="9268:9552" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="10020:10105" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="10352:10437" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="10684:10769" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="11016:11101" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="11729:11771" placeholder="SELECT MAX(l..page..." />
+            <marker date="1453652257214" expanded="true" signature="11907:11914" placeholder="SELECT MAX(l..page..." />
+            <marker date="1453652257214" expanded="true" signature="11907:12044" placeholder="SELECT id,le..page..." />
+            <marker date="1453652257214" expanded="true" signature="12373:12493" placeholder="SELECT id,le..page..." />
+            <marker date="1453652257214" expanded="true" signature="13440:13490" placeholder="UPDATE story..." />
+            <marker date="1453652257214" expanded="true" signature="13440:13500" placeholder="UPDATE story..." />
+            <marker date="1453652257214" expanded="true" signature="13563:15588" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="15874:17167" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="18541:18580" placeholder="SELECT MAX(i..page..." />
+            <marker date="1453652257214" expanded="true" signature="18744:18805" placeholder="SELECT posit..page..." />
+            <marker date="1453652257214" expanded="true" signature="19511:19585" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="19726:20095" placeholder="INSERT INTO ..." />
+            <marker date="1453652257214" expanded="true" signature="21042:21095" placeholder="DELETE FROM ..." />
+            <marker date="1453652257214" expanded="true" signature="22767:22839" placeholder="SELECT id,le..page..." />
+            <marker date="1453652257214" expanded="true" signature="23049:23192" placeholder="SELECT id FR..page..." />
+            <marker date="1453652257214" expanded="true" signature="23470:23545" placeholder="SELECT id,le..page..." />
+            <marker date="1453652257214" expanded="true" signature="23470:23577" placeholder="SELECT id,le..page..." />
+            <marker date="1453652257214" expanded="true" signature="24306:24682" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="24944:25040" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="25292:25390" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="25610:25688" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="25853:27007" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="27269:27395" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="27441:27491" placeholder="UPDATE story..." />
+            <marker date="1453652257214" expanded="true" signature="28512:28584" placeholder="SELECT id,le..page..." />
+            <marker date="1453652257214" expanded="true" signature="29098:29866" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="30128:30224" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="30519:30615" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="30883:32416" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="33536:33659" placeholder="SELECT id,le..page..." />
+            <marker date="1453652257214" expanded="true" signature="34443:34521" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="34689:34805" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="35874:35997" placeholder="SELECT id,le..page..." />
+            <marker date="1453652257214" expanded="true" signature="36785:36863" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="37059:37175" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="37524:37620" placeholder="UPDATE page ..." />
           </folding>
         </state>
       </provider>
@@ -609,69 +608,68 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1453459995000" expanded="true" signature="2133:2158" placeholder="UPDATE story..." />
-            <marker date="1453459995000" expanded="true" signature="2133:2181" placeholder="UPDATE story..." />
-            <marker date="1453459995000" expanded="true" signature="2133:2191" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="2133:2193" placeholder="UPDATE story..." />
-            <marker date="1453459995000" expanded="true" signature="2370:2413" placeholder="SELECT user,..story..." />
-            <marker date="1453459995000" expanded="true" signature="2593:2642" placeholder="SELECT user ..story..." />
-            <marker date="1453459995000" expanded="true" signature="2593:2649" placeholder="SELECT title..page..." />
-            <marker date="1453459995000" expanded="true" signature="2593:2652" placeholder="SELECT user,..story..." />
-            <marker date="1453459995000" expanded="true" signature="2593:2653" placeholder="SELECT user ..story..." />
-            <marker date="1453459995000" expanded="true" signature="3095:3117" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="3095:3301" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="3264:3301" placeholder="SELECT title..page..." />
-            <marker date="1453459995000" expanded="true" signature="3474:3596" placeholder="SELECT title..page..." />
-            <marker date="1453459995000" expanded="true" signature="3766:3825" placeholder="SELECT title..page..." />
-            <marker date="1453459995000" expanded="true" signature="3998:4005" placeholder="SELECT MAX(l..page..." />
-            <marker date="1453459995000" expanded="true" signature="3998:4057" placeholder="SELECT level..page..." />
-            <marker date="1453459995000" expanded="true" signature="4183:4231" placeholder="SELECT id, F..story..." />
-            <marker date="1453459995000" expanded="true" signature="4428:4505" placeholder="SELECT NextP..page..." />
-            <marker date="1453459995000" expanded="true" signature="6623:6632" placeholder="SELECT id FR..story..." />
-            <marker date="1453459995000" expanded="true" signature="6957:7130" placeholder="SELECT id,le..page..." />
-            <marker date="1453459995000" expanded="true" signature="7561:7753" placeholder="SELECT id,Ne..page..." />
-            <marker date="1453459995000" expanded="true" signature="7807:7999" placeholder="SELECT id,Ne..page..." />
-            <marker date="1453459995000" expanded="true" signature="9015:9299" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="9622:9707" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="9801:9886" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="9980:10065" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="10155:10240" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="10684:10726" placeholder="SELECT MAX(l..page..." />
-            <marker date="1453459995000" expanded="true" signature="10862:10869" placeholder="SELECT MAX(l..page..." />
-            <marker date="1453459995000" expanded="true" signature="10862:10999" placeholder="SELECT id,le..page..." />
-            <marker date="1453459995000" expanded="true" signature="11328:11448" placeholder="SELECT id,le..page..." />
-            <marker date="1453459995000" expanded="true" signature="12377:12427" placeholder="UPDATE story..." />
-            <marker date="1453459995000" expanded="true" signature="12377:12441" placeholder="UPDATE story..." />
-            <marker date="1453459995000" expanded="true" signature="12460:14485" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="14976:16269" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="17098:17137" placeholder="SELECT MAX(i..page..." />
-            <marker date="1453459995000" expanded="true" signature="17301:17362" placeholder="SELECT posit..page..." />
-            <marker date="1453459995000" expanded="true" signature="18014:18088" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="18170:18539" placeholder="INSERT INTO ..." />
-            <marker date="1453459995000" expanded="true" signature="19130:19183" placeholder="DELETE FROM ..." />
-            <marker date="1453459995000" expanded="true" signature="20516:20588" placeholder="SELECT id,le..page..." />
-            <marker date="1453459995000" expanded="true" signature="20798:20941" placeholder="SELECT id FR..page..." />
-            <marker date="1453459995000" expanded="true" signature="21219:21294" placeholder="SELECT id,le..page..." />
-            <marker date="1453459995000" expanded="true" signature="21219:21326" placeholder="SELECT id,le..page..." />
-            <marker date="1453459995000" expanded="true" signature="21990:22366" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="22495:22591" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="22690:22788" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="22835:22913" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="22946:24100" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="24229:24355" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="24402:24452" placeholder="UPDATE story..." />
-            <marker date="1453459995000" expanded="true" signature="25035:25107" placeholder="SELECT id,le..page..." />
-            <marker date="1453459995000" expanded="true" signature="25557:26325" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="26453:26549" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="26691:26787" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="26882:28415" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="29097:29220" placeholder="SELECT id,le..page..." />
-            <marker date="1453459995000" expanded="true" signature="29930:30008" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="30063:30179" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="30866:30989" placeholder="SELECT id,le..page..." />
-            <marker date="1453459995000" expanded="true" signature="31708:31786" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="31847:31963" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="32179:32275" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="2120:2145" placeholder="UPDATE story..." />
+            <marker date="1453652257214" expanded="true" signature="2120:2168" placeholder="UPDATE story..." />
+            <marker date="1453652257214" expanded="true" signature="2120:2178" placeholder="UPDATE story..." />
+            <marker date="1453652257214" expanded="true" signature="2505:2548" placeholder="SELECT user,..story..." />
+            <marker date="1453652257214" expanded="true" signature="2728:2777" placeholder="SELECT user ..story..." />
+            <marker date="1453652257214" expanded="true" signature="2728:2784" placeholder="SELECT title..page..." />
+            <marker date="1453652257214" expanded="true" signature="2728:2787" placeholder="SELECT user,..story..." />
+            <marker date="1453652257214" expanded="true" signature="2728:2788" placeholder="SELECT user ..story..." />
+            <marker date="1453652257214" expanded="true" signature="3190:3212" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="3190:3396" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="3359:3396" placeholder="SELECT title..page..." />
+            <marker date="1453652257214" expanded="true" signature="3717:3839" placeholder="SELECT title..page..." />
+            <marker date="1453652257214" expanded="true" signature="4009:4068" placeholder="SELECT title..page..." />
+            <marker date="1453652257214" expanded="true" signature="4241:4248" placeholder="SELECT MAX(l..page..." />
+            <marker date="1453652257214" expanded="true" signature="4241:4300" placeholder="SELECT level..page..." />
+            <marker date="1453652257214" expanded="true" signature="4426:4474" placeholder="SELECT id, F..story..." />
+            <marker date="1453652257214" expanded="true" signature="4671:4748" placeholder="SELECT NextP..page..." />
+            <marker date="1453652257214" expanded="true" signature="6866:6875" placeholder="SELECT id FR..story..." />
+            <marker date="1453652257214" expanded="true" signature="7200:7373" placeholder="SELECT id,le..page..." />
+            <marker date="1453652257214" expanded="true" signature="7812:8004" placeholder="SELECT id,Ne..page..." />
+            <marker date="1453652257214" expanded="true" signature="8058:8250" placeholder="SELECT id,Ne..page..." />
+            <marker date="1453652257214" expanded="true" signature="9268:9552" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="10020:10105" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="10352:10437" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="10684:10769" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="11016:11101" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="11729:11771" placeholder="SELECT MAX(l..page..." />
+            <marker date="1453652257214" expanded="true" signature="11907:11914" placeholder="SELECT MAX(l..page..." />
+            <marker date="1453652257214" expanded="true" signature="11907:12044" placeholder="SELECT id,le..page..." />
+            <marker date="1453652257214" expanded="true" signature="12373:12493" placeholder="SELECT id,le..page..." />
+            <marker date="1453652257214" expanded="true" signature="13440:13490" placeholder="UPDATE story..." />
+            <marker date="1453652257214" expanded="true" signature="13440:13500" placeholder="UPDATE story..." />
+            <marker date="1453652257214" expanded="true" signature="13563:15588" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="15874:17167" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="18541:18580" placeholder="SELECT MAX(i..page..." />
+            <marker date="1453652257214" expanded="true" signature="18744:18805" placeholder="SELECT posit..page..." />
+            <marker date="1453652257214" expanded="true" signature="19511:19585" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="19726:20095" placeholder="INSERT INTO ..." />
+            <marker date="1453652257214" expanded="true" signature="21042:21095" placeholder="DELETE FROM ..." />
+            <marker date="1453652257214" expanded="true" signature="22767:22839" placeholder="SELECT id,le..page..." />
+            <marker date="1453652257214" expanded="true" signature="23049:23192" placeholder="SELECT id FR..page..." />
+            <marker date="1453652257214" expanded="true" signature="23470:23545" placeholder="SELECT id,le..page..." />
+            <marker date="1453652257214" expanded="true" signature="23470:23577" placeholder="SELECT id,le..page..." />
+            <marker date="1453652257214" expanded="true" signature="24306:24682" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="24944:25040" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="25292:25390" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="25610:25688" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="25853:27007" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="27269:27395" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="27441:27491" placeholder="UPDATE story..." />
+            <marker date="1453652257214" expanded="true" signature="28512:28584" placeholder="SELECT id,le..page..." />
+            <marker date="1453652257214" expanded="true" signature="29098:29866" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="30128:30224" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="30519:30615" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="30883:32416" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="33536:33659" placeholder="SELECT id,le..page..." />
+            <marker date="1453652257214" expanded="true" signature="34443:34521" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="34689:34805" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="35874:35997" placeholder="SELECT id,le..page..." />
+            <marker date="1453652257214" expanded="true" signature="36785:36863" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="37059:37175" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="37524:37620" placeholder="UPDATE page ..." />
           </folding>
         </state>
       </provider>
@@ -868,24 +866,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/framework/modules/mysqlModule.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="46" column="38" selection-start-line="46" selection-start-column="38" selection-end-line="46" selection-end-column="38" />
-          <folding>
-            <marker date="1450301820708" expanded="true" signature="1104:1148" placeholder="SELECT * FRO..users..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascript/konva.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/javascript/default.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -902,78 +882,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/php/getstory.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="368" column="0" selection-start-line="368" selection-start-column="0" selection-end-line="368" selection-end-column="0" />
-          <folding>
-            <marker date="1453459995000" expanded="true" signature="2133:2158" placeholder="UPDATE story..." />
-            <marker date="1453459995000" expanded="true" signature="2133:2181" placeholder="UPDATE story..." />
-            <marker date="1453459995000" expanded="true" signature="2133:2191" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="2133:2193" placeholder="UPDATE story..." />
-            <marker date="1453459995000" expanded="true" signature="2370:2413" placeholder="SELECT user,..story..." />
-            <marker date="1453459995000" expanded="true" signature="2593:2642" placeholder="SELECT user ..story..." />
-            <marker date="1453459995000" expanded="true" signature="2593:2649" placeholder="SELECT title..page..." />
-            <marker date="1453459995000" expanded="true" signature="2593:2652" placeholder="SELECT user,..story..." />
-            <marker date="1453459995000" expanded="true" signature="2593:2653" placeholder="SELECT user ..story..." />
-            <marker date="1453459995000" expanded="true" signature="3095:3117" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="3095:3301" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="3264:3301" placeholder="SELECT title..page..." />
-            <marker date="1453459995000" expanded="true" signature="3474:3596" placeholder="SELECT title..page..." />
-            <marker date="1453459995000" expanded="true" signature="3766:3825" placeholder="SELECT title..page..." />
-            <marker date="1453459995000" expanded="true" signature="3998:4005" placeholder="SELECT MAX(l..page..." />
-            <marker date="1453459995000" expanded="true" signature="3998:4057" placeholder="SELECT level..page..." />
-            <marker date="1453459995000" expanded="true" signature="4183:4231" placeholder="SELECT id, F..story..." />
-            <marker date="1453459995000" expanded="true" signature="4428:4505" placeholder="SELECT NextP..page..." />
-            <marker date="1453459995000" expanded="true" signature="6623:6632" placeholder="SELECT id FR..story..." />
-            <marker date="1453459995000" expanded="true" signature="6957:7130" placeholder="SELECT id,le..page..." />
-            <marker date="1453459995000" expanded="true" signature="7561:7753" placeholder="SELECT id,Ne..page..." />
-            <marker date="1453459995000" expanded="true" signature="7807:7999" placeholder="SELECT id,Ne..page..." />
-            <marker date="1453459995000" expanded="true" signature="9015:9299" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="9622:9707" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="9801:9886" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="9980:10065" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="10155:10240" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="10684:10726" placeholder="SELECT MAX(l..page..." />
-            <marker date="1453459995000" expanded="true" signature="10862:10869" placeholder="SELECT MAX(l..page..." />
-            <marker date="1453459995000" expanded="true" signature="10862:10999" placeholder="SELECT id,le..page..." />
-            <marker date="1453459995000" expanded="true" signature="11328:11448" placeholder="SELECT id,le..page..." />
-            <marker date="1453459995000" expanded="true" signature="12377:12427" placeholder="UPDATE story..." />
-            <marker date="1453459995000" expanded="true" signature="12377:12441" placeholder="UPDATE story..." />
-            <marker date="1453459995000" expanded="true" signature="12460:14485" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="14976:16269" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="17098:17137" placeholder="SELECT MAX(i..page..." />
-            <marker date="1453459995000" expanded="true" signature="17301:17362" placeholder="SELECT posit..page..." />
-            <marker date="1453459995000" expanded="true" signature="18014:18088" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="18170:18539" placeholder="INSERT INTO ..." />
-            <marker date="1453459995000" expanded="true" signature="19130:19183" placeholder="DELETE FROM ..." />
-            <marker date="1453459995000" expanded="true" signature="20516:20588" placeholder="SELECT id,le..page..." />
-            <marker date="1453459995000" expanded="true" signature="20798:20941" placeholder="SELECT id FR..page..." />
-            <marker date="1453459995000" expanded="true" signature="21219:21294" placeholder="SELECT id,le..page..." />
-            <marker date="1453459995000" expanded="true" signature="21219:21326" placeholder="SELECT id,le..page..." />
-            <marker date="1453459995000" expanded="true" signature="21990:22366" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="22495:22591" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="22690:22788" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="22835:22913" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="22946:24100" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="24229:24355" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="24402:24452" placeholder="UPDATE story..." />
-            <marker date="1453459995000" expanded="true" signature="25035:25107" placeholder="SELECT id,le..page..." />
-            <marker date="1453459995000" expanded="true" signature="25557:26325" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="26453:26549" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="26691:26787" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="26882:28415" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="29097:29220" placeholder="SELECT id,le..page..." />
-            <marker date="1453459995000" expanded="true" signature="29930:30008" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="30063:30179" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="30866:30989" placeholder="SELECT id,le..page..." />
-            <marker date="1453459995000" expanded="true" signature="31708:31786" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="31847:31963" placeholder="UPDATE page ..." />
-            <marker date="1453459995000" expanded="true" signature="32179:32275" placeholder="UPDATE page ..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/data/templates/nodeEditorTemplate.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-18.307692">
@@ -982,19 +890,108 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascript/function.js">
+    <entry file="file://$PROJECT_DIR$/public/css/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.153846">
-          <caret line="1693" column="29" selection-start-line="1693" selection-start-column="29" selection-end-line="1693" selection-end-column="29" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="29" column="1" selection-start-line="29" selection-start-column="1" selection-end-line="29" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/css/style.css">
+    <entry file="file://$PROJECT_DIR$/public/javascript/konva.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6573333">
-          <caret line="29" column="1" selection-start-line="29" selection-start-column="1" selection-end-line="29" selection-end-column="1" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/modules/mysqlModule.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.529412">
+          <caret line="18" column="39" selection-start-line="18" selection-start-column="39" selection-end-line="18" selection-end-column="39" />
+          <folding>
+            <marker date="1453651330955" expanded="true" signature="1187:1231" placeholder="SELECT * FRO..users..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascript/function.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-15.807693">
+          <caret line="1991" column="46" selection-start-line="1991" selection-start-column="46" selection-end-line="1991" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/php/getstory.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.74641836">
+          <caret line="549" column="0" selection-start-line="549" selection-start-column="0" selection-end-line="549" selection-end-column="0" />
+          <folding>
+            <marker date="1453652257214" expanded="true" signature="2120:2145" placeholder="UPDATE story..." />
+            <marker date="1453652257214" expanded="true" signature="2120:2168" placeholder="UPDATE story..." />
+            <marker date="1453652257214" expanded="true" signature="2120:2178" placeholder="UPDATE story..." />
+            <marker date="1453652257214" expanded="true" signature="2505:2548" placeholder="SELECT user,..story..." />
+            <marker date="1453652257214" expanded="true" signature="2728:2777" placeholder="SELECT user ..story..." />
+            <marker date="1453652257214" expanded="true" signature="2728:2784" placeholder="SELECT title..page..." />
+            <marker date="1453652257214" expanded="true" signature="2728:2787" placeholder="SELECT user,..story..." />
+            <marker date="1453652257214" expanded="true" signature="2728:2788" placeholder="SELECT user ..story..." />
+            <marker date="1453652257214" expanded="true" signature="3190:3212" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="3190:3396" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="3359:3396" placeholder="SELECT title..page..." />
+            <marker date="1453652257214" expanded="true" signature="3717:3839" placeholder="SELECT title..page..." />
+            <marker date="1453652257214" expanded="true" signature="4009:4068" placeholder="SELECT title..page..." />
+            <marker date="1453652257214" expanded="true" signature="4241:4248" placeholder="SELECT MAX(l..page..." />
+            <marker date="1453652257214" expanded="true" signature="4241:4300" placeholder="SELECT level..page..." />
+            <marker date="1453652257214" expanded="true" signature="4426:4474" placeholder="SELECT id, F..story..." />
+            <marker date="1453652257214" expanded="true" signature="4671:4748" placeholder="SELECT NextP..page..." />
+            <marker date="1453652257214" expanded="true" signature="6866:6875" placeholder="SELECT id FR..story..." />
+            <marker date="1453652257214" expanded="true" signature="7200:7373" placeholder="SELECT id,le..page..." />
+            <marker date="1453652257214" expanded="true" signature="7812:8004" placeholder="SELECT id,Ne..page..." />
+            <marker date="1453652257214" expanded="true" signature="8058:8250" placeholder="SELECT id,Ne..page..." />
+            <marker date="1453652257214" expanded="true" signature="9268:9552" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="10020:10105" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="10352:10437" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="10684:10769" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="11016:11101" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="11729:11771" placeholder="SELECT MAX(l..page..." />
+            <marker date="1453652257214" expanded="true" signature="11907:11914" placeholder="SELECT MAX(l..page..." />
+            <marker date="1453652257214" expanded="true" signature="11907:12044" placeholder="SELECT id,le..page..." />
+            <marker date="1453652257214" expanded="true" signature="12373:12493" placeholder="SELECT id,le..page..." />
+            <marker date="1453652257214" expanded="true" signature="13440:13490" placeholder="UPDATE story..." />
+            <marker date="1453652257214" expanded="true" signature="13440:13500" placeholder="UPDATE story..." />
+            <marker date="1453652257214" expanded="true" signature="13563:15588" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="15874:17167" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="18541:18580" placeholder="SELECT MAX(i..page..." />
+            <marker date="1453652257214" expanded="true" signature="18744:18805" placeholder="SELECT posit..page..." />
+            <marker date="1453652257214" expanded="true" signature="19511:19585" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="19726:20095" placeholder="INSERT INTO ..." />
+            <marker date="1453652257214" expanded="true" signature="21042:21095" placeholder="DELETE FROM ..." />
+            <marker date="1453652257214" expanded="true" signature="22767:22839" placeholder="SELECT id,le..page..." />
+            <marker date="1453652257214" expanded="true" signature="23049:23192" placeholder="SELECT id FR..page..." />
+            <marker date="1453652257214" expanded="true" signature="23470:23545" placeholder="SELECT id,le..page..." />
+            <marker date="1453652257214" expanded="true" signature="23470:23577" placeholder="SELECT id,le..page..." />
+            <marker date="1453652257214" expanded="true" signature="24306:24682" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="24944:25040" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="25292:25390" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="25610:25688" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="25853:27007" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="27269:27395" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="27441:27491" placeholder="UPDATE story..." />
+            <marker date="1453652257214" expanded="true" signature="28512:28584" placeholder="SELECT id,le..page..." />
+            <marker date="1453652257214" expanded="true" signature="29098:29866" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="30128:30224" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="30519:30615" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="30883:32416" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="33536:33659" placeholder="SELECT id,le..page..." />
+            <marker date="1453652257214" expanded="true" signature="34443:34521" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="34689:34805" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="35874:35997" placeholder="SELECT id,le..page..." />
+            <marker date="1453652257214" expanded="true" signature="36785:36863" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="37059:37175" placeholder="UPDATE page ..." />
+            <marker date="1453652257214" expanded="true" signature="37524:37620" placeholder="UPDATE page ..." />
+          </folding>
         </state>
       </provider>
     </entry>
