@@ -38,7 +38,7 @@ updatePage = function(data){
 		pageOptions.empty();
 		for(i = 3; i < 7; i++){
 			if(parsedArray[i] > 0){
-				pageOptions.append('<div class="pageOption" data-pageId="'+parsedArray[i]+'">'+parsedArray[i + 4]+'</div>');
+				pageOptions.append('<div class="buttonFrameContainer"><div class="pageOption" data-pageId="'+parsedArray[i]+'">'+parsedArray[i + 4]+'</div></div>');
 			}
 		}
 		activateButtons();

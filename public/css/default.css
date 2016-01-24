@@ -198,12 +198,12 @@ input.buttonStoryInfo {
   margin: 0 auto;
   position: relative; }
 #profilePage .h1bgProfileInfo {
-  width: 140px;
+  width: 170px;
   background-color: #F3E0E1;
   margin: 0 auto;
   position: relative; }
 #profilePage .h1bgProfileStory {
-  width: 200px;
+  width: 230px;
   background-color: #D3ECED;
   margin: 0 auto;
   position: relative; }
@@ -386,10 +386,12 @@ input.buttonStoryInfo {
   font-family: "Architects Daughter", cursive;
   text-decoration: underline; }
 #userStoryPage .buttonFrameContainerUserStoryContentModule {
-  width: 120px;
+  width: 144px;
   position: relative;
   padding: 2px;
   background-color: #96C3CC; }
+  #userStoryPage .buttonFrameContainerUserStoryContentModule .buttonSize {
+    width: 140px; }
 
 #userEditPage {
   font-family: "Architects Daughter", cursive;
@@ -622,9 +624,9 @@ input.buttonStoryInfo {
     text-align: center; }
 
 #nodeEditorPage #editors {
-  width: 35%;
+  width: 33%;
   float: right;
-  margin-top: 20px;
+  margin-top: 10px;
   margin-right: 20px; }
 #nodeEditorPage #storyEditor {
   background: #D3E2D8;
@@ -661,12 +663,18 @@ input.buttonStoryInfo {
     background: #D6D5C5; }
   #nodeEditorPage #previewEditor .h1bgEditor {
     background: #D6D5C5; }
+  #nodeEditorPage #previewEditor .previewFrame {
+    width: 90%;
+    margin: 0 auto;
+    height: 200px;
+    border: 2px solid black;
+    margin-bottom: 20px; }
 #nodeEditorPage .editorFrameContainer {
   margin: 0 auto;
   position: relative;
   padding: 20px; }
 #nodeEditorPage .h1bgEditor {
-  width: 230px;
+  width: 270px;
   margin: 0 auto;
   position: relative; }
   #nodeEditorPage .h1bgEditor h1 {

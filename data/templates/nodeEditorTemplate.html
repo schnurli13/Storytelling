@@ -26,8 +26,8 @@
             <div id="storyEditor">
                 <div class="editorFrameContainer">
                     <div class="editorContainer">
-                        <div class="h1bgEditor"><h1>STORY-EDITOR</h1></div>
-                        <form>
+                        <div class="h1bgEditor"><h1><a class="storyToggle" name="toggle">STORY-EDITOR <i class="fa fa-angle-down"></i></a></h1></div>
+                        <form class="storyForm">
                             <p class="label">TITLE <input class="inputField storyTitle" type="text" name="storyTitle" value=""/></p>
                             <p class="label">AUTOR <input class="inputField storyAuthor" type="text" name="storyAutor" value=""/></p>
                             <p class="label">CO-AUTOR <input class="inputField storyCoAuthor" type="text" name="storyCoAutor" value=""/></p>
@@ -43,8 +43,8 @@
              <div id="pageEditor">
                 <div class="editorFrameContainer">
                     <div class="editorContainer">
-                        <div class="h1bgEditor"><h1>PAGE-EDITOR</h1></div>
-                        <form>
+                        <div class="h1bgEditor"><h1><a class="pageToggle" name="toggle">PAGE-EDITOR <i class="fa fa-angle-down"></i></a></h1></div>
+                        <form class="pageForm">
                             <p class="label">TITLE <input class="inputField titleEdit" type="text" name="pageTitle" value=""/></p>
                             <p class="label optionsLabel">OPTIONS
                                                         <input class="inputField option opt1" type="text" name="pageOption1" value=""/>
@@ -69,7 +69,8 @@
             <div id="previewEditor">
                 <div class="editorFrameContainer">
                     <div class="editorContainer">
-                        <div class="h1bgEditor"><h1>PREVIEW</h1></div>
+                        <div class="h1bgEditor"><h1><a class="previewToggle" name="toggle">PREVIEW <i class="fa fa-angle-down"></i></a></h1></div>
+                        <div class="previewFrame"></div>
                     </div>
                 </div>
             </div>
@@ -124,6 +125,7 @@
                 <div class="editorFrameContainer">
                     <div class="editorContainer">
                         <div class="h1bgEditor"><h1>PREVIEW</h1></div>
+                        <div class="previewFrame"></div>
                     </div>
                 </div>
             </div>  
@@ -149,6 +151,29 @@
                     classie.toggle( showRight, 'disabled' );
             }
         }
+        
+        
+        
+        
+        ///Toggle////
+        
+        $(document).ready(function(){
+            $(".storyToggle").click(function(){
+                $(".storyForm").toggle();
+            });
+        });
+        
+        $(document).ready(function(){
+            $(".pageToggle").click(function(){
+                $(".pageForm").toggle();
+            });
+        });
+        
+        $(document).ready(function(){
+            $(".previewToggle").click(function(){
+                $(".previewFrame").toggle();
+            });
+        });
     </script>
 
     

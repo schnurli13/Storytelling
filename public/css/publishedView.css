@@ -1,3 +1,21 @@
-
+#pagePresentation #title h2 {
+  font-family: "Architects Daughter", cursive;
+  text-align: center; }
+#pagePresentation #pageImage img {
+  margin: 0 10%;
+  width: 80%; }
+#pagePresentation #pageText {
+  font-family: "Architects Daughter", cursive;
+  text-align: center;
+  width: 80%;
+  margin: 10px 10%; }
+#pagePresentation #pageOptions {
+  width: 80%;
+  margin: 0 10%; }
+#pagePresentation .presentationFrame {
+  border: dotted 2px black;
+  margin: 0 auto;
+  width: 60%;
+  padding: 20px; }
 
 /*# sourceMappingURL=publishedView.css.map */
