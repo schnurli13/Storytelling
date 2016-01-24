@@ -634,7 +634,7 @@ nodeEditor.module = (function($) {
             var fill = e.target.fill() == 'yellow' ? buttonColorHover : 'yellow';
             e.target.fill(fill);
             debugText.setAttr('fontSize','20');
-            debugText.text('Selected ' + e.target.name());
+            debugText.text('Selected ' + toolTipText);
             if (fill == 'yellow') {
                 selectedNode = e.target.id();
                 if(zoomStyle == "zoomJump") {
@@ -1000,16 +1000,15 @@ nodeEditor.module = (function($) {
 
     deleteNode = function(id){
 
-       setDraggable(false);
+        popUpShown = true;
+        pause = true;
+        setDraggable(false);
 
         popText.setAttr('text',deleteText);
         popText.setAttr('x',20);
         popText.setAttr('y',25);
-        if(!isMobile){
-            popText.setAttr('width',(addRect.getAttr('width')*2+80)-20);
-        }else{
-            popText.setAttr('width',(addRect.getAttr('width')*2+80)-20);
-        }
+        popText.setAttr('width',(addRect.getAttr('width')*2+80)-20);
+
 
 
         interfaceLayer.find('#button1Text')[0].setAttr('text','DELETE');
@@ -1018,15 +1017,11 @@ nodeEditor.module = (function($) {
         interfaceLayer.find('#button2Text')[0].setAttr('text','CANCEL');
         interfaceLayer.find('#button2Text')[0].setAttr('x','48');
 
-        if(!isMobile){
-            popUpRect.setAttr('width',addRect.getAttr('width')*2+80);
-            popUp.setAttr('x',width/2-((addRect.getAttr('width')*2+80)/2));
-        }else{
-            popUpRect.setAttr('width',addRect.getAttr('width')*2+80);
+        popUpRect.setAttr('width',addRect.getAttr('width')*2+80);
+        popUp.setAttr('x',width/2-((addRect.getAttr('width')*2+80)/2));
+        if(isMobile){
             popUpRect.setAttr('height',(addRect.getAttr('height')*2+100+popText.getAttr('height'))-20);
-            popUp.setAttr('x',width/2-((addRect.getAttr('width')*2+80)/2));
         }
-
 
         dottedLinePopUp.setAttr('points',[10, 10, popUpRect.getAttr('width')-10, 10, popUpRect.getAttr('width')-10, popUpRect.getAttr('height')-10, 10,popUpRect.getAttr('height')-10,10,10]);
         if(!isMobile){
@@ -1050,6 +1045,8 @@ nodeEditor.module = (function($) {
             popUp.hide();
            interfaceLayer.draw();
             setDraggable(true);
+           pause = false;
+           popUpShown = false;
         });
 
 
@@ -1063,6 +1060,8 @@ nodeEditor.module = (function($) {
                          console.log("SUCCESS");
                          interfaceLayer.find('#button1Rect')[0].fill(buttonColor);
                          popUp.hide();
+                         pause = false;
+                         popUpShown = false;
                          setDraggable(true);
                          startDrawLines();
                          startDrawNodes();
@@ -1108,9 +1107,14 @@ nodeEditor.module = (function($) {
     moveQuestion = function(evt){
 
         popText.setAttr('text',moveText);
-        popText.setAttr('x','10');
-        popText.setAttr('y','65');
-        popText.setAttr('width',(addRect.getAttr('width')*3+80)-20);
+        popText.setAttr('x',10);
+        popText.setAttr('y',65);
+        if(!isMobile){
+            popText.setAttr('width',(addRect.getAttr('width')*3+80)-20);
+        }else{
+            popText.setAttr('width',(addRect.getAttr('width')*2+80)-20);
+        }
+
 
         interfaceLayer.find('#button1Text')[0].setAttr('text','MOVE BRANCH');
         interfaceLayer.find('#button1Text')[0].setAttr('x','20');
@@ -1118,10 +1122,16 @@ nodeEditor.module = (function($) {
         interfaceLayer.find('#button2Text')[0].setAttr('text','MOVE PAGE');
         interfaceLayer.find('#button2Text')[0].setAttr('x','28');
 
-        popUpRect.setAttr('width',addRect.getAttr('width')*3+80);
-        popUp.setAttr('x',width/2-((addRect.getAttr('width')*3+80)/2));
+        if(!isMobile){
+            popUpRect.setAttr('width',addRect.getAttr('width')*3+80);
+            popUp.setAttr('x',width/2-((addRect.getAttr('width')*3+80)/2));
+        }else{
+            popUpRect.setAttr('width',addRect.getAttr('width')*2+80);
+            popUp.setAttr('x',width/2-((addRect.getAttr('width')*2+80)/2));
+            popUpRect.setAttr('height',(addRect.getAttr('height')*3+150+popText.getAttr('height'))-20);
+        }
 
-        dottedLinePopUp.setAttr('points',[10, 10, popUpRect.getAttr('width')-10, 10, popUpRect.getAttr('width')-10, 240, 10,240,10,10]);
+        dottedLinePopUp.setAttr('points',[10, 10, popUpRect.getAttr('width')-10, 10, popUpRect.getAttr('width')-10, popUpRect.getAttr('height')-10, 10,popUpRect.getAttr('height')-10,10,10]);
 
 
       // button2.setAttr('id','button2Move');
@@ -1132,9 +1142,20 @@ nodeEditor.module = (function($) {
       //  button3.setAttr('id','button3Move');
         popUp.add(button3);
 
-        button1.setAttr('x',15);
-        button2.setAttr('x', button1.getAttr('x')+button1Rect.getAttr('width')+20);
-        button3.setAttr('x',button2.getAttr('x')+button1Rect.getAttr('width')+20);
+        if(!isMobile){
+            button1.setAttr('x',15);
+            button2.setAttr('x', button1.getAttr('x')+button1Rect.getAttr('width')+20);
+            button3.setAttr('x',button2.getAttr('x')+button1Rect.getAttr('width')+20);
+        }else{
+            button1.setAttr('x',(popUpRect.getAttr('width')/2)-button1Rect.getAttr('width')/2);
+            button1.setAttr('y',popText.getAttr('y')+ popText.getAttr('height')+10);
+            button2.setAttr('x',(popUpRect.getAttr('width')/2)-button1Rect.getAttr('width')/2);
+            button2.setAttr('y',button1.getAttr('y')+button1Rect.getAttr('height')+10);
+            button3.setAttr('x',(popUpRect.getAttr('width')/2)-button1Rect.getAttr('width')/2);
+            button3.setAttr('y',button2.getAttr('y')+button1Rect.getAttr('height')+10);
+        }
+
+
 
         interfaceLayer.find('#button3Text')[0].setAttr('text','CANCEL');
         interfaceLayer.find('#button3Text')[0].setAttr('x','48');
@@ -1229,9 +1250,13 @@ nodeEditor.module = (function($) {
         evt.target.moveDown();
 
         popText.setAttr('text',drop2Text);
-        popText.setAttr('x','10');
-        popText.setAttr('y','55');
-        popText.setAttr('width',(addRect.getAttr('width')*3+80)-20);
+        popText.setAttr('x',10);
+        popText.setAttr('y',55);
+        if(!isMobile){
+            popText.setAttr('width',(addRect.getAttr('width')*3+80)-20);
+        }else{
+            popText.setAttr('width',(addRect.getAttr('width')*2+80)-20);
+        }
 
         interfaceLayer.find('#button1Text')[0].setAttr('text','YES');
         interfaceLayer.find('#button1Text')[0].setAttr('x','65');
@@ -1239,13 +1264,29 @@ nodeEditor.module = (function($) {
         interfaceLayer.find('#button2Text')[0].setAttr('text','CANCEL');
         interfaceLayer.find('#button2Text')[0].setAttr('x','48');
 
-        popUpRect.setAttr('width',(addRect.getAttr('width')*3+80));
-        popUp.setAttr('x',width/2-((addRect.getAttr('width')*3+80)/2));
+        if(!isMobile){
+            popUpRect.setAttr('width',addRect.getAttr('width')*3+80);
+            popUp.setAttr('x',width/2-((addRect.getAttr('width')*3+80)/2));
+        }else{
+            popUpRect.setAttr('width',addRect.getAttr('width')*2+80);
+            popUp.setAttr('x',width/2-((addRect.getAttr('width')*2+80)/2));
+            popUpRect.setAttr('height',(addRect.getAttr('height')*3+100+popText.getAttr('height'))-20);
+        }
 
-        dottedLinePopUp.setAttr('points',[10, 10, (addRect.getAttr('width')*3+80)-10, 10, (addRect.getAttr('width')*3+80)-10, 240, 10,240,10,10]);
+        dottedLinePopUp.setAttr('points',[10, 10, popUpRect.getAttr('width')-10, 10, popUpRect.getAttr('width')-10, popUpRect.getAttr('height')-10, 10,popUpRect.getAttr('height')-10,10,10]);
+        if(!isMobile){
+            button1.setAttr('x',(popUpRect.getAttr('width')/2)-button1Rect.getAttr('width')-10);
+            button2.setAttr('x',button1.getAttr('x')+button1Rect.getAttr('width')+20);
+        }else{
+            button1.setAttr('x',(popUpRect.getAttr('width')/2)-button1Rect.getAttr('width')/2);
+            button1.setAttr('y',popText.getAttr('y')+ popText.getAttr('height')+10);
+            button2.setAttr('x',(popUpRect.getAttr('width')/2)-button1Rect.getAttr('width')/2);
+            button2.setAttr('y',button1.getAttr('y')+button1Rect.getAttr('height')+10);
+        }
+       /* dottedLinePopUp.setAttr('points',[10, 10, (addRect.getAttr('width')*3+80)-10, 10, (addRect.getAttr('width')*3+80)-10, 240, 10,240,10,10]);
 
         button1.setAttr('x',(popUpRect.getAttr('width')/2)-button1Rect.getAttr('width')-10);
-        button2.setAttr('x',button1.getAttr('x')+button1Rect.getAttr('width')+20);
+        button2.setAttr('x',button1.getAttr('x')+button1Rect.getAttr('width')+20);*/
 
         popUp.show();
         interfaceLayer.draw();
@@ -1291,9 +1332,13 @@ nodeEditor.module = (function($) {
         evt.target.moveDown();
 
         popText.setAttr('text',dropText);
-        popText.setAttr('x','10');
-        popText.setAttr('y','55');
-        popText.setAttr('width',(addRect.getAttr('width')*3+80)-20);
+        popText.setAttr('x',10);
+        popText.setAttr('y',55);
+        if(!isMobile){
+            popText.setAttr('width',(addRect.getAttr('width')*3+80)-20);
+        }else{
+            popText.setAttr('width',(addRect.getAttr('width')*2+80)-20);
+        }
 
         interfaceLayer.find('#button1Text')[0].setAttr('text','ADD AS SUB-PAGE');
         interfaceLayer.find('#button1Text')[0].setAttr('x','8');
@@ -1301,14 +1346,29 @@ nodeEditor.module = (function($) {
         interfaceLayer.find('#button2Text')[0].setAttr('text','REPLACE PAGES');
         interfaceLayer.find('#button2Text')[0].setAttr('x','18');
 
-        popUpRect.setAttr('width',(addRect.getAttr('width')*3+80));
-        popUp.setAttr('x',width/2-((addRect.getAttr('width')*3+80)/2));
+        if(!isMobile){
+            popUpRect.setAttr('width',addRect.getAttr('width')*3+80);
+            popUp.setAttr('x',width/2-((addRect.getAttr('width')*3+80)/2));
+        }else{
+            popUpRect.setAttr('width',addRect.getAttr('width')*2+80);
+            popUp.setAttr('x',width/2-((addRect.getAttr('width')*2+80)/2));
+            popUpRect.setAttr('height',(addRect.getAttr('height')*3+150+popText.getAttr('height'))-20);
+        }
 
-        dottedLinePopUp.setAttr('points',[10, 10, (addRect.getAttr('width')*3+80)-10, 10, (addRect.getAttr('width')*3+80)-10, 240, 10,240,10,10]);
+        dottedLinePopUp.setAttr('points',[10, 10, popUpRect.getAttr('width')-10, 10, popUpRect.getAttr('width')-10, popUpRect.getAttr('height')-10, 10,popUpRect.getAttr('height')-10,10,10]);
 
-        button1.setAttr('x',15);
-        button2.setAttr('x', button1.getAttr('x')+button1Rect.getAttr('width')+20);
-        button3.setAttr('x',button2.getAttr('x')+button1Rect.getAttr('width')+20);
+        if(!isMobile){
+            button1.setAttr('x',15);
+            button2.setAttr('x', button1.getAttr('x')+button1Rect.getAttr('width')+20);
+            button3.setAttr('x',button2.getAttr('x')+button1Rect.getAttr('width')+20);
+        }else{
+            button1.setAttr('x',(popUpRect.getAttr('width')/2)-button1Rect.getAttr('width')/2);
+            button1.setAttr('y',popText.getAttr('y')+ popText.getAttr('height')+10);
+            button2.setAttr('x',(popUpRect.getAttr('width')/2)-button1Rect.getAttr('width')/2);
+            button2.setAttr('y',button1.getAttr('y')+button1Rect.getAttr('height')+10);
+            button3.setAttr('x',(popUpRect.getAttr('width')/2)-button1Rect.getAttr('width')/2);
+            button3.setAttr('y',button2.getAttr('y')+button1Rect.getAttr('height')+10);
+        }
 
 
         button3.add(button1Rect.clone({id:'button3Rect'}));
@@ -1554,13 +1614,14 @@ nodeEditor.module = (function($) {
         movementStyle = null;
     };
 
-    setToolTip = function(toolTipText){
+    setToolTip = function(toolText){
         var textToolT;
+        toolTipText = toolText;
         tooltip.getChildren(function (n) {
             return n.getClassName() === "Text";
         }).each(function (text, n) {
             textToolT = text;
-            textToolT.text(toolTipText);
+            textToolT.text(toolText);
         });
         tooltip.getChildren(function (n) {
             return n.getClassName() === "Rect";
@@ -1569,8 +1630,11 @@ nodeEditor.module = (function($) {
             rect.setAttr('height',textToolT.getAttr('height'));
         });
 
+        debugText.setAttr('fontSize','20');
+        debugText.text('Choose ' + toolText);
         tooltip.show();
         layerTEXT.draw();
+        interfaceLayer.draw();
     };
 
 
@@ -1815,8 +1879,7 @@ nodeEditor.module = (function($) {
         layer.on("mouseover", function (e) {
             var fill = e.target.fill() == 'yellow' ? 'yellow' : 'orange';
             e.target.fill(fill);
-            debugText.setAttr('fontSize','20');
-            debugText.text('Choose ' + e.target.name());
+
             layer.draw();
             interfaceLayer.draw();
         });
@@ -1839,11 +1902,9 @@ nodeEditor.module = (function($) {
         });
 
         layer.on("mouseover", function(e) {
-            // update tooltip
-            var mousePos = stage.getPointerPosition();
             tooltip.position({
-                x : e.target.getAttr('x'),
-                y :  e.target.getAttr('y')
+                x : e.target.getAttr('x')-40,
+                y :  e.target.getAttr('y')-50
             });
             //alert(mousePos.x + 5);
 
@@ -2006,7 +2067,7 @@ nodeEditor.module = (function($) {
                 selectedNode= e.target.find('#'+movementStyle[0])[0].getAttr('id');
                 movingGroup.moveTo(tempLayer);
                 debugText.setAttr('fontSize','20');
-                debugText.text('Moving ' + e.target.id() + ' and children');
+                debugText.text('Moving ' + toolTipText + ' and children');
                 interfaceLayer.draw();
                 layer.draw();
                 tempLayer.draw();
@@ -2108,7 +2169,7 @@ nodeEditor.module = (function($) {
         stage.on("dragenter", function (e) {
            if(!pause) {
                debugText.setAttr('fontSize','20');
-                debugText.text('dragenter ' + e.target.name());
+                debugText.text('dragenter ' + toolTipText);
                 layer.draw();
                 interfaceLayer.draw();
            }
@@ -2119,7 +2180,7 @@ nodeEditor.module = (function($) {
                 over = false;
                 e.target.fill(buttonColorHover);
                 debugText.setAttr('fontSize','20');
-                debugText.text('dragleave ' + e.target.name());
+                debugText.text('dragleave ' + toolTipText);
                 layer.draw();
                 interfaceLayer.draw();
             }
@@ -2132,7 +2193,7 @@ nodeEditor.module = (function($) {
                 xDrop = e.target.getAbsolutePosition().x;
                 yDrop = e.target.getAbsolutePosition().y;
                 debugText.setAttr('fontSize','20');
-                debugText.text('dragover ' + e.target.name());
+                debugText.text('dragover ' + e.target.id());
                 layer.draw();
                 interfaceLayer.draw();
             }
@@ -2145,7 +2206,7 @@ nodeEditor.module = (function($) {
 
                 e.target.fill('green');
                 debugText.setAttr('fontSize','20');
-                debugText.text('drop ' + e.target.name());
+                debugText.text('drop ' + e.target.id());
                 layer.draw();
                 interfaceLayer.draw();
             }
