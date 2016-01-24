@@ -6,7 +6,7 @@
  
 class UserStoryPresentationController extends MotherController{
 
-	function generateHtml(){
+	function actions(){
 	
 		$this->model->addAttribute('STORYTITLE', $this->basicInformationObject->getUriArray()[3]);
 		
