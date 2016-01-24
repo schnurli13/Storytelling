@@ -1682,7 +1682,7 @@ nodeEditor.module = (function($) {
     };
 
     resetInputFields = function(){
-        $("#pageEditor .inputField").val('click on node');
+        $("#pageEditor .inputField").val('Select page');
     };
 
     // left: 37, up: 38, right: 39, down: 40,
