@@ -538,7 +538,7 @@ input {
 	
 	p.darkBlue.searchLabel {
 		font-size: 28px;
-		margin-left: -38%;
+		margin-left: -35%;
 	}
 	
 	.searchResultIcon {
@@ -1070,5 +1070,70 @@ input {
 		background: #fff;
 	}
 
+	
+}
+
+
+
+
+
+//// RESPONSIVE /////
+
+@media screen and (max-width: 1030px) {
+	.libelle {
+		left: 0%;
+	}
+}
+
+@media screen and (max-width: 900px) {
+	#searchResultPage p.darkBlue.searchLabel {
+		margin-top: 250px;
+		margin-left: 0px;
+	}
+}
+
+@media screen and (max-width: 790px) {
+	.libelle {
+		display: none;
+	}
+	
+	#searchPage .searchLabel {
+		margin-left: 100px;
+		margin-right: 100px;
+		margin-top: 100px;
+	}
+	
+	#searchResultPage input.inputField {
+		width: 40%;
+	}
+}
+
+@media screen and (max-width: 590px) {
+	#searchPage .searchLabel {
+		margin: 100 auto 0 auto;
+	}
+}
+
+@media screen and (max-width: 530px) {
+	#searchResultPage {
+		
+		input.inputField {
+			width: 70%;
+			margin-left: 0px;
+		}
+		
+		h2 {
+			margin: 0 auto;
+		}
+		
+		ul {
+			margin-left: 0px;
+			padding-left: 0px;
+		}
+		
+		ul li a {
+			font-size: 0.6em;
+		}
+	}
 	
 }
