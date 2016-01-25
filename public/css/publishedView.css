@@ -1,21 +1,50 @@
+#pagePresentation .transition {
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out; }
 #pagePresentation #title h2 {
   font-family: "Architects Daughter", cursive;
   text-align: center; }
 #pagePresentation #pageImage img {
-  margin: 0 10%;
-  width: 80%; }
+  margin: 0 5%;
+  width: 90%;
+  height: 300px; }
 #pagePresentation #pageText {
   font-family: "Architects Daughter", cursive;
   text-align: center;
-  width: 80%;
-  margin: 10px 10%; }
+  width: 90%;
+  margin: 10px 5%; }
 #pagePresentation #pageOptions {
-  width: 80%;
-  margin: 0 10%; }
+  width: 90%;
+  margin: 0 5%; }
 #pagePresentation .presentationFrame {
   border: dotted 2px black;
   margin: 0 auto;
-  width: 60%;
+  width: 90%;
   padding: 20px; }
+#pagePresentation .buttonFrameContainer {
+  width: 48.5%;
+  position: relative;
+  padding: 2px;
+  background-color: #96C3CC;
+  display: block;
+  margin: 5px 0; }
+#pagePresentation .buttonFrameContainer:nth-child(odd) {
+  float: left; }
+#pagePresentation .buttonFrameContainer:nth-child(even) {
+  float: right; }
+#pagePresentation .pageOption {
+  height: 32px;
+  border: black dotted 2px;
+  line-height: 2em;
+  text-align: center;
+  font-size: 18px;
+  font-family: "Architects Daughter", cursive;
+  text-decoration: none;
+  color: #000;
+  cursor: pointer; }
+#pagePresentation .clearfloat {
+  clear: both; }
 
 /*# sourceMappingURL=publishedView.css.map */

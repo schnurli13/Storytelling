@@ -41,6 +41,17 @@ body {
 	float: right;
 }
 
+.clearfloat {
+	clear: both;
+}
+
+.transition {
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition:all 0.5s ease-in-out;
+  -o-transition:all 0.5s ease-in-out;
+  transition:all 0.5s ease-in-out;
+}
+
 .marginRightLogState {
 	margin-right: 10px;
 }
@@ -275,7 +286,7 @@ input {
 			position: relative;
 			overflow: auto;
 			width: 90%;
-			left: 5%;
+			margin: 0 auto;
 		}
 	}
 	
@@ -284,6 +295,7 @@ input {
 		background-color: #fff;
 		margin: 0 auto;
 		position: relative;
+		text-align: center;
 	}
 	
 	.h1bgProfileInfo {
@@ -291,6 +303,7 @@ input {
 		background-color: $lightred;
 		margin: 0 auto;
 		position: relative;
+		text-align: center;
 	}
 
 	.h1bgProfileStory {
@@ -298,11 +311,11 @@ input {
 		background-color: $lightblue;
 		margin: 0 auto;
 		position: relative;
+		text-align: center;
 	}
 	
 	.profileFrameContainer {
 		width: 75%;
-		min-width: 430px;
 		margin: 0 auto;
 		position: relative;
 		padding: 20px;
@@ -390,6 +403,7 @@ input {
 		background-color: $darkblue;
 		margin: 0 auto;
 		position: relative;
+		text-align: center;
 	}
 	
 	#form form {
@@ -420,6 +434,7 @@ input {
 		background-color: $darkblue;
 		margin: 0 auto;
 		position: relative;
+		text-align: center;
 	}
 	
 	#form form {
@@ -599,7 +614,7 @@ input {
 	
 	.userEditFrameContainer {
 		width: 50%;
-		left: 25%;
+		margin: 0 auto;
 		position: relative;
 		padding: 20px;
 		margin-top: 10px;
@@ -622,6 +637,7 @@ input {
 		background-color: $darkred;
 		margin: 0 auto;
 		position: relative;
+		text-align: center;
 	}
 	
 	.closeFancyBox {
@@ -749,7 +765,7 @@ input {
 	
 	.newStoryFrameContainer {
 		width: 50%;
-		left: 25%;
+		margin: 0 auto;
 		position: relative;
 		padding: 20px;
 		margin-top: 10px;
@@ -772,6 +788,7 @@ input {
 		background-color: $darkblue;
 		margin: 0 auto;
 		position: relative;
+		text-align: center;
 	}
 	
 	.closeFancyBox {
@@ -909,6 +926,7 @@ input {
 		background-color: $darkblue;
 		margin: 0 auto;
 		position: relative;
+		text-align: center;
 	}
 	
 	.buttonFrameContainer {
@@ -1016,6 +1034,7 @@ input {
 		width: 270px;
 		margin: 0 auto;
 		position: relative;
+		text-align: center;
 		
 		h1 {
 			text-align: center;
@@ -1091,9 +1110,29 @@ input {
 
 //// RESPONSIVE /////
 
+@media screen and (max-width: 1260px) {
+	#profilePage .myInfoContainer #content .firstColumn {
+		width: 75%;
+	}
+}
+
+
+@media screen and (max-width: 1235px) {
+	#userEditPage .userEditFrameContainer, #newStoryPage .newStoryFrameContainer {
+		width: 90%;
+	}
+}
+
+
 @media screen and (max-width: 1030px) {
 	.libelle {
 		left: 0%;
+	}
+}
+
+@media screen and (max-width: 950px) {
+	#profilePage .myInfoContainer #content .firstColumn {
+		width: 90%;
 	}
 }
 
@@ -1118,6 +1157,46 @@ input {
 	#searchResultPage input.inputField {
 		width: 40%;
 	}
+}
+
+@media screen and (max-width: 768px) {
+	
+	p, a, input {
+		font-size: 0.9em !important;
+	}
+	
+	#profilePage {
+		padding-top: 10px;
+		
+		.profileFrameContainer {
+			width: 95%;
+		}
+	
+		.myInfoFrameContainer, .myStoryFrameContainer {
+			width: 80%;
+		}
+		
+		input.buttonStoryInfo, .profileLable {
+			width: 100%;
+		}
+		
+		.buttonFrameContainerStoryInfo {
+			width: 90%;
+		}
+	}
+}
+
+@media screen and (max-width: 720px) {
+	#userEditPage {
+		input.inputField {
+			width: 100%;
+		}
+	
+		.buttonFrameContainer {
+			width: 100%;
+		}
+	}
+
 }
 
 @media screen and (max-width: 590px) {
@@ -1146,6 +1225,27 @@ input {
 		ul li a {
 			font-size: 0.6em;
 		}
+	}	
+}
+
+@media screen and (max-width: 420px) {
+	#userEditPage {
+		.userEditContainer h1 {
+			font-size: 1.4em;
+		}
+	
+		.h1bgUserEdit {
+			width: 210px;
+		}
 	}
 	
+	#newStoryPage {
+		.newStoryContainer h1 {
+			font-size: 1.4em;
+		}
+		
+		.h1bgNewStory {
+			width: 190px;	
+		}
+	}
 }

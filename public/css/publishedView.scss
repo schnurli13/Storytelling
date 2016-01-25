@@ -1,6 +1,15 @@
 $mainFont:  'Architects Daughter', cursive;
+$darkblue: #96C3CC;
+$lightblue:  #D3ECED;
 
 #pagePresentation {
+        .transition {
+            -webkit-transition: all 0.5s ease-in-out;
+            -moz-transition:all 0.5s ease-in-out;
+            -o-transition:all 0.5s ease-in-out;
+            transition:all 0.5s ease-in-out;
+        }
+    
 	#title h2 {
 		font-family: $mainFont;
 		text-align: center;
@@ -8,27 +17,62 @@ $mainFont:  'Architects Daughter', cursive;
 	}
 	
 	#pageImage img {
-		margin: 0 10%;
-		width: 80%;
+		margin: 0 5%;
+		width: 90%;
+                height: 300px;
 	}
 	
 	#pageText {
 		font-family: $mainFont;
 		text-align: center;
-		width: 80%;
-		margin: 10px 10%;
+		width: 90%;
+		margin: 10px 5%;
 	}
 	
 	#pageOptions {
-		width: 80%;
-		margin: 0 10%;
+		width: 90%;
+		margin: 0 5%;
 	}
 	
 	.presentationFrame {
 		border: dotted 2px black;
 		margin: 0 auto;
-		width: 60%;
+		width: 90%;
 		padding: 20px;
 	}
+        
+        .buttonFrameContainer {
+		width: 48.5%;
+		position: relative;
+		padding: 2px;
+		background-color: $darkblue;
+
+                display: block;
+                margin: 5px 0;
+	}
+        
+        .buttonFrameContainer:nth-child(odd) {
+            float: left;
+        }
+        
+        .buttonFrameContainer:nth-child(even) {
+            float: right;
+        }
+        
+        .pageOption {
+                height: 32px;
+                border: black dotted 2px;
+                line-height: 2em;
+                text-align: center;
+                font-size: 18px;
+                font-family: $mainFont;
+                text-decoration: none;
+                color: #000;
+                cursor: pointer;
+        }
+        
+        .clearfloat {
+            clear: both;
+        }
 	
 }

@@ -19,6 +19,15 @@ body {
 .right {
   float: right; }
 
+.clearfloat {
+  clear: both; }
+
+.transition {
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out; }
+
 .marginRightLogState {
   margin-right: 10px; }
 
@@ -191,25 +200,27 @@ input.buttonStoryInfo {
     position: relative;
     overflow: auto;
     width: 90%;
-    left: 5%; }
+    margin: 0 auto; }
 #profilePage .h1bgProfile {
   width: 140px;
   background-color: #fff;
   margin: 0 auto;
-  position: relative; }
+  position: relative;
+  text-align: center; }
 #profilePage .h1bgProfileInfo {
   width: 170px;
   background-color: #F3E0E1;
   margin: 0 auto;
-  position: relative; }
+  position: relative;
+  text-align: center; }
 #profilePage .h1bgProfileStory {
   width: 230px;
   background-color: #D3ECED;
   margin: 0 auto;
-  position: relative; }
+  position: relative;
+  text-align: center; }
 #profilePage .profileFrameContainer {
   width: 75%;
-  min-width: 430px;
   margin: 0 auto;
   position: relative;
   padding: 20px;
@@ -271,7 +282,8 @@ input.buttonStoryInfo {
     width: 225px;
     background-color: #96C3CC;
     margin: 0 auto;
-    position: relative; }
+    position: relative;
+    text-align: center; }
   #registerPage #form form {
     margin-bottom: 110px; }
   #registerPage .buttonFrameContainer {
@@ -288,7 +300,8 @@ input.buttonStoryInfo {
     width: 110px;
     background-color: #96C3CC;
     margin: 0 auto;
-    position: relative; }
+    position: relative;
+    text-align: center; }
   #loginPage #form form {
     margin-bottom: 110px; }
   #loginPage .buttonFrameContainer {
@@ -398,7 +411,7 @@ input.buttonStoryInfo {
   font-size: 18px; }
   #userEditPage .userEditFrameContainer {
     width: 50%;
-    left: 25%;
+    margin: 0 auto;
     position: relative;
     padding: 20px;
     margin-top: 10px;
@@ -414,7 +427,8 @@ input.buttonStoryInfo {
     width: 245px;
     background-color: #E1AFB1;
     margin: 0 auto;
-    position: relative; }
+    position: relative;
+    text-align: center; }
   #userEditPage .closeFancyBox {
     margin-bottom: 20px; }
   #userEditPage #content {
@@ -502,7 +516,7 @@ input.buttonStoryInfo {
   font-size: 18px; }
   #newStoryPage .newStoryFrameContainer {
     width: 50%;
-    left: 25%;
+    margin: 0 auto;
     position: relative;
     padding: 20px;
     margin-top: 10px;
@@ -518,7 +532,8 @@ input.buttonStoryInfo {
     width: 220px;
     background-color: #96C3CC;
     margin: 0 auto;
-    position: relative; }
+    position: relative;
+    text-align: center; }
   #newStoryPage .closeFancyBox {
     margin-bottom: 20px; }
   #newStoryPage #content {
@@ -614,7 +629,8 @@ input.buttonStoryInfo {
     width: 110px;
     background-color: #96C3CC;
     margin: 0 auto;
-    position: relative; }
+    position: relative;
+    text-align: center; }
   #errorPage .buttonFrameContainer {
     width: 200px;
     margin-bottom: 20px; }
@@ -676,7 +692,8 @@ input.buttonStoryInfo {
 #nodeEditorPage .h1bgEditor {
   width: 270px;
   margin: 0 auto;
-  position: relative; }
+  position: relative;
+  text-align: center; }
   #nodeEditorPage .h1bgEditor h1 {
     text-align: center; }
 #nodeEditorPage .editorContainer {
@@ -716,9 +733,18 @@ input.buttonStoryInfo {
 #nodeEditorPage .cbp-spmenu {
   background: #fff; }
 
+@media screen and (max-width: 1260px) {
+  #profilePage .myInfoContainer #content .firstColumn {
+    width: 75%; } }
+@media screen and (max-width: 1235px) {
+  #userEditPage .userEditFrameContainer, #newStoryPage .newStoryFrameContainer {
+    width: 90%; } }
 @media screen and (max-width: 1030px) {
   .libelle {
     left: 0%; } }
+@media screen and (max-width: 950px) {
+  #profilePage .myInfoContainer #content .firstColumn {
+    width: 90%; } }
 @media screen and (max-width: 900px) {
   #searchResultPage p.darkBlue.searchLabel {
     margin-top: 250px;
@@ -734,6 +760,25 @@ input.buttonStoryInfo {
 
   #searchResultPage input.inputField {
     width: 40%; } }
+@media screen and (max-width: 768px) {
+  p, a, input {
+    font-size: 0.9em !important; }
+
+  #profilePage {
+    padding-top: 10px; }
+    #profilePage .profileFrameContainer {
+      width: 95%; }
+    #profilePage .myInfoFrameContainer, #profilePage .myStoryFrameContainer {
+      width: 80%; }
+    #profilePage input.buttonStoryInfo, #profilePage .profileLable {
+      width: 100%; }
+    #profilePage .buttonFrameContainerStoryInfo {
+      width: 90%; } }
+@media screen and (max-width: 720px) {
+  #userEditPage input.inputField {
+    width: 100%; }
+  #userEditPage .buttonFrameContainer {
+    width: 100%; } }
 @media screen and (max-width: 590px) {
   #searchPage .searchLabel {
     margin: 100 auto 0 auto; } }
@@ -748,5 +793,15 @@ input.buttonStoryInfo {
     padding-left: 0px; }
   #searchResultPage ul li a {
     font-size: 0.6em; } }
+@media screen and (max-width: 420px) {
+  #userEditPage .userEditContainer h1 {
+    font-size: 1.4em; }
+  #userEditPage .h1bgUserEdit {
+    width: 210px; }
+
+  #newStoryPage .newStoryContainer h1 {
+    font-size: 1.4em; }
+  #newStoryPage .h1bgNewStory {
+    width: 190px; } }
 
 /*# sourceMappingURL=default.css.map */

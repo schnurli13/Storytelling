@@ -13,21 +13,21 @@
 	background: #0d77b6;
 }
 
-.cbp-spmenu a {
+/*.cbp-spmenu a {
 	display: block;
 	color: #fff;
 	font-size: 1.1em;
 	font-weight: 300;
-}
+}*/
 
-.cbp-spmenu a:hover {
+/*.cbp-spmenu a:hover {
 	background: #258ecd;
 }
 
 .cbp-spmenu a:active {
 	background: #afdefa;
 	color: #47a3da;
-}
+}*/
 
 /* Orientation-dependent styles for the content of the menu */
 
@@ -38,10 +38,10 @@
 	z-index: 1000;
 }
 
-.cbp-spmenu-vertical a {
+/*.cbp-spmenu-vertical a {
 	border-bottom: 1px solid #258ecd;
 	padding: 1em;
-}
+}*/
 
 
 
