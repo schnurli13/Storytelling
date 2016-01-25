@@ -23,7 +23,7 @@ var getCurrentUser;
 var loadCropper;
 
 activateSubmit = function(){
-	form = $('form');
+	form = $('.ajaxForm');
 	form.on('submit', function(e){
 		e.preventDefault();
 		submitForm($(this));

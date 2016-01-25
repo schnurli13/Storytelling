@@ -16,6 +16,7 @@ require('framework/contentModules/UserContentController.php');
 require('framework/contentModules/UserStoryContentController.php');
 require('framework/contentModules/UserStoryEditContentController.php');
 require('framework/contentModules/UserStoryPresentationController.php');
+require('framework/contentModules/NewStoryController.php');
 require('framework/contentModules/IndexController.php');
 require('framework/contentModules/ErrorController.php');
 

@@ -58,6 +58,10 @@ class FrontendMapper extends MotherMapper{
 				$userContentObject = new UserContentController('userTemplate');
 				$this->myPage->setContent($userContentObject->execute());
 				
+			}else if(count($this->basicInformationObject->getUriArray()) == 4 && $this->basicInformationObject->getUriArray()[3] == "newStory"){
+				$newStoryControllerObject = new NewStoryController('userTemplate');
+				$this->myPage->setContent($newStoryControllerObject->execute());
+				
 			}else if(count($this->basicInformationObject->getUriArray()) == 4){
 				$this->myPage->setTitle($this->basicInformationObject->getUriArray()[3].'/ '.$this->basicInformationObject->getUriArray()[2]);
 				$userStoryContentControllerObject = new UserStoryContentController('userStoryTemplate');

@@ -9,22 +9,9 @@
             <div id="content">
                 <div class="h1bgNewStory"><h1>NEW STORY</h1></div>
                 
-                <form method="POST" id="changeName" name="changeName">
-                        <label>TITLE</label><br>
-                        <input class="inputField" type="text" name="storyTitle" required />
-                        
-                        <label>AUTOR</label><br>
-                        <input class="inputField" type="text" name="storyAutor" required />
-                        
-                        <label>CO-AUTOR</label><br>
-                        <input class="inputField" type="text" name="storyCoAutor" required />
-                        
-                        <label>NAME OF FIRST PAGE</label><br>
-                        <input class="inputField" type="text" name="storyTitleFirstNode" required />
-                        
-                        <div class="buttonFrameContainer fullWidth" id="pictureHandling">
-                            <input class="button ajaxFormTrigger" type="button" id="changePictureButton" value="UPLOAD PIC" /><br>
-                        </div>
+                <form method="POST"  action="/Storytelling/users/KasnocknDave/newStory" id="changeName" name="changeName">
+                        <label>WHAT IS THE NAME OF YOUR STORY?</label><br>
+                        <input class="inputField" type="text" name="storyName" required />
                 
                         <div class="buttonFrameContainer fullWidth"><input class="button" type="submit" value="CREATE STORY" /></div>
                 </form>
