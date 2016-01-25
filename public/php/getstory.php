@@ -232,14 +232,15 @@ function fixParentANDSiblings($con,$ID,$storyID,$result){
         $sql="UPDATE page SET NextPageID1 = ".$indexedOnly[0]['NextPageID1']." , NextPageID2 = ".$indexedOnly[0]['NextPageID2']." ,
         NextPageID3 = ".$indexedOnly[0]['NextPageID3']." , NextPageID4 = ".$indexedOnly[0]['NextPageID4']."
         WHERE id = ".$indexedOnly[0]['id']."  AND story = ".$storyID;
-
+    //echo json_encode($sql);
         if($result == true){
             $result = mysqli_query($con,$sql);
         }else{
             mysqli_query($con,$sql);
         }
 
-   // echo json_encode($sql);
+   // UPDATE page SET NextPageID1 = 127 , NextPageID2 = 0 ,\r\n        NextPageID3 = 0 , NextPageID4 = 0\r\n        WHERE id = 116  AND story = 2
+
 
         //echo $sql."\n";
       /* $result = mysqli_query($con,$sql);
@@ -706,7 +707,9 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
             mysqli_query($con,$sql);
         }
 
-        $sql="UPDATE page SET NextPageID1 = CASE NextPageID1
+        $result = fixParentANDSiblings($con, $ID01, $storyID, $result);
+
+     /*   $sql="UPDATE page SET NextPageID1 = CASE NextPageID1
                                                 WHEN ".$ID01."   THEN  0
                                                 ELSE NextPageID1
                                                 END
@@ -727,7 +730,7 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
             $result = mysqli_query($con,$sql);
         }else{
             mysqli_query($con,$sql);
-        }
+        }*/
 
         if($indexedOnly[$ID02]['level'] != 0) {
             //austauschen der nextpage ids
@@ -888,12 +891,18 @@ function addNodeAsChild($localhost, $user, $pw,$db,$storyID){
         die('Could not connect: ' . mysqli_error($con));
     }
 
+
+    mysqli_autocommit($con,FALSE);
+    $result = true;
+
+    $result = fixParentANDSiblings($con,$child,$storyID,$result);
+
     $sql="SELECT id,level,position,NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE id IN($parent,$child) AND story = ".$storyID;
-    $result = mysqli_query($con,$sql);
+    $res = mysqli_query($con,$sql);
     $indexedOnly = array();
 
 
-    while($row = mysqli_fetch_assoc($result)) {
+    while($row = mysqli_fetch_assoc($res)) {
         $indexedOnly[$row['id']] = $row;
     }
 
@@ -916,10 +925,6 @@ function addNodeAsChild($localhost, $user, $pw,$db,$storyID){
     }
 
 
-    mysqli_autocommit($con,FALSE);
-    $result = true;
-
-    $result = fixParentANDSiblings($con,$child,$storyID,$result);
 
     //update new parent node
     $sql="UPDATE page SET ".$changeNN." = ".$child." WHERE id = ".$parent." AND story = ".$storyID;
@@ -973,12 +978,18 @@ function addBranchAsChild($localhost, $user, $pw,$db,$storyID){
         die('Could not connect: ' . mysqli_error($con));
     }
 
+    mysqli_autocommit($con,FALSE);
+    $result = true;
+
+
+    $result = fixParentANDSiblings($con,$child,$storyID,$result);
+
     $sql="SELECT id,level,position,NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE id IN($parent,$child) AND story = ".$storyID;
-    $result = mysqli_query($con,$sql);
+    $res = mysqli_query($con,$sql);
     $indexedOnly = array();
 
 
-    while($row = mysqli_fetch_assoc($result)) {
+    while($row = mysqli_fetch_assoc($res)) {
         $indexedOnly[$row['id']] = $row;
     }
     $pos = null;
@@ -998,12 +1009,6 @@ function addBranchAsChild($localhost, $user, $pw,$db,$storyID){
     }
 
    // echo json_encode($indexedOnly);
-
-    mysqli_autocommit($con,FALSE);
-    $result = true;
-
-
-    $result = fixParentANDSiblings($con,$child,$storyID,$result);
 
       //update new parent node
        $sql="UPDATE page SET ".$changeNN." = ".$child." WHERE id = ".$parent." AND story = ".$storyID;
