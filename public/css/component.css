@@ -32,7 +32,7 @@
 /* Orientation-dependent styles for the content of the menu */
 
 .cbp-spmenu-vertical {
-	width: 35%;
+	width: 80%;
 	height: 100%;
 	top: 0;
 	z-index: 1000;
@@ -52,7 +52,7 @@
 }
 
 .cbp-spmenu-right {
-	right: -35%;
+	right: -80%;
 }
 
 .cbp-spmenu-left.cbp-spmenu-open {

@@ -1116,6 +1116,25 @@ input {
 	}
 }
 
+@media screen and (max-width: 1240px) {
+	#nodeEditorPage {
+		input.inputField {
+			width: 100%;
+			margin-bottom: 5px;
+			
+			&.option {
+				width: 100%;
+			}
+		}
+		
+		.tellLabel {
+			margin-bottom: 100px;
+		}
+		
+
+	}
+}
+
 
 @media screen and (max-width: 1235px) {
 	#userEditPage .userEditFrameContainer, #newStoryPage .newStoryFrameContainer {
@@ -1123,11 +1142,47 @@ input {
 	}
 }
 
+@media screen and (max-width: 1145px) {
+	#nodeEditorPage {
+		h1 {
+			font-size: 1.4em !important;
+		}
+	
+		.h1bgEditor {
+			width: 240px;
+		}
+	}
+
+}
+
 
 @media screen and (max-width: 1030px) {
 	.libelle {
 		left: 0%;
 	}
+}
+
+@media screen and (max-width: 990px) {
+	#nodeEditorPage {
+		.buttons, .buttonFrameContainer, input.button {
+			width: 100%;
+		}
+	
+		.buttonFrameContainerPic {
+			margin-bottom: 10px;
+			float: right;
+			margin-right: 0px;
+		}
+		
+		.buttons {
+			margin-top: -95px;
+		}
+		
+		.tellLabel {
+			margin-bottom: 150px;
+		}
+	}
+	
 }
 
 @media screen and (max-width: 950px) {
@@ -1140,6 +1195,12 @@ input {
 	#searchResultPage p.darkBlue.searchLabel {
 		margin-top: 250px;
 		margin-left: 0px;
+	}
+}
+
+@media screen and (max-width: 850px) {
+	#editors {
+		display: none;
 	}
 }
 

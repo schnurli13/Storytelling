@@ -19,7 +19,14 @@ body {
     position:relative;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1145px) {
+    #wrapper{
+        width: 55%;
+    }
+    
+}
+
+@media screen and (max-width: 850px) {
     #wrapper {
         width: 100%;
         margin:0;
