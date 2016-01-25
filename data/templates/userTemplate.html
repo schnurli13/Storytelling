@@ -12,7 +12,7 @@
             <div class="h1bgProfile"><h1>PROFILE</h1></div>
             <div class="myInfoFrameContainer">
                 <div class="myInfoContainer">
-                    <div class="h1bgProfileInfo"><h1><a class="infoToggle transition" name="toggle">MY INFO <i class="fa fa-angle-down"></i></a></h1></div>
+                    <div class="h1bgProfileInfo"><h1><a class="infoToggle transition" name="toggle">MY INFO <i class="fa fa-angle-up"></i></a></h1></div>
                     <div id="content" class="infoContent">
                         <div class="left firstColumn">
                             <p><span class="profileLable">USERNAME:</span> {{USERNAME}}</p>
@@ -29,7 +29,7 @@
             </div>
             <div class="myStoryFrameContainer">
                 <div class="myStoryContainer">
-                    <div class="h1bgProfileStory"><h1><a class="storiesToggle transition" name="toggle">MY STORIES <i class="fa fa-angle-down"></i></a></h1></div>
+                    <div class="h1bgProfileStory"><h1><a class="storiesToggle transition" name="toggle">MY STORIES <i class="fa fa-angle-up"></i></a></h1></div>
                     <div id="content" class="storiesContent">
 						
 						{{STORIES}}
@@ -53,13 +53,15 @@
         
          $(document).ready(function(){
             $(".infoToggle").click(function(){
-                $(".infoContent").toggle();
+                $(".infoContent").toggle('slow');
+                $("i",this).toggleClass("fa-angle-down fa-angle-up");
             });
         });
         
         $(document).ready(function(){
             $(".storiesToggle").click(function(){
-                $(".storiesContent").toggle();
+                $(".storiesContent").toggle('slow');
+                $("i",this).toggleClass("fa-angle-down fa-angle-up");
             });
         });
     </script>
