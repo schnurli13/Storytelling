@@ -378,9 +378,6 @@ nodeEditor.module = (function($) {
 
 
     drawNodes = function (data) {
-
-
-
         //startScale=1.0;
         layer.destroyChildren();
         layerTEXT.destroyChildren();
@@ -495,9 +492,10 @@ nodeEditor.module = (function($) {
                         center = 0;
                         multiple = levelX;
                     }
+
                     if (highLight != null && highLight.indexOf(data[nextPageIDinData]['id']) != -1) {
                         color = '#e2b0b3';
-                    } else {
+                    } else { console.log(highLight);
                         color = buttonColorHover;
                     }
 
@@ -638,7 +636,6 @@ nodeEditor.module = (function($) {
             layer.draw();
             layerConn.draw();
             layerTEXT.draw();
-            highLight = null;
             emptyLayer.draw();
         }
         drawToolTip();
@@ -1997,7 +1994,7 @@ nodeEditor.module = (function($) {
         layer.on("mouseover", function (e) {
             var fill = e.target.fill() == 'yellow' ? 'yellow' : 'orange';
             e.target.fill(fill);
-
+            highLight = null;
             layer.draw();
             interfaceLayer.draw();
         });
@@ -2167,10 +2164,8 @@ nodeEditor.module = (function($) {
           if(!pause && movementStyle == null){
               pause = true;
               zoomOut();
-
               nodeSelection(e);
               popUpShown = true;
-
               setDraggable(false);
               $.when(checkAdditionalNode(e.target.id()),checkDeleteNode(e.target.id())).done(function(a1,a2){
                   moveQuestion(e);
@@ -2178,14 +2173,13 @@ nodeEditor.module = (function($) {
              e.target.fill('yellow');
               interfaceLayer.draw();
             }else if(!pause && movementStyle == "one"){
-                xDrag = e.target.getAbsolutePosition().x;
-                yDrag = e.target.getAbsolutePosition().y;
+                xDrag = e.target.getAttr('x');
+                yDrag = e.target.getAttr('y');
 
                 e.target.moveTo(tempLayer);
                 e.target.fill('yellow');
                 layer.draw();
             }else if(!pause && movementStyle != "one" && movementStyle != null ){
-               // nodeSelection(e.target.find('#'+movementStyle[0]));
                 selectedNode= e.target.find('#'+movementStyle[0])[0].getAttr('id');
                 movingGroup.moveTo(tempLayer);
                 layer.draw();
