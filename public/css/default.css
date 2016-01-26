@@ -275,6 +275,8 @@ input.buttonStoryInfo {
   float: left;
   background-color: #E1AFB1;
   margin-top: 6px; }
+#profilePage .infoToggle, #profilePage .storiesToggle {
+  cursor: pointer; }
 
 #registerPage {
   font-family: "Architects Daughter", cursive; }
@@ -644,6 +646,8 @@ input.buttonStoryInfo {
   float: right;
   margin-top: 10px;
   margin-right: 20px; }
+#nodeEditorPage .storyToggle, #nodeEditorPage .pageToggle, #nodeEditorPage .previewToggle {
+  cursor: pointer; }
 #nodeEditorPage #storyEditor {
   background: #D3E2D8;
   /*height: 31.5%;*/
@@ -658,6 +662,8 @@ input.buttonStoryInfo {
     background: #879D8E; }
   #nodeEditorPage #storyEditor .buttonFrameContainer {
     margin-top: -45px; }
+#nodeEditorPage .storyEditorResponsive {
+  margin-top: 60px !important; }
 #nodeEditorPage #pageEditor {
   background-color: #F3E0E1;
   /*height: 31.5%;*/
@@ -709,12 +715,17 @@ input.buttonStoryInfo {
   margin-bottom: 25px; }
 #nodeEditorPage .tellLabel {
   margin-top: 50px;
-  margin-bottom: 60px; }
+  margin-bottom: 110px; }
 #nodeEditorPage input.inputField {
   width: 70%;
   float: right;
   height: 30px;
   font-family: "Architects Daughter", cursive; }
+#nodeEditorPage textarea {
+  width: 70%;
+  float: right;
+  font-family: "Architects Daughter", cursive;
+  border-color: #ccc; }
 #nodeEditorPage input.inputField.option {
   width: 34%;
   margin: 2px; }
@@ -743,7 +754,7 @@ input.buttonStoryInfo {
     #nodeEditorPage input.inputField.option {
       width: 100%; }
   #nodeEditorPage .tellLabel {
-    margin-bottom: 100px; } }
+    margin-top: 140px; } }
 @media screen and (max-width: 1235px) {
   #userEditPage .userEditFrameContainer, #newStoryPage .newStoryFrameContainer {
     width: 90%; } }
@@ -758,6 +769,10 @@ input.buttonStoryInfo {
 @media screen and (max-width: 990px) {
   #nodeEditorPage .buttons, #nodeEditorPage .buttonFrameContainer, #nodeEditorPage input.button {
     width: 100%; }
+  #nodeEditorPage .buttonFrameContainerSave {
+    width: 120px; }
+  #nodeEditorPage .closeButton {
+    width: 30%; }
   #nodeEditorPage .buttonFrameContainerPic {
     margin-bottom: 10px;
     float: right;
@@ -765,7 +780,7 @@ input.buttonStoryInfo {
   #nodeEditorPage .buttons {
     margin-top: -95px; }
   #nodeEditorPage .tellLabel {
-    margin-bottom: 150px; } }
+    margin-bottom: 160px; } }
 @media screen and (max-width: 950px) {
   #profilePage .myInfoContainer #content .firstColumn {
     width: 90%; } }
@@ -773,6 +788,9 @@ input.buttonStoryInfo {
   #searchResultPage p.darkBlue.searchLabel {
     margin-top: 250px;
     margin-left: 0px; } }
+@media screen and (min-width: 851px) {
+  #cbp-spmenu-s2 {
+    display: none; } }
 @media screen and (max-width: 850px) {
   #editors {
     display: none; } }
