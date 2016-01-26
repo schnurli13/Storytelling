@@ -51,9 +51,9 @@ class FrontendMapper extends MotherMapper{
 		}else if($this->basicInformationObject->getUriArray()[1] === 'users'){
 
 			if(count($this->basicInformationObject->getUriArray()) == 3){
-			$this->addCroppic();
-			$this->addFancyBox();
-			$this->myPage->useSource('javascript', 'formHandler');
+				$this->addCroppic();
+				$this->addFancyBox();
+				$this->myPage->useSource('javascript', 'formHandler');
 				$this->myPage->setTitle($this->basicInformationObject->getUriArray()[2]);
 				$userContentObject = new UserContentController('userTemplate');
 				$this->myPage->setContent($userContentObject->execute());
@@ -69,6 +69,8 @@ class FrontendMapper extends MotherMapper{
 				
 			}else if(count($this->basicInformationObject->getUriArray()) == 5 && $this->basicInformationObject->getUriArray()[4] == "edit"){
 				$this->myPage->setTitle('Edit: '.$this->basicInformationObject->getUriArray()[3]);
+				$this->addCroppic();
+				$this->myPage->useSource('javascript', 'formHandler');
 				$this->myPage->useSource('javascript', 'konva');
 				$this->myPage->useSource('javascript', 'function');
 				$this->myPage->useSource('css', 'style');
