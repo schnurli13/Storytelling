@@ -21,6 +21,7 @@ nodeEditor.module = (function($) {
         emptyRectangle,
         pause = false,
         movementStyle = null,
+        firstLast = ":first",
         dropStyle = null,
         found = false,
         previousShape,
@@ -197,21 +198,21 @@ nodeEditor.module = (function($) {
         }),
         zoomInText = addText.clone({
             id: "zoomInText",
-            fontSize: 40,
+            fontSize: 30,
             x:14,
             y:8,
             text: "+"
         }),
         zoomOutText = addText.clone({
             id: "zoomOutText",
-            fontSize: 40,
+            fontSize: 30,
             x:10,
             y:0,
             text: "_"
         }),
 
         popText = addText.clone({
-            fontSize: 18,
+            fontSize: width*0.018,
             align: 'center',
             lineHeight: 1.5
         }),
@@ -252,6 +253,7 @@ nodeEditor.module = (function($) {
         setToolTip,
         drawToolTip,
         resetInputFields,
+        changeFontSize,
         getStoryDetails,
         setStoryDetails,
         checkScaleFactor
@@ -495,7 +497,7 @@ nodeEditor.module = (function($) {
 
                     if (highLight != null && highLight.indexOf(data[nextPageIDinData]['id']) != -1) {
                         color = '#e2b0b3';
-                    } else { console.log(highLight);
+                    } else {
                         color = buttonColorHover;
                     }
 
@@ -687,6 +689,9 @@ nodeEditor.module = (function($) {
                             $('.opt4').attr('disabled','disabled');
                         }else{
                             $('.opt4').val(obj[0]['OptionText4']);
+                        }
+                        if(!pause) {
+                            $('#showRight').trigger('click');
                         }
                     },
                     error: function (xhr, status, error) {
@@ -1048,14 +1053,16 @@ nodeEditor.module = (function($) {
 
     deleteNode = function(id){
 
+
         popUpShown = true;
         pause = true;
         setDraggable(false);
+        button3.hide();
 
         popText.setAttr('text',deleteText);
         popText.setAttr('x',20);
         popText.setAttr('y',25);
-        popText.setAttr('width',(addRect.getAttr('width')*2+80)-20);
+        popText.setAttr('width',(addRect.getAttr('width')*2+80)-30);
 
 
 
@@ -1066,6 +1073,11 @@ nodeEditor.module = (function($) {
         interfaceLayer.find('#button2Text')[0].setAttr('x',addRect.getAttr('width')/2-interfaceLayer.find('#button2Text')[0].getAttr('width')/2);
 
         popUpRect.setAttr('width',addRect.getAttr('width')*2+80);
+        popText.setAttr('text',deleteText);
+        popText.setAttr('width',(addRect.getAttr('width')*2+80)-20);
+        popText.setAttr('x',popUpRect.getAttr('width')/2-popText.getAttr('width')/2);
+        popText.setAttr('y',25);
+
         popUp.setAttr('x',width/2-((addRect.getAttr('width')*2+80)/2));
         popUp.setAttr('y',height/2-((addRect.getAttr('height')*2+80)/2));
         if(isMobile){
@@ -1159,10 +1171,11 @@ nodeEditor.module = (function($) {
         popText.setAttr('text',moveText);
         popText.setAttr('x',10);
         popText.setAttr('y',65);
+        button3.show();
         if(!isMobile){
-            popText.setAttr('width',(addRect.getAttr('width')*3+80)-20);
+            popText.setAttr('width',(addRect.getAttr('width')*3+80)-30);
         }else{
-            popText.setAttr('width',(addRect.getAttr('width')*2+80)-20);
+            popText.setAttr('width',(addRect.getAttr('width')*2+80)-30);
         }
 
 
@@ -1189,11 +1202,6 @@ nodeEditor.module = (function($) {
 
       // button2.setAttr('id','button2Move');
 
-        button3.add(button1Rect.clone({id:'button3Rect'}));
-        button3.add(dottedLineAdd.clone());
-        button3.add(delText.clone({id:'button3Text'}));
-      //  button3.setAttr('id','button3Move');
-        popUp.add(button3);
 
         if(!isMobile){
             button1.setAttr('x',15);
@@ -1224,7 +1232,7 @@ nodeEditor.module = (function($) {
 
         button3.off('click tap').on('click tap',function(e){
             interfaceLayer.find('#button3Rect')[0].fill(buttonColor);
-            button3.remove();
+            button3.hide();
             popUp.hide();
             interfaceLayer.draw();
             pause = false;
@@ -1250,7 +1258,7 @@ nodeEditor.module = (function($) {
                     data: 'functionName=moveBranch&storyID=' + storyID + '&ID=' + evt.target.id(),
                     success: function (data) {
                         interfaceLayer.find('#button1Rect')[0].fill(buttonColor);
-                        button3.remove();
+                        button3.hide();
                         popUp.hide();
                         interfaceLayer.draw();
                         pause = false;
@@ -1283,7 +1291,7 @@ nodeEditor.module = (function($) {
 
        button2.off('click tap').on('click tap',function(e){
            interfaceLayer.find('#button2Rect')[0].fill(buttonColor);
-            button3.remove();
+            button3.hide();
             popUp.hide();
            interfaceLayer.draw();
             pause = false;
@@ -1295,7 +1303,7 @@ nodeEditor.module = (function($) {
     };
 
     dropQuestion2 = function(evt){ //alert("hhh");
-
+        button3.hide();
         pause = true;
         popUpShown = true;
 
@@ -1306,9 +1314,9 @@ nodeEditor.module = (function($) {
         popText.setAttr('x',10);
         popText.setAttr('y',55);
         if(!isMobile){
-            popText.setAttr('width',(addRect.getAttr('width')*3+80)-20);
+            popText.setAttr('width',(addRect.getAttr('width')*3+80)-30);
         }else{
-            popText.setAttr('width',(addRect.getAttr('width')*2+80)-20);
+            popText.setAttr('width',(addRect.getAttr('width')*2+80)-30);
         }
 
         interfaceLayer.find('#button1Text')[0].setAttr('text','YES');
@@ -1383,7 +1391,7 @@ nodeEditor.module = (function($) {
 
         pause = true;
         popUpShown = true;
-
+        button3.show();
         setDraggable(false);
         evt.target.moveDown();
 
@@ -1391,9 +1399,9 @@ nodeEditor.module = (function($) {
         popText.setAttr('x',10);
         popText.setAttr('y',55);
         if(!isMobile){
-            popText.setAttr('width',(addRect.getAttr('width')*3+80)-20);
+            popText.setAttr('width',(addRect.getAttr('width')*3+80)-30);
         }else{
-            popText.setAttr('width',(addRect.getAttr('width')*2+80)-20);
+            popText.setAttr('width',(addRect.getAttr('width')*2+80)-30);
         }
 
         interfaceLayer.find('#button1Text')[0].setAttr('text','ADD AS SUB-PAGE');
@@ -1430,11 +1438,6 @@ nodeEditor.module = (function($) {
         }
 
 
-        button3.add(button1Rect.clone({id:'button3Rect'}));
-        button3.add(dottedLineAdd.clone({id:'button3dotted'}));
-        button3.add(delText.clone({id:'button3Text'}));
-        popUp.add(button3);
-
         interfaceLayer.find('#button3Text')[0].setAttr('text','CANCEL');
         interfaceLayer.find('#button3Text')[0].setAttr('id','button3Text');
         interfaceLayer.find('#button3Text')[0].setAttr('x',addRect.getAttr('width')/2-interfaceLayer.find('#button3Text')[0].getAttr('width')/2);
@@ -1451,7 +1454,7 @@ nodeEditor.module = (function($) {
 
         button3.off('click tap').on('click tap',function(e){
             interfaceLayer.find('#button3Rect')[0].fill(buttonColor);
-            button3.remove();
+            button3.hide();
             popUp.hide();
             interfaceLayer.draw();
             pause = false;
@@ -1486,7 +1489,7 @@ nodeEditor.module = (function($) {
                            // alert(data);
                             console.log("SUCCESS");
                             interfaceLayer.find('#button2Rect')[0].fill(buttonColor);
-                            button3.remove();
+                            button3.hide();
                             popUp.hide();
                             pause = false;
                             dropStyle = "child";
@@ -1515,7 +1518,7 @@ nodeEditor.module = (function($) {
                             //alert(data);
                             console.log("SUCCESS");
                             interfaceLayer.find('#button2Rect')[0].fill(buttonColor);
-                            button3.remove();
+                            button3.hide();
                             popUp.hide();
                             pause = false;
                             dropStyle = "child";
@@ -1548,12 +1551,12 @@ nodeEditor.module = (function($) {
                       if(data == 'false'){
                           found = false;
                           interfaceLayer.find('#button2Rect')[0].fill(buttonColor);
-                          button3.remove();
+                          button3.hide();
                           reorder(evt);
                        }else{
                           found = true;
                           interfaceLayer.find('#button2Rect')[0].fill(buttonColor);
-                          button3.remove();
+                          button3.hide();
                           popUp.hide();
                           interfaceLayer.draw();
                           pause = false;
@@ -1571,7 +1574,7 @@ nodeEditor.module = (function($) {
                 });
             }else{
                 interfaceLayer.find('#button2Rect')[0].fill(buttonColor);
-                button3.remove();
+                button3.hide();
                 reorder(evt);
             }
         });
@@ -1779,18 +1782,18 @@ nodeEditor.module = (function($) {
         if (window.addEventListener) // older FF
             window.addEventListener('DOMMouseScroll', preventDefault, false);
         window.onwheel = preventDefault; // modern standard
-        window.onmousewheel = document.onmousewheel = preventDefault; // older browsers, IE
+      //  window.onmousewheel = document.onmousewheel = preventDefault; // older browsers, IE
        // window.ontouchmove  = preventDefault; // mobile
-        document.onkeydown  = preventDefaultForScrollKeys;
+       // document.onkeydown  = preventDefaultForScrollKeys;
     };
 
     enableScroll = function() {
         if (window.removeEventListener)
             window.removeEventListener('DOMMouseScroll', preventDefault, false);
-        window.onmousewheel = document.onmousewheel = null;
-        window.onwheel = null;
+        //window.onmousewheel = document.onmousewheel = null;
+       window.onwheel = null;
       //  window.ontouchmove = null;
-        document.onkeydown = null;
+        //document.onkeydown = null;
     };
 
 
@@ -1818,6 +1821,10 @@ nodeEditor.module = (function($) {
             }
         });
 
+    };
+
+    changeFontSize = function(object,scale){
+        object.setAttr('fontSize',width*scale);
     };
 
 //END
@@ -1861,6 +1868,8 @@ nodeEditor.module = (function($) {
         //zoomin  BUTTON
         zoomInButton.setAttr('x',width-(50+width*0.05));
         zoomInButton.add(zoomInRect);
+        zoomInText.setAttr('x',zoomInRect.getAttr('width')/2-zoomInText.getAttr('width')/2);
+        zoomInText.setAttr('y',zoomInRect.getAttr('height')/2-zoomInText.getAttr('height')/2.2);
         zoomInButton.add(zoomInText);
         zoomInButton.add(dottedLineZoomIn);
         interfaceLayer.add(zoomInButton);
@@ -1868,13 +1877,16 @@ nodeEditor.module = (function($) {
         //zoomout PAGE BUTTON
         zoomOutButton.setAttr('x',width-(50+width*0.05));
         zoomOutButton.add(zoomOutRect);
+        zoomOutText.setAttr('x',zoomOutRect.getAttr('width')/2-zoomOutText.getAttr('width')/2);
+        zoomOutText.setAttr('y',zoomOutRect.getAttr('height')/2-zoomOutText.getAttr('height')/1.5);
         zoomOutButton.add(zoomOutText);
         zoomOutButton.add(dottedLineZoomOut);
         interfaceLayer.add(zoomOutButton);
 
-        if(stage.getAttr('width')<850){
+        if(window.innerWidth<850){
             zoomInButton.show();
             zoomOutButton.show();
+            firstLast = ":last";
         }else{
             zoomInButton.hide();
             zoomOutButton.hide();
@@ -1891,14 +1903,20 @@ nodeEditor.module = (function($) {
 
         button1.add(button1Rect);
         button1.add(dottedLineAdd.clone({id:'button1dotted'}));
-        button1.add(delText.clone({id:'button1Text',fontSize: 18}));
+        button1.add(delText.clone({id:'button1Text'}));
         popUp.add(button1);
+
 
 
         button2.add(button1Rect.clone({id:'button2Rect'}));
         button2.add(dottedLineAdd.clone({id:'button2dotted'}));
-        button2.add(delText.clone({id:'button2Text',fontSize: 18}));
+        button2.add(delText.clone({id:'button2Text'}));
         popUp.add(button2);
+
+        button3.add(button1Rect.clone({id:'button3Rect'}));
+        button3.add(dottedLineAdd.clone({id:'button3dotted'}));
+        button3.add(delText.clone({id:'button3Text'}));
+        popUp.add(button3);
 
         popUp.add(dottedLinePopUp);
         interfaceLayer.add(popUp);
@@ -1917,43 +1935,63 @@ nodeEditor.module = (function($) {
 
 
 
-
         startDrawLines();
         startDrawNodes();
 
+        //change fontsize
         if(stage.getAttr('width') <850){
-            //mobile version meldungen
             isMobile = true;
+            //mobile version meldungen
             debugText.hide();
-            addText.setAttr('fontSize',width*0.02);
-            delText.setAttr('fontSize',width*0.02);
-            height=stage.getAttr('width');
-            stage.setAttr('height',height);
 
+            changeFontSize(addText,0.02);
+            changeFontSize(delText,0.02);
+            changeFontSize(stage.find('#button1Text')[0],0.02);
+            changeFontSize(stage.find('#button2Text')[0],0.02);
+            changeFontSize(stage.find('#button3Text')[0],0.02);
+            changeFontSize(popText,0.02);
+
+            height=stage.getAttr('width');
             stage.setAttr('height',height);
         }
         if(stage.getAttr('width') <750){
-            addText.setAttr('fontSize',width*0.023);
-            delText.setAttr('fontSize',width*0.023);
+            changeFontSize(addText,0.023);
+            changeFontSize(delText,0.023);
+            changeFontSize(stage.find('#button1Text')[0],0.023);
+            changeFontSize(stage.find('#button2Text')[0],0.023);
+            changeFontSize(stage.find('#button3Text')[0],0.023);
+            changeFontSize(popText,0.023);
             height=stage.getAttr('width');
             stage.setAttr('height',height);
         }
         if(stage.getAttr('width') <650){
-            addText.setAttr('fontSize',width*0.028);
-            delText.setAttr('fontSize',width*0.028);
+            changeFontSize(addText,0.028);
+            changeFontSize(delText,0.028);
+            changeFontSize(stage.find('#button1Text')[0],0.028);
+            changeFontSize(stage.find('#button2Text')[0],0.028);
+            changeFontSize(stage.find('#button3Text')[0],0.028);
+            changeFontSize(popText,0.028);
             height=stage.getAttr('width');
             stage.setAttr('height',height);
         }
         if(stage.getAttr('width') <550){
-            addText.setAttr('fontSize',width*0.03);
-            delText.setAttr('fontSize',width*0.03);
+            changeFontSize(addText,0.035);
+            changeFontSize(delText,0.035);
+            changeFontSize(stage.find('#button1Text')[0],0.035);
+            changeFontSize(stage.find('#button2Text')[0],0.035);
+            changeFontSize(stage.find('#button3Text')[0],0.035);
+            changeFontSize(popText,0.035);
             height=stage.getAttr('width');
             stage.setAttr('height',height);
 
         }
         if(stage.getAttr('width') <450){
-            addText.setAttr('fontSize',width*0.04);
-            delText.setAttr('fontSize',width*0.04);
+            changeFontSize(addText,0.04);
+            changeFontSize(delText,0.04);
+            changeFontSize(stage.find('#button1Text')[0],0.04);
+            changeFontSize(stage.find('#button2Text')[0],0.04);
+            changeFontSize(stage.find('#button3Text')[0],0.04);
+            changeFontSize(popText,0.04);
         }
 
         if(stage.getAttr('width') <500){
@@ -1988,6 +2026,22 @@ nodeEditor.module = (function($) {
             if(movementStyle == null) {
                 nodeSelection(e);
                 disable(e.target.id());
+            }else if(movementStyle != null && movementStyle != 'one'){
+                layer.find('#movingGroup')[0].getChildren(function (n) {
+                    return n.getClassName() === "Circle";
+                }).each(function (shape, n) {
+                    var x = shape.getAttr('x');
+                    var y = shape.getAttr('y');
+                    shape.moveTo(layer);
+                    shape.setAttr('x', x);
+                    shape.setAttr('y', y);
+                    shape.setAttr('fill', buttonColorHover);
+                    setDraggable(true);
+                });
+                layer.draw();
+                tempLayer.draw();
+                dropStyle = null;
+                movementStyle = null;
             }
         });
 
@@ -2102,13 +2156,13 @@ nodeEditor.module = (function($) {
                 $.ajax({
                     url: ajaxLink,
                     type: 'GET',
-                    data: 'functionName=saveContent&storyID=' + storyID + '&ID=' + selectedNode + '&text=' + $('.textEdit').val()+ '&title=' + $('.titleEdit').val()
-                    + '&opt1=' + $('.opt1').val()+ '&opt2=' + $('.opt2').val()+ '&opt3=' + $('.opt3').val()+ '&opt4=' + $('.opt4').val(),
+                    data: 'functionName=saveContent&storyID=' + storyID + '&ID=' + selectedNode + '&text=' + $('.textEdit'+firstLast).val()+ '&title=' + $('.titleEdit'+firstLast).val()
+                    + '&opt1=' + $('.opt1'+firstLast).val()+ '&opt2=' + $('.opt2'+firstLast).val()+ '&opt3=' + $('.opt3'+firstLast).val()+ '&opt4=' + $('.opt4'+firstLast).val(),
                     success: function (data) {
                         debugText.setAttr('x',width/2-70-offset);
                         debugText.text(data);
-                      //  debugText.setAttr('fontSize','25');
                         interfaceLayer.draw();
+                        $("#closeResponsiveNav").trigger('click');
                     },
                     error: function (xhr, status, error) {
                         debugText.text(error);
@@ -2124,7 +2178,7 @@ nodeEditor.module = (function($) {
                /* $.ajax({
                     url: ajaxLink,
                     type: 'GET',
-                    data: 'functionName=saveStory&storyID=' + storyID + '&title=' + $('.storyTitle').val(),
+                    data: 'functionName=saveStory&storyID=' + storyID + '&title=' + $('.storyTitle'+firstLast).val(),
                     success: function (data) {
 
                     },
@@ -2138,6 +2192,7 @@ nodeEditor.module = (function($) {
 
         stage.off('mousewheel').on('mousewheel', function(e) {
             disableScroll();
+
             var deltaY = e.evt.deltaY;
             if (deltaY != undefined) {
                 if (deltaY > 0) {
@@ -2197,6 +2252,7 @@ nodeEditor.module = (function($) {
                 interfaceLayer.setAttr('y',stageY);
             }
         });
+
         stage.on("dragmove",function(e){
             if(e.target.id() == "stage"){
                 var diffX = stage.getAttr('x') - stageX;
