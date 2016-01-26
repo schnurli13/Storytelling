@@ -7,9 +7,10 @@ var nodeEditor = nodeEditor || {};
 nodeEditor.module = (function($) {
 
 //initializing
-    var width = window.innerWidth*0.595,
+    var  width = $('#container').width(),
         height = window.innerHeight ,
         levelY = 100,
+        startY = 0,
         levelX,
         storyID,
         selectedNode = null,
@@ -34,6 +35,8 @@ nodeEditor.module = (function($) {
         startScale = 1.0,
         startOffsetX = 0.0,
         startOffsetY = 0.0,
+        offset = 0.0,
+        maxHeight,
         tooltip,
         yDrag,
         diffX,
@@ -83,12 +86,12 @@ nodeEditor.module = (function($) {
             fontFamily: "Architects Daughter"
         }),
         deleteButton= new Konva.Group({
-            x: 30,
+            x: width*0.05,
             y: 80,
             id: "deleteButton"
         }),
         addButton = deleteButton.clone({
-            x: 30,
+            x: width*0.05,
             y: 20,
             id: "addButton"
         }),
@@ -97,7 +100,7 @@ nodeEditor.module = (function($) {
             id: "zoomInButton"
         }),
         zoomOutButton = deleteButton.clone({
-            y: 20,
+            y: 80,
             id: "zoomOutButton"
         }),
         button1 = deleteButton.clone({
@@ -178,7 +181,7 @@ nodeEditor.module = (function($) {
 
         addText = new Konva.Text({
         fill: 'black',
-        fontSize: 18,
+        fontSize: width*0.018,
         x: 18,
         y: 18,
         id: "addText",
@@ -208,6 +211,7 @@ nodeEditor.module = (function($) {
         }),
 
         popText = addText.clone({
+            fontSize: 18,
             align: 'center',
             lineHeight: 1.5
         }),
@@ -266,7 +270,7 @@ nodeEditor.module = (function($) {
             },
             error: function (xhr, status, error) {
                 debugText.text(error);
-                debugText.setAttr('fontSize','25');
+              //  debugText.setAttr('fontSize','25');
                 interfaceLayer.draw();
             }
         });
@@ -280,7 +284,7 @@ nodeEditor.module = (function($) {
         var h = levelY;
         for (var j = 0; j <= levelNumb; j++) {
             line = new Konva.Line({
-                points: [-stage.getWidth()*10, h, stage.getWidth()*10, h],
+                points: [-stage.getWidth()*10, startY+h, stage.getWidth()*10, startY+h],
                 stroke: 'grey',
                 strokeWidth: 1,
                 lineCap: 'round',
@@ -293,7 +297,7 @@ nodeEditor.module = (function($) {
                 fontFamily: "Architects Daughter",
                 text: j,
                 x: 10,
-                y: h-20
+                y: (startY+h)-20
             });
 
             levelTextLayer.add(levelText);
@@ -301,8 +305,13 @@ nodeEditor.module = (function($) {
 
             h += levelY;
         }
+
+        maxHeight = h;
+
         backgroundLayer.draw();
         levelTextLayer.draw();
+      //  height = maxHeight;
+      //  stage.setAttr('height',500);
 
     };
 
@@ -319,7 +328,7 @@ nodeEditor.module = (function($) {
             },
             error: function (xhr, status, error) {
                 debugText.text(error);
-                debugText.setAttr('fontSize','25');
+              //  debugText.setAttr('fontSize','25');
                 interfaceLayer.draw();
             }
         });
@@ -383,7 +392,6 @@ nodeEditor.module = (function($) {
         resetInputFields();
 
         var star;
-        var idText;
         var multiple = levelX;
         var center = 0;
         var distance = 70;
@@ -394,7 +402,7 @@ nodeEditor.module = (function($) {
         var z = 0;
         var nodeCounter = 0;
         var color = buttonColorHover;
-
+        var h = startY;
 
         for (var i = 0; i < data.length; i++) {
             var nextPageIDinData;
@@ -406,8 +414,8 @@ nodeEditor.module = (function($) {
             //first node
             if (i == 0) {
                 star = new Konva.Circle({
-                    x: (multiple - center)*scaleFactor,
-                    y: (parseInt(data[i]['level']) + 1) * levelY,
+                    x: ((multiple - center)*scaleFactor)-offset,
+                    y: h+(parseInt(data[i]['level']) + 1) * levelY,
                     fill: buttonColorHover,
                     radius: 20,
                     draggable: true,
@@ -425,7 +433,6 @@ nodeEditor.module = (function($) {
                 });
 
                 layer.add(star);
-
 
 
                 //TITLE
@@ -491,8 +498,8 @@ nodeEditor.module = (function($) {
                     }
 
                     star = new Konva.Circle({
-                        x:(multiple - center)*scaleFactor,
-                        y: ((parseInt(data[nextPageIDinData]['level']) + 1) * levelY),
+                        x:((multiple - center)*scaleFactor)-offset,
+                        y: h+((parseInt(data[nextPageIDinData]['level']) + 1) * levelY),
                         fill: color,
                         radius: 20,
                         draggable: true,
@@ -514,6 +521,9 @@ nodeEditor.module = (function($) {
                   if ((star.getAbsolutePosition().x < 20 || star.getAbsolutePosition().x > width - 20|| star.getAbsolutePosition().y > height - 20)&&layer.getAttr('scale').x <=1) {
                       toBig =true;
                      startScale = layer.scaleX().toFixed(2) - 0.02;
+                      if(stage.getAttr('width')<850){
+                          offset = 50;
+                      }
 
                         layer.scale({
                             x : startScale,
@@ -628,15 +638,22 @@ nodeEditor.module = (function($) {
             emptyLayer.draw();
         }
         drawToolTip();
+
     };
 
     nodeSelection = function(e) {
-        if (selectedNode == null || e.target.id() == selectedNode && !popUpShown) {
+        if (!popUpShown) {
             var fill = e.target.fill() == 'yellow' ? buttonColorHover : 'yellow';
             e.target.fill(fill);
             debugText.setAttr('fontSize','20');
-            debugText.text('Selected ' + toolTipText);
+            if(selectedNode != null){
+                layer.find('#'+selectedNode).fill(buttonColorHover);
+            }
+
             if (fill == 'yellow') {
+                resetInputFields();
+                debugText.setAttr('x',width/2-70-offset);
+                debugText.text('Selected ' + toolTipText);
                 selectedNode = e.target.id();
                 if(zoomStyle == "zoomJump") {
                     zoomIn(e, null);
@@ -649,19 +666,37 @@ nodeEditor.module = (function($) {
                         var obj = $.parseJSON(data);
                         $('.textEdit').val(obj[0]['text']);
                         $('.titleEdit').val(obj[0]['title']);
-                        $('.opt1').val(obj[0]['OptionText1']);
-                        $('.opt2').val(obj[0]['OptionText2']);
-                        $('.opt3').val(obj[0]['OptionText3']);
-                        $('.opt4').val(obj[0]['OptionText4']);
+
+                        if(obj[0]['NextPageID1'] == 0){
+                            $('.opt1').attr('disabled','disabled');
+                        }else{
+                            $('.opt1').val(obj[0]['OptionText1']);
+                        }
+                        if(obj[0]['NextPageID2'] == 0){
+                            $('.opt2').attr('disabled','disabled');
+                        }else{
+                            $('.opt2').val(obj[0]['OptionText2']);
+                        }
+                        if(obj[0]['NextPageID3'] == 0){
+                            $('.opt3').attr('disabled','disabled');
+                        }else{
+                            $('.opt3').val(obj[0]['OptionText3']);
+                        }
+                        if(obj[0]['NextPageID4'] == 0){
+                            $('.opt4').attr('disabled','disabled');
+                        }else{
+                            $('.opt4').val(obj[0]['OptionText4']);
+                        }
                     },
                     error: function (xhr, status, error) {
                         debugText.text(error);
-                        debugText.setAttr('fontSize','25');
+                       // debugText.setAttr('fontSize','25');
                         interfaceLayer.draw();
                     }
                 });
 
             } else if (fill == buttonColorHover) {
+                debugText.text('Deselected ' + toolTipText);
                 selectedNode = null;
                 if(zoomStyle == "zoomJump"){
                     zoomOut();
@@ -771,9 +806,12 @@ nodeEditor.module = (function($) {
         interfaceLayer.setAttr('y',0);
         stage.setAttr('x',0);
         stage.setAttr('y',0);
-        tooltip.hide();
-        layerTEXT.draw();
-        toolTipText="";
+        if(!pause){
+            tooltip.hide();
+            layerTEXT.draw();
+            toolTipText="";
+        }
+
 
         var zoomout = startScale;
         zooming = false;
@@ -866,13 +904,14 @@ nodeEditor.module = (function($) {
                 //alert(data);
                 console.log("SUCCESS");
                 startDrawNodes();
+                debugText.setAttr('x',width/2-70-offset);
                 debugText.text(data);
-                debugText.setAttr('fontSize','25');
+               // debugText.setAttr('fontSize','25');
                 interfaceLayer.draw();
             },
             error: function (xhr, status, error) {
                 debugText.text(error);
-                debugText.setAttr('fontSize','25');
+               // debugText.setAttr('fontSize','25');
                 interfaceLayer.draw();
             }
         });
@@ -892,19 +931,20 @@ nodeEditor.module = (function($) {
                 startDrawLines();
                 startDrawNodes();
                 found = false;
+                debugText.setAttr('x',width/2-70-offset);
                 if(data == "Error: Transaction rolled back"){
                     debugText.text(data);
                 }else{
                     debugText.text('Successfully updated!');
                 }
-                debugText.setAttr('fontSize','25');
+               // debugText.setAttr('fontSize','25');
                 interfaceLayer.draw();
 
 
             },
             error: function (xhr, status, error) {
                 debugText.text(error);
-                debugText.setAttr('fontSize','25');
+               // debugText.setAttr('fontSize','25');
                 interfaceLayer.draw();
             }
         });
@@ -941,7 +981,7 @@ nodeEditor.module = (function($) {
             },
             error: function (xhr, status, error) {
                 debugText.text(error);
-                debugText.setAttr('fontSize','25');
+               // debugText.setAttr('fontSize','25');
                 interfaceLayer.draw();
             }
         });
@@ -967,7 +1007,7 @@ nodeEditor.module = (function($) {
             },
             error: function (xhr, status, error) {
                 debugText.text(error);
-                debugText.setAttr('fontSize','25');
+              //  debugText.setAttr('fontSize','25');
                 interfaceLayer.draw();
             }
         });
@@ -983,14 +1023,15 @@ nodeEditor.module = (function($) {
                 console.log("SUCCESS");
                 startDrawLines();
                 startDrawNodes();
+                debugText.setAttr('x',width/2-70-offset);
                 debugText.text(data);
-                debugText.setAttr('fontSize','25');
+               // debugText.setAttr('fontSize','25');
                 interfaceLayer.draw();
                 //var obj = $.parseJSON(data);
             },
             error: function (xhr, status, error) {
                 debugText.text(error);
-                debugText.setAttr('fontSize','25');
+               // debugText.setAttr('fontSize','25');
                 interfaceLayer.draw();
             }
         });
@@ -1018,13 +1059,14 @@ nodeEditor.module = (function($) {
 
 
         interfaceLayer.find('#button1Text')[0].setAttr('text','DELETE');
-        interfaceLayer.find('#button1Text')[0].setAttr('x','48');
+        interfaceLayer.find('#button1Text')[0].setAttr('x',addRect.getAttr('width')/2-interfaceLayer.find('#button1Text')[0].getAttr('width')/2);
 
         interfaceLayer.find('#button2Text')[0].setAttr('text','CANCEL');
-        interfaceLayer.find('#button2Text')[0].setAttr('x','48');
+        interfaceLayer.find('#button2Text')[0].setAttr('x',addRect.getAttr('width')/2-interfaceLayer.find('#button2Text')[0].getAttr('width')/2);
 
         popUpRect.setAttr('width',addRect.getAttr('width')*2+80);
         popUp.setAttr('x',width/2-((addRect.getAttr('width')*2+80)/2));
+        popUp.setAttr('y',height/2-((addRect.getAttr('height')*2+80)/2));
         if(isMobile){
             popUpRect.setAttr('height',(addRect.getAttr('height')*2+100+popText.getAttr('height'))-20);
         }
@@ -1071,14 +1113,15 @@ nodeEditor.module = (function($) {
                          setDraggable(true);
                          startDrawLines();
                          startDrawNodes();
+                         debugText.setAttr('x',width/2-70-offset);
                          debugText.text(data);
-                         debugText.setAttr('fontSize','25');
+                         //debugText.setAttr('fontSize','25');
                          interfaceLayer.draw();
 
                  },
                  error: function (xhr, status, error) {
                      debugText.text(error);
-                     debugText.setAttr('fontSize','25');
+                    // debugText.setAttr('fontSize','25');
                      interfaceLayer.draw();
                  }
              });
@@ -1123,18 +1166,21 @@ nodeEditor.module = (function($) {
 
 
         interfaceLayer.find('#button1Text')[0].setAttr('text','MOVE BRANCH');
-        interfaceLayer.find('#button1Text')[0].setAttr('x','20');
+        interfaceLayer.find('#button1Text')[0].setAttr('x', addRect.getAttr('width')/2-interfaceLayer.find('#button1Text')[0].getAttr('width')/2);
 
         interfaceLayer.find('#button2Text')[0].setAttr('text','MOVE PAGE');
-        interfaceLayer.find('#button2Text')[0].setAttr('x','28');
+        interfaceLayer.find('#button2Text')[0].setAttr('x',addRect.getAttr('width')/2-interfaceLayer.find('#button2Text')[0].getAttr('width')/2);
 
         if(!isMobile){
             popUpRect.setAttr('width',addRect.getAttr('width')*3+80);
             popUp.setAttr('x',width/2-((addRect.getAttr('width')*3+80)/2));
+            popUp.setAttr('y',height/2-((addRect.getAttr('height')*2+80)/2));
         }else{
             popUpRect.setAttr('width',addRect.getAttr('width')*2+80);
             popUp.setAttr('x',width/2-((addRect.getAttr('width')*2+80)/2));
             popUpRect.setAttr('height',(addRect.getAttr('height')*3+150+popText.getAttr('height'))-20);
+            popUp.setAttr('y',height/2- popUpRect.getAttr('height')/2);
+
         }
 
         dottedLinePopUp.setAttr('points',[10, 10, popUpRect.getAttr('width')-10, 10, popUpRect.getAttr('width')-10, popUpRect.getAttr('height')-10, 10,popUpRect.getAttr('height')-10,10,10]);
@@ -1164,7 +1210,7 @@ nodeEditor.module = (function($) {
 
 
         interfaceLayer.find('#button3Text')[0].setAttr('text','CANCEL');
-        interfaceLayer.find('#button3Text')[0].setAttr('x','48');
+        interfaceLayer.find('#button3Text')[0].setAttr('x',addRect.getAttr('width')/2-interfaceLayer.find('#button3Text')[0].getAttr('width')/2);
         interfaceLayer.find('#button3Text')[0].setAttr('id','button3Text');
 
         interfaceLayer.find('#button3Rect')[0].setAttr('id','button3Rect');
@@ -1227,7 +1273,7 @@ nodeEditor.module = (function($) {
                     },
                     error: function (xhr, status, error) {
                         debugText.text(error);
-                        debugText.setAttr('fontSize', '25');
+                      //  debugText.setAttr('fontSize', '25');
                         interfaceLayer.draw();
                     }
                 });
@@ -1265,18 +1311,21 @@ nodeEditor.module = (function($) {
         }
 
         interfaceLayer.find('#button1Text')[0].setAttr('text','YES');
-        interfaceLayer.find('#button1Text')[0].setAttr('x','65');
+        interfaceLayer.find('#button1Text')[0].setAttr('x',addRect.getAttr('width')/2-interfaceLayer.find('#button1Text')[0].getAttr('width')/2);
 
         interfaceLayer.find('#button2Text')[0].setAttr('text','CANCEL');
-        interfaceLayer.find('#button2Text')[0].setAttr('x','48');
+        interfaceLayer.find('#button2Text')[0].setAttr('x',addRect.getAttr('width')/2-interfaceLayer.find('#button2Text')[0].getAttr('width')/2);
 
         if(!isMobile){
             popUpRect.setAttr('width',addRect.getAttr('width')*3+80);
             popUp.setAttr('x',width/2-((addRect.getAttr('width')*3+80)/2));
+            popUp.setAttr('y',height/2-((addRect.getAttr('height')*2+80)/2));
         }else{
             popUpRect.setAttr('width',addRect.getAttr('width')*2+80);
             popUp.setAttr('x',width/2-((addRect.getAttr('width')*2+80)/2));
             popUpRect.setAttr('height',(addRect.getAttr('height')*3+100+popText.getAttr('height'))-20);
+            popUp.setAttr('y',height/2- popUpRect.getAttr('height')/2);
+
         }
 
         dottedLinePopUp.setAttr('points',[10, 10, popUpRect.getAttr('width')-10, 10, popUpRect.getAttr('width')-10, popUpRect.getAttr('height')-10, 10,popUpRect.getAttr('height')-10,10,10]);
@@ -1347,18 +1396,21 @@ nodeEditor.module = (function($) {
         }
 
         interfaceLayer.find('#button1Text')[0].setAttr('text','ADD AS SUB-PAGE');
-        interfaceLayer.find('#button1Text')[0].setAttr('x','8');
+        interfaceLayer.find('#button1Text')[0].setAttr('x',addRect.getAttr('width')/2-interfaceLayer.find('#button1Text')[0].getAttr('width')/2);
 
         interfaceLayer.find('#button2Text')[0].setAttr('text','REPLACE PAGES');
-        interfaceLayer.find('#button2Text')[0].setAttr('x','18');
+        interfaceLayer.find('#button2Text')[0].setAttr('x',addRect.getAttr('width')/2-interfaceLayer.find('#button2Text')[0].getAttr('width')/2);
 
         if(!isMobile){
             popUpRect.setAttr('width',addRect.getAttr('width')*3+80);
             popUp.setAttr('x',width/2-((addRect.getAttr('width')*3+80)/2));
+            popUp.setAttr('y',height/2-((addRect.getAttr('height')*2+80)/2));
         }else{
             popUpRect.setAttr('width',addRect.getAttr('width')*2+80);
             popUp.setAttr('x',width/2-((addRect.getAttr('width')*2+80)/2));
             popUpRect.setAttr('height',(addRect.getAttr('height')*3+150+popText.getAttr('height'))-20);
+            popUp.setAttr('y',height/2- popUpRect.getAttr('height')/2);
+
         }
 
         dottedLinePopUp.setAttr('points',[10, 10, popUpRect.getAttr('width')-10, 10, popUpRect.getAttr('width')-10, popUpRect.getAttr('height')-10, 10,popUpRect.getAttr('height')-10,10,10]);
@@ -1383,8 +1435,9 @@ nodeEditor.module = (function($) {
         popUp.add(button3);
 
         interfaceLayer.find('#button3Text')[0].setAttr('text','CANCEL');
-        interfaceLayer.find('#button3Text')[0].setAttr('x','43');
         interfaceLayer.find('#button3Text')[0].setAttr('id','button3Text');
+        interfaceLayer.find('#button3Text')[0].setAttr('x',addRect.getAttr('width')/2-interfaceLayer.find('#button3Text')[0].getAttr('width')/2);
+
 
         interfaceLayer.find('#button3Rect')[0].setAttr('id','button3Rect');
 
@@ -1440,14 +1493,15 @@ nodeEditor.module = (function($) {
                             popUpShown = false;
                             startDrawLines();
                             startDrawNodes();
+                            debugText.setAttr('x',width/2-70-offset);
                             debugText.text(data);
-                            debugText.setAttr('fontSize','25');
+                           // debugText.setAttr('fontSize','25');
                             interfaceLayer.draw();
 
                         },
                         error: function (xhr, status, error) {
                             debugText.text(error);
-                            debugText.setAttr('fontSize','25');
+                           // debugText.setAttr('fontSize','25');
                             interfaceLayer.draw();
                         }
                     });
@@ -1468,13 +1522,14 @@ nodeEditor.module = (function($) {
                             popUpShown = false;
                             startDrawLines();
                             startDrawNodes();
+                            debugText.setAttr('x',width/2-70-offset);
                             debugText.text(data);
-                            debugText.setAttr('fontSize','25');
+                           // debugText.setAttr('fontSize','25');
                             interfaceLayer.draw();
                         },
                         error: function (xhr, status, error) {
                             debugText.text(error);
-                            debugText.setAttr('fontSize','25');
+                            //debugText.setAttr('fontSize','25');
                             interfaceLayer.draw();
                         }
                     });
@@ -1509,7 +1564,7 @@ nodeEditor.module = (function($) {
                     },
                     error: function (xhr, status, error) {
                         debugText.text(error);
-                        debugText.setAttr('fontSize','25');
+                       // debugText.setAttr('fontSize','25');
                         interfaceLayer.draw();
                     }
                 });
@@ -1627,6 +1682,10 @@ nodeEditor.module = (function($) {
         }).each(function (text, n) {
             textToolT = text;
             textToolT.text(toolText);
+            if(layerTEXT.getAttr('scale').x <= 1.0){
+                textToolT.setAttr('fontSize', 20*(1+(1-layerTEXT.getAttr('scale').x)*1.5));
+            }
+           // alert(layerTEXT.getAttr('scale').x);
         });
         tooltip.getChildren(function (n) {
             return n.getClassName() === "Rect";
@@ -1636,10 +1695,13 @@ nodeEditor.module = (function($) {
         });
 
         debugText.setAttr('fontSize','20');
-        debugText.text('Choose ' + toolText);
+        if(selectedNode == null) {
+            debugText.text(toolText);
+            interfaceLayer.draw();
+        }
         tooltip.show();
         layerTEXT.draw();
-        interfaceLayer.draw();
+
     };
 
 
@@ -1669,7 +1731,7 @@ nodeEditor.module = (function($) {
                     },
                     error: function (xhr, status, error) {
                         debugText.text(error);
-                        debugText.setAttr('fontSize','25');
+                      //  debugText.setAttr('fontSize','25');
                         interfaceLayer.draw();
                     }
                 });
@@ -1679,7 +1741,7 @@ nodeEditor.module = (function($) {
             },
             error: function (xhr, status, error) {
                 debugText.text(error);
-                debugText.setAttr('fontSize','25');
+                //debugText.setAttr('fontSize','25');
                 interfaceLayer.draw();
             }
         });
@@ -1687,7 +1749,11 @@ nodeEditor.module = (function($) {
     };
 
     resetInputFields = function(){
-        $("#pageEditor .inputField").val('Select page');
+        $("#pageEditor .inputField").val('');
+        $('.opt1').removeAttr('disabled');
+        $('.opt2').removeAttr('disabled');
+        $('.opt3').removeAttr('disabled');
+        $('.opt4').removeAttr('disabled');
     };
 
     // left: 37, up: 38, right: 39, down: 40,
@@ -1713,7 +1779,7 @@ nodeEditor.module = (function($) {
             window.addEventListener('DOMMouseScroll', preventDefault, false);
         window.onwheel = preventDefault; // modern standard
         window.onmousewheel = document.onmousewheel = preventDefault; // older browsers, IE
-        window.ontouchmove  = preventDefault; // mobile
+       // window.ontouchmove  = preventDefault; // mobile
         document.onkeydown  = preventDefaultForScrollKeys;
     };
 
@@ -1722,7 +1788,7 @@ nodeEditor.module = (function($) {
             window.removeEventListener('DOMMouseScroll', preventDefault, false);
         window.onmousewheel = document.onmousewheel = null;
         window.onwheel = null;
-        window.ontouchmove = null;
+      //  window.ontouchmove = null;
         document.onkeydown = null;
     };
 
@@ -1761,13 +1827,12 @@ nodeEditor.module = (function($) {
         var array = res.split("/");
         storyID = array[array.length-2];
 
-        if(window.innerWidth < 800){
-            width = window.innerWidth;
-            stage.setAttr('width',window.innerWidth);
-        }
+        width = $('#container').width();
+        stage.setAttr('width',width);
+        levelX = width/2;
 
 
-        emptyRectangle = new Konva.Rect({
+       emptyRectangle = new Konva.Rect({
             x: 0,
             y: 0,
             width: width,
@@ -1793,20 +1858,20 @@ nodeEditor.module = (function($) {
         interfaceLayer.add(deleteButton);
 
         //zoomin  BUTTON
-        zoomInButton.setAttr('x',width-150);
+        zoomInButton.setAttr('x',width-(50+width*0.05));
         zoomInButton.add(zoomInRect);
         zoomInButton.add(zoomInText);
         zoomInButton.add(dottedLineZoomIn);
         interfaceLayer.add(zoomInButton);
 
         //zoomout PAGE BUTTON
-        zoomOutButton.setAttr('x',width-80);
+        zoomOutButton.setAttr('x',width-(50+width*0.05));
         zoomOutButton.add(zoomOutRect);
         zoomOutButton.add(zoomOutText);
         zoomOutButton.add(dottedLineZoomOut);
         interfaceLayer.add(zoomOutButton);
 
-        if(stage.getAttr('width')<800){
+        if(stage.getAttr('width')<850){
             zoomInButton.show();
             zoomOutButton.show();
         }else{
@@ -1815,7 +1880,7 @@ nodeEditor.module = (function($) {
         }
 
         //HOVERTEXT + BACKGROUND
-        debugText.setAttr('x', width/2 - 50);
+        debugText.setAttr('x', width/2-30-offset);
         interfaceLayer.add(debugText);
         //interfaceLayer.add(dottedLineBack);
 
@@ -1825,13 +1890,13 @@ nodeEditor.module = (function($) {
 
         button1.add(button1Rect);
         button1.add(dottedLineAdd.clone({id:'button1dotted'}));
-        button1.add(delText.clone({id:'button1Text'}));
+        button1.add(delText.clone({id:'button1Text',fontSize: 18}));
         popUp.add(button1);
 
 
         button2.add(button1Rect.clone({id:'button2Rect'}));
         button2.add(dottedLineAdd.clone({id:'button2dotted'}));
-        button2.add(delText.clone({id:'button2Text'}));
+        button2.add(delText.clone({id:'button2Text',fontSize: 18}));
         popUp.add(button2);
 
         popUp.add(dottedLinePopUp);
@@ -1849,29 +1914,73 @@ nodeEditor.module = (function($) {
         stage.add(tempLayer);
         stage.add(interfaceLayer);
 
-        if(stage.getAttr('width')> 800){
-            levelX = width/2;
-        }
-        if(stage.getAttr('width')<800){
-            levelX = width/3;
-        }
-        if(stage.getAttr('width')<600){
-            levelX = width/4;
-        }
 
-        if(stage.getAttr('width') <750){
-            //mobile version meldungen
-            isMobile = true;
-        }
+
 
         startDrawLines();
         startDrawNodes();
+
+        if(stage.getAttr('width') <850){
+            //mobile version meldungen
+            isMobile = true;
+            debugText.hide();
+            addText.setAttr('fontSize',width*0.02);
+            delText.setAttr('fontSize',width*0.02);
+            height=stage.getAttr('width');
+            stage.setAttr('height',height);
+
+            stage.setAttr('height',height);
+        }
+        if(stage.getAttr('width') <750){
+            addText.setAttr('fontSize',width*0.023);
+            delText.setAttr('fontSize',width*0.023);
+            height=stage.getAttr('width');
+            stage.setAttr('height',height);
+        }
+        if(stage.getAttr('width') <650){
+            addText.setAttr('fontSize',width*0.028);
+            delText.setAttr('fontSize',width*0.028);
+            height=stage.getAttr('width');
+            stage.setAttr('height',height);
+        }
+        if(stage.getAttr('width') <550){
+            addText.setAttr('fontSize',width*0.03);
+            delText.setAttr('fontSize',width*0.03);
+            height=stage.getAttr('width');
+            stage.setAttr('height',height);
+
+        }
+        if(stage.getAttr('width') <450){
+            addText.setAttr('fontSize',width*0.04);
+            delText.setAttr('fontSize',width*0.04);
+        }
+
+        if(stage.getAttr('width') <500){
+            startY = 80;
+            /* if(layer.getAttr('scale').x != 1.0){
+             startY = 280;
+             }*/
+        }
+
+        console.log(stage.getAttr('width'));
+        addText.setAttr('x',addRect.getAttr('width')/2-addText.getAttr('width')/2);
+        delText.setAttr('x',delRect.getAttr('width')/2-delText.getAttr('width')/2);
+        addText.setAttr('y',addRect.getAttr('height')/2-(addText.getAttr('height')/3));
+        delText.setAttr('y',delRect.getAttr('height')/2-delText.getAttr('height')/3);
+
+        $(window).resize(function() {
+            setTimeout( function(){
+                window.location.href = window.location.href;
+            },500);
+        });
 
 
         //fill in story details
         setStoryDetails();
 
-        console.log(stage.getAttr('width'));
+
+
+    //    console.log(window.innerWidth);
 
 //SELECT EVENTS
         layer.on('click tap', function (e) {
@@ -1894,6 +2003,14 @@ nodeEditor.module = (function($) {
             e.target.fill(fill);
             layer.draw();
             tooltip.hide();
+            layerTEXT.draw();
+            if(selectedNode == null){
+                debugText.setAttr('x',width/2-30-offset);
+                debugText.text('');
+                interfaceLayer.draw();
+            }
+
+            tooltip.show();
             layerTEXT.draw();
             toolTipText="";
         });
@@ -1924,7 +2041,7 @@ nodeEditor.module = (function($) {
                     },
                     error: function (xhr, status, error) {
                         debugText.text(error);
-                        debugText.setAttr('fontSize', '25');
+                     //   debugText.setAttr('fontSize', '25');
                         interfaceLayer.draw();
                     }
                 });
@@ -1987,13 +2104,14 @@ nodeEditor.module = (function($) {
                     data: 'functionName=saveContent&storyID=' + storyID + '&ID=' + selectedNode + '&text=' + $('.textEdit').val()+ '&title=' + $('.titleEdit').val()
                     + '&opt1=' + $('.opt1').val()+ '&opt2=' + $('.opt2').val()+ '&opt3=' + $('.opt3').val()+ '&opt4=' + $('.opt4').val(),
                     success: function (data) {
+                        debugText.setAttr('x',width/2-70-offset);
                         debugText.text(data);
-                        debugText.setAttr('fontSize','25');
+                      //  debugText.setAttr('fontSize','25');
                         interfaceLayer.draw();
                     },
                     error: function (xhr, status, error) {
                         debugText.text(error);
-                        debugText.setAttr('fontSize', '25');
+                      //  debugText.setAttr('fontSize', '25');
                         interfaceLayer.draw();
                     }
                 });
@@ -2027,17 +2145,13 @@ nodeEditor.module = (function($) {
                     if(zoomStyle == "zoomScroll") {
                         zoomIn(e,layer.scaleX()+0.1);
                     }
-                   // alert("zoomin");
-
                 }
             }
 
         });
 
         emptyRectangle.on('click tap', function(e) {
-
                zoomOut();
-
         });
 
 
@@ -2045,19 +2159,19 @@ nodeEditor.module = (function($) {
 
 //DRAGGEN
       layer.on("dragstart", function (e) {
-          tooltip.hide();
-          layerTEXT.draw();
-          toolTipText="";
+
           if(!pause && movementStyle == null){
-              zoomOut();
-              selectedNode=e.target.id();
-              popUpShown = true;
               pause = true;
+              zoomOut();
+
+              nodeSelection(e);
+              popUpShown = true;
+
               setDraggable(false);
               $.when(checkAdditionalNode(e.target.id()),checkDeleteNode(e.target.id())).done(function(a1,a2){
                   moveQuestion(e);
               });
-              e.target.fill('yellow');
+             e.target.fill('yellow');
               interfaceLayer.draw();
             }else if(!pause && movementStyle == "one"){
                 xDrag = e.target.getAbsolutePosition().x;
@@ -2065,17 +2179,11 @@ nodeEditor.module = (function($) {
 
                 e.target.moveTo(tempLayer);
                 e.target.fill('yellow');
-              debugText.setAttr('fontSize','20');
-                debugText.text('Moving ' + e.target.name());
-                interfaceLayer.draw();
                 layer.draw();
             }else if(!pause && movementStyle != "one" && movementStyle != null ){
                // nodeSelection(e.target.find('#'+movementStyle[0]));
                 selectedNode= e.target.find('#'+movementStyle[0])[0].getAttr('id');
                 movingGroup.moveTo(tempLayer);
-                debugText.setAttr('fontSize','20');
-                debugText.text('Moving ' + toolTipText + ' and children');
-                interfaceLayer.draw();
                 layer.draw();
                 tempLayer.draw();
             }
@@ -2085,8 +2193,10 @@ nodeEditor.module = (function($) {
         var stageX,stageY;
         stage.on("dragstart",function(e){
             if(e.target.id() == "stage"){
-                stageX= stage.getAttr('x');
-                stageY = stage.getAttr('y');
+                stageX= 0;
+                stageY = 0;
+                interfaceLayer.setAttr('x',stageX);
+                interfaceLayer.setAttr('y',stageY);
             }
         });
         stage.on("dragmove",function(e){
@@ -2095,11 +2205,11 @@ nodeEditor.module = (function($) {
                 var diffY = stage.getAttr('y') - stageY;
                 interfaceLayer.setAttr('x',interfaceLayer.getAttr('x')+(diffX*(-1)));
                 interfaceLayer.setAttr('y',interfaceLayer.getAttr('y')+(diffY*(-1)));
+                stageX= stage.getAttr('x');
+                stageY = stage.getAttr('y');
             }
-            stageX= stage.getAttr('x');
-            stageY = stage.getAttr('y');
-        });
 
+        });
         stage.on("dragmove", function (evt) {
             if(!pause) {
                 var pos = stage.getPointerPosition();
@@ -2174,12 +2284,12 @@ nodeEditor.module = (function($) {
         });
 
         stage.on("dragenter", function (e) {
-           if(!pause) {
+           /*if(!pause) {
                debugText.setAttr('fontSize','20');
-                debugText.text('dragenter ' + toolTipText);
+                debugText.text('Drag over' + toolTipText);
                 layer.draw();
                 interfaceLayer.draw();
-           }
+           }*/
         });
 
         stage.on("dragleave", function (e) {
@@ -2187,7 +2297,7 @@ nodeEditor.module = (function($) {
                 over = false;
                 e.target.fill(buttonColorHover);
                 debugText.setAttr('fontSize','20');
-                debugText.text('dragleave ' + toolTipText);
+                debugText.text('');
                 layer.draw();
                 interfaceLayer.draw();
             }
@@ -2199,10 +2309,10 @@ nodeEditor.module = (function($) {
                 e.target.fill('green');
                 xDrop = e.target.getAbsolutePosition().x;
                 yDrop = e.target.getAbsolutePosition().y;
-                debugText.setAttr('fontSize','20');
-                debugText.text('dragover ' + e.target.id());
+                //debugText.setAttr('fontSize','20');
+                //debugText.text('Drag over ' + e.target.id());
                 layer.draw();
-                interfaceLayer.draw();
+                //interfaceLayer.draw();
             }
         });
 
@@ -2212,10 +2322,10 @@ nodeEditor.module = (function($) {
                e.target.setAttr("y", yDrag);
 
                 e.target.fill('green');
-                debugText.setAttr('fontSize','20');
-                debugText.text('drop ' + e.target.id());
+              /*  debugText.setAttr('fontSize','20');
+                debugText.text('Drop ' + e.target.id());*/
                 layer.draw();
-                interfaceLayer.draw();
+               // interfaceLayer.draw();
             }
         });
 

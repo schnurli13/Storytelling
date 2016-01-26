@@ -106,7 +106,7 @@ function saveContent($storyID){
 function getContent($storyID){
     $ID = filter_input(INPUT_GET, 'ID');
     $mysqlObject = new mysqlModule();
-    echo json_encode($mysqlObject->queryDataBase("SELECT title,text,imageLink,OptionText1,OptionText2,OptionText3,OptionText4 FROM page WHERE story = ".$storyID." AND id = ".$ID));
+    echo json_encode($mysqlObject->queryDataBase("SELECT title,text,imageLink,NextPageID1,NextPageID2,NextPageID3,NextPageID4,OptionText1,OptionText2,OptionText3,OptionText4 FROM page WHERE story = ".$storyID." AND id = ".$ID));
 }
 
 function getTitle($storyID){
@@ -488,7 +488,7 @@ function addNewNode($localhost, $user, $pw,$db,$storyID){
     }
 
     $mysqlObject = new mysqlModule();
-    $indexedOnly = $mysqlObject->queryDataBase("SELECT MAX(id) FROM page WHERE story = ".$storyID);
+    $indexedOnly = $mysqlObject->queryDataBase("SELECT MAX(id) FROM page");
 
     $newID = $indexedOnly[0]['MAX(id)']+1;
 
@@ -530,8 +530,8 @@ function addNewNode($localhost, $user, $pw,$db,$storyID){
         mysqli_query($con,$sql);
     }
 
-    $sql="INSERT INTO page (id,level, position, NextPageID1, NextPageID2, NextPageID3,NextPageID4,story,title,text,imageLink,OptionText1,OptionText2,OptionText3,OptionText4)
-    VALUES (".$newID.",".$newLevel.",".$newPos.",0,0,0,0,".$storyID.",'Page".$newID."','Text".$newID."','Link".$newID."','Option".$newID."_1','Option".$newID."_2','Option".$newID."_3','Option".$newID."_4')";
+    $sql="INSERT INTO page (level, position, NextPageID1, NextPageID2, NextPageID3,NextPageID4,story,title,text,imageLink,OptionText1,OptionText2,OptionText3,OptionText4)
+    VALUES (".$newLevel.",".$newPos.",0,0,0,0,".$storyID.",'Page".$newID."','Text".$newID."','Link".$newID."','Option".$newID."_1','Option".$newID."_2','Option".$newID."_3','Option".$newID."_4')";
     if($result == true){
         $result = mysqli_query($con,$sql);
     }else{
