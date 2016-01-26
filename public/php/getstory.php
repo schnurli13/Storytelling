@@ -64,11 +64,17 @@ if ($functionName == "drawLines") {
 function saveStory($storyID){
     $title = filter_input(INPUT_GET, 'title');
     $mysqlObject = new mysqlModule();
-    $sql = "UPDATE story SET name = '".$title."' WHERE id = ".$storyID;
-    if($mysqlObject->commandDataBase($sql)){
-        echo json_encode("Data saved!");
-    }else{
-        echo "Error: Transaction rolled back";
+    $result =  $mysqlObject->queryDataBase("SELECT name FROM story WHERE id = '".$storyID."'");
+
+
+   if($result[0]['name'] != $title){
+       $result[1]['name'] = $title;
+       $sql = "UPDATE story SET name = '".$title."' WHERE id = ".$storyID;
+       if($mysqlObject->commandDataBase($sql)){
+           echo json_encode($result);
+       }else{
+           echo "Error: Transaction rolled back";
+       }
     }
 }
 

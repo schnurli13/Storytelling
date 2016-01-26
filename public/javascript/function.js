@@ -2007,10 +2007,20 @@ nodeEditor.module = (function($) {
         addText.setAttr('y',addRect.getAttr('height')/2-(addText.getAttr('height')/3));
         delText.setAttr('y',delRect.getAttr('height')/2-delText.getAttr('height')/3);
 
-        $(window).resize(function() {
+       /* $(window).resize(function() {
             setTimeout( function(){
                 window.location.href = window.location.href;
             },500);
+        });*/
+
+        //refresh page on browser resize
+        $(window).bind('resize', function(e)
+        {
+            if (window.RT) clearTimeout(window.RT);
+            window.RT = setTimeout(function()
+            {
+                this.location.reload(false); /* false to get page from cache */
+            }, 500);
         });
 
 
@@ -2175,11 +2185,15 @@ nodeEditor.module = (function($) {
 
         //change url !!!!!!!!!!!
         $('.saveStory').click(function() {
-               /* $.ajax({
+                $.ajax({
                     url: ajaxLink,
                     type: 'GET',
                     data: 'functionName=saveStory&storyID=' + storyID + '&title=' + $('.storyTitle'+firstLast).val(),
                     success: function (data) {
+                        var obj = $.parseJSON(data);
+                        var res = window.location.href;
+                        res = res.replace(obj[0]['name'],obj[1]['name']);
+                        location.replace(res);
 
                     },
                     error: function (xhr, status, error) {
@@ -2187,7 +2201,7 @@ nodeEditor.module = (function($) {
                         debugText.setAttr('fontSize', '25');
                         interfaceLayer.draw();
                     }
-                });*/
+                });
         });
 
         stage.off('mousewheel').on('mousewheel', function(e) {
