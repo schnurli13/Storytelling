@@ -5,7 +5,8 @@
   transition: all 0.5s ease-in-out; }
 #pagePresentation #title h2 {
   font-family: "Architects Daughter", cursive;
-  text-align: center; }
+  text-align: center;
+  margin-top: 50px; }
 #pagePresentation #pageImage img {
   margin: 0 5%;
   width: 90%;
@@ -46,5 +47,21 @@
   cursor: pointer; }
 #pagePresentation .clearfloat {
   clear: both; }
+#pagePresentation .buttonFrameContainerBack {
+  width: 120px;
+  position: relative;
+  padding: 2px;
+  background-color: #96C3CC;
+  float: right;
+  margin-top: -120px;
+  margin-right: 5%; }
+#pagePresentation input.button {
+  height: 32px;
+  width: 100%;
+  background-color: #96C3CC;
+  border: black dotted 2px;
+  font-size: 18px;
+  font-family: "Architects Daughter", cursive;
+  cursor: pointer; }
 
 /*# sourceMappingURL=publishedView.css.map */

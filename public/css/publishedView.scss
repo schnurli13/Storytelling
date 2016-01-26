@@ -13,6 +13,7 @@ $lightblue:  #D3ECED;
 	#title h2 {
 		font-family: $mainFont;
 		text-align: center;
+		margin-top: 50px;
 		
 	}
 	
@@ -74,5 +75,25 @@ $lightblue:  #D3ECED;
         .clearfloat {
             clear: both;
         }
+	
+	.buttonFrameContainerBack {
+		width: 120px;
+		position: relative;
+		padding: 2px;
+		background-color: $darkblue;
+		float: right;
+		margin-top: -120px;
+		margin-right: 5%;
+	}
+	
+	input.button {
+		height: 32px;
+		width: 100%;
+		background-color: $darkblue;
+                border: black dotted 2px;
+                font-size: 18px;
+                font-family: $mainFont;
+                cursor: pointer;
+	}
 	
 }

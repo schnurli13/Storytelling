@@ -391,6 +391,10 @@ input {
 		background-color: $darkred;
 		margin-top: 6px;
 	}
+	
+	.infoToggle, .storiesToggle {
+		cursor: pointer;
+	}
 }
 
 
@@ -950,6 +954,10 @@ input {
 		margin-top: 10px;
 		margin-right: 20px;
 	}
+	
+	.storyToggle, .pageToggle, .previewToggle {
+		cursor: pointer;
+	}
 		
 	#storyEditor {
 		background: $lightgreen;
@@ -975,6 +983,10 @@ input {
 		.buttonFrameContainer {
 			margin-top: -45px;
 		}
+	}
+	
+	.storyEditorResponsive {
+			margin-top: 60px !important;	
 	}
 	
 	#pageEditor {
@@ -1062,7 +1074,7 @@ input {
 	
 	.tellLabel {
 		margin-top: 50px;
-		margin-bottom: 60px;
+		margin-bottom: 110px;
 	}
 	
 	input.inputField {
@@ -1070,6 +1082,13 @@ input {
 		float: right;
 		height: 30px;
 		font-family: $mainFont;
+	}
+	
+	textarea {
+		width: 70%;
+		float: right;
+		font-family: $mainFont;
+		border-color: #ccc;
 	}
 	
 	input.inputField.option {
@@ -1128,7 +1147,7 @@ input {
 		}
 		
 		.tellLabel {
-			margin-bottom: 100px;
+			margin-top: 140px;
 		}
 		
 
@@ -1167,6 +1186,14 @@ input {
 		.buttons, .buttonFrameContainer, input.button {
 			width: 100%;
 		}
+		
+		.buttonFrameContainerSave {
+			width: 120px;
+		}
+		
+		.closeButton {
+			width: 30%;
+		}
 	
 		.buttonFrameContainerPic {
 			margin-bottom: 10px;
@@ -1179,7 +1206,7 @@ input {
 		}
 		
 		.tellLabel {
-			margin-bottom: 150px;
+			margin-bottom: 160px;
 		}
 	}
 	
@@ -1195,6 +1222,12 @@ input {
 	#searchResultPage p.darkBlue.searchLabel {
 		margin-top: 250px;
 		margin-left: 0px;
+	}
+}
+
+@media screen and (min-width: 851px) {
+	#cbp-spmenu-s2 {
+		display: none;
 	}
 }
 

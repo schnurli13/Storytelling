@@ -33,7 +33,7 @@
                             <p class="label">CO-AUTOR <input class="inputField storyCoAuthor" type="text" name="storyCoAutor" value=""/></p>
                             <p class="label lastLabel">PUBLISH <input class="inputField isPublished" type="checkbox" name="storyPublished"/></p>
                             
-                            <div class="buttonFrameContainer"><input class="button saveStory" type="button" value="SAVE" /></div>
+                            <div class="buttonFrameContainer buttonFrameContainerSave"><input class="button saveStory" type="button" value="SAVE" /></div>
                         </form>
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                                                         <input class="inputField  option opt2" type="text" name="pageOption2" value=""/>
                                                         <input class="inputField option opt3" type="text" name="pageOption3" value=""/>
                                                         <input class="inputField option opt4" type="text" name="pageOption4" value=""/></p>
-                            <p class="label tellLabel">TELL <input class="inputField textEdit" type="text" name="pageTell" value=""/></p>
+                            <p class="label tellLabel">TEXT <textarea class="inputField textEdit" rows="4" type="text" name="pageTell" value=""></textarea></p>
                             
                            <!-- FILEUPLOAD SELBST GEH…RT NOCH REIN!!-->
                             <div class="buttons">
@@ -81,8 +81,12 @@
     
 <!--            ///// RESPONSIVE EDITORS ///////-->
         <div class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
+            <p>
+                <div class="buttonFrameContainer closeButton"><input id="closeResponsiveNav" class="button" type="button" value="CLOSE" /></div>
+            </p>
+            
             <div id="storyEditor">
-                <div class="editorFrameContainer">
+                <div class="editorFrameContainer storyEditorResponsive">
                     <div class="editorContainer">
                         <div class="h1bgEditor"><h1><a class="storyToggle" name="toggle">STORY-EDITOR <i class="fa fa-angle-up"></i></a></h1></div>
                         <form class="storyForm">
@@ -91,7 +95,7 @@
                             <p class="label">CO-AUTOR <input class="inputField storyCoAuthor" type="text" name="storyCoAutor" value=""/></p>
                             <p class="label lastLabel">PUBLISH <input class="inputField isPublished" type="checkbox" name="storyPublished"/></p>
                             
-                            <div class="buttonFrameContainer"><input class="button saveStory" type="button" value="SAVE" /></div>
+                            <div class="buttonFrameContainer buttonFrameContainerSave"><input class="button saveStory" type="button" value="SAVE" /></div>
                         </form>
                     </div>
                 </div>
@@ -108,7 +112,7 @@
                                                         <input class="inputField  option opt2" type="text" name="pageOption2" value=""/>
                                                         <input class="inputField option opt3" type="text" name="pageOption3" value=""/>
                                                         <input class="inputField option opt4" type="text" name="pageOption4" value=""/></p>
-                            <p class="label tellLabel">TELL <input class="inputField textEdit" type="text" name="pageTell" value=""/></p>
+                            <p class="label tellLabel">TEXT <textarea class="inputField textEdit" rows="4" type="text" name="pageTell" value=""></textarea></p>
                             <div class="buttons">
                                 <div class="buttonFrameContainer buttonFrameContainerPic" id="pictureHandling">
                                     <input class="button ajaxFormTrigger" type="button" id="changePictureButton" value="SAVE PIC" /><br>
@@ -137,6 +141,7 @@
     <script>
         var menuRight = document.getElementById( 'cbp-spmenu-s2' ),
             showRight = document.getElementById( 'showRight' ),
+            closeResponsiveNav = document.getElementById( 'closeResponsiveNav' ),
             body = document.body;
                 
         showRight.onclick = function() {
@@ -144,13 +149,17 @@
             classie.toggle( menuRight, 'cbp-spmenu-open' );
             disableOther( 'showRight' );
         };
-        
-
+    
         function disableOther( button ) {
             if( button !== 'showRight' ) {
                     classie.toggle( showRight, 'disabled' );
             }
         }
+        
+
+        $("#closeResponsiveNav").click(function() {
+            $( "#cbp-spmenu-s2" ).removeClass( 'cbp-spmenu-open' );
+        });
         
         
         

@@ -28,8 +28,11 @@ body {
 
 @media screen and (max-width: 850px) {
     #wrapper {
-        width: 100%;
+        width: 95%;
         margin:0;
+        padding: 2%;
+        float: none;
+        margin: 0 auto !important;
     }
     #mobile{
        padding: 10px;
