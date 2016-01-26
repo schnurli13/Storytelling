@@ -379,6 +379,8 @@ nodeEditor.module = (function($) {
 
     drawNodes = function (data) {
 
+
+
         //startScale=1.0;
         layer.destroyChildren();
         layerTEXT.destroyChildren();
@@ -474,10 +476,12 @@ nodeEditor.module = (function($) {
                     nextPageIDinData = findID(data, data[sh]["NextPageID" + q]);
                     nextID = nextPageIDinData;
 
+
                 } else {
                     nextPageIDinData = findID(data, data[i]["NextPageID" + q]);
                     nextID = nextPageIDinData;
                 }
+
                 if (nextID != 0) {
                     IDs.push(nextID);
                     numb = count(data, nextPageIDinData);

@@ -488,9 +488,9 @@ function addNewNode($localhost, $user, $pw,$db,$storyID){
     }
 
     $mysqlObject = new mysqlModule();
-    $indexedOnly = $mysqlObject->queryDataBase("SELECT MAX(id) FROM page");
+    /*$indexedOnly = $mysqlObject->queryDataBase("SELECT MAX(id) FROM page");
 
-    $newID = $indexedOnly[0]['MAX(id)']+1;
+    $newID = $indexedOnly[0]['MAX(id)']+1;*/
 
     $res =getPage($ID,"level,position,",$storyID,"id =");
 
@@ -523,20 +523,34 @@ function addNewNode($localhost, $user, $pw,$db,$storyID){
     }
     mysqli_autocommit($con,FALSE);
     $result = true;
-    $sql="UPDATE page SET ".$changeNN." = ".$newID." WHERE id = ".$ID." AND story = ".$storyID;
+
+
+    $sql="INSERT INTO page (level, position, NextPageID1, NextPageID2, NextPageID3,NextPageID4,story) VALUES (".$newLevel.",".$newPos.",0,0,0,0,".$storyID.")";
+    if($result == true){
+        $result = mysqli_query($con,$sql);
+        $last_id = mysqli_insert_id($con);
+    }else{
+        mysqli_query($con,$sql);
+    }
+
+    $sql="UPDATE page SET title= 'Page".$last_id."',text='Text".$last_id."',imageLink='Link".$last_id."',
+    OptionText1 = 'Option".$last_id."_1',OptionText2 = 'Option".$last_id."_2',OptionText3 = 'Option".$last_id."_3',
+    OptionText4 = 'Option".$last_id."_4' WHERE id = ".$last_id." AND story = ".$storyID;
     if($result == true){
         $result = mysqli_query($con,$sql);
     }else{
         mysqli_query($con,$sql);
     }
 
-    $sql="INSERT INTO page (level, position, NextPageID1, NextPageID2, NextPageID3,NextPageID4,story,title,text,imageLink,OptionText1,OptionText2,OptionText3,OptionText4)
-    VALUES (".$newLevel.",".$newPos.",0,0,0,0,".$storyID.",'Page".$newID."','Text".$newID."','Link".$newID."','Option".$newID."_1','Option".$newID."_2','Option".$newID."_3','Option".$newID."_4')";
+
+    $sql="UPDATE page SET ".$changeNN." = ".$last_id." WHERE id = ".$ID." AND story = ".$storyID;
     if($result == true){
         $result = mysqli_query($con,$sql);
     }else{
         mysqli_query($con,$sql);
     }
+
+
 
     if($result == false){
         mysqli_rollback($con); // transaction rolls back
