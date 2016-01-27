@@ -256,7 +256,7 @@ nodeEditor.module = (function($) {
         changeFontSize,
         getStoryDetails,
         setStoryDetails,
-        checkScaleFactor
+        resetScale
     ;
 
 
@@ -356,6 +356,7 @@ nodeEditor.module = (function($) {
             text: "",
             fontFamily:  "Architects Daughter",
             fontSize: 20,
+            id: "tooltext",
             padding: 8,
             fill: "black",
             opacity: 1.0,
@@ -655,8 +656,8 @@ nodeEditor.module = (function($) {
 
             if (fill == 'yellow') {
                 resetInputFields();
-                debugText.setAttr('x',width/2-70-offset);
-                debugText.text('Selected ' + toolTipText);
+                debugText.text('Selected "' + toolTipText+'"');
+                debugText.setAttr('x', (width/2)-offset-debugText.getAttr('width')/2);
                 selectedNode = e.target.id();
                 if(zoomStyle == "zoomJump") {
                     zoomIn(e, null);
@@ -702,7 +703,8 @@ nodeEditor.module = (function($) {
                 });
 
             } else if (fill == buttonColorHover) {
-                debugText.text('Deselected ' + toolTipText);
+                debugText.text('Deselected "' + toolTipText+'"');
+                debugText.setAttr('x', (width/2)-offset-debugText.getAttr('width')/2);
                 selectedNode = null;
                 if(zoomStyle == "zoomJump"){
                     zoomOut();
@@ -877,6 +879,8 @@ nodeEditor.module = (function($) {
 
            if (layer.scaleX().toFixed(2) <= zoomout || zooming == true) {
                 anim.stop();
+
+             //  alert(startScale + "....."+ startOffsetX + "....."+startOffsetY );
 
                var offset = 0;
                if(startScale != 1.0) {
@@ -1124,6 +1128,7 @@ nodeEditor.module = (function($) {
                          pause = false;
                          popUpShown = false;
                          setDraggable(true);
+                         resetScale();
                          startDrawLines();
                          startDrawNodes();
                          debugText.setAttr('x',width/2-70-offset);
@@ -1405,7 +1410,9 @@ nodeEditor.module = (function($) {
         }
 
         interfaceLayer.find('#button1Text')[0].setAttr('text','ADD AS SUB-PAGE');
+        interfaceLayer.find('#button1Text')[0].setAttr('fontSize',interfaceLayer.find('#button1Text')[0].getAttr('fontSize')-1);
         interfaceLayer.find('#button1Text')[0].setAttr('x',addRect.getAttr('width')/2-interfaceLayer.find('#button1Text')[0].getAttr('width')/2);
+
 
         interfaceLayer.find('#button2Text')[0].setAttr('text','REPLACE PAGES');
         interfaceLayer.find('#button2Text')[0].setAttr('x',addRect.getAttr('width')/2-interfaceLayer.find('#button2Text')[0].getAttr('width')/2);
@@ -1678,14 +1685,14 @@ nodeEditor.module = (function($) {
         movementStyle = null;
     };
 
-    setToolTip = function(toolText){
+    setToolTip = function(toolText,e){
         var textToolT;
         toolTipText = toolText;
         tooltip.getChildren(function (n) {
             return n.getClassName() === "Text";
         }).each(function (text, n) {
             textToolT = text;
-            textToolT.text(toolText);
+            textToolT.text('"'+toolText+'"');
             if(layerTEXT.getAttr('scale').x <= 1.0){
                 textToolT.setAttr('fontSize', 20*(1+(1-layerTEXT.getAttr('scale').x)*1.5));
             }
@@ -1698,9 +1705,12 @@ nodeEditor.module = (function($) {
             rect.setAttr('height',textToolT.getAttr('height'));
         });
 
+        tooltip.setAttr('x', e.target.getAttr('x')-stage.find('#tooltext')[0].getAttr('width')/2);
+
+        debugText.setAttr('x', (width/2)-offset-stage.find('#tooltext')[0].getAttr('width')/2);
         debugText.setAttr('fontSize','20');
         if(selectedNode == null) {
-            debugText.text(toolText);
+            debugText.text('"'+toolText+'"');
             interfaceLayer.draw();
         }
         tooltip.show();
@@ -1711,7 +1721,7 @@ nodeEditor.module = (function($) {
 
 
     setStoryDetails = function(){
-        $(".storyTitle").val(storyID);
+        //set title
         $.ajax({
             url: ajaxLink,
             type: 'GET',
@@ -1719,28 +1729,15 @@ nodeEditor.module = (function($) {
             success: function (data) {
                //alert(data);
                 var obj = $.parseJSON(data);
+                //if it is published
                 if(obj[0]['isPublished'] == '1'){
                     $(".isPublished").attr("checked", true);
                 }else{
                     $(".isPublished").attr("checked", false);
                 }
-                $.ajax({
-                    url: ajaxLink,
-                    type: 'GET',
-                    data: 'functionName=getAuthorDetails&storyID=' + storyID+'&authorID='+obj[0]['user'],
-                    success: function (data) {
-                      //  alert(data);
-                        var obj = $.parseJSON(data);
-                         $(".storyAuthor").val(obj[0]['name']);
-                    },
-                    error: function (xhr, status, error) {
-                        debugText.text(error);
-                      //  debugText.setAttr('fontSize','25');
-                        interfaceLayer.draw();
-                    }
-                });
-
-               // $(".storyTitle").val(storyID);
+                $(".storyTitle").val(obj[0]['name']);
+                $(".storyAuthor").val(obj[0]['author_name']);
+                $(".storyCoAuthor").val(obj[0]['co_author_name']);
 
             },
             error: function (xhr, status, error) {
@@ -1827,6 +1824,58 @@ nodeEditor.module = (function($) {
         object.setAttr('fontSize',width*scale);
     };
 
+
+    resetScale = function() {
+
+        startScale = 1.0;
+        var scale = 1;
+        var offset = 0;
+        layer.scale({
+            x: scale,
+            y: scale
+        });
+        layerConn.scale({
+            x: scale,
+            y: scale
+        });
+        backgroundLayer.scale({
+            x: scale,
+            y: scale
+        });
+        levelTextLayer.scale({
+            x: scale,
+            y: scale
+        });
+        layerTEXT.scale({
+            x: scale,
+            y: scale
+        });
+        tempLayer.scale({
+            x: scale,
+            y: scale
+        });
+
+        layerConn.offset({
+            x: offset,
+            y: offset
+        });
+        layerTEXT.offset({
+            x: offset,
+            y: offset
+        });
+
+        tempLayer.offset({
+            x: offset,
+            y: offset
+        });
+        layer.offset({
+            x: offset,
+            y: offset
+        });
+        startOffsetX=offset;
+        startOffsetY=offset;
+    };
+
 //END
 
 // IIIIIIIIIIIIINIT
@@ -1834,6 +1883,7 @@ nodeEditor.module = (function($) {
         var res = window.location.href;
         var array = res.split("/");
         storyID = array[array.length-2];
+      //  storyID = storyID.replace(new RegExp("%20","g"),' ');
 
         width = $('#container').width();
         stage.setAttr('width',width);
@@ -2007,10 +2057,20 @@ nodeEditor.module = (function($) {
         addText.setAttr('y',addRect.getAttr('height')/2-(addText.getAttr('height')/3));
         delText.setAttr('y',delRect.getAttr('height')/2-delText.getAttr('height')/3);
 
-        $(window).resize(function() {
+       /* $(window).resize(function() {
             setTimeout( function(){
                 window.location.href = window.location.href;
             },500);
+        });*/
+
+        //refresh page on browser resize
+        $(window).bind('resize', function(e)
+        {
+            if (window.RT) clearTimeout(window.RT);
+            window.RT = setTimeout(function()
+            {
+                this.location.reload(false); /* false to get page from cache */
+            }, 500);
         });
 
 
@@ -2083,7 +2143,6 @@ nodeEditor.module = (function($) {
                 x : e.target.getAttr('x')-40,
                 y :  e.target.getAttr('y')-50
             });
-            //alert(mousePos.x + 5);
 
             if(toolTipText == ""){
                 $.ajax({
@@ -2092,7 +2151,7 @@ nodeEditor.module = (function($) {
                     data: 'functionName=getTitle&storyID=' + storyID + '&ID=' + e.target.id(),
                     success: function (data) {
                         var obj = $.parseJSON(data);
-                        setToolTip(obj[0]['title']);
+                        setToolTip(obj[0]['title'],e);
                     },
                     error: function (xhr, status, error) {
                         debugText.text(error);
@@ -2101,7 +2160,7 @@ nodeEditor.module = (function($) {
                     }
                 });
             }else{
-                setToolTip(toolTipText);
+                setToolTip(toolTipText,e);
             }
         });
 
@@ -2175,19 +2234,34 @@ nodeEditor.module = (function($) {
 
         //change url !!!!!!!!!!!
         $('.saveStory').click(function() {
-               /* $.ajax({
+            var published;
+
+            if($('.isPublished').prop('checked') == true){
+                published = 1;
+            }else{
+                published = 0;
+            }
+                $.ajax({
                     url: ajaxLink,
                     type: 'GET',
-                    data: 'functionName=saveStory&storyID=' + storyID + '&title=' + $('.storyTitle'+firstLast).val(),
+                    data: 'functionName=saveStory&storyID=' + storyID + '&title=' + $('.storyTitle'+firstLast).val() + '&author='
+                    + $('.storyAuthor'+firstLast).val() + '&coAuthor=' + $('.storyCoAuthor'+firstLast).val()+ '&published=' + published,
                     success: function (data) {
-
+                        var obj = $.parseJSON(data);
+                        var res = window.location.href;
+                        var array = res.split("/");
+                        var storyName = array[array.length-2];
+                       // obj[0]['name'] = obj[0]['name'].replace(new RegExp(" ","g"),'%20');
+                      //  alert(res + " :::: "+ storyName + " :.::: "+ obj[1]['name']);
+                        res = res.replace(storyName,obj[1]['name']);
+                        location.replace(res);
                     },
                     error: function (xhr, status, error) {
                         debugText.text(error);
                         debugText.setAttr('fontSize', '25');
                         interfaceLayer.draw();
                     }
-                });*/
+                });
         });
 
         stage.off('mousewheel').on('mousewheel', function(e) {
@@ -2216,31 +2290,33 @@ nodeEditor.module = (function($) {
 //DRAGGEN
       layer.on("dragstart", function (e) {
 
-          if(!pause && movementStyle == null){
+          if (!pause && movementStyle == null) {
               pause = true;
               zoomOut();
               nodeSelection(e);
               popUpShown = true;
               setDraggable(false);
-              $.when(checkAdditionalNode(e.target.id()),checkDeleteNode(e.target.id())).done(function(a1,a2){
+              $.when(checkAdditionalNode(e.target.id()), checkDeleteNode(e.target.id())).done(function (a1, a2) {
                   moveQuestion(e);
               });
-             e.target.fill('yellow');
+              e.target.fill('yellow');
               interfaceLayer.draw();
-            }else if(!pause && movementStyle == "one"){
-                xDrag = e.target.getAttr('x');
-                yDrag = e.target.getAttr('y');
+          } else if (!pause && movementStyle == "one") {
+              xDrag = e.target.getAttr('x');
+              yDrag = e.target.getAttr('y');
 
-                e.target.moveTo(tempLayer);
-                e.target.fill('yellow');
-                layer.draw();
-            }else if(!pause && movementStyle != "one" && movementStyle != null ){
-                selectedNode= e.target.find('#'+movementStyle[0])[0].getAttr('id');
-                movingGroup.moveTo(tempLayer);
-                layer.draw();
-                tempLayer.draw();
-            }
-        });
+              e.target.moveTo(tempLayer);
+              e.target.fill('yellow');
+              layer.draw();
+          } else if (!pause && movementStyle != "one" && movementStyle != null) {
+              selectedNode = e.target.find('#' + movementStyle[0])[0].getAttr('id');
+              movingGroup.moveTo(tempLayer);
+              layer.draw();
+              tempLayer.draw();
+          }
+
+
+      });
 
         //drag the whole canvas except interfaceLayer
         var stageX,stageY;
@@ -2312,7 +2388,7 @@ nodeEditor.module = (function($) {
 
 
         stage.on("dragend", function (e) {
-            if(!pause) {
+            if(!pause && e.target.id() != 'stage') {
                 var pos = stage.getPointerPosition();
                 var overlapping = layer.getIntersection(pos);
                 if (overlapping) {

@@ -11,7 +11,7 @@
 	<div class="storyInformationDiv" data-story = "{{STORYNAME}}" />
 
     <div class="canvas">NODE-EDITOR</div>
-    
+
     <button id="showRight">Show/Hide Editors Responsive</button>
 
         <div id="mobile">
@@ -19,10 +19,10 @@
                 <div id="container"></div>
         </div>
         </div>
-                    
-                            
+
+
         <script type="text/javascript" src="/Storytelling/public/javascript/function.js"></script>
-        
+
         <div id="editors">
             <div id="storyEditor">
                 <div class="editorFrameContainer">
@@ -33,20 +33,25 @@
                             <p class="label">AUTOR <input class="inputField storyAuthor" type="text" name="storyAutor" value=""/></p>
                             <p class="label">CO-AUTOR <input class="inputField storyCoAuthor" type="text" name="storyCoAutor" value=""/></p>
                             <p class="label lastLabel">PUBLISH <input class="inputField isPublished" type="checkbox" name="storyPublished"/></p>
-                            
+
                             <div class="buttonFrameContainer buttonFrameContainerSave"><input class="button saveStory" type="button" value="SAVE" /></div>
                         </form>
+<<<<<<< HEAD
 						
 						<div class="currPicDiv"><img src="/Storytelling/public/images/dummyProfile.jpg" alt="CurrentPicture" id="currentPicture" class="currentStoryPicture"></div>
+=======
+
+						<div class="currPicDiv"><img src="/Storytelling/public/images/dummyProfile.jpg" alt="CurrentPicture" id="currentPicture"></div>
+>>>>>>> origin/master
 						<div class="buttonFrameContainer" id="pictureHandling">
 						<input class="button ajaxFormTrigger changePictureButton storyPicture" type="button" value="CHANGE PICTURE" /><br>
 
-						
+
                     </div>
                 </div>
             </div>
-            
-            
+
+
              <div id="pageEditor">
                 <div class="editorFrameContainer">
                     <div class="editorContainer">
@@ -59,13 +64,13 @@
                                                         <input class="inputField option opt3" type="text" name="pageOption3" value=""/>
                                                         <input class="inputField option opt4" type="text" name="pageOption4" value=""/></p>
                             <p class="label tellLabel">TEXT <textarea class="inputField textEdit" rows="4" type="text" name="pageTell" value=""></textarea></p>
-                            
+
                            <!-- FILEUPLOAD SELBST GEH…RT NOCH REIN!!-->
                             <div class="buttons">
                                 <div class="buttonFrameContainer buttonFrameContainerPic" id="pictureHandling">
                                     <input class="button ajaxFormTrigger" type="button" id="changePictureButton" value="SAVE PIC" /><br>
                                 </div>
-                                
+
                                 <div class="buttonFrameContainer"><input class="button savePage" type="button" value="SAVE" /></div>
                             </div>
                         </form>
@@ -78,7 +83,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div id="previewEditor">
                 <div class="editorFrameContainer">
                     <div class="editorContainer">
@@ -87,17 +92,17 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
-    
-    
-    
+
+
+
 <!--            ///// RESPONSIVE EDITORS ///////-->
         <div class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
             <p>
                 <div class="buttonFrameContainer closeButton"><input id="closeResponsiveNav" class="button" type="button" value="CLOSE" /></div>
             </p>
-            
+
             <div id="storyEditor">
                 <div class="editorFrameContainer storyEditorResponsive">
                     <div class="editorContainer">
@@ -107,19 +112,27 @@
                             <p class="label">AUTOR <input class="inputField storyAuthor" type="text" name="storyAutor" value=""/></p>
                             <p class="label">CO-AUTOR <input class="inputField storyCoAuthor" type="text" name="storyCoAutor" value=""/></p>
                             <p class="label lastLabel">PUBLISH <input class="inputField isPublished" type="checkbox" name="storyPublished"/></p>
-                            
+
                             <div class="buttonFrameContainer buttonFrameContainerSave"><input class="button saveStory" type="button" value="SAVE" /></div>
                         </form>
+<<<<<<< HEAD
 						
 						<div class="currPicDiv"><img src="/Storytelling/public/images/dummyProfile.jpg" alt="CurrentPicture" id="currentPicture" class="currentStoryPicture"></div>
 						<div class="buttonFrameContainer" id="pictureHandling">
 						<input class="button ajaxFormTrigger changePictureButton storyPicture" type="button" value="CHANGE PICTURE" /><br>
 						
+=======
+
+						<div class="currPicDiv"><img src="/Storytelling/public/images/dummyProfile.jpg" alt="CurrentPicture" id="currentPicture"></div>
+						<div class="buttonFrameContainer" id="pictureHandling">
+						<input class="button ajaxFormTrigger storyPicture" type="button" id="changePictureButton" value="CHANGE PICTURE" /><br>
+
+>>>>>>> origin/master
                     </div>
                 </div>
             </div>
-            
-            
+
+
              <div id="pageEditor">
                 <div class="editorFrameContainer">
                     <div class="editorContainer">
@@ -135,7 +148,7 @@
                                 <div class="buttonFrameContainer buttonFrameContainerPic" id="pictureHandling">
                                     <input class="button ajaxFormTrigger" type="button" id="changePictureButton" value="SAVE PIC" /><br>
                                 </div>
-                                
+
                                 <div class="buttonFrameContainer"><input class="button savePage" type="button" value="SAVE" /></div>
                             </div>
                         </form>
@@ -147,7 +160,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div id="previewEditor">
                 <div class="editorFrameContainer">
                     <div class="editorContainer">
@@ -155,54 +168,54 @@
                         <div class="previewFrame"></div>
                     </div>
                 </div>
-            </div>  
+            </div>
         </div>
-    
-    
-    
+
+
+
     <script src="js/classie.js"></script>
     <script>
         var menuRight = document.getElementById( 'cbp-spmenu-s2' ),
             showRight = document.getElementById( 'showRight' ),
             closeResponsiveNav = document.getElementById( 'closeResponsiveNav' ),
             body = document.body;
-                
+
         showRight.onclick = function() {
             classie.toggle( this, 'active' );
             classie.toggle( menuRight, 'cbp-spmenu-open' );
             disableOther( 'showRight' );
         };
-    
+
         function disableOther( button ) {
             if( button !== 'showRight' ) {
                     classie.toggle( showRight, 'disabled' );
             }
         }
-        
+
 
         $("#closeResponsiveNav").click(function() {
             $( "#cbp-spmenu-s2" ).removeClass( 'cbp-spmenu-open' );
         });
-        
-        
-        
-        
+
+
+
+
         ///Toggle////
-        
+
         $(document).ready(function(){
             $(".storyToggle").click(function(){
                 $(".storyForm").toggle('slow');
                 $("i",this).toggleClass("fa-angle-down fa-angle-up");
             });
         });
-        
+
         $(document).ready(function(){
             $(".pageToggle").click(function(){
                 $(".pageForm").toggle('slow');
                 $("i",this).toggleClass("fa-angle-down fa-angle-up");
             });
         });
-        
+
         $(document).ready(function(){
             $(".previewToggle").click(function(){
                 $(".previewFrame").toggle('slow');
@@ -211,5 +224,5 @@
         });
     </script>
 
-    
+
 </div>
