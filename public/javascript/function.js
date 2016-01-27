@@ -666,7 +666,7 @@ nodeEditor.module = (function($) {
                     url: ajaxLink,
                     type: 'GET',
                     data: 'functionName=getContent&storyID='+storyID+'&ID=' + selectedNode,
-                    success: function (data) {//alert(data);
+                    success: function (data) {
                         var obj = $.parseJSON(data);
                         $('.textEdit').val(obj[0]['text']);
                         $('.titleEdit').val(obj[0]['title']);
@@ -691,6 +691,16 @@ nodeEditor.module = (function($) {
                         }else{
                             $('.opt4').val(obj[0]['OptionText4']);
                         }
+
+                        if(obj[1]['path'] != " "){
+                            var src = $('#pageEditor #currentPicture').prop('src');
+                            var array = src.split("/");
+                            var picName = array[array.length-1];
+                            src = src.replace(picName, "page/"+obj[1]['path']);
+                            $('#pageEditor #currentPicture').prop('src',src);
+                        }
+
+
                         if(!pause) {
                             $('#showRight').trigger('click');
                         }
@@ -705,6 +715,7 @@ nodeEditor.module = (function($) {
             } else if (fill == buttonColorHover) {
                 debugText.text('Deselected "' + toolTipText+'"');
                 debugText.setAttr('x', (width/2)-offset-debugText.getAttr('width')/2);
+
                 selectedNode = null;
                 if(zoomStyle == "zoomJump"){
                     zoomOut();
@@ -1751,10 +1762,12 @@ nodeEditor.module = (function($) {
 
     resetInputFields = function(){
         $("#pageEditor .inputField").val('');
+        $('#pageEditor #currentPicture').prop('src','/Storytelling/public/images/dummyProfile.jpg');
         $('.opt1').removeAttr('disabled');
         $('.opt2').removeAttr('disabled');
         $('.opt3').removeAttr('disabled');
         $('.opt4').removeAttr('disabled');
+
     };
 
     // left: 37, up: 38, right: 39, down: 40,

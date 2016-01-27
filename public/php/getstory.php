@@ -121,7 +121,14 @@ function saveContent($storyID){
 function getContent($storyID){
     $ID = filter_input(INPUT_GET, 'ID');
     $mysqlObject = new mysqlModule();
-    echo json_encode($mysqlObject->queryDataBase("SELECT title,text,imageLink,NextPageID1,NextPageID2,NextPageID3,NextPageID4,OptionText1,OptionText2,OptionText3,OptionText4 FROM page WHERE story = ".$storyID." AND id = ".$ID));
+   $content = $mysqlObject->queryDataBase("SELECT title,text,imageLink,NextPageID1,NextPageID2,NextPageID3,NextPageID4,OptionText1,OptionText2,OptionText3,OptionText4 FROM page WHERE story = ".$storyID." AND id = ".$ID);
+   if(is_numeric($content[0]['imageLink']) ){
+       $image= $mysqlObject->queryDataBase("SELECT path FROM page_images WHERE id = ".$content[0]['imageLink']);
+       $content[1]['path'] = $image[0]['path'];
+   }else{
+       $content[1]['path'] = " ";
+   }
+    echo json_encode($content);
 }
 
 function getTitle($storyID){
