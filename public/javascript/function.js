@@ -1405,7 +1405,9 @@ nodeEditor.module = (function($) {
         }
 
         interfaceLayer.find('#button1Text')[0].setAttr('text','ADD AS SUB-PAGE');
+        interfaceLayer.find('#button1Text')[0].setAttr('fontSize',interfaceLayer.find('#button1Text')[0].getAttr('fontSize')-1);
         interfaceLayer.find('#button1Text')[0].setAttr('x',addRect.getAttr('width')/2-interfaceLayer.find('#button1Text')[0].getAttr('width')/2);
+
 
         interfaceLayer.find('#button2Text')[0].setAttr('text','REPLACE PAGES');
         interfaceLayer.find('#button2Text')[0].setAttr('x',addRect.getAttr('width')/2-interfaceLayer.find('#button2Text')[0].getAttr('width')/2);
@@ -1711,7 +1713,7 @@ nodeEditor.module = (function($) {
 
 
     setStoryDetails = function(){
-        $(".storyTitle").val(storyID);
+        //set title
         $.ajax({
             url: ajaxLink,
             type: 'GET',
@@ -1719,28 +1721,15 @@ nodeEditor.module = (function($) {
             success: function (data) {
                //alert(data);
                 var obj = $.parseJSON(data);
+                //if it is published
                 if(obj[0]['isPublished'] == '1'){
                     $(".isPublished").attr("checked", true);
                 }else{
                     $(".isPublished").attr("checked", false);
                 }
-                $.ajax({
-                    url: ajaxLink,
-                    type: 'GET',
-                    data: 'functionName=getAuthorDetails&storyID=' + storyID+'&authorID='+obj[0]['user'],
-                    success: function (data) {
-                      //  alert(data);
-                        var obj = $.parseJSON(data);
-                         $(".storyAuthor").val(obj[0]['name']);
-                    },
-                    error: function (xhr, status, error) {
-                        debugText.text(error);
-                      //  debugText.setAttr('fontSize','25');
-                        interfaceLayer.draw();
-                    }
-                });
-
-               // $(".storyTitle").val(storyID);
+                $(".storyTitle").val(obj[0]['name']);
+                $(".storyAuthor").val(obj[0]['author_name']);
+                $(".storyCoAuthor").val(obj[0]['co_author_name']);
 
             },
             error: function (xhr, status, error) {
@@ -1834,6 +1823,7 @@ nodeEditor.module = (function($) {
         var res = window.location.href;
         var array = res.split("/");
         storyID = array[array.length-2];
+      //  storyID = storyID.replace(new RegExp("%20","g"),' ');
 
         width = $('#container').width();
         stage.setAttr('width',width);
@@ -2185,16 +2175,27 @@ nodeEditor.module = (function($) {
 
         //change url !!!!!!!!!!!
         $('.saveStory').click(function() {
+            var published;
+
+            if($('.isPublished').prop('checked') == true){
+                published = 1;
+            }else{
+                published = 0;
+            }
                 $.ajax({
                     url: ajaxLink,
                     type: 'GET',
-                    data: 'functionName=saveStory&storyID=' + storyID + '&title=' + $('.storyTitle'+firstLast).val(),
+                    data: 'functionName=saveStory&storyID=' + storyID + '&title=' + $('.storyTitle'+firstLast).val() + '&author='
+                    + $('.storyAuthor'+firstLast).val() + '&coAuthor=' + $('.storyCoAuthor'+firstLast).val()+ '&published=' + published,
                     success: function (data) {
                         var obj = $.parseJSON(data);
                         var res = window.location.href;
-                        res = res.replace(obj[0]['name'],obj[1]['name']);
+                        var array = res.split("/");
+                        var storyName = array[array.length-2];
+                       // obj[0]['name'] = obj[0]['name'].replace(new RegExp(" ","g"),'%20');
+                      //  alert(res + " :::: "+ storyName + " :.::: "+ obj[1]['name']);
+                        res = res.replace(storyName,obj[1]['name']);
                         location.replace(res);
-
                     },
                     error: function (xhr, status, error) {
                         debugText.text(error);

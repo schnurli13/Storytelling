@@ -63,31 +63,40 @@ if ($functionName == "drawLines") {
 
 function saveStory($storyID){
     $title = filter_input(INPUT_GET, 'title');
+    $author = filter_input(INPUT_GET, 'author');
+    $coAuthor = filter_input(INPUT_GET, 'coAuthor');
+    $published = filter_input(INPUT_GET, 'published');
     $mysqlObject = new mysqlModule();
-    $result =  $mysqlObject->queryDataBase("SELECT name FROM story WHERE id = '".$storyID."'");
+    $result =  $mysqlObject->queryDataBase("SELECT name,isPublished,author_name,co_author_name  FROM story WHERE id = '".$storyID."'");
 
 
-   if($result[0]['name'] != $title){
-       $result[1]['name'] = $title;
-       $sql = "UPDATE story SET name = '".$title."' WHERE id = ".$storyID;
-       if($mysqlObject->commandDataBase($sql)){
-           echo json_encode($result);
-       }else{
-           echo "Error: Transaction rolled back";
-       }
+    $update= "";
+   if($result[0]['name'] != $title || $result[0]['author_name'] != $author || $result[0]['co_author_name'] != $coAuthor ||  $result[0]['isPublished'] != $published ){
+       //$title = str_replace(" ","+",$title);
+        $update = "name = '".$title."'".",author_name = '".$author."'".",co_author_name = '".$coAuthor."'".",isPublished = '".$published."'";
     }
-}
 
-function getAuthorDetails($storyID){
-    $id = filter_input(INPUT_GET, 'authorID');
-    $mysqlObject = new mysqlModule();
-    echo json_encode($mysqlObject->queryDataBase("SELECT name FROM users WHERE id = '".$id."'"));
+
+    $result[1]['name'] = $title;
+    $result[1]['author_name'] = $author;
+    $result[1]['co_author_name'] = $coAuthor;
+    $result[1]['isPublished'] = $published;
+
+    if($update != ""){
+        $sql = "UPDATE story SET ".$update." WHERE id = ".$storyID;
+        if($mysqlObject->commandDataBase($sql)){
+            echo json_encode($result);
+        }else{
+            echo "Error: Transaction rolled back";
+        }
+    }
+
 }
 
 function getStoryDetails($storyID){
     $name = filter_input(INPUT_GET, 'storyID');
     $mysqlObject = new mysqlModule();
-    echo json_encode($mysqlObject->queryDataBase("SELECT user,isPublished FROM story WHERE name = '".$name."'"));
+    echo json_encode($mysqlObject->queryDataBase("SELECT name,isPublished,author_name,co_author_name FROM story WHERE name = '".$name."'"));
 }
 
 function saveContent($storyID){
