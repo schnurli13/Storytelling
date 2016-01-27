@@ -1,18 +1,14 @@
 var initialize;
 var handleReInitialize;
 
-var form;
-var submitForm;
-var activateSubmit;
 var activateCloseButton;
 var loadStandardValue;
 
 var changePictureButton;
 var changePictureActivation;
 var loadPictureChangeElements;
-var changePicLoaded;
 
-var loadCurrentPicture;
+var loadCurrentPictures;
 
 var loadAndUpdatePics;
 var setAsProfilePic;
@@ -22,69 +18,20 @@ var getCurrentUser;
 
 var loadCropper;
 
-activateSubmit = function(){
-	form = $('.handledAjaxForm');
-	form.on('submit', function(e){
-		e.preventDefault();
-		submitForm($(this));
-	});
-	loadStandardValue(form);
-}
-
-submitForm = function(submitForm){
-	console.log("submit event");
-	var fd = new FormData(submitForm[0]);
-	fd.append('function', submitForm.attr('id'));
-		$.ajax({
-			url: '/Storytelling/public/php/formFunctions.php',
-			type: 'POST',
-			data: fd,
-			enctype: 'multipart/form-data',
-			processData: false,  // tell jQuery not to process the data
-			contentType: false   // tell jQuery not to set contentType
-		}).done(function( data ) {
-			console.log('PHP Output:');
-			console.log( data );
-			if(submitForm.attr('id') === 'changePic'){
-				loadAndUpdatePics();
-			}
-			loadStandardValue(submitForm);
-		});
-	return false;	
-}
-
-loadStandardValue = function(forms){
-	forms.each(function(){
-	
-		var fd = new FormData();
-		fd.append('function', 'fetchCurrentValues');
-		fd.append('form_id', $(this).attr('id'));
-		var myElement = $(this);
-			$.ajax({
-				url: '/Storytelling/public/php/formFunctions.php',
-				type: 'POST',
-				data: fd,
-				enctype: 'multipart/form-data',
-				processData: false,  // tell jQuery not to process the data
-				contentType: false   // tell jQuery not to set contentType
-			}).done(function( data ) {
-				console.log('Data for forms:');
-				console.log(data);
-				myElement.children('input').val('');
-				myElement.children('.loadData').attr('placeholder', data);
-			});
-		
-	})
-	
-}
-
 changePictureActivation = function(){
-	changePictureButton = $('#changePictureButton');
+	changePictureButton = $('.changePictureButton');
+	var changePictureAttr;
+	if(changePictureButton.hasClass('userPicture')){
+		changePictureAttr = 'userPicture';
+	}else if(changePictureButton.hasClass('storyPicture')){
+		changePictureAttr = 'storyPicture';
+	}else if(changePictureButton.hasClass('pagePicture')){
+		changePictureAttr = 'pagePicture';
+	}
 	changePictureButton.on('click', function(){
-	if(!changePicLoaded){
+	if(!$(this).hasClass('open')){
 		loadPictureChangeElements($(this));
-		activateSubmit();
-		changePicLoaded = true;
+		$(this).addClass('open');
 		loadAndUpdatePics();
 		}
 	})
@@ -156,42 +103,62 @@ setAsProfilePic = function(picture){
 		processData: false,  // tell jQuery not to process the data
 		contentType: false   // tell jQuery not to set contentType
 	}).done(function( data ) {
-	loadCurrentPicture();
+	loadCurrentPictures();
 	console.log( data );
 	});
 }
 
 loadPictureChangeElements = function(button){
-	button.parent().after('<form method="POST" id="changePic" name="changePic"></form>');
-	var upload = $('#changePic');
+	button.parent().after('<form method="POST" class="changePic" name="changePic"></form>');
+	var upload = button.parent().siblings('.changePic');
 	upload.wrap('<div id="changePicSection"></div>');
-	//upload.atfter('<div id="profilePicSection"></div>');
-	//upload.append('<label class="selectFileLable" >Select a file:</label><br>');
-	//upload.append('<input class="selectFileFile" type="file" name="file" required />');
-	//upload.append('<input class="selectFileSubmit" type="submit" value="Upload Picture" />');
 	upload.append('<div id="cropField" />');
 	button.parent().after('<div id="profilePicSection"></div>');
 	
 	loadCropper();
 }
 
-loadCurrentPicture = function(){
+loadCurrentPictures = function(){
+	var allPictures = $('#currentPicture');
 	var fd = new FormData();
-	fd.append('function', 'getCurrentPicture');
-	fd.append('pictureType', 'currentUserPicture');
-	$.ajax({
-		url: '/Storytelling/public/php/formFunctions.php',
-		type: 'POST',
-		data: fd,
-		enctype: 'multipart/form-data',
-		processData: false,  // tell jQuery not to process the data
-		contentType: false   // tell jQuery not to set contentType
-	}).done(function( data ) {
-		console.log('PHP Output:');
-		if(data != ''){
-			$('#currentPicture').attr('src', '/Storytelling/public/images/profile/'+data);
+	var storyname = $('.storyInformationDiv').attr('data-story');
+	allPictures.each(function(){
+		var that = $(this);
+		var fd = new FormData();
+		fd.append('function', 'getCurrentPicture');
+		fd.append('storyName', storyname);
+		var changePictureAttr;
+		if($(this).hasClass('currentUserPicture')){
+			changePictureAttr = 'currentUserPicture';
+		}else if($(this).hasClass('currentStoryPicture')){
+			changePictureAttr = 'currentStoryPicture';
+		}else if($(this).hasClass('currentPagePicture')){
+			changePictureAttr = 'currentPagePicture';
 		}
-		console.log( data );
+		fd.append('pictureType', changePictureAttr);
+		$.ajax({
+			url: '/Storytelling/public/php/formFunctions.php',
+			type: 'POST',
+			data: fd,
+			enctype: 'multipart/form-data',
+			processData: false,  // tell jQuery not to process the data
+			contentType: false   // tell jQuery not to set contentType
+		}).done(function( data ) {
+			console.log('PHP Output:');
+			if(data != ''){
+				var picPath = '';
+				if(changePictureAttr === 'currentUserPicture'){
+					picPath = '/Storytelling/public/images/profile';
+				}else if(changePictureAttr === 'currentStoryPicture'){
+					picPath = '/Storytelling/public/images/story';
+				}else if(changePictureAttr === 'currentPagePicture'){
+					picPath = '/Storytelling/public/images/page';
+				}
+				that.attr('src', picPath+'/'+data);
+			}
+			console.log( data );
+		});
+
 	});
 	return false;	
 }
@@ -218,8 +185,7 @@ getCurrentUser = function(){
 
 initialize = function(){
 	changePicLoaded = false;
-	activateSubmit();
-	loadCurrentPicture();
+	loadCurrentPictures();
 	changePictureActivation();
 }
 

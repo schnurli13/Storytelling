@@ -70,7 +70,7 @@ class FrontendMapper extends MotherMapper{
 			}else if(count($this->basicInformationObject->getUriArray()) == 5 && $this->basicInformationObject->getUriArray()[4] == "edit"){
 				$this->myPage->setTitle('Edit: '.$this->basicInformationObject->getUriArray()[3]);
 				$this->addCroppic();
-				$this->myPage->useSource('javascript', 'formHandler');
+				$this->myPage->useSource('javascript', 'storyEditHandler');
 				$this->myPage->useSource('javascript', 'konva');
 				$this->myPage->useSource('javascript', 'function');
 				$this->myPage->useSource('css', 'style');
@@ -79,7 +79,6 @@ class FrontendMapper extends MotherMapper{
 				$this->myPage->useSource('javascript', 'modernizr.custom');
 				$userStoryEditContentControllerObject = new UserStoryEditContentController('nodeEditorTemplate');
 				$this->myPage->setContent($userStoryEditContentControllerObject->execute());
-
 				
 			}else if(count($this->basicInformationObject->getUriArray()) == 5 && $this->basicInformationObject->getUriArray()[4] == "published"){
 				$this->myPage->setTitle($this->basicInformationObject->getUriArray()[3]);

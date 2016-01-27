@@ -113,8 +113,24 @@ function getAllPictures(){
 function getCurrentPicture(){
 	$sessionObject = new sessionModule();
 	$mysqlObject = new mysqlModule();
-	$profileImageId = $mysqlObject->queryDataBase('SELECT img_id FROM users WHERE name = "'.$sessionObject->getUserName().'"')[0]['img_id'];
-	echo $mysqlObject->queryDataBase('SELECT path FROM profile_images WHERE id = "'.$profileImageId.'"')[0]['path'];
+	$table = '';
+	$images_table = '';
+	$search_name = '';
+	if($_POST['pictureType'] === 'currentUserPicture'){
+		$table = 'users';
+		$images_table = 'profile_images';
+		$search_name = $sessionObject->getUserName();
+	}else if($_POST['pictureType'] === 'currentStoryPicture'){
+		$table = 'story';
+		$images_table = 'story_images';
+		$search_name = $_POST['storyName'];
+	}else if($_POST['pictureType'] === 'currentPagePicture'){
+		$table = 'page';
+		$images_table = 'page_images';
+		$search_name = $informations->getUriArray()[3];
+	}
+	$imageId = $mysqlObject->queryDataBase('SELECT img_id FROM '.$table.' WHERE name = "'.$search_name.'"')[0]['img_id'];
+	echo $mysqlObject->queryDataBase('SELECT path FROM '.$images_table.' WHERE id = "'.$imageId.'"')[0]['path'];
 }
 
 function handleName(){

@@ -11,6 +11,7 @@ class UserStoryEditContentController extends MotherController{
 			header('Location: .');
 		}else{
 			$this->model->addLogState($this->sessionObject);
+			$this->model->addAttribute('STORYNAME', $this->basicInformationObject->getUriArray()[3]);
 		}	
 	}
 }

@@ -14,19 +14,19 @@
             <div id="content">
                 <div class="h1bgUserEdit"><h1>EDIT MY INFO</h1></div>
                 
-                <form method="POST" id="changeName" name="changeName"  class="ajaxForm">
+                <form method="POST" id="changeName" name="changeName"  class="handledAjaxForm">
                         <label>NAME</label><br>
                         <input class="inputField loadData" placeholder="ads" type="text" name="userName" required />
                         <div class="buttonFrameContainer"><input class="button" type="submit" value="CHANGE NAME" /></div>
                 </form>
                 
-                <form method="POST" id="changeEmail" name="changeEmail"  class="ajaxForm">
+                <form method="POST" id="changeEmail" name="changeEmail"  class="handledAjaxForm">
                         <label>EMAIL</label><br>
                         <input class="inputField loadData" type="email" name="userMail" required />
                         <div class="buttonFrameContainer"><input class="button" type="submit" value="CHANGE E-MAIL" /></div>
                 </form>
                 
-                <form method="POST" id="changePassword" name="changePassword"  class="ajaxForm">
+                <form method="POST" id="changePassword" name="changePassword"  class="handledAjaxForm">
                         <label>PASSWORD</label><br>
                         <input class="inputField" type="text" name="userPassword" required />
                         <div class="buttonFrameContainer dummy"><input class="button dummyButton" type="submit" value="" /></div>
@@ -35,7 +35,7 @@
                         <div class="buttonFrameContainer"><input class="button" type="submit" value="CHANGE PASSWORD" /></div>
                 </form>
                 
-                <div class="currPicDiv"><img src="/Storytelling/public/images/dummyProfile.jpg" alt="CurrentPicture" id="currentPicture"></div>
+                <div class="currPicDiv"><img src="/Storytelling/public/images/dummyProfile.jpg" alt="CurrentPicture" id="currentPicture" class="currentUserPicture"></div>
                 <div class="buttonFrameContainer" id="pictureHandling">
                 <input class="button ajaxFormTrigger userPicture" type="button" id="changePictureButton" value="CHANGE PICTURE" /><br>
 		</div>
