@@ -26,7 +26,7 @@ class NewStoryController extends MotherController{
 				
 				$this->msqlObject->commandDataBase('UPDATE `story` SET firstPage = "'.$newPageId.'" WHERE id = "'.$newStoryId.'"');
 				
-				header('Location: ./'.$_POST['storyName'].'/edit');
+				header('Location: '.$this->basicInformationObject->getUriArray()[0].'/users/'.$this->sessionObject->getUserName().'/'.$_POST['storyName'].'/edit');
 			}
 		}else{
 			header('Location: '.$this->basicInformationObject->getUriArray()[0].'/404');
