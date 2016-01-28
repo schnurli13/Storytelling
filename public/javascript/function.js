@@ -39,6 +39,7 @@ nodeEditor.module = (function($) {
         offset = 0.0,
         maxHeight,
         tooltip,
+        initFontSize,
         yDrag,
         diffX,
         diffY,
@@ -1139,7 +1140,9 @@ nodeEditor.module = (function($) {
                          pause = false;
                          popUpShown = false;
                          setDraggable(true);
-                         resetScale();
+                         if(layer.getAttr('scale') < 1.0){
+                             resetScale();
+                         }
                          startDrawLines();
                          startDrawNodes();
                          debugText.setAttr('x',width/2-70-offset);
@@ -1196,7 +1199,9 @@ nodeEditor.module = (function($) {
 
 
         interfaceLayer.find('#button1Text')[0].setAttr('text','MOVE BRANCH');
+        interfaceLayer.find('#button1Text')[0].setAttr('fontSize',initFontSize);
         interfaceLayer.find('#button1Text')[0].setAttr('x', addRect.getAttr('width')/2-interfaceLayer.find('#button1Text')[0].getAttr('width')/2);
+
 
         interfaceLayer.find('#button2Text')[0].setAttr('text','MOVE PAGE');
         interfaceLayer.find('#button2Text')[0].setAttr('x',addRect.getAttr('width')/2-interfaceLayer.find('#button2Text')[0].getAttr('width')/2);
@@ -1421,7 +1426,7 @@ nodeEditor.module = (function($) {
         }
 
         interfaceLayer.find('#button1Text')[0].setAttr('text','ADD AS SUB-PAGE');
-        interfaceLayer.find('#button1Text')[0].setAttr('fontSize',interfaceLayer.find('#button1Text')[0].getAttr('fontSize')-1);
+        interfaceLayer.find('#button1Text')[0].setAttr('fontSize',initFontSize-1);
         interfaceLayer.find('#button1Text')[0].setAttr('x',addRect.getAttr('width')/2-interfaceLayer.find('#button1Text')[0].getAttr('width')/2);
 
 
@@ -1718,9 +1723,9 @@ nodeEditor.module = (function($) {
 
         tooltip.setAttr('x', e.target.getAttr('x')-stage.find('#tooltext')[0].getAttr('width')/2);
 
-        debugText.setAttr('x', (width/2)-offset-stage.find('#tooltext')[0].getAttr('width')/2);
-        debugText.setAttr('fontSize','20');
         if(selectedNode == null) {
+            debugText.setAttr('x', (width/2)-offset-stage.find('#tooltext')[0].getAttr('width')/2);
+            debugText.setAttr('fontSize','20');
             debugText.text('"'+toolText+'"');
             interfaceLayer.draw();
         }
@@ -1728,7 +1733,6 @@ nodeEditor.module = (function($) {
         layerTEXT.draw();
 
     };
-
 
 
     setStoryDetails = function(){
@@ -1969,8 +1973,6 @@ nodeEditor.module = (function($) {
         button1.add(delText.clone({id:'button1Text'}));
         popUp.add(button1);
 
-
-
         button2.add(button1Rect.clone({id:'button2Rect'}));
         button2.add(dottedLineAdd.clone({id:'button2dotted'}));
         button2.add(delText.clone({id:'button2Text'}));
@@ -1985,7 +1987,6 @@ nodeEditor.module = (function($) {
         interfaceLayer.add(popUp);
 
         interfaceLayer.find('#popUp')[0].hide();
-       // tempLayer.draw();
 
         stage.add(emptyLayer);
         stage.add(backgroundLayer);
@@ -2002,6 +2003,7 @@ nodeEditor.module = (function($) {
         startDrawLines();
         startDrawNodes();
 
+        initFontSize = stage.find('#button1Text')[0].getAttr('fontSize');
         //change fontsize
         if(stage.getAttr('width') <850){
             isMobile = true;
@@ -2011,6 +2013,7 @@ nodeEditor.module = (function($) {
             changeFontSize(addText,0.02);
             changeFontSize(delText,0.02);
             changeFontSize(stage.find('#button1Text')[0],0.02);
+            initFontSize = stage.find('#button1Text')[0].getAttr('fontSize');
             changeFontSize(stage.find('#button2Text')[0],0.02);
             changeFontSize(stage.find('#button3Text')[0],0.02);
             changeFontSize(popText,0.02);
@@ -2022,6 +2025,7 @@ nodeEditor.module = (function($) {
             changeFontSize(addText,0.023);
             changeFontSize(delText,0.023);
             changeFontSize(stage.find('#button1Text')[0],0.023);
+            initFontSize = stage.find('#button1Text')[0].getAttr('fontSize');
             changeFontSize(stage.find('#button2Text')[0],0.023);
             changeFontSize(stage.find('#button3Text')[0],0.023);
             changeFontSize(popText,0.023);
@@ -2032,6 +2036,7 @@ nodeEditor.module = (function($) {
             changeFontSize(addText,0.028);
             changeFontSize(delText,0.028);
             changeFontSize(stage.find('#button1Text')[0],0.028);
+            initFontSize = stage.find('#button1Text')[0].getAttr('fontSize');
             changeFontSize(stage.find('#button2Text')[0],0.028);
             changeFontSize(stage.find('#button3Text')[0],0.028);
             changeFontSize(popText,0.028);
@@ -2042,6 +2047,7 @@ nodeEditor.module = (function($) {
             changeFontSize(addText,0.035);
             changeFontSize(delText,0.035);
             changeFontSize(stage.find('#button1Text')[0],0.035);
+            initFontSize = stage.find('#button1Text')[0].getAttr('fontSize');
             changeFontSize(stage.find('#button2Text')[0],0.035);
             changeFontSize(stage.find('#button3Text')[0],0.035);
             changeFontSize(popText,0.035);
@@ -2053,6 +2059,7 @@ nodeEditor.module = (function($) {
             changeFontSize(addText,0.04);
             changeFontSize(delText,0.04);
             changeFontSize(stage.find('#button1Text')[0],0.04);
+            initFontSize = stage.find('#button1Text')[0].getAttr('fontSize');
             changeFontSize(stage.find('#button2Text')[0],0.04);
             changeFontSize(stage.find('#button3Text')[0],0.04);
             changeFontSize(popText,0.04);
@@ -2060,9 +2067,6 @@ nodeEditor.module = (function($) {
 
         if(stage.getAttr('width') <500){
             startY = 80;
-            /* if(layer.getAttr('scale').x != 1.0){
-             startY = 280;
-             }*/
         }
 
         console.log(stage.getAttr('width'));
@@ -2071,11 +2075,6 @@ nodeEditor.module = (function($) {
         addText.setAttr('y',addRect.getAttr('height')/2-(addText.getAttr('height')/3));
         delText.setAttr('y',delRect.getAttr('height')/2-delText.getAttr('height')/3);
 
-       /* $(window).resize(function() {
-            setTimeout( function(){
-                window.location.href = window.location.href;
-            },500);
-        });*/
 
         //refresh page on browser resize
         $(window).bind('resize', function(e)
@@ -2091,9 +2090,6 @@ nodeEditor.module = (function($) {
         //fill in story details
         setStoryDetails();
 
-
-
-    //    console.log(window.innerWidth);
 
 //SELECT EVENTS
         layer.on('click tap', function (e) {
@@ -2307,10 +2303,15 @@ nodeEditor.module = (function($) {
           if (!pause && movementStyle == null) {
               pause = true;
               zoomOut();
-              nodeSelection(e);
+              if(e.target.id() != selectedNode){
+                  nodeSelection(e);
+              }
               popUpShown = true;
               setDraggable(false);
               $.when(checkAdditionalNode(e.target.id()), checkDeleteNode(e.target.id())).done(function (a1, a2) {
+                  tooltip.hide();
+                  layerTEXT.draw();
+                  toolTipText="";
                   moveQuestion(e);
               });
               e.target.fill('yellow');
@@ -2408,6 +2409,9 @@ nodeEditor.module = (function($) {
                 if (overlapping) {
                     if (dropStyle == null) {
                         checkAdditionalNode(previousShape.id());
+                        tooltip.hide();
+                        layerTEXT.draw();
+                        toolTipText="";
                         dropQuestion(e);
                     }
                 } else {
