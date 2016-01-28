@@ -75,8 +75,10 @@ class FrontendMapper extends MotherMapper{
 				$this->myPage->useSource('javascript', 'function');
 				$this->myPage->useSource('css', 'style');
 				$this->myPage->useSource('css', 'component');
+				$this->myPage->useSource('css', 'publishedView');
 				$this->myPage->useSource('javascript', 'classie');
 				$this->myPage->useSource('javascript', 'modernizr.custom');
+				$this->myPage->useSource('javascript', 'publishedStoryHandler');
 				$userStoryEditContentControllerObject = new UserStoryEditContentController('nodeEditorTemplate');
 				$this->myPage->setContent($userStoryEditContentControllerObject->execute());
 				

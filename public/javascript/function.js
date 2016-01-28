@@ -646,10 +646,10 @@ nodeEditor.module = (function($) {
 
     };
 
-    nodeSelection = function(e) {
+    nodeSelection = function(elem) {
         if (!popUpShown) {
-            var fill = e.target.fill() == 'yellow' ? buttonColorHover : 'yellow';
-            e.target.fill(fill);
+            var fill = elem.fill() == 'yellow' ? buttonColorHover : 'yellow';
+            elem.fill(fill);
             debugText.setAttr('fontSize','20');
             if(selectedNode != null){
                 layer.find('#'+selectedNode).fill(buttonColorHover);
@@ -659,7 +659,7 @@ nodeEditor.module = (function($) {
                 resetInputFields();
                 debugText.text('Selected "' + toolTipText+'"');
                 debugText.setAttr('x', (width/2)-offset-debugText.getAttr('width')/2);
-                selectedNode = e.target.id();
+                selectedNode = elem.id();
                 if(zoomStyle == "zoomJump") {
                     zoomIn(e, null);
                 }
@@ -699,7 +699,16 @@ nodeEditor.module = (function($) {
                             var picName = array[array.length-1];
                             src = src.replace(picName, "page/"+obj[1]['path']);
                             $('#pageEditor #currentPicture').prop('src',src);
+                           // $('#previewEditor #currentPicturePreview').prop('src',src);
                         }
+
+                      loadPage(selectedNode);
+
+                        $('#pageOptions').bind('DOMNodeInserted', function() {
+                            $('.pageOption').off('click').click(function(){
+                                nodeSelection(layer.find('#'+ $(this).attr('data-pageId'))[0]);
+                            });
+                        });
 
 
                         if(!pause) {
@@ -727,6 +736,8 @@ nodeEditor.module = (function($) {
             layer.draw();
             backgroundLayer.draw();
             levelTextLayer.draw();
+
+
         }
     };
 
@@ -1261,6 +1272,7 @@ nodeEditor.module = (function($) {
             evt.target.fill(buttonColorHover);
             layer.draw();
             selectedNode = null;
+            resetInputFields();
             setDraggable(true);
            // startDrawNodes();
             popUpShown = false;
@@ -1767,6 +1779,10 @@ nodeEditor.module = (function($) {
     resetInputFields = function(){
         $("#pageEditor .inputField").val('');
         $('#pageEditor #currentPicture').prop('src','/Storytelling/public/images/dummyProfile.jpg');
+       $('#previewEditor #currentPicturePreview').prop('src','/Storytelling/public/images/dummyProfile.jpg');
+        $('#previewEditor #title h2').text('Default-Title');
+        $('#previewEditor #pageText').text('DefaultText');
+        $('#previewEditor #pageOptions').empty();
         $('.opt1').removeAttr('disabled');
         $('.opt2').removeAttr('disabled');
         $('.opt3').removeAttr('disabled');
@@ -1900,6 +1916,7 @@ nodeEditor.module = (function($) {
         var res = window.location.href;
         var array = res.split("/");
         storyID = array[array.length-2];
+        //var user = array[array.length-1];
       //  storyID = storyID.replace(new RegExp("%20","g"),' ');
 
         width = $('#container').width();
@@ -2087,8 +2104,6 @@ nodeEditor.module = (function($) {
         });
 
 
-
-
         //fill in story details
         setStoryDetails();
 
@@ -2096,7 +2111,7 @@ nodeEditor.module = (function($) {
 //SELECT EVENTS
         layer.on('click tap', function (e) {
             if(movementStyle == null) {
-                nodeSelection(e);
+                nodeSelection(e.target);
                 disable(e.target.id());
             }else if(movementStyle != null && movementStyle != 'one'){
                 layer.find('#movingGroup')[0].getChildren(function (n) {
@@ -2222,6 +2237,8 @@ nodeEditor.module = (function($) {
         hoverInterfaceButtons('#zoomOutRect','#zoomOutText');
 
 
+
+
         $('.savePage').click(function() {
             if(selectedNode != null) {
                 $.ajax({
@@ -2306,7 +2323,7 @@ nodeEditor.module = (function($) {
               pause = true;
               zoomOut();
               if(e.target.id() != selectedNode){
-                  nodeSelection(e);
+                  nodeSelection(e.target);
               }
               popUpShown = true;
               setDraggable(false);
