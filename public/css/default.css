@@ -677,6 +677,8 @@ input.buttonStoryInfo {
   font-family: "Architects Daughter", cursive; }
 #nodeEditorPage #profilePicSection {
   margin-top: 15px; }
+#nodeEditorPage #cbp-spmenu-s2 {
+  overflow: scroll !important; }
 #nodeEditorPage #pageEditor {
   background-color: #F3E0E1;
   /*height: 31.5%;*/
