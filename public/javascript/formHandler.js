@@ -59,6 +59,7 @@ loadStandardValue = function(forms){
 		var fd = new FormData();
 		fd.append('function', 'fetchCurrentValues');
 		fd.append('form_id', $(this).attr('id'));
+		fd.append('pictureType', 'currentUserPicture');
 		var myElement = $(this);
 			$.ajax({
 				url: '/Storytelling/public/php/formFunctions.php',
@@ -92,6 +93,7 @@ changePictureActivation = function(){
 
 loadAndUpdatePics = function(){
 	var fd = new FormData();
+	fd.append('pictureType', 'currentUserPicture');
 	fd.append('function', 'getAllPictures');
 	$.ajax({
 		url: '/Storytelling/public/php/formFunctions.php',
@@ -125,6 +127,7 @@ loadAndUpdatePics = function(){
 deleteProfilePic = function(deleteButton){
 	console.log(deleteButton.parent().children('img').attr('alt'));
 	var fd = new FormData();
+	fd.append('pictureType', 'currentUserPicture');
 	fd.append('function', 'deletePic');
 	fd.append('path', deleteButton.parent().children('img').attr('src'));
 	$.ajax({
@@ -146,6 +149,7 @@ setAsProfilePic = function(picture){
 	console.log(picture.attr('alt'));
 	
 	var fd = new FormData();
+	fd.append('pictureType', 'currentUserPicture');
 	fd.append('function', 'setAsNewProfilePic');
 	fd.append('path', picture.attr('src'));
 	$.ajax({
@@ -227,7 +231,7 @@ loadCropper = function(){
 
 	var cropperOptions = {
 			uploadUrl:'/Storytelling/public/plugins/croppic/img_save_to_file.php',
-			cropUrl:'/Storytelling/public/plugins/croppic/img_crop_to_file.php',
+			cropUrl:'/Storytelling/public/plugins/croppic/img_crop_to_file_user.php',
 			onAfterImgCrop:	function(){ loadAndUpdatePics() }
 		}		
 		

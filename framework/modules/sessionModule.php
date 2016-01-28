@@ -12,6 +12,9 @@ class sessionModule{
 		if(!isset($_SESSION['userName'])){
 			$_SESSION['userName'] = '';
 		}
+		if(!isset($_SESSION['story'])){
+			$_SESSION['story'] = '';
+		}
 		if(!isset($_SESSION['safeHash'])){
 			$_SESSION['safeHash'] = '';
 		}
@@ -30,6 +33,14 @@ class sessionModule{
 	
 	function setUsername($userName){
 		$_SESSION['userName'] = $userName;
+	}
+	
+	function getStory(){
+		return $_SESSION['story'];
+	}
+	
+	function setStory($story){
+		$_SESSION['story'] = $story;
 	}
 	
 	function getLogState(){

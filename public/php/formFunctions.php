@@ -66,14 +66,40 @@ function deletePic(){
 	$sessionObject = new sessionModule();
 	$mysqlObject = new mysqlModule();
 	
+	$table = '';
+	$images_table = '';
+	$search_name = '';
+	$subject = '';
+	$pathType = '';
+	if($_POST['pictureType'] === 'currentUserPicture'){
+		$table = 'users';
+		$subject = 'user';
+		$images_table = 'profile_images';
+		$search_name = $sessionObject->getUserName();
+		$pathType = 'profile';
+	}else if($_POST['pictureType'] === 'currentStoryPicture'){
+		$table = 'story';
+		$subject = 'story';
+		$images_table = 'story_images';
+		$search_name = $_POST['storyName'];
+		$pathType = 'story';
+	}else if($_POST['pictureType'] === 'currentPagePicture'){
+		$table = 'page';
+		$subject = 'user';
+		$images_table = 'page_images';
+		$search_name = $informations->getUriArray()[3];
+		$pathType = 'page';
+	}
+
+	
 	$path = $_POST['path'];
-	$path = str_replace('/Storytelling/public/images/profile/', '', $path);
+	$path = str_replace('/Storytelling/public/images/'.$pathType.'/', '', $path);
 		
-	$pictureId = $mysqlObject->queryDataBase('SELECT id FROM profile_images WHERE path = "'.$path.'"')[0]['id'];
+	//$pictureId = $mysqlObject->queryDataBase('SELECT id FROM profile_images WHERE path = "'.$path.'"')[0]['id'];
 	
-	$filePath = '../images/profile/'.$path;
+	$filePath = '../images/'.$pathType.'/'.$path;
 	
-	$deletedOnDatabase = $mysqlObject->commandDataBase('DELETE FROM `storytelling_platform`.`profile_images` WHERE `profile_images`.`path` = "'.$path.'"');
+	$deletedOnDatabase = $mysqlObject->commandDataBase('DELETE FROM `storytelling_platform`.`'.$images_table.'` WHERE `'.$images_table.'`.`path` = "'.$path.'"');
 	
 	if(file_exists($filePath) && $deletedOnDatabase){
 		unlink($filePath);
@@ -87,13 +113,38 @@ function deletePic(){
 function setAsNewProfilePic(){
 	$sessionObject = new sessionModule();
 	$mysqlObject = new mysqlModule();
-	
+		
+	$table = '';
+	$images_table = '';
+	$search_name = '';
+	$subject = '';
+	$pathType = '';
+	if($_POST['pictureType'] === 'currentUserPicture'){
+		$table = 'users';
+		$subject = 'user';
+		$images_table = 'profile_images';
+		$search_name = $sessionObject->getUserName();
+		$pathType = 'profile';
+	}else if($_POST['pictureType'] === 'currentStoryPicture'){
+		$table = 'story';
+		$subject = 'story';
+		$images_table = 'story_images';
+		$search_name = $_POST['storyName'];
+		$pathType = 'story';
+	}else if($_POST['pictureType'] === 'currentPagePicture'){
+		$table = 'page';
+		$subject = 'user';
+		$images_table = 'page_images';
+		$search_name = $informations->getUriArray()[3];
+		$pathType = 'page';
+	}
+
 	$path = $_POST['path'];
-	$path = str_replace('/Storytelling/public/images/profile/', '', $path);
+	$path = str_replace('/Storytelling/public/images/'.$pathType.'/', '', $path);
 	
-	$pictureId = $mysqlObject->queryDataBase('SELECT id FROM profile_images WHERE path = "'.$path.'"')[0]['id'];
+	$pictureId = $mysqlObject->queryDataBase('SELECT id FROM '.$images_table.' WHERE path = "'.$path.'"')[0]['id'];
 	
-	$mysqlObject->commandDataBase('UPDATE `users` SET img_id = "'.$pictureId.'" WHERE name = "'.$sessionObject->getUserName().'"');
+	$mysqlObject->commandDataBase('UPDATE `'.$table.'` SET img_id = "'.$pictureId.'" WHERE name = "'.$search_name.'"');
 	
 	echo $pictureId;
 }
@@ -102,8 +153,32 @@ function getAllPictures(){
 	$sessionObject = new sessionModule();
 	$mysqlObject = new mysqlModule();
 	$returnArray = array();
-	$userID = $mysqlObject->queryDataBase('SELECT id FROM users WHERE name = "'.$sessionObject->getUserName().'"')[0]['id'];
-	$foundPictures = $mysqlObject->queryDataBase('SELECT path FROM profile_images WHERE user = "'.$userID.'"');
+	
+	$table = '';
+	$images_table = '';
+	$search_name = '';
+	$subject = '';
+	if($_POST['pictureType'] === 'currentUserPicture'){
+		$table = 'users';
+		$subject = 'user';
+		$images_table = 'profile_images';
+		$search_name = $sessionObject->getUserName();
+	}else if($_POST['pictureType'] === 'currentStoryPicture'){
+		$table = 'story';
+		$subject = 'story';
+		$images_table = 'story_images';
+		$search_name = $_POST['storyName'];
+	}else if($_POST['pictureType'] === 'currentPagePicture'){
+		$table = 'page';
+		$subject = 'user';
+		$images_table = 'page_images';
+		$search_name = $informations->getUriArray()[3];
+	}
+	
+	$foundId = $mysqlObject->queryDataBase('SELECT id FROM '.$table.' WHERE name = "'.$search_name.'"')[0]['id'];
+	if($_POST['pictureType'] === 'currentStoryPicture'){$foundId = $_POST['storyName'];}
+	$foundPictures = $mysqlObject->queryDataBase('SELECT path FROM '.$images_table.' WHERE '.$subject.' = "'.$foundId.'"');
+	
 	for($i = 0; $i<sizeof($foundPictures); $i++){
 		array_push($returnArray, $foundPictures[$i]['path']);
 	}
@@ -113,6 +188,7 @@ function getAllPictures(){
 function getCurrentPicture(){
 	$sessionObject = new sessionModule();
 	$mysqlObject = new mysqlModule();
+	
 	$table = '';
 	$images_table = '';
 	$search_name = '';
@@ -129,6 +205,7 @@ function getCurrentPicture(){
 		$images_table = 'page_images';
 		$search_name = $informations->getUriArray()[3];
 	}
+	
 	$imageId = $mysqlObject->queryDataBase('SELECT img_id FROM '.$table.' WHERE name = "'.$search_name.'"')[0]['img_id'];
 	echo $mysqlObject->queryDataBase('SELECT path FROM '.$images_table.' WHERE id = "'.$imageId.'"')[0]['path'];
 }
