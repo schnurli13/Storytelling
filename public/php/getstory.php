@@ -55,8 +55,6 @@ if ($functionName == "drawLines") {
     getTitle($storyID);
 }else if($functionName == "getStoryDetails"){
     getStoryDetails($storyID);
-}else if($functionName == "getAuthorDetails"){
-    getAuthorDetails($storyID);
 }else if($functionName == "saveStory"){
     saveStory($storyID);
 }
@@ -69,13 +67,10 @@ function saveStory($storyID){
     $mysqlObject = new mysqlModule();
     $result =  $mysqlObject->queryDataBase("SELECT name,isPublished,author_name,co_author_name  FROM story WHERE id = '".$storyID."'");
 
-
     $update= "";
    if($result[0]['name'] != $title || $result[0]['author_name'] != $author || $result[0]['co_author_name'] != $coAuthor ||  $result[0]['isPublished'] != $published ){
-       //$title = str_replace(" ","+",$title);
         $update = "name = '".$title."'".",author_name = '".$author."'".",co_author_name = '".$coAuthor."'".",isPublished = '".$published."'";
     }
-
 
     $result[1]['name'] = $title;
     $result[1]['author_name'] = $author;
@@ -222,14 +217,6 @@ function fixParentANDSiblings($con,$ID,$storyID,$result){
         "SELECT id,NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE NextPageID1 = ".$ID." OR NextPageID2 = ".$ID.
         " OR NextPageID3 = ".$ID." OR NextPageID4 = ".$ID." AND story = ".$storyID);
 
-   /* $indexedOnly = array();
-    $sql="SELECT id,NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE NextPageID1 = ".$ID." OR NextPageID2 = ".$ID.
-        " OR NextPageID3 = ".$ID." OR NextPageID4 = ".$ID." AND story = ".$storyID;
-    $result = mysqli_query($con,$sql);
-    while($row = mysqli_fetch_assoc($result)) {
-        $indexedOnly[] =$row;
-    }*/
-
     if($indexedOnly[0]['NextPageID1'] == $ID){
         $indexedOnly[0]['NextPageID1'] = $indexedOnly[0]['NextPageID2'];
         $indexedOnly[0]['NextPageID2'] = $indexedOnly[0]['NextPageID3'];
@@ -249,28 +236,16 @@ function fixParentANDSiblings($con,$ID,$storyID,$result){
         $indexedOnly[0]['NextPageID4'] = 0;
     }
 
-   // echo json_encode($indexedOnly);
-
         $sql="UPDATE page SET NextPageID1 = ".$indexedOnly[0]['NextPageID1']." , NextPageID2 = ".$indexedOnly[0]['NextPageID2']." ,
         NextPageID3 = ".$indexedOnly[0]['NextPageID3']." , NextPageID4 = ".$indexedOnly[0]['NextPageID4']."
         WHERE id = ".$indexedOnly[0]['id']."  AND story = ".$storyID;
-    //echo json_encode($sql);
+
         if($result == true){
             $result = mysqli_query($con,$sql);
         }else{
             mysqli_query($con,$sql);
         }
 
-   // UPDATE page SET NextPageID1 = 127 , NextPageID2 = 0 ,\r\n        NextPageID3 = 0 , NextPageID4 = 0\r\n        WHERE id = 116  AND story = 2
-
-
-        //echo $sql."\n";
-      /* $result = mysqli_query($con,$sql);
-        if(!$result)
-        {
-            die('Could not update data: '. mysqli_error());
-        }
-        echo "Updated data successfully\n";*/
 
         if($indexedOnly[0]['NextPageID1'] != 0){
             $sql="UPDATE page SET position=1 WHERE id = ".$indexedOnly[0]['NextPageID1']." AND story = ".$storyID;
@@ -305,22 +280,8 @@ function fixParentANDSiblings($con,$ID,$storyID,$result){
             }
         }
 
-
-   // echo json_encode($sql);
-
-    /*$result = mysqli_multi_query($con,$sql);
-    if(!$result)
-    {
-        die('Could not update data: '. mysqli_error($con));
-    }
-    echo "Updated data successfully\n";
-
-        do {
-         mysqli_store_result($con);
-        } while (mysqli_next_result($con));*/
     return $result;
 }
-
 
 
 function drawLines($storyID){
@@ -334,7 +295,6 @@ function drawNodes($storyID){
     echo json_encode($mysqlObject->queryDataBase("SELECT id,level,position,NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE story = ".$storyID." ORDER BY level,position ASC"));
 }
 
-//HERE
 function reorderNodes($localhost, $user, $pw,$db,$storyID){
     $ID01 = filter_input(INPUT_GET, 'ID01');
     $ID02 = filter_input(INPUT_GET, 'ID02');
@@ -375,19 +335,12 @@ function reorderNodes($localhost, $user, $pw,$db,$storyID){
     // Set autocommit to off
     mysqli_autocommit($con,FALSE);
 
-   // mysqli_begin_transaction($con,MYSQLI_TRANS_START_READ_WRITE);
-
-    //begin($con); // transaction begins
-
-    //  echo json_encode($indexedOnly);
     $sql="";
     $result = true;
     if($indexedOnly[$ID01]['level'] == '0'){
         $sql="UPDATE story SET firstPage = ".$ID02." WHERE id = ".$storyID;
         $result = mysqli_query($con,$sql);
     }
-
-
 
    $sql="UPDATE page SET level = CASE id
                                     WHEN ".$ID01."   THEN  ".$indexedOnly[$ID02]['level']."
@@ -427,14 +380,6 @@ function reorderNodes($localhost, $user, $pw,$db,$storyID){
         mysqli_query($con,$sql);
     }
 
-
-
-   /* if(!$result)
-        {
-            die('Could not update data: '. mysqli_error());
-        }
-    echo "Updated data successfully\n";*/
-
     $sql="UPDATE page SET NextPageID1 = CASE NextPageID1
                                     WHEN ".$ID01."   THEN  ".$ID02."
                                     WHEN ".$ID02."   THEN  ".$ID01."
@@ -462,7 +407,6 @@ function reorderNodes($localhost, $user, $pw,$db,$storyID){
     }else{
         mysqli_query($con,$sql);
     }
-    //echo json_encode($sql);
 
     if($result == false){
         mysqli_rollback($con); // transaction rolls back
@@ -473,30 +417,9 @@ function reorderNodes($localhost, $user, $pw,$db,$storyID){
         echo "Successfully updated!";
     }
 
-  /* $result =mysqli_multi_query($con,$sql);
-    if(!$result)
-    {
-        die('Could not update data: '. mysqli_error());
-    }
-        echo "Updated data successfully\n";
-*/
     do {
         mysqli_store_result($con);
     } while (mysqli_next_result($con));
-
-
-
-
-  /* $result = mysqli_multi_query($con,$sql);
-    if(!$result){
-        mysqli_rollback($con);// transaction rolls back
-        echo "transactions rolled back";
-        exit;
-    }else{
-       // mysqli_autocommit($con,TRUE);
-        mysqli_commit($con); // transaction is committed
-        echo "Updated data successfully\n";
-    }*/
 
         mysqli_close($con);
 }
@@ -510,12 +433,7 @@ function addNewNode($localhost, $user, $pw,$db,$storyID){
     }
 
     $mysqlObject = new mysqlModule();
-    /*$indexedOnly = $mysqlObject->queryDataBase("SELECT MAX(id) FROM page");
-
-    $newID = $indexedOnly[0]['MAX(id)']+1;*/
-
     $res =getPage($ID,"level,position,",$storyID,"id =");
-
     $newLevel = $res[0]['level']+1;
 
     $sql="SELECT position FROM page WHERE story = ".$storyID." AND id = ";
@@ -564,15 +482,12 @@ function addNewNode($localhost, $user, $pw,$db,$storyID){
         mysqli_query($con,$sql);
     }
 
-
     $sql="UPDATE page SET ".$changeNN." = ".$last_id." WHERE id = ".$ID." AND story = ".$storyID;
     if($result == true){
         $result = mysqli_query($con,$sql);
     }else{
         mysqli_query($con,$sql);
     }
-
-
 
     if($result == false){
         mysqli_rollback($con); // transaction rolls back
@@ -645,7 +560,6 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
           die('Could not connect: ' . mysqli_error($con));
       }
 
-
     if($found == "true"){
         //get children of targetid
         $indexedOnly = array();
@@ -685,7 +599,6 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
             $i[] = $row;
         }
 
-       // echo json_encode($i);
         $maxLevel =0 ;
         $maxNodeID = 0;
         for($a =0; $a < sizeof($i); $a++){
@@ -694,7 +607,6 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
                 $maxNodeID = $i[$a]['id'];
             }
         }
-
 
         $levelDiffmovingIDs = $indexedOnly[$ID02]['level']-$indexedOnly[$ID01]['level'];
         $levelDifftargetIDs =(($maxLevel+$levelDiffmovingIDs)+1)- $indexedOnly[$ID02]['level'];
@@ -745,29 +657,6 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
 
         $result = fixParentANDSiblings($con, $ID01, $storyID, $result);
 
-     /*   $sql="UPDATE page SET NextPageID1 = CASE NextPageID1
-                                                WHEN ".$ID01."   THEN  0
-                                                ELSE NextPageID1
-                                                END
-                                     ,NextPageID2 = CASE NextPageID2
-                                                WHEN ".$ID01."   THEN  0
-                                                ELSE NextPageID2
-                                                END
-                                    ,NextPageID3 = CASE NextPageID3
-                                                WHEN ".$ID01."   THEN  0
-                                                ELSE NextPageID3
-                                                END
-                                    ,NextPageID4 = CASE NextPageID4
-                                                WHEN ".$ID01."   THEN  0
-                                                ELSE NextPageID4
-                                                END
-                          WHERE NextPageID1=".$ID01."  OR NextPageID2=".$ID01." OR NextPageID3=".$ID01." OR NextPageID4=".$ID01." AND story = ".$storyID;
-        if($result == true){
-            $result = mysqli_query($con,$sql);
-        }else{
-            mysqli_query($con,$sql);
-        }*/
-
         if($indexedOnly[$ID02]['level'] != 0) {
             //austauschen der nextpage ids
             $sql = "UPDATE page SET NextPageID" . $indexedOnly[$ID02]['position'] . " = " . $ID01 . " WHERE id = " . $parentID[0] . " AND story = " . $storyID;
@@ -789,13 +678,7 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
             echo "Updated data successfully\n";
         }
 
-    /* $result = mysqli_multi_query($con,$sql);
-        if(!$result)
-        {
-            die('Could not update data: '. mysqli_error());
-        }*/
-
-
+        //needed for highlight
         echo json_encode($targetIDs);
         do {
             mysqli_store_result($con);
@@ -822,8 +705,8 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
 
         $levelDiffmovingIDs = $indexedOnly[$ID02]['level']-$indexedOnly[$ID01]['level'];
         $levelDifftargetIDs = $indexedOnly[$ID01]['level']-$indexedOnly[$ID02]['level'];
-        //austauschen level und position von obersten nodes
 
+        //austauschen level und position von obersten nodes
         mysqli_autocommit($con,FALSE);
         $result = true;
 
@@ -903,13 +786,6 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
             echo "Updated data successfully\n";
         }
 
-       /* $result = mysqli_multi_query($con,$sql);
-        if(!$result)
-        {
-            die('Could not update data: '. mysqli_error());
-        }
-        echo "Updated data successfully\n";
-       // echo json_encode($targetIDs);*/
         do {
             mysqli_store_result($con);
         } while (mysqli_next_result($con));
@@ -927,7 +803,6 @@ function addNodeAsChild($localhost, $user, $pw,$db,$storyID){
         die('Could not connect: ' . mysqli_error($con));
     }
 
-
     mysqli_autocommit($con,FALSE);
     $result = true;
 
@@ -937,12 +812,9 @@ function addNodeAsChild($localhost, $user, $pw,$db,$storyID){
     $res = mysqli_query($con,$sql);
     $indexedOnly = array();
 
-
     while($row = mysqli_fetch_assoc($res)) {
         $indexedOnly[$row['id']] = $row;
     }
-
-    //echo json_encode($indexedOnly);
 
     $pos = null;
 
@@ -961,7 +833,6 @@ function addNodeAsChild($localhost, $user, $pw,$db,$storyID){
     }
 
 
-
     //update new parent node
     $sql="UPDATE page SET ".$changeNN." = ".$child." WHERE id = ".$parent." AND story = ".$storyID;
     if($result == true){
@@ -971,7 +842,6 @@ function addNodeAsChild($localhost, $user, $pw,$db,$storyID){
     }
     //update new child node
     $sql="UPDATE page SET level = 1+".$indexedOnly[$parent]['level'].", position = ".$pos." WHERE id = ".$child." AND story = ".$storyID;
-    //echo json_encode($sql);
 
     if($result == true){
         $result = mysqli_query($con,$sql);
@@ -987,13 +857,6 @@ function addNodeAsChild($localhost, $user, $pw,$db,$storyID){
         mysqli_commit($con); // transaction is committed
         echo "Successfully updated!";
     }
-
-  /* $result = mysqli_multi_query($con,$sql);
-    if(!$result)
-    {
-        die('Could not update data: '. mysqli_error($con));
-    }
-    echo "Updated data successfully\n";*/
 
     do {
         mysqli_store_result($con);
@@ -1017,7 +880,6 @@ function addBranchAsChild($localhost, $user, $pw,$db,$storyID){
     mysqli_autocommit($con,FALSE);
     $result = true;
 
-
     $result = fixParentANDSiblings($con,$child,$storyID,$result);
 
     $sql="SELECT id,level,position,NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE id IN($parent,$child) AND story = ".$storyID;
@@ -1043,9 +905,6 @@ function addBranchAsChild($localhost, $user, $pw,$db,$storyID){
         $changeNN="NextPageID1";
         $pos = 1;
     }
-
-   // echo json_encode($indexedOnly);
-
       //update new parent node
        $sql="UPDATE page SET ".$changeNN." = ".$child." WHERE id = ".$parent." AND story = ".$storyID;
         if($result == true){
@@ -1054,7 +913,6 @@ function addBranchAsChild($localhost, $user, $pw,$db,$storyID){
             mysqli_query($con,$sql);
         }
 
-
        //update new child node
        $sql="UPDATE page SET level = 1+".$indexedOnly[$parent]['level'].", position = ".$pos." WHERE id = ".$child." AND story = ".$storyID;
         if($result == true){
@@ -1062,7 +920,6 @@ function addBranchAsChild($localhost, $user, $pw,$db,$storyID){
         }else{
             mysqli_query($con,$sql);
         }
-       // echo json_encode($sql);
 
        $levelDiffmovingIDs = (1+$indexedOnly[$parent]['level'])-$indexedOnly[$child]['level'];
 
@@ -1074,7 +931,6 @@ function addBranchAsChild($localhost, $user, $pw,$db,$storyID){
                mysqli_query($con,$sql);
            }
        }
-   // echo json_encode($sql);
 
     if($result == false){
         mysqli_rollback($con); // transaction rolls back
@@ -1085,12 +941,6 @@ function addBranchAsChild($localhost, $user, $pw,$db,$storyID){
         echo "Successfully updated!";
     }
 
-      /* $result = mysqli_multi_query($con,$sql);
-       if(!$result)
-       {
-           die('Could not update data: '. mysqli_error());
-       }
-       echo "Updated data successfully\n";*/
     do {
         mysqli_store_result($con);
     } while (mysqli_next_result($con));
