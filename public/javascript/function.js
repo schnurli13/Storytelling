@@ -2069,7 +2069,7 @@ nodeEditor.module = (function($) {
             startY = 80;
         }
 
-        console.log(stage.getAttr('width'));
+       // console.log(stage.getAttr('width'));
         addText.setAttr('x',addRect.getAttr('width')/2-addText.getAttr('width')/2);
         delText.setAttr('x',delRect.getAttr('width')/2-delText.getAttr('width')/2);
         addText.setAttr('y',addRect.getAttr('height')/2-(addText.getAttr('height')/3));
@@ -2077,7 +2077,7 @@ nodeEditor.module = (function($) {
 
 
         //refresh page on browser resize
-       /* $(window).bind('resize', function(e)
+      /*  $(window).bind('resize', function(e)
         {
             if (window.RT) clearTimeout(window.RT);
             window.RT = setTimeout(function()
@@ -2085,12 +2085,6 @@ nodeEditor.module = (function($) {
                 this.location.reload(false);
            }, 500);
         });*/
-
-        $(window).resize( function() {
-
-            window.location.href = window.location.href;
-
-        });
 
 
 

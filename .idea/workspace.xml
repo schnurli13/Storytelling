@@ -25,8 +25,8 @@
       <file leaf-file-name="function.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/javascript/function.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.83563536">
-              <caret line="2092" column="11" selection-start-line="2092" selection-start-column="11" selection-end-line="2092" selection-end-column="11" />
+            <state vertical-scroll-proportion="0.6947514">
+              <caret line="2085" column="19" selection-start-line="2085" selection-start-column="19" selection-end-line="2085" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -447,7 +447,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1616" height="886" extended-state="7" />
+    <frame x="-8" y="-8" width="1616" height="886" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1064,8 +1064,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/javascript/function.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.83563536">
-          <caret line="2092" column="11" selection-start-line="2092" selection-start-column="11" selection-end-line="2092" selection-end-column="11" />
+        <state vertical-scroll-proportion="0.6947514">
+          <caret line="2085" column="19" selection-start-line="2085" selection-start-column="19" selection-end-line="2085" selection-end-column="19" />
           <folding />
         </state>
       </provider>
