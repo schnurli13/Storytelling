@@ -74,6 +74,7 @@ a {
 		
 		a {
 			color: #000;
+			text-decoration: underline !important;
 		}
 	}
 }
@@ -952,17 +953,47 @@ input {
 }
 
 #nodeEditorPage {
+	
+	padding-top: 50px;
+	
 	#editors {
 		width: 33%;
 		float: right;
 		margin-top: 10px;
-		margin-right: 20px;
+		margin-right: 17px;
+	}
+	
+	#wrapper {
+		margin-left: 17px;
 	}
 	
 	.imgDivPage, .imgDivStory {
 		margin-bottom: 20px;	
 	}
 	
+	.nodeEditorFrameContainer {
+		border: 2px dotted;
+		line-height: 3px;
+		width: 97%;
+		margin: 0 auto;
+	}
+	
+	#showRight {
+		display: none;
+	}
+	
+	.h1bgNodeEditor {
+		width: 270px;
+		margin: 0 auto;
+		position: relative;
+		text-align: center;
+		
+		h1 {
+			text-align: center;
+			font-family: $mainFont;
+		}
+		
+	}
 	
 	.storyToggle, .pageToggle, .previewToggle {
 		cursor: pointer;

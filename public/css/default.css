@@ -45,7 +45,8 @@ a {
     float: left;
     margin: 7px 15px; }
     #logState .LogedInHelloState a {
-      color: #000; }
+      color: #000;
+      text-decoration: underline !important; }
 
 .buttonFrameContainerLogState {
   width: 120px;
@@ -644,138 +645,157 @@ input.buttonStoryInfo {
   #errorPage .errorContainer p {
     text-align: center; }
 
-#nodeEditorPage #editors {
-  width: 33%;
-  float: right;
-  margin-top: 10px;
-  margin-right: 20px; }
-#nodeEditorPage .imgDivPage, #nodeEditorPage .imgDivStory {
-  margin-bottom: 20px; }
-#nodeEditorPage .storyToggle, #nodeEditorPage .pageToggle, #nodeEditorPage .previewToggle {
-  cursor: pointer; }
-#nodeEditorPage #storyEditor {
-  background: #D3E2D8;
-  /*height: 31.5%;*/
-  margin-bottom: 20px; }
-  #nodeEditorPage #storyEditor .editorFrameContainer {
-    background: #D3E2D8; }
-  #nodeEditorPage #storyEditor .editorContainer {
-    background: #D3E2D8; }
-  #nodeEditorPage #storyEditor .h1bgEditor {
-    background: #D3E2D8; }
-  #nodeEditorPage #storyEditor input.button, #nodeEditorPage #storyEditor .buttonFrameContainer {
-    background: #879D8E; }
-  #nodeEditorPage #storyEditor .buttonFrameContainer {
-    margin-top: -33px;
-    width: 150px; }
-  #nodeEditorPage #storyEditor input.button {
-    width: 100%; }
-  #nodeEditorPage #storyEditor .buttonFrameContainerSave {
-    margin-top: -65px; }
-#nodeEditorPage .storyEditorResponsive {
-  margin-top: 60px !important; }
-#nodeEditorPage .deleteThisPic {
-  font-size: 1.5em;
-  margin-left: 10px;
-  font-family: "Architects Daughter", cursive; }
-#nodeEditorPage #profilePicSection {
-  margin-top: 15px; }
-#nodeEditorPage #cbp-spmenu-s2 {
-  overflow: scroll !important; }
-#nodeEditorPage #pageEditor {
-  background-color: #F3E0E1;
-  /*height: 31.5%;*/
-  margin-bottom: 20px; }
-  #nodeEditorPage #pageEditor .editorFrameContainer {
-    background: #F3E0E1; }
-  #nodeEditorPage #pageEditor .optionsDiv {
-    width: 70%;
-    float: right; }
-  #nodeEditorPage #pageEditor .option {
-    float: left; }
-  #nodeEditorPage #pageEditor .editorContainer {
-    background: #F3E0E1; }
-  #nodeEditorPage #pageEditor .h1bgEditor {
-    background: #F3E0E1; }
-  #nodeEditorPage #pageEditor input.button, #nodeEditorPage #pageEditor .buttonFrameContainer {
-    background: #E1AFB1; }
-  #nodeEditorPage #pageEditor input.button {
-    width: 100%; }
-  #nodeEditorPage #pageEditor .buttonFrameContainerPicPage {
-    width: 150px;
-    margin-top: -33px; }
-#nodeEditorPage #previewEditor {
-  background: #D6D5C5;
-  /*height: 31.5%;*/ }
-  #nodeEditorPage #previewEditor .editorFrameContainer {
-    background: #D6D5C5; }
-  #nodeEditorPage #previewEditor .editorContainer {
-    background: #D6D5C5; }
-  #nodeEditorPage #previewEditor .h1bgEditor {
-    background: #D6D5C5; }
-  #nodeEditorPage #previewEditor .previewFrame {
-    width: 90%;
-    margin: 0 auto;
-    height: 200px;
-    border: 2px solid black;
+#nodeEditorPage {
+  padding-top: 50px; }
+  #nodeEditorPage #editors {
+    width: 33%;
+    float: right;
+    margin-top: 10px;
+    margin-right: 17px; }
+  #nodeEditorPage #wrapper {
+    margin-left: 17px; }
+  #nodeEditorPage .imgDivPage, #nodeEditorPage .imgDivStory {
     margin-bottom: 20px; }
-#nodeEditorPage .editorFrameContainer {
-  margin: 0 auto;
-  position: relative;
-  padding: 20px; }
-#nodeEditorPage .h1bgEditor {
-  width: 270px;
-  margin: 0 auto;
-  position: relative;
-  text-align: center; }
-  #nodeEditorPage .h1bgEditor h1 {
+  #nodeEditorPage .nodeEditorFrameContainer {
+    border: 2px dotted;
+    line-height: 3px;
+    width: 97%;
+    margin: 0 auto; }
+  #nodeEditorPage #showRight {
+    display: none; }
+  #nodeEditorPage .h1bgNodeEditor {
+    width: 270px;
+    margin: 0 auto;
+    position: relative;
     text-align: center; }
-#nodeEditorPage .editorContainer {
-  border: dotted 2px black;
-  padding: 0% 5%; }
-  #nodeEditorPage .editorContainer h1 {
+    #nodeEditorPage .h1bgNodeEditor h1 {
+      text-align: center;
+      font-family: "Architects Daughter", cursive; }
+  #nodeEditorPage .storyToggle, #nodeEditorPage .pageToggle, #nodeEditorPage .previewToggle {
+    cursor: pointer; }
+  #nodeEditorPage #storyEditor {
+    background: #D3E2D8;
+    /*height: 31.5%;*/
+    margin-bottom: 20px; }
+    #nodeEditorPage #storyEditor .editorFrameContainer {
+      background: #D3E2D8; }
+    #nodeEditorPage #storyEditor .editorContainer {
+      background: #D3E2D8; }
+    #nodeEditorPage #storyEditor .h1bgEditor {
+      background: #D3E2D8; }
+    #nodeEditorPage #storyEditor input.button, #nodeEditorPage #storyEditor .buttonFrameContainer {
+      background: #879D8E; }
+    #nodeEditorPage #storyEditor .buttonFrameContainer {
+      margin-top: -33px;
+      width: 150px; }
+    #nodeEditorPage #storyEditor input.button {
+      width: 100%; }
+    #nodeEditorPage #storyEditor .buttonFrameContainerSave {
+      margin-top: -65px; }
+  #nodeEditorPage .storyEditorResponsive {
+    margin-top: 60px !important; }
+  #nodeEditorPage .deleteThisPic {
+    font-size: 1.5em;
+    margin-left: 10px;
+    font-family: "Architects Daughter", cursive; }
+  #nodeEditorPage #profilePicSection {
+    margin-top: 15px; }
+  #nodeEditorPage #cbp-spmenu-s2 {
+    overflow: scroll !important; }
+  #nodeEditorPage #pageEditor {
+    background-color: #F3E0E1;
+    /*height: 31.5%;*/
+    margin-bottom: 20px; }
+    #nodeEditorPage #pageEditor .editorFrameContainer {
+      background: #F3E0E1; }
+    #nodeEditorPage #pageEditor .optionsDiv {
+      width: 70%;
+      float: right; }
+    #nodeEditorPage #pageEditor .option {
+      float: left; }
+    #nodeEditorPage #pageEditor .editorContainer {
+      background: #F3E0E1; }
+    #nodeEditorPage #pageEditor .h1bgEditor {
+      background: #F3E0E1; }
+    #nodeEditorPage #pageEditor input.button, #nodeEditorPage #pageEditor .buttonFrameContainer {
+      background: #E1AFB1; }
+    #nodeEditorPage #pageEditor input.button {
+      width: 100%; }
+    #nodeEditorPage #pageEditor .buttonFrameContainerPicPage {
+      width: 150px;
+      margin-top: -33px; }
+  #nodeEditorPage #previewEditor {
+    background: #D6D5C5;
+    /*height: 31.5%;*/ }
+    #nodeEditorPage #previewEditor .editorFrameContainer {
+      background: #D6D5C5; }
+    #nodeEditorPage #previewEditor .editorContainer {
+      background: #D6D5C5; }
+    #nodeEditorPage #previewEditor .h1bgEditor {
+      background: #D6D5C5; }
+    #nodeEditorPage #previewEditor .previewFrame {
+      width: 90%;
+      margin: 0 auto;
+      height: 200px;
+      border: 2px solid black;
+      margin-bottom: 20px; }
+  #nodeEditorPage .editorFrameContainer {
+    margin: 0 auto;
+    position: relative;
+    padding: 20px; }
+  #nodeEditorPage .h1bgEditor {
+    width: 270px;
+    margin: 0 auto;
+    position: relative;
+    text-align: center; }
+    #nodeEditorPage .h1bgEditor h1 {
+      text-align: center; }
+  #nodeEditorPage .editorContainer {
+    border: dotted 2px black;
+    padding: 0% 5%; }
+    #nodeEditorPage .editorContainer h1 {
+      font-family: "Architects Daughter", cursive;
+      margin-top: -22px;
+      font-size: 1.6em; }
+  #nodeEditorPage .label {
+    font-family: "Architects Daughter", cursive; }
+  #nodeEditorPage .optionsLabel {
+    margin-bottom: 25px; }
+  #nodeEditorPage .tellLabel {
+    margin-top: 50px;
+    margin-bottom: 110px; }
+  #nodeEditorPage input.inputField {
+    width: 70%;
+    float: right;
+    height: 30px;
+    font-family: "Architects Daughter", cursive; }
+  #nodeEditorPage textarea {
+    width: 70%;
+    float: right;
     font-family: "Architects Daughter", cursive;
-    margin-top: -22px;
-    font-size: 1.6em; }
-#nodeEditorPage .label {
-  font-family: "Architects Daughter", cursive; }
-#nodeEditorPage .optionsLabel {
-  margin-bottom: 25px; }
-#nodeEditorPage .tellLabel {
-  margin-top: 50px;
-  margin-bottom: 110px; }
-#nodeEditorPage input.inputField {
-  width: 70%;
-  float: right;
-  height: 30px;
-  font-family: "Architects Daughter", cursive; }
-#nodeEditorPage textarea {
-  width: 70%;
-  float: right;
-  font-family: "Architects Daughter", cursive;
-  border-color: #ccc;
-  margin-bottom: 60px; }
-#nodeEditorPage input.inputField.option {
-  width: 48%;
-  margin: 2px; }
-#nodeEditorPage .opt1, #nodeEditorPage .opt3 {
-  margin-right: 2.5px !important; }
-#nodeEditorPage .opt2, #nodeEditorPage .opt4 {
-  margin-left: 2.5px !important; }
-#nodeEditorPage input.button {
-  height: 30px;
-  line-height: 1.3em; }
-#nodeEditorPage .buttonFrameContainer {
-  float: right;
-  height: 30px; }
-#nodeEditorPage .buttonFrameContainerPic {
-  float: left;
-  margin-right: 5px; }
-#nodeEditorPage .buttons {
-  float: right;
-  margin-top: -45px; }
-#nodeEditorPage .cbp-spmenu {
-  background: #fff; }
+    border-color: #ccc;
+    margin-bottom: 60px; }
+  #nodeEditorPage input.inputField.option {
+    width: 48%;
+    margin: 2px; }
+  #nodeEditorPage .opt1, #nodeEditorPage .opt3 {
+    margin-right: 2.5px !important; }
+  #nodeEditorPage .opt2, #nodeEditorPage .opt4 {
+    margin-left: 2.5px !important; }
+  #nodeEditorPage input.button {
+    height: 30px;
+    line-height: 1.3em; }
+  #nodeEditorPage .buttonFrameContainer {
+    float: right;
+    height: 30px; }
+  #nodeEditorPage .buttonFrameContainerPic {
+    float: left;
+    margin-right: 5px; }
+  #nodeEditorPage .buttons {
+    float: right;
+    margin-top: -45px; }
+  #nodeEditorPage .cbp-spmenu {
+    background: #fff; }
 
 #storyEditor .buttonFrameContainer {
   float: left;
