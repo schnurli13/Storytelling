@@ -955,6 +955,11 @@ input {
 		margin-right: 20px;
 	}
 	
+	.imgDivPage, .imgDivStory {
+		margin-bottom: 20px;	
+	}
+	
+	
 	.storyToggle, .pageToggle, .previewToggle {
 		cursor: pointer;
 	}
@@ -981,12 +986,31 @@ input {
 		}
 		
 		.buttonFrameContainer {
-			margin-top: -45px;
+			margin-top: -33px;
+			width: 150px;
+		}
+		
+		input.button {
+			width: 100%;
+		}
+		
+		.buttonFrameContainerSave {
+			margin-top: -65px;
 		}
 	}
 	
 	.storyEditorResponsive {
 			margin-top: 60px !important;	
+	}
+	
+	.deleteThisPic {
+		font-size: 1.5em;
+		margin-left: 10px;
+		font-family: $mainFont;
+	}
+	
+	#profilePicSection {
+		margin-top: 15px;
 	}
 	
 	#pageEditor {
@@ -1008,6 +1032,15 @@ input {
 		
 		input.button, .buttonFrameContainer {
 			background: $darkred;
+		}
+		
+		input.button {
+			width: 100%;
+		}
+		
+		.buttonFrameContainerPicPage {
+			width: 150px;
+			margin-top: -33px;
 		}
 	}
 	
