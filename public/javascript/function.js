@@ -2077,14 +2077,14 @@ nodeEditor.module = (function($) {
 
 
         //refresh page on browser resize
-      /*  $(window).bind('resize', function(e)
+        $(window).bind('resize', function(e)
         {
             if (window.RT) clearTimeout(window.RT);
             window.RT = setTimeout(function()
             {
                 this.location.reload(false);
            }, 500);
-        });*/
+        });
 
 
 

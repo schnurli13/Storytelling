@@ -473,9 +473,9 @@ function addNewNode($localhost, $user, $pw,$db,$storyID){
         mysqli_query($con,$sql);
     }
 
-    $sql="UPDATE page SET title= 'Page ".$last_id."',text='Text ".$last_id."',imageLink='Link ".$last_id."',
-    OptionText1 = 'Option ".$last_id."_1',OptionText2 = 'Option ".$last_id."_2',OptionText3 = 'Option ".$last_id."_3',
-    OptionText4 = 'Option ".$last_id."_4' WHERE id = ".$last_id." AND story = ".$storyID;
+    $sql="UPDATE page SET title= 'Default Title',text='',imageLink='',
+    OptionText1 = '',OptionText2 = '',OptionText3 = '',
+    OptionText4 = '' WHERE id = ".$last_id." AND story = ".$storyID;
     if($result == true){
         $result = mysqli_query($con,$sql);
     }else{
