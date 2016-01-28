@@ -1992,9 +1992,10 @@ nodeEditor.module = (function($) {
         stage.add(levelTextLayer);
         stage.add(layerConn);
         stage.add(layer);
-        stage.add(layerTEXT);
+
         stage.add(tempLayer);
         stage.add(interfaceLayer);
+        stage.add(layerTEXT);
 
 
 
