@@ -688,6 +688,11 @@ input.buttonStoryInfo {
   margin-bottom: 20px; }
   #nodeEditorPage #pageEditor .editorFrameContainer {
     background: #F3E0E1; }
+  #nodeEditorPage #pageEditor .optionsDiv {
+    width: 70%;
+    float: right; }
+  #nodeEditorPage #pageEditor .option {
+    float: left; }
   #nodeEditorPage #pageEditor .editorContainer {
     background: #F3E0E1; }
   #nodeEditorPage #pageEditor .h1bgEditor {
@@ -751,8 +756,12 @@ input.buttonStoryInfo {
   border-color: #ccc;
   margin-bottom: 60px; }
 #nodeEditorPage input.inputField.option {
-  width: 34%;
+  width: 48%;
   margin: 2px; }
+#nodeEditorPage .opt1, #nodeEditorPage .opt3 {
+  margin-right: 2.5px !important; }
+#nodeEditorPage .opt2, #nodeEditorPage .opt4 {
+  margin-left: 2.5px !important; }
 #nodeEditorPage input.button {
   height: 30px;
   line-height: 1.3em; }
@@ -798,15 +807,13 @@ input.buttonStoryInfo {
   #profilePage .myInfoContainer #content .firstColumn {
     width: 75%; } }
 @media screen and (max-width: 1240px) {
-  #nodeEditorPage {
-    /*.tellLabel {
-    	margin-top: 140px;
-    }*/ }
-    #nodeEditorPage input.inputField {
-      width: 100%;
-      margin-bottom: 5px; }
-      #nodeEditorPage input.inputField.option {
-        width: 100%; } }
+  #nodeEditorPage input.inputField {
+    width: 100%;
+    margin-bottom: 5px; }
+    #nodeEditorPage input.inputField.option {
+      width: 100%; }
+  #nodeEditorPage .tellLabel {
+    margin-top: 110px; } }
 @media screen and (max-width: 1235px) {
   #userEditPage .userEditFrameContainer, #newStoryPage .newStoryFrameContainer {
     width: 90%; } }
@@ -815,6 +822,12 @@ input.buttonStoryInfo {
     font-size: 1.4em !important; }
   #nodeEditorPage .h1bgEditor {
     width: 240px; } }
+@media screen and (max-width: 1037px) {
+  .tellLabel {
+    margin-top: 140px !important; }
+
+  #nodeEditorPage #pageEditor .optionsDiv {
+    width: 100%; } }
 @media screen and (max-width: 1030px) {
   .libelle {
     left: 0%; } }

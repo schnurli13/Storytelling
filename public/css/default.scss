@@ -1030,6 +1030,15 @@ input {
 			background: $lightred;	
 		}
 		
+		.optionsDiv {
+			width: 70%;
+			float: right;
+		}
+		
+		.option {
+			float: left;
+		}
+		
 		.editorContainer {
 			background: $lightred;	
 		}
@@ -1134,8 +1143,16 @@ input {
 	}
 	
 	input.inputField.option {
-		width: 34%;
+		width: 48%;
 		margin: 2px;
+	}
+	
+	.opt1, .opt3 {
+		margin-right: 2.5px !important; 
+	}
+	
+	.opt2, .opt4 {
+		margin-left: 2.5px !important;
 	}
 	
 	input.button {
@@ -1237,11 +1254,9 @@ input {
 			}
 		}
 		
-		/*.tellLabel {
-			margin-top: 140px;
-		}*/
-		
-
+		.tellLabel {
+			margin-top: 110px;
+		}
 	}
 }
 
@@ -1263,6 +1278,16 @@ input {
 		}
 	}
 
+}
+
+@media screen and (max-width: 1037px) {
+	.tellLabel {
+		margin-top: 140px !important;
+	}
+	
+	#nodeEditorPage #pageEditor .optionsDiv {
+		width: 100%;
+	}
 }
 
 
