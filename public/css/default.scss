@@ -29,6 +29,10 @@ body {
 	background-color: #FFFFFF;
 }
 
+a {
+	text-decoration: none;
+}
+
 #mainContentWrapper #loginPage, #mainContentWrapper #registerPage, #mainContentWrapper #profilePage, #errorPage {
 	text-align: center;
 }
@@ -1126,6 +1130,7 @@ input {
 		float: right;
 		font-family: $mainFont;
 		border-color: #ccc;
+		margin-bottom: 60px;
 	}
 	
 	input.inputField.option {
@@ -1166,6 +1171,55 @@ input {
 
 //// RESPONSIVE /////
 
+
+	#storyEditor {
+		.buttonFrameContainer {
+			float: left;
+			margin-top: 0px !important;
+			margin-bottom: 20px;
+			width: 176px !important;
+		}
+		
+		.imgDivStory {
+			margin-bottom: 50px;
+		}
+		
+		.currPicDiv {
+			width: 30%;
+		}
+		
+		#profilePicSection {
+			margin-top: 55px;
+		}
+	}
+	
+	#pageEditor {
+		.buttonFrameContainer {
+			float: left;
+			margin-top: 0px !important;
+			margin-bottom: 20px;
+			width: 176px !important;
+		}
+		
+		.buttons {
+			float: left;
+		}
+		
+		.imgDivPage {
+			margin-bottom: 50px;
+		}
+		
+		.tellLabel {
+			margin-bottom: 110px;
+		}
+		
+		#profilePicSection {
+			margin-top: 55px;
+		}
+	}
+
+
+
 @media screen and (max-width: 1260px) {
 	#profilePage .myInfoContainer #content .firstColumn {
 		width: 75%;
@@ -1183,9 +1237,9 @@ input {
 			}
 		}
 		
-		.tellLabel {
+		/*.tellLabel {
 			margin-top: 140px;
-		}
+		}*/
 		
 
 	}
@@ -1238,13 +1292,13 @@ input {
 			margin-right: 0px;
 		}
 		
-		.buttons {
+/*		.buttons {
 			margin-top: -95px;
-		}
+		}*/
 		
-		.tellLabel {
+/*		.tellLabel {
 			margin-bottom: 160px;
-		}
+		}*/
 	}
 	
 }

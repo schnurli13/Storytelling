@@ -10,6 +10,9 @@ DESIGN
 body {
   background-color: #FFFFFF; }
 
+a {
+  text-decoration: none; }
+
 #mainContentWrapper #loginPage, #mainContentWrapper #registerPage, #mainContentWrapper #profilePage, #errorPage {
   text-align: center; }
 
@@ -745,7 +748,8 @@ input.buttonStoryInfo {
   width: 70%;
   float: right;
   font-family: "Architects Daughter", cursive;
-  border-color: #ccc; }
+  border-color: #ccc;
+  margin-bottom: 60px; }
 #nodeEditorPage input.inputField.option {
   width: 34%;
   margin: 2px; }
@@ -764,17 +768,45 @@ input.buttonStoryInfo {
 #nodeEditorPage .cbp-spmenu {
   background: #fff; }
 
+#storyEditor .buttonFrameContainer {
+  float: left;
+  margin-top: 0px !important;
+  margin-bottom: 20px;
+  width: 176px !important; }
+#storyEditor .imgDivStory {
+  margin-bottom: 50px; }
+#storyEditor .currPicDiv {
+  width: 30%; }
+#storyEditor #profilePicSection {
+  margin-top: 55px; }
+
+#pageEditor .buttonFrameContainer {
+  float: left;
+  margin-top: 0px !important;
+  margin-bottom: 20px;
+  width: 176px !important; }
+#pageEditor .buttons {
+  float: left; }
+#pageEditor .imgDivPage {
+  margin-bottom: 50px; }
+#pageEditor .tellLabel {
+  margin-bottom: 110px; }
+#pageEditor #profilePicSection {
+  margin-top: 55px; }
+
 @media screen and (max-width: 1260px) {
   #profilePage .myInfoContainer #content .firstColumn {
     width: 75%; } }
 @media screen and (max-width: 1240px) {
-  #nodeEditorPage input.inputField {
-    width: 100%;
-    margin-bottom: 5px; }
-    #nodeEditorPage input.inputField.option {
-      width: 100%; }
-  #nodeEditorPage .tellLabel {
-    margin-top: 140px; } }
+  #nodeEditorPage {
+    /*.tellLabel {
+    	margin-top: 140px;
+    }*/ }
+    #nodeEditorPage input.inputField {
+      width: 100%;
+      margin-bottom: 5px; }
+      #nodeEditorPage input.inputField.option {
+        width: 100%; } }
 @media screen and (max-width: 1235px) {
   #userEditPage .userEditFrameContainer, #newStoryPage .newStoryFrameContainer {
     width: 90%; } }
@@ -787,20 +819,23 @@ input.buttonStoryInfo {
   .libelle {
     left: 0%; } }
 @media screen and (max-width: 990px) {
-  #nodeEditorPage .buttons, #nodeEditorPage .buttonFrameContainer, #nodeEditorPage input.button {
-    width: 100%; }
-  #nodeEditorPage .buttonFrameContainerSave {
-    width: 120px; }
-  #nodeEditorPage .closeButton {
-    width: 30%; }
-  #nodeEditorPage .buttonFrameContainerPic {
-    margin-bottom: 10px;
-    float: right;
-    margin-right: 0px; }
-  #nodeEditorPage .buttons {
-    margin-top: -95px; }
-  #nodeEditorPage .tellLabel {
-    margin-bottom: 160px; } }
+  #nodeEditorPage {
+    /*		.buttons {
+    			margin-top: -95px;
+    		}*/
+    /*		.tellLabel {
+    			margin-bottom: 160px;
+    		}*/ }
+    #nodeEditorPage .buttons, #nodeEditorPage .buttonFrameContainer, #nodeEditorPage input.button {
+      width: 100%; }
+    #nodeEditorPage .buttonFrameContainerSave {
+      width: 120px; }
+    #nodeEditorPage .closeButton {
+      width: 30%; }
+    #nodeEditorPage .buttonFrameContainerPic {
+      margin-bottom: 10px;
+      float: right;
+      margin-right: 0px; } }
 @media screen and (max-width: 950px) {
   #profilePage .myInfoContainer #content .firstColumn {
     width: 90%; } }
