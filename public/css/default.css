@@ -812,6 +812,8 @@ input.buttonStoryInfo {
       font-size: 12px; }
     #nodeEditorPage #previewEditor #pageText, #nodeEditorPage #previewEditor #title, #nodeEditorPage #previewEditor .pageOption {
       overflow-wrap: break-word; }
+    #nodeEditorPage #previewEditor #pagePresentation #pageImage img {
+      height: auto; }
   #nodeEditorPage .editorFrameContainer {
     margin: 0 auto;
     position: relative;
@@ -896,7 +898,8 @@ input.buttonStoryInfo {
 #pageEditor #profilePicSection {
   margin-top: 55px; }
 #pageEditor .currPicDiv {
-  float: left; }
+  float: left;
+  width: 100%; }
 
 @media screen and (max-width: 1260px) {
   #profilePage .myInfoContainer #content .firstColumn {

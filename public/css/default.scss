@@ -1214,6 +1214,10 @@ input {
 		#pageText, #title, .pageOption {
 			overflow-wrap: break-word;
 		}
+		
+		#pagePresentation #pageImage img {
+			height: auto;
+		}
 	}
 	
 	.editorFrameContainer {
@@ -1366,6 +1370,7 @@ input {
 		
 		.currPicDiv {
 			float: left;
+			width: 100%;
 		}
 	}
 
