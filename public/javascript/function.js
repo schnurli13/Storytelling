@@ -2239,7 +2239,7 @@ nodeEditor.module = (function($) {
 
 
 
-        $('.savePage').click(function() {
+        $('.savePage').off('click').click(function() {
             if(selectedNode != null) {
                 $.ajax({
                     url: ajaxLink,
@@ -2250,6 +2250,7 @@ nodeEditor.module = (function($) {
                         debugText.setAttr('x',width/2-70-offset);
                         debugText.text(data);
                         interfaceLayer.draw();
+                        loadPage(selectedNode);
                         $("#closeResponsiveNav").trigger('click');
                     },
                     error: function (xhr, status, error) {
