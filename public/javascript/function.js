@@ -13,6 +13,7 @@ nodeEditor.module = (function($) {
         startY = 0,
         levelX,
         storyID,
+        userID,
         selectedNode = null,
         xDrag,
         buttonColor='#96c4cd',
@@ -266,7 +267,7 @@ nodeEditor.module = (function($) {
         $.ajax({
             url: ajaxLink,
             type: 'GET',
-            data: 'functionName=drawLines&storyID='+storyID,
+            data: 'functionName=drawLines&storyID='+storyID+ '&userID=' + userID,
             success: function (data) {
                 var obj = $.parseJSON(data);
                drawLines(obj[0]['MAX(level)']);
@@ -323,7 +324,7 @@ nodeEditor.module = (function($) {
         $.ajax({
             url: ajaxLink,
             type: 'GET',
-            data: 'functionName=drawNodes&storyID='+storyID,
+            data: 'functionName=drawNodes&storyID='+storyID+ '&userID=' + userID,
             success: function (data) {
                 var obj = $.parseJSON(data);
                 //checkScaleFactor(obj);
@@ -666,7 +667,7 @@ nodeEditor.module = (function($) {
                 $.ajax({
                     url: ajaxLink,
                     type: 'GET',
-                    data: 'functionName=getContent&storyID='+storyID+'&ID=' + selectedNode,
+                    data: 'functionName=getContent&storyID='+storyID+ '&userID=' + userID+'&ID=' + selectedNode,
                     success: function (data) {
                         var obj = $.parseJSON(data);
                         $('.textEdit').val(obj[0]['text']);
@@ -932,7 +933,7 @@ nodeEditor.module = (function($) {
         $.ajax({
             url: ajaxLink,
             type: 'GET',
-            data: 'functionName=reorderNodes&storyID='+storyID+'&ID01=' + ID01 + '&ID02=' + ID02,
+            data: 'functionName=reorderNodes&storyID='+storyID+ '&userID=' + userID+'&ID01=' + ID01 + '&ID02=' + ID02,
             success: function (data) {
                 //alert(data);
                 console.log("SUCCESS");
@@ -954,7 +955,7 @@ nodeEditor.module = (function($) {
         $.ajax({
             url: ajaxLink,
             type: 'GET',
-            data: 'functionName=reorderBranches&storyID='+storyID+'&ID=' + ID + '&IDs=' + movementStyle +'&found='+found,
+            data: 'functionName=reorderBranches&storyID='+storyID+ '&userID=' + userID+'&ID=' + ID + '&IDs=' + movementStyle +'&found='+found,
             success: function (data) {
                // alert(data);
                 if(data != "Updated data successfully\n") {
@@ -987,7 +988,7 @@ nodeEditor.module = (function($) {
        return $.ajax({
             url: ajaxLink,
             type: 'GET',
-            data: 'functionName=maxChildren&storyID='+storyID+'&ID=' + id,
+            data: 'functionName=maxChildren&storyID='+storyID + '&userID=' + userID +'&ID=' + id,
             success: function (data) {
                 console.log("SUCCESS");
                 var obj = $.parseJSON(data);
@@ -1024,7 +1025,7 @@ nodeEditor.module = (function($) {
         $.ajax({
             url: ajaxLink,
             type: 'GET',
-            data: 'functionName=isFirstNode&storyID='+storyID+'&ID=' + id,
+            data: 'functionName=isFirstNode&storyID='+storyID + '&userID=' + userID +'&ID=' + id,
             success: function (data) {
                 var obj = $.parseJSON(data);
                 if (obj[0]['level'] == 0) {
@@ -1050,7 +1051,7 @@ nodeEditor.module = (function($) {
         $.ajax({
             url: ajaxLink,
             type: 'GET',
-            data: 'functionName=addNewNode&storyID='+storyID+'&ID=' + id,
+            data: 'functionName=addNewNode&storyID='+storyID + '&userID=' + userID +'&ID=' + id,
             success: function (data) {
                // alert(data);
                 console.log("SUCCESS");
@@ -1142,7 +1143,7 @@ nodeEditor.module = (function($) {
             $.ajax({
                      url: ajaxLink,
                      type: 'GET',
-                     data: 'functionName=deleteNode&storyID=' + storyID + '&ID=' + id,
+                     data: 'functionName=deleteNode&storyID=' + storyID + '&userID=' + userID + '&ID=' + id,
                      success: function (data) {
                      //alert(data);
                          console.log("SUCCESS");
@@ -1288,7 +1289,7 @@ nodeEditor.module = (function($) {
                 $.ajax({
                     url: ajaxLink,
                     type: 'GET',
-                    data: 'functionName=moveBranch&storyID=' + storyID + '&ID=' + evt.target.id(),
+                    data: 'functionName=moveBranch&storyID=' + storyID + '&userID=' + userID + '&ID=' + evt.target.id(),
                     success: function (data) {
                         interfaceLayer.find('#button1Rect')[0].fill(buttonColor);
                         button3.hide();
@@ -1519,7 +1520,7 @@ nodeEditor.module = (function($) {
                    $.ajax({
                         url: ajaxLink,
                         type: 'GET',
-                        data: 'functionName=addNodeAsChild&storyID=' + storyID + '&ID01=' + previousShape.id() + '&ID02=' + evt.target.id(),
+                        data: 'functionName=addNodeAsChild&storyID=' + storyID + '&userID=' + userID + '&ID01=' + previousShape.id() + '&ID02=' + evt.target.id(),
                         success: function (data) {
                            // alert(data);
                             console.log("SUCCESS");
@@ -1548,7 +1549,7 @@ nodeEditor.module = (function($) {
                     $.ajax({
                         url: ajaxLink,
                         type: 'GET',
-                        data: 'functionName=addBranchAsChild&storyID=' + storyID + '&ID=' + previousShape.id() + '&IDs=' + movementStyle,
+                        data: 'functionName=addBranchAsChild&storyID=' + storyID + '&userID=' + userID+ '&ID=' + previousShape.id() + '&IDs=' + movementStyle,
                         success: function (data) {
                             //alert(data);
                             console.log("SUCCESS");
@@ -1581,7 +1582,7 @@ nodeEditor.module = (function($) {
                 $.ajax({
                     url: ajaxLink,
                     type: 'GET',
-                    data: 'functionName=checkIFParent&storyID=' + storyID + '&ID=' + previousShape.id() + '&IDs=' + movementStyle,
+                    data: 'functionName=checkIFParent&storyID=' + storyID + '&userID=' + userID+ '&ID=' + previousShape.id() + '&IDs=' + movementStyle,
                     success: function (data) {
                       if(data == 'false'){
                           found = false;
@@ -1752,7 +1753,7 @@ nodeEditor.module = (function($) {
         $.ajax({
             url: ajaxLink,
             type: 'GET',
-            data: 'functionName=getStoryDetails&storyID=' + storyID,
+            data: 'functionName=getStoryDetails&storyID=' + storyID + '&userID=' + userID,
             success: function (data) {
                //alert(data);
                 var obj = $.parseJSON(data);
@@ -1916,7 +1917,7 @@ nodeEditor.module = (function($) {
         var res = window.location.href;
         var array = res.split("/");
         storyID = array[array.length-2];
-        //var user = array[array.length-1];
+        userID = array[array.length-3];
       //  storyID = storyID.replace(new RegExp("%20","g"),' ');
 
         width = $('#container').width();
@@ -2175,7 +2176,7 @@ nodeEditor.module = (function($) {
                 $.ajax({
                     url: ajaxLink,
                     type: 'GET',
-                    data: 'functionName=getTitle&storyID=' + storyID + '&ID=' + e.target.id(),
+                    data: 'functionName=getTitle&storyID=' + storyID + '&userID=' + userID + '&ID=' + e.target.id(),
                     success: function (data) {
                         var obj = $.parseJSON(data);
                         setToolTip(obj[0]['title'],e);
@@ -2237,14 +2238,12 @@ nodeEditor.module = (function($) {
         hoverInterfaceButtons('#zoomOutRect','#zoomOutText');
 
 
-
-
         $('.savePage').off('click').click(function() {
             if(selectedNode != null) {
                 $.ajax({
                     url: ajaxLink,
                     type: 'GET',
-                    data: 'functionName=saveContent&storyID=' + storyID + '&ID=' + selectedNode + '&text=' + $('.textEdit'+firstLast).val()+ '&title=' + $('.titleEdit'+firstLast).val()
+                    data: 'functionName=saveContent&storyID=' + storyID + '&userID=' + userID + '&ID=' + selectedNode + '&text=' + $('.textEdit'+firstLast).val()+ '&title=' + $('.titleEdit'+firstLast).val()
                     + '&opt1=' + $('.opt1'+firstLast).val()+ '&opt2=' + $('.opt2'+firstLast).val()+ '&opt3=' + $('.opt3'+firstLast).val()+ '&opt4=' + $('.opt4'+firstLast).val(),
                     success: function (data) {
                         debugText.setAttr('x',width/2-70-offset);
@@ -2274,7 +2273,7 @@ nodeEditor.module = (function($) {
                 $.ajax({
                     url: ajaxLink,
                     type: 'GET',
-                    data: 'functionName=saveStory&storyID=' + storyID + '&title=' + $('.storyTitle'+firstLast).val() + '&author='
+                    data: 'functionName=saveStory&storyID=' + storyID + '&userID=' + userID + '&title=' + $('.storyTitle'+firstLast).val() + '&author='
                     + $('.storyAuthor'+firstLast).val() + '&coAuthor=' + $('.storyCoAuthor'+firstLast).val()+ '&published=' + published,
                     success: function (data) {
                         var obj = $.parseJSON(data);

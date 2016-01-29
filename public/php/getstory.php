@@ -9,13 +9,14 @@ require('../../framework/modules/mysqlModule.php');
 
 $functionName = filter_input(INPUT_GET, 'functionName');
 $storyID = filter_input(INPUT_GET, 'storyID');
+$userID = filter_input(INPUT_GET, 'userID');
 
 $localhost= "localhost";
 $user = "root";
 $pw = "";
 $db = "storytelling_platform";
 
-$storyID = findStoryID($storyID);
+$storyID = findStoryID($storyID,$userID);
 
 
 if ($functionName == "drawLines") {
@@ -139,9 +140,10 @@ function isFirstNode($storyID){
 }
 
 
-function findStoryID($storyID){
+function findStoryID($storyID,$userID){
     $mysqlObject = new mysqlModule();
-    $result = $mysqlObject->queryDataBase("SELECT id FROM story WHERE name = '".$storyID."'");
+    $userResult = $mysqlObject->queryDataBase("SELECT id FROM users WHERE name = '".$userID."'");
+    $result = $mysqlObject->queryDataBase("SELECT id FROM story WHERE user = ".$userResult[0]['id']." AND name = '".$storyID."'");
     return $result[0]['id'];
 }
 
