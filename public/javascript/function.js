@@ -441,17 +441,6 @@ nodeEditor.module = (function($) {
                 layer.add(star);
 
 
-                //TITLE
-                /*idText = new Konva.Text({
-                    x: star.getAttr('x')-6,
-                    y: star.getAttr('y')-6,
-                    text: star.getAttr('id'),
-                    fontSize: 20,
-                    fill: 'black'
-                });
-                layerTEXT.add(idText);*/
-
-
                 //connection saving
                 if (data[i]['NextPageID1']) {
                     points[z] = [];
@@ -469,7 +458,7 @@ nodeEditor.module = (function($) {
                     }
                     z++;
                 }
-                nodeSelection(layer.find('#'+ data[i]['id'])[0]);
+
             }
 
             var sh = IDs.shift();
@@ -644,6 +633,7 @@ nodeEditor.module = (function($) {
             layerConn.draw();
             layerTEXT.draw();
             emptyLayer.draw();
+            nodeSelection(layer.find('#'+ firstNode)[0]);
         }
         drawToolTip();
 
@@ -675,6 +665,9 @@ nodeEditor.module = (function($) {
                         $('.textEdit').val(obj[0]['text']);
                         $('.titleEdit').val(obj[0]['title']);
 
+                        debugText.text('Selected "' + obj[0]['title']+'"');
+                        debugText.setAttr('x', (width/2)-offset-debugText.getAttr('width')/2);
+                        interfaceLayer.draw();
                         if(obj[0]['NextPageID1'] == 0){
                             $('.opt1').attr('disabled','disabled');
                         }else{
@@ -705,18 +698,22 @@ nodeEditor.module = (function($) {
                            // $('#previewEditor #currentPicturePreview').prop('src',src);
                         }
 
-                      loadPage(selectedNode);
+                        if(!pause) {
+                            $('#showRight').trigger('click');
+                        }
 
-                        $('#pageOptions').bind('DOMNodeInserted', function() {
+                      //  $('#pageOptions:first').removeAttr('id');
+                        loadPage(selectedNode);
+
+                        $('.pageOptions').bind('DOMNodeInserted', function() {
                             $('.pageOption').off('click').click(function(){
                                 nodeSelection(layer.find('#'+ $(this).attr('data-pageId'))[0]);
                             });
                         });
 
 
-                        if(!pause) {
-                            $('#showRight').trigger('click');
-                        }
+
+
                     },
                     error: function (xhr, status, error) {
                         debugText.text(error);
@@ -739,6 +736,7 @@ nodeEditor.module = (function($) {
             layer.draw();
             backgroundLayer.draw();
             levelTextLayer.draw();
+
 
 
         }
@@ -1918,6 +1916,7 @@ nodeEditor.module = (function($) {
 
 // IIIIIIIIIIIIINIT
     init = function init(){
+
         var res = window.location.href;
         var array = res.split("/");
         storyID = array[array.length-2];

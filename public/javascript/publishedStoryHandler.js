@@ -34,7 +34,7 @@ updatePage = function(data){
 		pageImage.children('img').attr('src', parsedArray[2]);
 		pageImage.children('img').attr('alt', parsedArray[2]);
 		
-		var pageOptions = $('#pageOptions');
+		var pageOptions = $('.pageOptions');
 		pageOptions.empty();
 		for(i = 3; i < 7; i++){
 			if(parsedArray[i] > 0){
@@ -69,9 +69,9 @@ activateButtons = function(){
 
 prepareHtml = function(){
 	$('#storyNav').toggle();
-	pageTitle = $('#title');
-	pageText = $('#pageText');
-	pageImage = $('#pageImage');
+	pageTitle = $('.title');
+	pageText = $('.pageText');
+	pageImage = $('.pageImage');
 	storyOverhead = $('#storyOverhead');
 }
 
