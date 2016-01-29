@@ -800,6 +800,18 @@ input.buttonStoryInfo {
       height: 200px;
       border: 2px solid black;
       margin-bottom: 20px; }
+    #nodeEditorPage #previewEditor .presentationFrame {
+      border: none; }
+    #nodeEditorPage #previewEditor #title {
+      margin-top: -50px; }
+    #nodeEditorPage #previewEditor .buttonFrameContainer {
+      width: 46%; }
+    #nodeEditorPage #previewEditor .pageOption {
+      line-height: 2.5em;
+      height: 25px;
+      font-size: 12px; }
+    #nodeEditorPage #previewEditor #pageText, #nodeEditorPage #previewEditor #title, #nodeEditorPage #previewEditor .pageOption {
+      overflow-wrap: break-word; }
   #nodeEditorPage .editorFrameContainer {
     margin: 0 auto;
     position: relative;

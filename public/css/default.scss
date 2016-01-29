@@ -1192,6 +1192,28 @@ input {
 			border: 2px solid black;
 			margin-bottom: 20px;
 		}
+		
+		.presentationFrame {
+			border: none;
+		}
+		
+		#title {
+			margin-top: -50px;
+		}
+		
+		.buttonFrameContainer {
+			width: 46%;
+		}
+		
+		.pageOption {
+			line-height: 2.5em;
+			height: 25px;
+			font-size: 12px;
+		}
+		
+		#pageText, #title, .pageOption {
+			overflow-wrap: break-word;
+		}
 	}
 	
 	.editorFrameContainer {
