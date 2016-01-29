@@ -60,6 +60,11 @@ a {
 	margin-right: 10px;
 }
 
+#cropField {
+	width: 175px;
+	height: 175px;
+}
+
 #logState {
 	margin-top: 150px;
   	position: absolute;
@@ -743,13 +748,44 @@ input {
 		margin-bottom: 30px;
 	}
 	
-	#profilePicSection {
-		margin-top: 20px;
+	img.profilePic {
+		float: left;
+		margin: 5px;
+		max-width: 100%;
+		max-height: 100%;
 	}
 	
 	.deleteThisPic {
+		display: block;
 		font-size: 1.5em;
-		margin-left: 10px;
+		top: 5px;
+		right: -5px;
+		overflow: hidden;
+		border: 1px solid black;
+		font-family: $mainFont;
+		color: #fff;
+		position: absolute;
+		cursor: pointer;
+		background: $darkred;
+		height: 30px;
+		width: 25px;
+		line-height: 1.1em;
+		padding-left: 5px;
+	}
+	
+	#changePicSection {
+		margin-top: 5px;
+		margin-left: 5px;
+		float: left;
+	}
+	
+	.profilePicContainer {
+		margin-bottom: 20px;
+		margin-right: 20px;
+		width: 175px;
+		height: 175px;
+		position: relative;
+		float: left;
 	}
 	
 	#pictureHandling .buttonFrameContainer {
@@ -757,13 +793,14 @@ input {
 	}
 	
 	#pictureHandling {
-		margin-top: -15px;
+		margin-top: -50px;
 		float: left;
 		width: 174px;
+		position: absolute;
 	}
 	
 	#currentPicture {
-		margin-bottom: 15px;
+		margin-bottom: 50px;
 		margin-right: 10px;
 	}	
 }
@@ -880,13 +917,14 @@ input {
 	}
 	
 	#profilePicSection {
-		margin-top: 20px;
+		margin-top: 10px;
 	}
 	
 	.deleteThisPic {
 		font-size: 1.5em;
 		margin-left: 10px;
 	}
+	
 	
 	#pictureHandling .buttonFrameContainer {
 		margin-top: -40px;
@@ -1032,6 +1070,11 @@ input {
 		.buttonFrameContainerSave {
 			margin-top: -65px;
 		}
+		
+		img.profilePic {
+			float: left;
+			margin: 5px;
+		}
 	}
 	
 	.storyEditorResponsive {
@@ -1039,9 +1082,38 @@ input {
 	}
 	
 	.deleteThisPic {
+		display: block;
 		font-size: 1.5em;
-		margin-left: 10px;
+		top: 5px;
+		right: -5px;
+		overflow: hidden;
+		border: 1px solid black;
 		font-family: $mainFont;
+		color: #fff;
+		position: absolute;
+		cursor: pointer;
+		background: $darkred;
+		height: 30px;
+		width: 25px;
+		line-height: 1.1em;
+		padding-left: 5px;
+	}
+	
+	img.profilePic {
+		float: left;
+		margin: 5px;
+		max-width: 100%;
+		max-height: 100%;
+	}
+	
+	#changePicSection {
+		margin-top: 5px;
+		margin-left: 5px;
+		float: left;
+	}
+	
+	.profilePicContainer {
+		margin-bottom: 20px;
 	}
 	
 	#profilePicSection {
@@ -1059,6 +1131,11 @@ input {
 		
 		.editorFrameContainer {
 			background: $lightred;	
+		}
+		
+		img.profilePic {
+			float: left;
+			margin: 5px;
 		}
 		
 		.optionsDiv {

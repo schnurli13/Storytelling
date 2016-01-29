@@ -34,6 +34,10 @@ a {
 .marginRightLogState {
   margin-right: 10px; }
 
+#cropField {
+  width: 175px;
+  height: 175px; }
+
 #logState {
   margin-top: 150px;
   position: absolute;
@@ -502,19 +506,47 @@ input.buttonStoryInfo {
     background-color: #F3E0E1;
     float: left;
     margin-bottom: 30px; }
-  #userEditPage #profilePicSection {
-    margin-top: 20px; }
+  #userEditPage img.profilePic {
+    float: left;
+    margin: 5px;
+    max-width: 100%;
+    max-height: 100%; }
   #userEditPage .deleteThisPic {
+    display: block;
     font-size: 1.5em;
-    margin-left: 10px; }
+    top: 5px;
+    right: -5px;
+    overflow: hidden;
+    border: 1px solid black;
+    font-family: "Architects Daughter", cursive;
+    color: #fff;
+    position: absolute;
+    cursor: pointer;
+    background: #E1AFB1;
+    height: 30px;
+    width: 25px;
+    line-height: 1.1em;
+    padding-left: 5px; }
+  #userEditPage #changePicSection {
+    margin-top: 5px;
+    margin-left: 5px;
+    float: left; }
+  #userEditPage .profilePicContainer {
+    margin-bottom: 20px;
+    margin-right: 20px;
+    width: 175px;
+    height: 175px;
+    position: relative;
+    float: left; }
   #userEditPage #pictureHandling .buttonFrameContainer {
     margin-top: -40px; }
   #userEditPage #pictureHandling {
-    margin-top: -15px;
+    margin-top: -50px;
     float: left;
-    width: 174px; }
+    width: 174px;
+    position: absolute; }
   #userEditPage #currentPicture {
-    margin-bottom: 15px;
+    margin-bottom: 50px;
     margin-right: 10px; }
 
 #newStoryPage {
@@ -599,7 +631,7 @@ input.buttonStoryInfo {
     float: left;
     margin-bottom: 30px; }
   #newStoryPage #profilePicSection {
-    margin-top: 20px; }
+    margin-top: 10px; }
   #newStoryPage .deleteThisPic {
     font-size: 1.5em;
     margin-left: 10px; }
@@ -692,12 +724,38 @@ input.buttonStoryInfo {
       width: 100%; }
     #nodeEditorPage #storyEditor .buttonFrameContainerSave {
       margin-top: -65px; }
+    #nodeEditorPage #storyEditor img.profilePic {
+      float: left;
+      margin: 5px; }
   #nodeEditorPage .storyEditorResponsive {
     margin-top: 60px !important; }
   #nodeEditorPage .deleteThisPic {
+    display: block;
     font-size: 1.5em;
-    margin-left: 10px;
-    font-family: "Architects Daughter", cursive; }
+    top: 5px;
+    right: -5px;
+    overflow: hidden;
+    border: 1px solid black;
+    font-family: "Architects Daughter", cursive;
+    color: #fff;
+    position: absolute;
+    cursor: pointer;
+    background: #E1AFB1;
+    height: 30px;
+    width: 25px;
+    line-height: 1.1em;
+    padding-left: 5px; }
+  #nodeEditorPage img.profilePic {
+    float: left;
+    margin: 5px;
+    max-width: 100%;
+    max-height: 100%; }
+  #nodeEditorPage #changePicSection {
+    margin-top: 5px;
+    margin-left: 5px;
+    float: left; }
+  #nodeEditorPage .profilePicContainer {
+    margin-bottom: 20px; }
   #nodeEditorPage #profilePicSection {
     margin-top: 15px; }
   #nodeEditorPage #cbp-spmenu-s2 {
@@ -708,6 +766,9 @@ input.buttonStoryInfo {
     margin-bottom: 20px; }
     #nodeEditorPage #pageEditor .editorFrameContainer {
       background: #F3E0E1; }
+    #nodeEditorPage #pageEditor img.profilePic {
+      float: left;
+      margin: 5px; }
     #nodeEditorPage #pageEditor .optionsDiv {
       width: 70%;
       float: right; }
