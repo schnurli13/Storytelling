@@ -1197,7 +1197,7 @@ input {
 			border: none;
 		}
 		
-		#title {
+		.title {
 			margin-top: -50px;
 		}
 		
@@ -1211,11 +1211,11 @@ input {
 			font-size: 12px;
 		}
 		
-		#pageText, #title, .pageOption {
+		.pageText, .title, .pageOption {
 			overflow-wrap: break-word;
 		}
 		
-		#pagePresentation #pageImage img {
+		#pagePresentation .pageImage img {
 			height: auto;
 		}
 	}
