@@ -22,6 +22,7 @@ nodeEditor.module = (function($) {
         emptyRectangle,
         pause = false,
         movementStyle = null,
+        firstNode = null,
         firstLast = ":first",
         dropStyle = null,
         found = false,
@@ -417,6 +418,7 @@ nodeEditor.module = (function($) {
             }
             //first node
             if (i == 0) {
+                firstNode = data[i]['id'];
                 star = new Konva.Circle({
                     x: ((multiple - center)*scaleFactor)-offset,
                     y: h+(parseInt(data[i]['level']) + 1) * levelY,
@@ -467,7 +469,7 @@ nodeEditor.module = (function($) {
                     }
                     z++;
                 }
-
+                nodeSelection(layer.find('#'+ data[i]['id'])[0]);
             }
 
             var sh = IDs.shift();
@@ -2022,6 +2024,7 @@ nodeEditor.module = (function($) {
 
         startDrawLines();
         startDrawNodes();
+
 
         initFontSize = stage.find('#button1Text')[0].getAttr('fontSize');
         //change fontsize
