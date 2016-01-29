@@ -895,6 +895,8 @@ input.buttonStoryInfo {
   margin-bottom: 110px; }
 #pageEditor #profilePicSection {
   margin-top: 55px; }
+#pageEditor .currPicDiv {
+  float: left; }
 
 @media screen and (max-width: 1260px) {
   #profilePage .myInfoContainer #content .firstColumn {
