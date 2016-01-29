@@ -519,7 +519,7 @@ nodeEditor.module = (function($) {
                   if ((star.getAbsolutePosition().x < 20 || star.getAbsolutePosition().x > width - 20|| star.getAbsolutePosition().y > height - 20)&&layer.getAttr('scale').x <=1) {
                       toBig =true;
                      startScale = layer.scaleX().toFixed(2) - 0.02;
-                      if(stage.getAttr('width')<850){
+                      if(window.innerWidth<850){
                           offset = 50;
                       }
 
@@ -710,8 +710,6 @@ nodeEditor.module = (function($) {
                                 nodeSelection(layer.find('#'+ $(this).attr('data-pageId'))[0]);
                             });
                         });
-
-
 
 
                     },

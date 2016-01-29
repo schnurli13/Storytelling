@@ -88,6 +88,7 @@ class FrontendMapper extends MotherMapper{
 				$this->myPage->discardSource('css', 'default');
 				$this->myPage->useSource('css', 'publishedView');
 				$this->myPage->useSource('javascript', 'publishedStoryHandler');
+				$this->myPage->useSource('javascript', 'tracking');
 				$userStoryPresentationControllerObject = new UserStoryPresentationController('userStoryPresentationTemplate');
 				$this->myPage->setContent($userStoryPresentationControllerObject->execute());
 						
