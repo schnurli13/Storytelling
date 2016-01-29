@@ -1780,10 +1780,12 @@ nodeEditor.module = (function($) {
     resetInputFields = function(){
         $("#pageEditor .inputField").val('');
         $('#pageEditor #currentPicture').prop('src','/Storytelling/public/images/dummyProfile.jpg');
-       $('#previewEditor #currentPicturePreview').prop('src','/Storytelling/public/images/dummyProfile.jpg');
-        $('#previewEditor #title h2').text('Default-Title');
-        $('#previewEditor #pageText').text('DefaultText');
-        $('#previewEditor #pageOptions').empty();
+        if(selectedNode == null){
+            $('#previewEditor #currentPicturePreview').prop('src','/Storytelling/public/images/dummyProfile.jpg');
+            $('#previewEditor #title h2').text('Default-Title');
+            $('#previewEditor #pageText').text('DefaultText');
+            $('#previewEditor #pageOptions').empty();
+        }
         $('.opt1').removeAttr('disabled');
         $('.opt2').removeAttr('disabled');
         $('.opt3').removeAttr('disabled');
