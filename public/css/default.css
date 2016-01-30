@@ -793,6 +793,8 @@ input.buttonStoryInfo {
     #nodeEditorPage #pageEditor .buttonFrameContainerPicPage {
       width: 150px;
       margin-top: -33px; }
+    #nodeEditorPage #pageEditor #profilePicSection {
+      clear: both; }
   #nodeEditorPage #previewEditor {
     background: #D6D5C5;
     /*height: 31.5%;*/ }
@@ -821,7 +823,8 @@ input.buttonStoryInfo {
     #nodeEditorPage #previewEditor .pageText, #nodeEditorPage #previewEditor .title, #nodeEditorPage #previewEditor .pageOption {
       overflow-wrap: break-word; }
     #nodeEditorPage #previewEditor #pagePresentation .pageImage img {
-      height: auto; }
+      height: auto;
+      width: 100%; }
   #nodeEditorPage .editorFrameContainer {
     margin: 0 auto;
     position: relative;
@@ -906,7 +909,8 @@ input.buttonStoryInfo {
 #pageEditor #profilePicSection {
   margin-top: 55px; }
 #pageEditor .currPicDiv {
-  width: 100%; }
+  width: 100%;
+  float: left; }
 
 @media screen and (max-width: 1260px) {
   #profilePage .myInfoContainer #content .firstColumn {

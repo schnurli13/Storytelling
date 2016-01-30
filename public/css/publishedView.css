@@ -7,10 +7,11 @@
   font-family: "Architects Daughter", cursive;
   text-align: center;
   margin-top: 50px; }
+#pagePresentation .pageImage {
+  text-align: center; }
 #pagePresentation .pageImage img {
-  margin: 0 5%;
-  width: 90%;
-  height: 300px; }
+  width: 1023px;
+  height: 500px; }
 #pagePresentation .pageText {
   font-family: "Architects Daughter", cursive;
   text-align: center;

@@ -1177,6 +1177,10 @@ input {
 			width: 150px;
 			margin-top: -33px;
 		}
+		
+		#profilePicSection {
+			clear: both;
+		}
 	}
 	
 	#previewEditor {
@@ -1227,6 +1231,7 @@ input {
 		
 		#pagePresentation .pageImage img {
 			height: auto;
+			width: 100%;
 		}
 	}
 	
@@ -1381,6 +1386,7 @@ input {
 		
 		.currPicDiv {
 			width: 100%;
+			float: left;
 		}
 	}
 
