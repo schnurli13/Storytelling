@@ -1,5 +1,4 @@
 new story muss weg wenn der benutzer nicht angemeldet ist!
+Nur gepublishte stories anzeigen wenn man nicht angemeldet ist!
 feld zu passwort feld umstellen
-story editor funktionen immer aktiviert lassen
 bei klick auf page -> story editor toggeln, bei klick auf story -> preview editor toggeln
-regelung von bilderwechsel über klasse, je nach klasse werden sql queues benutzt und bilder geladen

@@ -1,5 +1,5 @@
-var initialize;
-var handleReInitialize;
+var initializeEditHandler;
+var handleReinitializeEditHandler;
 
 var activateCloseButton;
 var loadStandardValue;
@@ -196,7 +196,7 @@ getCurrentUser = function(){
 	});
 }
 
-initialize = function(){
+initializeEditHandler = function(){
 	changePicLoaded = false;
 	loadCurrentPictures();
 	changePictureActivation();
@@ -229,7 +229,7 @@ $(document).ready(function(){
 	if(fancybox.length > 0){
 		fancybox.fancybox({
 			beforeShow: function(current, previous){
-				initialize();
+				initializeEditHandler();
 				activateCloseButton();
 			},
 			afterClose: function() {
@@ -241,10 +241,5 @@ $(document).ready(function(){
 			}
 		});
 	}
-	
-	initialize();
-	
-		
-	
-
+	initializeEditHandler();
 });
