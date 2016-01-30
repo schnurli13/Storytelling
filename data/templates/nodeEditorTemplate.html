@@ -239,26 +239,26 @@
         $(document).ready(function(){
             $( document ).ready(function() {
                 $(".previewFrame").toggle('slow');
-                $("i",this).toggleClass("fa-angle-down fa-angle-up");
+                $("i", ".previewToggle").toggleClass("fa-angle-down fa-angle-up");
                 $( "#previewEditor" ).toggleClass( "closed" );
             });
             
             $("canvas").click(function(){
                 if ($( "#previewEditor" ).hasClass( "closed" )) {
                     $(".previewFrame").toggle('slow');
-                    $("i",this).toggleClass("fa-angle-down fa-angle-up");
+                    $("i", ".previewToggle").toggleClass("fa-angle-down fa-angle-up");
                     $( "#previewEditor" ).toggleClass( "closed" );
                 }
                 
                 if ($( "#pageEditor" ).hasClass( "closed" )) {
                     $(".pageForm").toggle('slow');
-                    $("i",this).toggleClass("fa-angle-down fa-angle-up");
+                    $("i", ".pageToggle").toggleClass("fa-angle-down fa-angle-up");
                     $( "#pageEditor" ).toggleClass( "closed" );
                 }
                 
                 if (!$( "#storyEditor" ).hasClass( "closed" )) {
                     $(".storyForm").toggle('slow');
-                    $("i",this).toggleClass("fa-angle-down fa-angle-up");
+                    $("i", ".storyToggle").toggleClass("fa-angle-down fa-angle-up");
                     $( "#storyEditor" ).toggleClass( "closed" );
                 }
             });
@@ -268,13 +268,15 @@
                 $("i",this).toggleClass("fa-angle-down fa-angle-up");
                 $( "#storyEditor" ).toggleClass( "closed" );
                 
-                if($( "#previewEditor" ).hasClass( "closed" ) && $( "#storyEditor" ).hasClass( ":not(closed" )) {
+                if($( "#previewEditor" ).hasClass( "closed" ) && $( "#storyEditor" ).hasClass( "closed" )) {
                     $(".previewFrame").toggle('slow');
-                    $(".storyForm").toggle('slow');
+                    $("i", ".previewToggle").toggleClass("fa-angle-down fa-angle-up");
+                    $( "#previewEditor" ).toggleClass( "closed" );
                 }
-                if($( "#previewEditor" ).hasClass( ":not(closed)" ) && $( "#storyEditor" ).hasClass( "closed" )) {
-                    $(".storyForm").toggle('slow');
+                if(!$( "#previewEditor" ).hasClass( "closed" ) && !$( "#storyEditor" ).hasClass( "closed" )) {
                     $(".previewFrame").toggle('slow');
+                    $("i", ".previewToggle").toggleClass("fa-angle-down fa-angle-up");
+                    $( "#previewEditor" ).toggleClass( "closed" );
                 }
             });  
 
@@ -286,16 +288,18 @@
        
             $(".previewToggle").click(function(){
                 $(".previewFrame").toggle('slow');
-                $("i",this).toggleClass("fa-angle-down fa-angle-up");
+                $("i", ".previewToggle").toggleClass("fa-angle-down fa-angle-up");
                 $( "#previewEditor" ).toggleClass( "closed" );
                 
-                if($( "#previewEditor" ).hasClass( "closed" ) && $( "#storyEditor" ).hasClass( ":not(closed" )) {
-                    $(".previewFrame").toggle('slow');
+                if($( "#previewEditor" ).hasClass( "closed" ) && $( "#storyEditor" ).hasClass( "closed" )) {
                     $(".storyForm").toggle('slow');
+                     $("i",".storyToggle").toggleClass("fa-angle-down fa-angle-up");
+                    $( "#storyEditor" ).toggleClass( "closed" );
                 }
-                if($( "#previewEditor" ).hasClass( ":not(closed)" ) && $( "#storyEditor" ).hasClass( "closed" )) {
+                if(!$( "#previewEditor" ).hasClass( "closed" ) && !$( "#storyEditor" ).hasClass( "closed" )) {
                     $(".storyForm").toggle('slow');
-                    $(".previewFrame").toggle('slow');
+                     $("i", ".storyToggle").toggleClass("fa-angle-down fa-angle-up");
+                    $( "#storyEditor" ).toggleClass( "closed" );
                 }
             });
         });
