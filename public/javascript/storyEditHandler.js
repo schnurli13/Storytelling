@@ -34,7 +34,7 @@ changePictureActivation = function(){
 	}
 	changePictureButton.on('click', function(){
 	if(!$(this).hasClass('open')){
-		loadPictureChangeElements($(this), changePictureAttr, correctPath);
+		loadPictureChangeElements($(this), correctPath);
 		$(this).addClass('open');
 		loadAndUpdatePics($(this), changePictureAttr, correctPath);
 		}
@@ -121,14 +121,25 @@ setAsProfilePic = function(picture, segment, picAttr, correctPath){
 	});
 }
 
-loadPictureChangeElements = function(button, changePictureAttr, correctPath){
+loadPictureChangeElements = function(button, correctPath){
+
+		var changePictureAttr;
+		if(button.hasClass('userPicture')){
+			changePictureAttr = 'currentUserPicture';
+		}else if(button.hasClass('storyPicture')){
+			changePictureAttr = 'currentStoryPicture';
+		}else if(button.hasClass('pagePicture')){
+			changePictureAttr = 'currentPagePicture';
+		}
+
+	var uniqueId = 'cropField'+changePictureAttr;
 	button.parent().after('<form method="POST" class="changePic" name="changePic"></form>');
 	var upload = button.parent().siblings('.changePic');
 	upload.wrap('<div id="changePicSection"></div>');
-	upload.append('<div id="cropField" />');
+	upload.append('<div id="'+uniqueId+'" class="cropField"/>');
 	button.parent().after('<div id="profilePicSection"></div>');
 	
-	loadCropper(button, changePictureAttr, correctPath);
+	loadCropper(button, changePictureAttr, correctPath, uniqueId);
 }
 
 loadCurrentPictures = function(){
@@ -202,7 +213,7 @@ initializeEditHandler = function(){
 	changePictureActivation();
 }
 
-loadCropper = function(button, changePictureAttr, correctPath){
+loadCropper = function(button, changePictureAttr, correctPath, uniqueId){
 
 	var cropperPath = '';
 	
@@ -219,8 +230,7 @@ loadCropper = function(button, changePictureAttr, correctPath){
 			cropUrl:'/Storytelling/public/plugins/croppic/'+cropperPath+'.php',
 			onAfterImgCrop:	function(){ loadAndUpdatePics(button, changePictureAttr, correctPath); }
 		}		
-		
-	var cropperHeader = new Croppic('cropField', cropperOptions);
+	var cropperHeader = new Croppic(uniqueId, cropperOptions);
 
 }
 
