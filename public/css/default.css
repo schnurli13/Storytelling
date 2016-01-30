@@ -34,7 +34,7 @@ a {
 .marginRightLogState {
   margin-right: 10px; }
 
-#cropField {
+.cropField {
   width: 175px;
   height: 175px; }
 
@@ -527,7 +527,7 @@ input.buttonStoryInfo {
     width: 25px;
     line-height: 1.1em;
     padding-left: 5px; }
-  #userEditPage #changePicSection {
+  #userEditPage .changePicSection {
     margin-top: 5px;
     margin-left: 5px;
     float: left; }
@@ -630,7 +630,7 @@ input.buttonStoryInfo {
     background-color: #D3ECED;
     float: left;
     margin-bottom: 30px; }
-  #newStoryPage #profilePicSection {
+  #newStoryPage .profilePicSection {
     margin-top: 10px; }
   #newStoryPage .deleteThisPic {
     font-size: 1.5em;
@@ -745,7 +745,7 @@ input.buttonStoryInfo {
     width: 20px;
     line-height: 1.1em;
     padding-left: 5px; }
-  #nodeEditorPage #cropField {
+  #nodeEditorPage .cropField {
     width: 175px;
     height: 175px; }
   #nodeEditorPage img.profilePic {
@@ -753,7 +753,7 @@ input.buttonStoryInfo {
     margin: 5px;
     max-width: 100%;
     max-height: 100%; }
-  #nodeEditorPage #changePicSection {
+  #nodeEditorPage .changePicSection {
     margin-top: 5px;
     margin-left: 5px;
     float: left; }
@@ -764,7 +764,7 @@ input.buttonStoryInfo {
     height: 175px;
     position: relative;
     float: left; }
-  #nodeEditorPage #profilePicSection {
+  #nodeEditorPage .profilePicSection {
     margin-top: 15px; }
   #nodeEditorPage #cbp-spmenu-s2 {
     overflow: scroll !important; }
@@ -793,7 +793,7 @@ input.buttonStoryInfo {
     #nodeEditorPage #pageEditor .buttonFrameContainerPicPage {
       width: 150px;
       margin-top: -33px; }
-    #nodeEditorPage #pageEditor #profilePicSection {
+    #nodeEditorPage #pageEditor .profilePicSection {
       clear: both; }
   #nodeEditorPage #previewEditor {
     background: #D6D5C5;
@@ -893,7 +893,7 @@ input.buttonStoryInfo {
   margin-bottom: 50px; }
 #storyEditor .currPicDiv {
   width: 30%; }
-#storyEditor #profilePicSection {
+#storyEditor .profilePicSection {
   margin-top: 55px; }
 
 #pageEditor .buttonFrameContainer {
@@ -907,7 +907,7 @@ input.buttonStoryInfo {
   margin-bottom: 50px; }
 #pageEditor .tellLabel {
   margin-bottom: 110px; }
-#pageEditor #profilePicSection {
+#pageEditor .profilePicSection {
   margin-top: 55px; }
 #pageEditor .currPicDiv {
   width: 100%;

@@ -173,7 +173,7 @@ loadPictureChangeElements = function(button){
 	//upload.append('<label class="selectFileLable" >Select a file:</label><br>');
 	//upload.append('<input class="selectFileFile" type="file" name="file" required />');
 	//upload.append('<input class="selectFileSubmit" type="submit" value="Upload Picture" />');
-	upload.append('<div id="cropField" />');
+	upload.append('<div id="cropField" class="cropField" />');
 	button.parent().after('<div id="profilePicSection"></div>');
 	
 	loadCropper();
