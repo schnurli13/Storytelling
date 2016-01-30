@@ -35,10 +35,12 @@ changePictureActivation = function(){
 	}
 	changePictureButton.on('click', function(){
 		if(!$(this).hasClass('open')){
+			$(this).attr('value', 'CLOSE SELECTION');
 			loadPictureChangeElements($(this), correctPath);
 			$(this).addClass('open');
 			loadAndUpdatePics($(this), changePictureAttr, correctPath);
 		}else{
+			$(this).attr('value', 'SELECT PICTURE');
 			deletePictureChangeElements($(this), correctPath);
 			$(this).removeClass('open');
 		}
@@ -126,24 +128,8 @@ setAsProfilePic = function(picture, segment, picAttr, correctPath){
 }
 
 deletePictureChangeElements = function(button, correctPath){
-
-		var changePictureAttr;
-		if(button.hasClass('userPicture')){
-			changePictureAttr = 'currentUserPicture';
-		}else if(button.hasClass('storyPicture')){
-			changePictureAttr = 'currentStoryPicture';
-		}else if(button.hasClass('pagePicture')){
-			changePictureAttr = 'currentPagePicture';
-		}
-
-	var uniqueId = 'cropField'+changePictureAttr;
-	button.parent().after('<form method="POST" class="changePic" name="changePic"></form>');
-	var upload = button.parent().siblings('.changePic');
-	upload.wrap('<div class="changePicSection"></div>');
-	upload.append('<div id="'+uniqueId+'" class="cropField"/>');
-	button.parent().after('<div class="profilePicSection"></div>');
-	
-	loadCropper(button, changePictureAttr, correctPath, uniqueId);
+	button.parent().siblings('.changePicSection').remove();
+	button.parent().siblings('.profilePicSection').remove();
 }
 
 
