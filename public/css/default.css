@@ -823,8 +823,9 @@ input.buttonStoryInfo {
     #nodeEditorPage #previewEditor .pageText, #nodeEditorPage #previewEditor .title, #nodeEditorPage #previewEditor .pageOption {
       overflow-wrap: break-word; }
     #nodeEditorPage #previewEditor #pagePresentation .pageImage img {
-      height: auto;
-      width: 100%; }
+      max-height: 250px;
+      width: 250px;
+      height: auto; }
   #nodeEditorPage .editorFrameContainer {
     margin: 0 auto;
     position: relative;
