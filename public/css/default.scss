@@ -1093,10 +1093,15 @@ input {
 		position: absolute;
 		cursor: pointer;
 		background: #e4565c;
-		height: 30px;
-		width: 25px;
+		height: 25px;
+		width: 20px;
 		line-height: 1.1em;
 		padding-left: 5px;
+	}
+	
+	#cropField {
+		width: 175px;
+		height: 175px;
 	}
 	
 	img.profilePic {
@@ -1114,6 +1119,11 @@ input {
 	
 	.profilePicContainer {
 		margin-bottom: 20px;
+		margin-right: 20px;
+		width: 175px;
+		height: 175px;
+		position: relative;
+		float: left;
 	}
 	
 	#profilePicSection {
@@ -1351,6 +1361,7 @@ input {
 			margin-bottom: 20px;
 			width: 176px !important;
 		}
+	
 		
 		.buttons {
 			float: left;
@@ -1369,7 +1380,6 @@ input {
 		}
 		
 		.currPicDiv {
-			float: left;
 			width: 100%;
 		}
 	}

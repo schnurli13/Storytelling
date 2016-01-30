@@ -741,10 +741,13 @@ input.buttonStoryInfo {
     position: absolute;
     cursor: pointer;
     background: #e4565c;
-    height: 30px;
-    width: 25px;
+    height: 25px;
+    width: 20px;
     line-height: 1.1em;
     padding-left: 5px; }
+  #nodeEditorPage #cropField {
+    width: 175px;
+    height: 175px; }
   #nodeEditorPage img.profilePic {
     float: left;
     margin: 5px;
@@ -755,7 +758,12 @@ input.buttonStoryInfo {
     margin-left: 5px;
     float: left; }
   #nodeEditorPage .profilePicContainer {
-    margin-bottom: 20px; }
+    margin-bottom: 20px;
+    margin-right: 20px;
+    width: 175px;
+    height: 175px;
+    position: relative;
+    float: left; }
   #nodeEditorPage #profilePicSection {
     margin-top: 15px; }
   #nodeEditorPage #cbp-spmenu-s2 {
@@ -898,7 +906,6 @@ input.buttonStoryInfo {
 #pageEditor #profilePicSection {
   margin-top: 55px; }
 #pageEditor .currPicDiv {
-  float: left;
   width: 100%; }
 
 @media screen and (max-width: 1260px) {
