@@ -98,7 +98,7 @@ function deletePic(){
 		$table = 'page';
 		$subject = 'page';
 		$images_table = 'page_images';
-		$search_name = $_POST['pagename'];
+		$search_name = $sessionObject->getPage();
 		$search_subject = 'title';
 		$pathType = 'page';
 	}
@@ -114,6 +114,9 @@ function deletePic(){
 	$deletedOnDatabase = $mysqlObject->commandDataBase('DELETE FROM `storytelling_platform`.`'.$images_table.'` WHERE `'.$images_table.'`.`path` = "'.$path.'"');
 	
 	if(file_exists($filePath) && $deletedOnDatabase){
+		if($_POST['pictureType'] === 'currentPagePicture'){
+			unlink('../images/'.$pathType.'/original/'.$path);
+		}
 		unlink($filePath);
 	}else{
 	}
@@ -153,8 +156,8 @@ function setAsNewProfilePic(){
 		$table = 'page';
 		$subject = 'page';
 		$images_table = 'page_images';
-		$search_name = $_POST['pageName'];
-		$search_subject = 'title';
+		$search_name = $sessionObject->getPage();
+		$search_subject = 'id';
 		$pathType = 'page';
 		$imageName = 'imageLink';
 	}
@@ -195,12 +198,13 @@ function getAllPictures(){
 		$table = 'page';
 		$subject = 'page';
 		$images_table = 'page_images';
-		$search_name = $_POST['pageName'];
-		$search_subject = 'title';
+		$search_name = $sessionObject->getPage();
+		$search_subject = 'id';
 	}
 	
 	$foundId = $mysqlObject->queryDataBase('SELECT id FROM '.$table.' WHERE '.$search_subject.' = "'.$search_name.'"')[0]['id'];
 	if($_POST['pictureType'] === 'currentStoryPicture'){$foundId = $_POST['storyName'];}
+	if($_POST['pictureType'] === 'currentPagePicture'){$foundId = $sessionObject->getPage();}
 	$foundPictures = $mysqlObject->queryDataBase('SELECT path FROM '.$images_table.' WHERE '.$subject.' = "'.$foundId.'"');
 	
 	for($i = 0; $i<sizeof($foundPictures); $i++){
@@ -208,6 +212,7 @@ function getAllPictures(){
 	}
 	echo json_encode($returnArray);
 }
+
 
 function getCurrentPicture(){
 	$sessionObject = new sessionModule();
@@ -232,12 +237,14 @@ function getCurrentPicture(){
 	}else if($_POST['pictureType'] === 'currentPagePicture'){
 		$table = 'page';
 		$images_table = 'page_images';
-		$search_name = $_POST['pageName'];
+		$search_name = $sessionObject->getPage();
 		$imageName = 'imageLink';
 		$search_subject = 'title';
 	}
 	
-	$imageId = $mysqlObject->queryDataBase('SELECT '.$imageName.' FROM '.$table.' WHERE '.$search_subject.' = "'.$search_name.'"')[0][$imageName];
+	if($_POST['pictureType'] === 'currentPagePicture'){ $imageId = $sessionObject->getPage(); }else{
+		$imageId = $mysqlObject->queryDataBase('SELECT '.$imageName.' FROM '.$table.' WHERE '.$search_subject.' = "'.$search_name.'"')[0][$imageName];
+	}
 	echo $mysqlObject->queryDataBase('SELECT path FROM '.$images_table.' WHERE id = "'.$imageId.'"')[0]['path'];
 }
 

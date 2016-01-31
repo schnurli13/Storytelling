@@ -28,6 +28,7 @@ $date = new DateTime();
 $filename = sha1(str_replace(' ','',$date->format('Y-m-d H:i:s')));
 
 $output_filename = "../../images/page/".$filename;
+$output_filename_big = "../../images/page/original/".$filename;
 $real_filename = '/Storytelling/public/images/page/'.$filename;
 
 // uncomment line below to save the cropped image in the same location as the original image.
@@ -91,8 +92,7 @@ if(!is_writable(dirname($output_filename))){
 	$mysqlObject = new mysqlModule();
 	$sessionObject = new sessionModule();
 	
-	$profileImageId = $mysqlObject->queryDataBase('SELECT id FROM page WHERE title = "'.$sessionObject->getPage().'"')[0]['id'];
-	$mysqlObject->commandDataBase('INSERT INTO `page_images` (`page`, `path`) VALUES ("'.$profileImageId.'", "'.$filename.$type.'")');
+	$mysqlObject->commandDataBase('INSERT INTO `page_images` (`page`, `path`) VALUES ("'.$sessionObject->getPage().'", "'.$filename.$type.'")');
 	
 	imagejpeg($final_image, $output_filename.$type, $jpeg_quality);
 	$response = Array(
@@ -100,7 +100,8 @@ if(!is_writable(dirname($output_filename))){
 	    "url" => $real_filename.$type
     );
 }
-
+$realImageName = str_replace('../../images/temp/', '', $imgUrl);
+rename('../../images/page/original/'.$realImageName, '../../images/page/original/'.$filename.$type);
 unlink($imgUrl);
 
 print json_encode($response);

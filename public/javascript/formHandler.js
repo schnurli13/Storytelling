@@ -104,7 +104,7 @@ loadAndUpdatePics = function(){
 		contentType: false   // tell jQuery not to set contentType
 	}).done(function( data ) {
 		console.log('PHP Output:');
-		var picSection = $('#profilePicSection')
+		var picSection = $('.profilePicSection')
 		picSection.empty();
 		var i;
 		var picNumber
@@ -168,13 +168,9 @@ setAsProfilePic = function(picture){
 loadPictureChangeElements = function(button){
 	button.parent().after('<form method="POST" id="changePic" name="changePic"></form>');
 	var upload = $('#changePic');
-	upload.wrap('<div id="changePicSection"></div>');
-	//upload.atfter('<div id="profilePicSection"></div>');
-	//upload.append('<label class="selectFileLable" >Select a file:</label><br>');
-	//upload.append('<input class="selectFileFile" type="file" name="file" required />');
-	//upload.append('<input class="selectFileSubmit" type="submit" value="Upload Picture" />');
+	upload.wrap('<div class="changePicSection"></div>');
 	upload.append('<div id="cropField" class="cropField" />');
-	button.parent().after('<div id="profilePicSection"></div>');
+	button.parent().after('<div class="profilePicSection"></div>');
 	
 	loadCropper();
 }

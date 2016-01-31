@@ -33,6 +33,7 @@ changePictureActivation = function(){
 		changePictureAttr = 'currentPagePicture';
 		correctPath = 'page';
 	}
+	
 	changePictureButton.on('click', function(){
 	
 		var correctPath;
@@ -64,8 +65,6 @@ changePictureActivation = function(){
 loadAndUpdatePics = function(segment, picAttr, correctPath){
 	var fd = new FormData();
 	var storyname = $('.storyInformationDiv').attr('data-story');
-	var pagename = $('.titleEdit').val();
-	fd.append('pageName', pagename);
 	fd.append('function', 'getAllPictures');
 	fd.append('storyName', storyname);
 	fd.append('pictureType', picAttr);
@@ -104,8 +103,6 @@ deleteProfilePic = function(deleteButton, segment, picAttr, correctPath){
 	fd.append('function', 'deletePic');
 	fd.append('path', deleteButton.parent().children('img').attr('src'));
 	var storyname = $('.storyInformationDiv').attr('data-story');
-	var pagename = $('.titleEdit').val();
-	fd.append('pageName', pagename);
 	fd.append('storyName', storyname);
 	fd.append('pictureType', picAttr);
 	$.ajax({
@@ -129,8 +126,6 @@ setAsProfilePic = function(picture, segment, picAttr, correctPath){
 	var fd = new FormData();
 	fd.append('function', 'setAsNewProfilePic');
 	fd.append('path', picture.attr('src'));
-	var pagename = $('.titleEdit').val();
-	fd.append('pageName', pagename);
 	var storyname = $('.storyInformationDiv').attr('data-story');
 	fd.append('storyName', storyname);
 	fd.append('pictureType', picAttr);
@@ -142,7 +137,9 @@ setAsProfilePic = function(picture, segment, picAttr, correctPath){
 		processData: false,  // tell jQuery not to process the data
 		contentType: false   // tell jQuery not to set contentType
 	}).done(function( data ) {
-	loadCurrentPictures(segment, picAttr, correctPath);
+	
+	var path = picture.attr('src');
+	picture.parent().parent().siblings('.currPicDiv').children('img').attr('src', path);
 	console.log( data );
 	});
 }
@@ -166,10 +163,8 @@ loadPictureChangeElements = function(button, changePictureAttr, correctPath){
 }
 
 loadCurrentPictures = function(){
-	var allPictures = $('#currentPicture');
+	var allPictures = $('.currentPictureOfTool');
 	var fd = new FormData();
-	var pagename = $('.titleEdit').val();
-	fd.append('pageName', pagename);
 	var storyname = $('.storyInformationDiv').attr('data-story');
 	allPictures.each(function(){
 		var that = $(this);
@@ -241,17 +236,21 @@ initializeEditHandler = function(){
 loadCropper = function(button, changePictureAttr, correctPath, uniqueId){
 
 	var cropperPath = '';
+	var safePath = '';
 	
 	if(changePictureAttr == 'currentUserPicture'){
 		cropperPath = 'img_crop_to_file_user'
+		safePath = 'img_save_to_file';
 	}else if(changePictureAttr == 'currentStoryPicture'){
 		cropperPath = 'img_crop_to_file_story'
+		safePath = 'img_save_to_file';
 	}else if(changePictureAttr == 'currentPagePicture'){
 		cropperPath = 'img_crop_to_file_page'
+		safePath = 'img_save_to_file_page';
 	}
 
 	var cropperOptions = {
-			uploadUrl:'/Storytelling/public/plugins/croppic/img_save_to_file.php',
+			uploadUrl:'/Storytelling/public/plugins/croppic/'+safePath+'.php',
 			cropUrl:'/Storytelling/public/plugins/croppic/'+cropperPath+'.php',
 			onAfterImgCrop:	function(){ loadAndUpdatePics(button, changePictureAttr, correctPath); }
 		}		
