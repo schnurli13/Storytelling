@@ -13,7 +13,7 @@
   text-align: center; }
 #pagePresentation .pageImage img {
   width: 1023px;
-  height: 500px; }
+  height: 600px; }
 #pagePresentation .pageText {
   font-family: "Architects Daughter", cursive;
   text-align: center;
@@ -66,5 +66,22 @@
   font-size: 18px;
   font-family: "Architects Daughter", cursive;
   cursor: pointer; }
+
+@media screen and (max-width: 1280px) {
+  #pagePresentation .pageImage img {
+    width: 853px;
+    height: 500px; } }
+@media screen and (max-width: 1080px) {
+  #pagePresentation .pageImage img {
+    width: 682px;
+    height: 400px; } }
+@media screen and (max-width: 1024px) {
+  #pagePresentation .pageImage img {
+    width: 512px;
+    height: 300px; } }
+@media screen and (max-width: 1024px) {
+  #pagePresentation .pageImage img {
+    width: 512px;
+    height: 300px; } }
 
 /*# sourceMappingURL=publishedView.css.map */

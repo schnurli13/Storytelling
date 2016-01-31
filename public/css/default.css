@@ -873,7 +873,8 @@ input.buttonStoryInfo {
     margin-left: 2.5px !important; }
   #nodeEditorPage input.button {
     height: 30px;
-    line-height: 1.3em; }
+    line-height: 1.3em;
+    font-size: 14px; }
   #nodeEditorPage .buttonFrameContainer {
     float: right;
     height: 30px; }
