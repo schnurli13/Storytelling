@@ -25,8 +25,8 @@
       <file leaf-file-name="function.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/javascript/function.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.40358126">
-              <caret line="2516" column="44" selection-start-line="2516" selection-start-column="44" selection-end-line="2516" selection-end-column="44" />
+            <state vertical-scroll-proportion="0.16391185">
+              <caret line="2511" column="54" selection-start-line="2511" selection-start-column="54" selection-end-line="2511" selection-end-column="54" />
               <folding />
             </state>
           </provider>
@@ -35,9 +35,17 @@
       <file leaf-file-name="formFunctions.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/php/formFunctions.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.5">
-              <caret line="75" column="4" selection-start-line="75" selection-start-column="4" selection-end-line="75" selection-end-column="4" />
-              <folding />
+            <state vertical-scroll-proportion="89.57692">
+              <caret line="78" column="4" selection-start-line="78" selection-start-column="4" selection-end-line="78" selection-end-column="4" />
+              <folding>
+                <marker date="1454254949425" expanded="true" signature="2640:2742" placeholder="DELETE FROM ..." />
+                <marker date="1454254949425" expanded="true" signature="4168:4225" placeholder="SELECT id FR..." />
+                <marker date="1454254949425" expanded="true" signature="5281:5353" placeholder="SELECT id FR..." />
+                <marker date="1454254949425" expanded="true" signature="5590:5660" placeholder="SELECT path ..." />
+                <marker date="1454254949425" expanded="true" signature="6901:6961" placeholder="SELECT path ..." />
+                <marker date="1454254949425" expanded="true" signature="9279:9348" placeholder="SELECT id FR..users..." />
+                <marker date="1454254949425" expanded="true" signature="9395:9488" placeholder="INSERT INTO ..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -46,7 +54,7 @@
         <entry file="file://$PROJECT_DIR$/public/javascript/storyEditHandler.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="264" column="27" selection-start-line="264" selection-start-column="27" selection-end-line="264" selection-end-column="27" />
+              <caret line="263" column="27" selection-start-line="263" selection-start-column="27" selection-end-line="263" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -173,9 +181,9 @@
         <entry file="file://$PROJECT_DIR$/public/javascript/formHandler.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="262" column="0" selection-start-line="262" selection-start-column="0" selection-end-line="262" selection-end-column="0" />
+              <caret line="258" column="0" selection-start-line="258" selection-start-column="0" selection-end-line="258" selection-end-column="0" />
               <folding>
-                <marker date="1454237015663" expanded="true" signature="4469:5097" placeholder="{...}" />
+                <marker date="1454254949416" expanded="true" signature="4737:4787" placeholder="{...}" />
               </folding>
             </state>
           </provider>
@@ -925,7 +933,7 @@
     <entry file="file://$PROJECT_DIR$/public/javascript/storyEditHandler.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="264" column="27" selection-start-line="264" selection-start-column="27" selection-end-line="264" selection-end-column="27" />
+          <caret line="263" column="27" selection-start-line="263" selection-start-column="27" selection-end-line="263" selection-end-column="27" />
           <folding />
         </state>
       </provider>
@@ -965,18 +973,10 @@
     <entry file="file://$PROJECT_DIR$/public/javascript/formHandler.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="262" column="0" selection-start-line="262" selection-start-column="0" selection-end-line="262" selection-end-column="0" />
+          <caret line="258" column="0" selection-start-line="258" selection-start-column="0" selection-end-line="258" selection-end-column="0" />
           <folding>
-            <marker date="1454237015663" expanded="true" signature="4469:5097" placeholder="{...}" />
+            <marker date="1454254949416" expanded="true" signature="4737:4787" placeholder="{...}" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/php/formFunctions.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.5">
-          <caret line="75" column="4" selection-start-line="75" selection-start-column="4" selection-end-line="75" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -985,6 +985,22 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/php/formFunctions.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="89.57692">
+          <caret line="78" column="4" selection-start-line="78" selection-start-column="4" selection-end-line="78" selection-end-column="4" />
+          <folding>
+            <marker date="1454254949425" expanded="true" signature="2640:2742" placeholder="DELETE FROM ..." />
+            <marker date="1454254949425" expanded="true" signature="4168:4225" placeholder="SELECT id FR..." />
+            <marker date="1454254949425" expanded="true" signature="5281:5353" placeholder="SELECT id FR..." />
+            <marker date="1454254949425" expanded="true" signature="5590:5660" placeholder="SELECT path ..." />
+            <marker date="1454254949425" expanded="true" signature="6901:6961" placeholder="SELECT path ..." />
+            <marker date="1454254949425" expanded="true" signature="9279:9348" placeholder="SELECT id FR..users..." />
+            <marker date="1454254949425" expanded="true" signature="9395:9488" placeholder="INSERT INTO ..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1075,8 +1091,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/javascript/function.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.40358126">
-          <caret line="2516" column="44" selection-start-line="2516" selection-start-column="44" selection-end-line="2516" selection-end-column="44" />
+        <state vertical-scroll-proportion="0.16391185">
+          <caret line="2511" column="54" selection-start-line="2511" selection-start-column="54" selection-end-line="2511" selection-end-column="54" />
           <folding />
         </state>
       </provider>

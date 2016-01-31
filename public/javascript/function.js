@@ -2475,7 +2475,6 @@ nodeEditor.module = (function($) {
 
 //DRAGGEN
       layer.on("dragstart", function (e) {
-
           if (!pause && movementStyle == null) {
               pause = true;
               zoomOut();
@@ -2509,12 +2508,11 @@ nodeEditor.module = (function($) {
 
       });
 
-        //drag the whole canvas except interfaceLayer // bei resize interface bewegt sich mit
+
+        //drag the whole canvas except interfaceLayer 
         var stageX,stageY = 0;
-        stage.on("dragstart",function(e){
+        stage.off('dragstart').on("dragstart",function(e){
             if(e.target.id() == "stage"){
-                stageX= stage.setAttr('x',0);
-                stageY = stage.setAttr('y',0);
                 stageX= 0;
                 stageY = 0;
                 interfaceLayer.setAttr('x',stageX);
@@ -2522,10 +2520,11 @@ nodeEditor.module = (function($) {
             }
         });
 
-        stage.on("dragmove",function(e){
+        stage.off('dragmove').on("dragmove",function(e){
             if(e.target.id() == "stage"){
                 var diffX = stage.getAttr('x') - stageX;
                 var diffY = stage.getAttr('y') - stageY;
+                console.log(diffX);
                 interfaceLayer.setAttr('x',interfaceLayer.getAttr('x')+(diffX*(-1)));
                 interfaceLayer.setAttr('y',interfaceLayer.getAttr('y')+(diffY*(-1)));
                 stageX= stage.getAttr('x');
