@@ -20,6 +20,7 @@ nodeEditor.module = (function($) {
         buttonColorHover='#6b878c',
         buttonColorDisabled='white',
         emptyRectangle,
+        actualLevel,
         pause = false,
         movementStyle = null,
         firstNode = null,
@@ -119,6 +120,7 @@ nodeEditor.module = (function($) {
 
         button2 = button1.clone({id: "button2"}),
         button3 = button1.clone({x: 335,id: "button3"}),
+        button4 = button1.clone({id: "button4"}),
 
         dottedLineAdd = new Konva.Line({
             points: [5, 5, 175, 5, 175, 45, 5, 45,5,5],
@@ -409,6 +411,10 @@ nodeEditor.module = (function($) {
         var color = buttonColorHover;
         var h = startY;
 
+        if(layer.getAttr('scale').x < 1.0){
+            distance = distance * (1+(1-layer.getAttr('scale').x));
+        }
+
         for (var i = 0; i < data.length; i++) {
             var nextPageIDinData;
             var nextID;
@@ -421,21 +427,14 @@ nodeEditor.module = (function($) {
                 firstNode = data[i]['id'];
                 star = new Konva.Circle({
                     x: ((multiple - center)*scaleFactor)-offset,
-                    y: h+(parseInt(data[i]['level']) + 1) * levelY,
+                    y: h+(parseInt(data[i]['level']) + 1) * (levelY),
                     fill: buttonColorHover,
                     radius: 20,
                     draggable: true,
                     name: 'star ' + data[i]['id'],
                     id: data[i]['id'],
                     stroke: 'black',
-                    strokeWidth: 2,
-                    dragBoundFunc: function (pos) {
-                        var newY = pos.y < levelY ? levelY : pos.y;
-                        return {
-                            x: pos.x,
-                            y: newY
-                        };
-                    }
+                    strokeWidth: 2
                 });
 
                 layer.add(star);
@@ -474,149 +473,152 @@ nodeEditor.module = (function($) {
                     nextPageIDinData = findID(data, data[i]["NextPageID" + q]);
                     nextID = nextPageIDinData;
                 }
+                if(layer.find('#'+data[nextPageIDinData]['id'])[0] == undefined) {
+                    if (nextID != 0) {
+                        IDs.push(nextID);
+                        numb = count(data, nextPageIDinData);
 
-                if (nextID != 0) {
-                    IDs.push(nextID);
-                    numb = count(data, nextPageIDinData);
+                        nodeCounter++;
 
-                    nodeCounter++;
-                   // alert(numb);
-                    if (numb > 1) {
-                        center = (((numb * (distance)) / 2) + distance / 2);
-                        multiple += distance;
-                    } else {
-                        center = 0;
-                        multiple = levelX;
-                    }
 
-                    if (highLight != null && highLight.indexOf(data[nextPageIDinData]['id']) != -1) {
-                        color = '#e2b0b3';
-                    } else {
-                        color = buttonColorHover;
-                    }
-
-                    star = new Konva.Circle({
-                        x:((multiple - center)*scaleFactor)-offset,
-                        y: h+((parseInt(data[nextPageIDinData]['level']) + 1) * levelY),
-                        fill: color,
-                        radius: 20,
-                        draggable: true,
-                        name: 'star ' + data[nextPageIDinData]['id'],
-                        id: data[nextPageIDinData]['id'],
-                        stroke: 'black',
-                        strokeWidth: 2,
-                        dragBoundFunc: function (pos) {
-                            var newY = pos.y < levelY ? levelY : pos.y;
-                            return {
-                                x: pos.x,
-                                y: newY
-                            };
+                        if (numb > 1) {
+                            center = (((numb * (distance)) / 2) + distance / 2);
+                            multiple += distance;
+                        } else {
+                            center = 0;
+                            multiple = levelX;
                         }
 
-                    });
-                    layer.add(star);
-
-                  if ((star.getAbsolutePosition().x < 20 || star.getAbsolutePosition().x > width - 20|| star.getAbsolutePosition().y > height - 20)&&layer.getAttr('scale').x <=1) {
-                      toBig =true;
-                     startScale = layer.scaleX().toFixed(2) - 0.02;
-                      if(window.innerWidth<850){
-                          offset = 50;
-                      }
-
-                        layer.scale({
-                            x : startScale,
-                            y : startScale
-                        });
-                        layerConn.scale({
-                            x : startScale,
-                            y : startScale
-                        });
-                        backgroundLayer.scale({
-                            x : 1.0,
-                            y : startScale
-                        });
-                       levelTextLayer.scale({
-                           x: startScale,
-                           y:startScale
-                       });
-                        layerTEXT.scale({
-                            x : startScale,
-                            y : startScale
-                        });
-                        tempLayer.scale({
-                            x : startScale,
-                            y : startScale
-                        });
-
-                        layerConn.offset({
-                            x : layer.offsetX()-20,
-                            y : 0
-                        });
-                        layerTEXT.offset({
-                            x : layer.offsetX()-20,
-                            y : 0
-                        });
-
-                        tempLayer.offset({
-                              x : layer.offsetX()-20,
-                              y : 0
-                          });
-                        layer.offset({
-                            x : layer.offsetX()-20,
-                            y : 0
-                        });
-
-
-
-
-                        startOffsetX=layer.offsetX();
-
-                        startDrawLines();
-                        startDrawNodes();
-                    } else {
-                        //TITLE
-                        toBig = false;
-                       /* idText = new Konva.Text({
-                            x: star.getAttr('x') - (6),
-                            y: star.getAttr('y') - 6,
-                            text: star.getAttr('id'),
-                            fontSize: 20,
-                            fill: 'black'
-                        });
-                        layerTEXT.add(idText);*/
-
-
-                        //connection saving
-                        if (data[nextPageIDinData]['NextPageID1']) {
-                            points[z] = [];
-                            points[z]['pointX'] = star.getAttr('x');
-                            points[z]['pointY'] = star.getAttr('y');
-                            points[z][0] = data[nextPageIDinData]['NextPageID1'];
-                            if (data[nextPageIDinData]['NextPageID2']) {
-                                points[z][1] = data[nextPageIDinData]['NextPageID2'];
-                            }
-                            if (data[nextPageIDinData]['NextPageID3']) {
-                                points[z][2] = data[nextPageIDinData]['NextPageID3'];
-                            }
-                            if (data[nextPageIDinData]['NextPageID4']) {
-                                points[z][3] = data[nextPageIDinData]['NextPageID4'];
-                            }
-                            z++;
+                        if (highLight != null && highLight.indexOf(data[nextPageIDinData]['id']) != -1) {
+                            color = '#e2b0b3';
+                        } else {
+                            color = buttonColorHover;
                         }
 
-                        //connection drawing
-                        for (var j = 0; j < points.length; j++) {
-                            for (var k = 0; k < 4; k++) {
-                                if (points[j][k] == data[nextPageIDinData]['id']) {
-                                    drawConnection(points[j][k], data[i]['id'], points[j]['pointX'], points[j]['pointY'], star.getAttr('x'), star.getAttr('y'));
+
+
+                        star = new Konva.Circle({
+                            x: ((multiple - center) * scaleFactor) - offset,
+                            y: h + ((parseInt(data[nextPageIDinData]['level']) + 1) * levelY),
+                            fill: color,
+                            radius: 20,
+                            draggable: true,
+                            name: 'star ' + data[nextPageIDinData]['id'],
+                            id: data[nextPageIDinData]['id'],
+                            stroke: 'black',
+                            strokeWidth: 2
+
+                        });
+                        layer.add(star);
+
+
+                        if ((star.getAbsolutePosition().x < 20 || star.getAbsolutePosition().x > width - 20 || star.getAbsolutePosition().y > height - 20) && layer.getAttr('scale').x <= 1) {
+                            toBig = true;
+                            startScale = layer.scaleX().toFixed(2) - 0.02;
+                            if (window.innerWidth < 850) {
+                                offset = 50;
+                            }
+                           if(layer.getAttr('scale').y < 1.0){
+                                startY = 10 *(1+(1-layer.getAttr('scale').y));
+                                offset = -10 *(1+(1-layer.getAttr('scale').x));
+                            }
+                            //offset weiter rechts
+                            //offset= -10*(1+(1-layer.getAttr('scale').x));
+
+                            layer.scale({
+                                x: startScale,
+                                y: startScale
+                            });
+                            layerConn.scale({
+                                x: startScale,
+                                y: startScale
+                            });
+                            backgroundLayer.scale({
+                                x: 1.0,
+                                y: startScale
+                            });
+                            levelTextLayer.scale({
+                                x: startScale,
+                                y: startScale
+                            });
+                            layerTEXT.scale({
+                                x: startScale,
+                                y: startScale
+                            });
+                            tempLayer.scale({
+                                x: startScale,
+                                y: startScale
+                            });
+
+                            layerConn.offset({
+                                x: layer.offsetX() - 20,
+                                y: 0
+                            });
+                            layerTEXT.offset({
+                                x: layer.offsetX() - 20,
+                                y: 0
+                            });
+
+                            tempLayer.offset({
+                                x: layer.offsetX() - 20,
+                                y: 0
+                            });
+                            layer.offset({
+                                x: layer.offsetX() - 20,
+                                y: 0
+                            });
+
+
+                            startOffsetX = layer.offsetX();
+
+                            startDrawLines();
+                            startDrawNodes();
+                        } else {
+                            //TITLE
+                            toBig = false;
+                            /* idText = new Konva.Text({
+                             x: star.getAttr('x') - (6),
+                             y: star.getAttr('y') - 6,
+                             text: star.getAttr('id'),
+                             fontSize: 20,
+                             fill: 'black'
+                             });
+                             layerTEXT.add(idText);*/
+
+
+                            //connection saving
+
+                            if (data[nextPageIDinData]['NextPageID1']) {
+                                points[z] = [];
+                                points[z]['pointX'] = star.getAttr('x');
+                                points[z]['pointY'] = star.getAttr('y');
+                                points[z][0] = data[nextPageIDinData]['NextPageID1'];
+                                if (data[nextPageIDinData]['NextPageID2']) {
+                                    points[z][1] = data[nextPageIDinData]['NextPageID2'];
+                                }
+                                if (data[nextPageIDinData]['NextPageID3']) {
+                                    points[z][2] = data[nextPageIDinData]['NextPageID3'];
+                                }
+                                if (data[nextPageIDinData]['NextPageID4']) {
+                                    points[z][3] = data[nextPageIDinData]['NextPageID4'];
+                                }
+                                z++;
+                            }
+
+                            //connection drawing
+                            for (var j = 0; j < points.length; j++) {
+                                for (var k = 0; k < 4; k++) {
+                                    if (points[j][k] == data[nextPageIDinData]['id']) {
+                                        drawConnection(points[j][k], data[i]['id'], points[j]['pointX'], points[j]['pointY'], star.getAttr('x'), star.getAttr('y'));
+                                    }
                                 }
                             }
+
                         }
 
                     }
 
-                }
-               // if (startScale == 1.0) {
+                    // if (startScale == 1.0) {
                     // console.log(IDs);
                     //check if END of level
                     if (nodeCounter == numb) {
@@ -624,7 +626,8 @@ nodeEditor.module = (function($) {
                         center = 0;
                         multiple = levelX;
                     }
-               // }
+                    // }
+                }
 
             }
         }
@@ -651,11 +654,26 @@ nodeEditor.module = (function($) {
             if (fill == 'yellow') {
                 resetInputFields();
                 debugText.text('Selected "' + toolTipText+'"');
-                debugText.setAttr('x', (width/2)-offset-debugText.getAttr('width')/2);
+                debugText.setAttr('x', (width/2)-debugText.getAttr('width')/2);
                 selectedNode = elem.id();
                 if(zoomStyle == "zoomJump") {
                     zoomIn(e, null);
                 }
+                //HIER geklickter node in die session
+                var fd = new FormData();
+                fd.append('function', 'setCurrentPage');
+                fd.append('page', selectedNode);
+                $.ajax({
+                    url: '/Storytelling/public/php/formFunctions.php',
+                    type: 'POST',
+                    data: fd,
+                    enctype: 'multipart/form-data',
+                    processData: false,  // tell jQuery not to process the data
+                    contentType: false   // tell jQuery not to set contentType
+                }).done(function( data ) {
+                    console.log('nice');
+                });
+
                 $.ajax({
                     url: ajaxLink,
                     type: 'GET',
@@ -666,7 +684,7 @@ nodeEditor.module = (function($) {
                         $('.titleEdit').val(obj[0]['title']);
 
                         debugText.text('Selected "' + obj[0]['title']+'"');
-                        debugText.setAttr('x', (width/2)-offset-debugText.getAttr('width')/2);
+                        debugText.setAttr('x', (width/2)-debugText.getAttr('width')/2);
                         interfaceLayer.draw();
                         if(obj[0]['NextPageID1'] == 0){
                             $('.opt1').attr('disabled','disabled');
@@ -722,7 +740,7 @@ nodeEditor.module = (function($) {
 
             } else if (fill == buttonColorHover) {
                 debugText.text('Deselected "' + toolTipText+'"');
-                debugText.setAttr('x', (width/2)-offset-debugText.getAttr('width')/2);
+                debugText.setAttr('x', (width/2)-debugText.getAttr('width')/2);
 
                 selectedNode = null;
                 if(zoomStyle == "zoomJump"){
@@ -903,7 +921,6 @@ nodeEditor.module = (function($) {
                 anim.stop();
 
              //  alert(startScale + "....."+ startOffsetX + "....."+startOffsetY );
-
                var offset = 0;
                if(startScale != 1.0) {
                    offset = 20;
@@ -936,8 +953,9 @@ nodeEditor.module = (function($) {
                 //alert(data);
                 console.log("SUCCESS");
                 startDrawNodes();
-                debugText.setAttr('x',width/2-70-offset);
                 debugText.text(data);
+                debugText.setAttr('x', (width/2)-debugText.getAttr('width')/2);
+
                // debugText.setAttr('fontSize','25');
                 interfaceLayer.draw();
             },
@@ -963,12 +981,13 @@ nodeEditor.module = (function($) {
                 startDrawLines();
                 startDrawNodes();
                 found = false;
-                debugText.setAttr('x',width/2-70-offset);
                 if(data == "Error: Transaction rolled back"){
                     debugText.text(data);
                 }else{
                     debugText.text('Successfully updated!');
                 }
+                debugText.setAttr('x', (width/2)-debugText.getAttr('width')/2);
+
                // debugText.setAttr('fontSize','25');
                 interfaceLayer.draw();
 
@@ -991,6 +1010,11 @@ nodeEditor.module = (function($) {
                 console.log("SUCCESS");
                 var obj = $.parseJSON(data);
 
+                if(actualLevel-obj[0]['level'] != -1 && actualLevel-obj[0]['level'] != 1){
+                    button4.off('click tap');
+                    hoverPopUpButtons(['#button4Rect', '#button4Text'], buttonColorDisabled, buttonColorDisabled);
+                }
+
                 hasChildren = false;
                 if(obj[0]['NextPageID1'] != 0){
                     hasChildren = true;
@@ -1009,7 +1033,7 @@ nodeEditor.module = (function($) {
                     }
                 }
                 interfaceLayer.draw();
-
+                actualLevel=obj[0]['level'];
             },
             error: function (xhr, status, error) {
                 debugText.text(error);
@@ -1055,8 +1079,8 @@ nodeEditor.module = (function($) {
                 console.log("SUCCESS");
                 startDrawLines();
                 startDrawNodes();
-                debugText.setAttr('x',width/2-70-offset);
                 debugText.text(data);
+                debugText.setAttr('x', (width/2)-debugText.getAttr('width')/2);
                // debugText.setAttr('fontSize','25');
                 interfaceLayer.draw();
                 //var obj = $.parseJSON(data);
@@ -1079,17 +1103,11 @@ nodeEditor.module = (function($) {
 
     deleteNode = function(id){
 
-
         popUpShown = true;
         pause = true;
         setDraggable(false);
         button3.hide();
-
-        popText.setAttr('text',deleteText);
-        popText.setAttr('x',20);
-        popText.setAttr('y',25);
-        popText.setAttr('width',(addRect.getAttr('width')*2+80)-30);
-
+        button4.hide();
 
 
         interfaceLayer.find('#button1Text')[0].setAttr('text','DELETE');
@@ -1108,12 +1126,16 @@ nodeEditor.module = (function($) {
         popUp.setAttr('y',height/2-((addRect.getAttr('height')*2+80)/2));
         if(isMobile){
             popUpRect.setAttr('height',(addRect.getAttr('height')*2+100+popText.getAttr('height'))-20);
+        }else{
+            popUpRect.setAttr('height',250);
         }
 
         dottedLinePopUp.setAttr('points',[10, 10, popUpRect.getAttr('width')-10, 10, popUpRect.getAttr('width')-10, popUpRect.getAttr('height')-10, 10,popUpRect.getAttr('height')-10,10,10]);
         if(!isMobile){
             button1.setAttr('x',(popUpRect.getAttr('width')/2)-button1Rect.getAttr('width')-10);
+            button1.setAttr('y',130);
             button2.setAttr('x',button1.getAttr('x')+button1Rect.getAttr('width')+20);
+            button2.setAttr('y',130);
         }else{
             button1.setAttr('x',(popUpRect.getAttr('width')/2)-button1Rect.getAttr('width')/2);
             button1.setAttr('y',popText.getAttr('y')+ popText.getAttr('height')+10);
@@ -1130,10 +1152,11 @@ nodeEditor.module = (function($) {
        button2.off('click tap').on('click tap',function(e){
            interfaceLayer.find('#button2Rect')[0].fill(buttonColor);
             popUp.hide();
-           interfaceLayer.draw();
             setDraggable(true);
            pause = false;
            popUpShown = false;
+           interfaceLayer.find('#button1Text')[0].setAttr('text','');
+           interfaceLayer.draw();
         });
 
 
@@ -1155,8 +1178,12 @@ nodeEditor.module = (function($) {
                          }
                          startDrawLines();
                          startDrawNodes();
-                         debugText.setAttr('x',width/2-70-offset);
                          debugText.text(data);
+                         debugText.setAttr('x',width/2-70-offset);
+                         debugText.setAttr('x', (width/2)-debugText.getAttr('width')/2);
+
+
+                         interfaceLayer.find('#button1Text')[0].setAttr('text','');
                          //debugText.setAttr('fontSize','25');
                          interfaceLayer.draw();
 
@@ -1201,6 +1228,7 @@ nodeEditor.module = (function($) {
         popText.setAttr('x',10);
         popText.setAttr('y',65);
         button3.show();
+        button4.hide();
         if(!isMobile){
             popText.setAttr('width',(addRect.getAttr('width')*3+80)-30);
         }else{
@@ -1275,6 +1303,9 @@ nodeEditor.module = (function($) {
             setDraggable(true);
            // startDrawNodes();
             popUpShown = false;
+            interfaceLayer.find('#button1Text')[0].setAttr('text','');
+            //debugText.setAttr('fontSize','25');
+            interfaceLayer.draw();
         });
 
 
@@ -1311,6 +1342,9 @@ nodeEditor.module = (function($) {
                         yDrag = evt.target.getAbsolutePosition().y;
                         layer.draw();
                         popUpShown = false;
+                        interfaceLayer.find('#button1Text')[0].setAttr('text','');
+                        //debugText.setAttr('fontSize','25');
+                        interfaceLayer.draw();
                     },
                     error: function (xhr, status, error) {
                         debugText.text(error);
@@ -1330,12 +1364,16 @@ nodeEditor.module = (function($) {
             movementStyle = "one";
             layer.find('#'+evt.target.id()).draggable(true);
            popUpShown = false;
+           interfaceLayer.find('#button1Text')[0].setAttr('text','');
+           //debugText.setAttr('fontSize','25');
+           interfaceLayer.draw();
         });
 
     };
 
     dropQuestion2 = function(evt){ //alert("hhh");
         button3.hide();
+        button4.hide();
         pause = true;
         popUpShown = true;
 
@@ -1409,11 +1447,15 @@ nodeEditor.module = (function($) {
             dropReset(evt);
             startDrawNodes();
             popUpShown = false;
+            interfaceLayer.find('#button1Text')[0].setAttr('text','');
+            interfaceLayer.draw();
         });
 
 
         button1.off('click tap').on('click tap',function(e){
             interfaceLayer.find('#button1Rect')[0].fill(buttonColor);
+            interfaceLayer.find('#button1Text')[0].setAttr('text','');
+            interfaceLayer.draw();
             reorder(evt);
         });
 
@@ -1424,14 +1466,14 @@ nodeEditor.module = (function($) {
         pause = true;
         popUpShown = true;
         button3.show();
+        button4.show();
         setDraggable(false);
         evt.target.moveDown();
 
         popText.setAttr('text',dropText);
-        popText.setAttr('x',10);
         popText.setAttr('y',55);
         if(!isMobile){
-            popText.setAttr('width',(addRect.getAttr('width')*3+80)-30);
+            popText.setAttr('width',(addRect.getAttr('width')*4+80)-30);
         }else{
             popText.setAttr('width',(addRect.getAttr('width')*2+80)-30);
         }
@@ -1445,30 +1487,35 @@ nodeEditor.module = (function($) {
         interfaceLayer.find('#button2Text')[0].setAttr('x',addRect.getAttr('width')/2-interfaceLayer.find('#button2Text')[0].getAttr('width')/2);
 
         if(!isMobile){
-            popUpRect.setAttr('width',addRect.getAttr('width')*3+80);
-            popUp.setAttr('x',width/2-((addRect.getAttr('width')*3+80)/2));
+            popUpRect.setAttr('width',addRect.getAttr('width')*4+100);
+            popUp.setAttr('x',width/2-((addRect.getAttr('width')*4+80)/2));
             popUp.setAttr('y',height/2-((addRect.getAttr('height')*2+80)/2));
         }else{
             popUpRect.setAttr('width',addRect.getAttr('width')*2+80);
             popUp.setAttr('x',width/2-((addRect.getAttr('width')*2+80)/2));
-            popUpRect.setAttr('height',(addRect.getAttr('height')*3+150+popText.getAttr('height'))-20);
+            popUpRect.setAttr('height',(addRect.getAttr('height')*4+150+popText.getAttr('height'))-20);
             popUp.setAttr('y',height/2- popUpRect.getAttr('height')/2);
 
         }
+        popText.setAttr('x',popUpRect.getAttr('width')/2 - popText.getAttr('width')/2);
 
         dottedLinePopUp.setAttr('points',[10, 10, popUpRect.getAttr('width')-10, 10, popUpRect.getAttr('width')-10, popUpRect.getAttr('height')-10, 10,popUpRect.getAttr('height')-10,10,10]);
 
         if(!isMobile){
             button1.setAttr('x',15);
             button2.setAttr('x', button1.getAttr('x')+button1Rect.getAttr('width')+20);
-            button3.setAttr('x',button2.getAttr('x')+button1Rect.getAttr('width')+20);
+            button4.setAttr('x',button2.getAttr('x')+button1Rect.getAttr('width')+20);
+            button3.setAttr('x',button4.getAttr('x')+button1Rect.getAttr('width')+20);
+
         }else{
             button1.setAttr('x',(popUpRect.getAttr('width')/2)-button1Rect.getAttr('width')/2);
             button1.setAttr('y',popText.getAttr('y')+ popText.getAttr('height')+10);
             button2.setAttr('x',(popUpRect.getAttr('width')/2)-button1Rect.getAttr('width')/2);
             button2.setAttr('y',button1.getAttr('y')+button1Rect.getAttr('height')+10);
+            button4.setAttr('x',(popUpRect.getAttr('width')/2)-button1Rect.getAttr('width')/2);
+            button4.setAttr('y',button2.getAttr('y')+button1Rect.getAttr('height')+10);
             button3.setAttr('x',(popUpRect.getAttr('width')/2)-button1Rect.getAttr('width')/2);
-            button3.setAttr('y',button2.getAttr('y')+button1Rect.getAttr('height')+10);
+            button3.setAttr('y',button4.getAttr('y')+button1Rect.getAttr('height')+10);
         }
 
 
@@ -1476,8 +1523,14 @@ nodeEditor.module = (function($) {
         interfaceLayer.find('#button3Text')[0].setAttr('id','button3Text');
         interfaceLayer.find('#button3Text')[0].setAttr('x',addRect.getAttr('width')/2-interfaceLayer.find('#button3Text')[0].getAttr('width')/2);
 
+        interfaceLayer.find('#button4Text')[0].setAttr('text','ADD CONNECTION');
+        interfaceLayer.find('#button4Text')[0].setAttr('fontSize',initFontSize-1);
+        interfaceLayer.find('#button4Text')[0].setAttr('id','button4Text');
+        interfaceLayer.find('#button4Text')[0].setAttr('x',addRect.getAttr('width')/2-interfaceLayer.find('#button4Text')[0].getAttr('width')/2);
+
 
         interfaceLayer.find('#button3Rect')[0].setAttr('id','button3Rect');
+        interfaceLayer.find('#button4Rect')[0].setAttr('id','button4Rect');
 
         popUp.show();
         interfaceLayer.draw();
@@ -1485,6 +1538,8 @@ nodeEditor.module = (function($) {
         hoverPopUpButtons(['#button1Rect','#button1Text'],buttonColorHover,buttonColor);
         hoverPopUpButtons(['#button2Rect','#button2Text'],buttonColorHover,buttonColor);
         hoverPopUpButtons(['#button3Rect','#button3Text'],buttonColorHover,buttonColor);
+        hoverPopUpButtons(['#button4Rect','#button4Text'],buttonColorHover,buttonColor);
+
 
         button3.off('click tap').on('click tap',function(e){
             interfaceLayer.find('#button3Rect')[0].fill(buttonColor);
@@ -1505,7 +1560,48 @@ nodeEditor.module = (function($) {
             dropReset(evt);
             startDrawNodes();
             popUpShown = false;
+            interfaceLayer.find('#button1Text')[0].setAttr('text','');
+            interfaceLayer.draw();
         });
+
+
+        if(movementStyle == 'one'){
+            button4.off('click tap').on('click tap',function(e){
+                $.ajax({
+                    url: ajaxLink,
+                    type: 'GET',
+                    data: 'functionName=addConnection&storyID=' + storyID + '&userID=' + userID + '&ID01=' + previousShape.id() + '&ID02=' + evt.target.id(),
+                    success: function (data) {
+                        console.log("SUCCESS");
+                        interfaceLayer.find('#button4Rect')[0].fill(buttonColor);
+                        button3.hide();
+                        button4.hide();
+                        popUp.hide();
+                        pause = false;
+                        dropStyle = "connection";
+                        dropReset(evt);
+                        popUpShown = false;
+                        startDrawLines();
+                        startDrawNodes();
+                        debugText.text(data);
+                        debugText.setAttr('x', (width/2)-debugText.getAttr('width')/2);
+
+                        interfaceLayer.find('#button1Text')[0].setAttr('text','');
+                        interfaceLayer.draw();
+
+                    },
+                    error: function (xhr, status, error) {
+                        debugText.text(error);
+                        // debugText.setAttr('fontSize','25');
+                        interfaceLayer.draw();
+                    }
+                });
+            });
+
+        }else{
+            button4.off('click tap');
+            hoverPopUpButtons(['#button4Rect', '#button4Text'], buttonColorDisabled, buttonColorDisabled);
+        }
 
 
         if(hasChildren && movementStyle == "one") {
@@ -1524,6 +1620,7 @@ nodeEditor.module = (function($) {
                             console.log("SUCCESS");
                             interfaceLayer.find('#button2Rect')[0].fill(buttonColor);
                             button3.hide();
+                            button4.hide();
                             popUp.hide();
                             pause = false;
                             dropStyle = "child";
@@ -1531,9 +1628,10 @@ nodeEditor.module = (function($) {
                             popUpShown = false;
                             startDrawLines();
                             startDrawNodes();
-                            debugText.setAttr('x',width/2-70-offset);
                             debugText.text(data);
-                           // debugText.setAttr('fontSize','25');
+                            debugText.setAttr('x', (width/2)-debugText.getAttr('width')/2);
+
+                            interfaceLayer.find('#button1Text')[0].setAttr('text','');
                             interfaceLayer.draw();
 
                         },
@@ -1553,6 +1651,7 @@ nodeEditor.module = (function($) {
                             console.log("SUCCESS");
                             interfaceLayer.find('#button2Rect')[0].fill(buttonColor);
                             button3.hide();
+                            button4.hide();
                             popUp.hide();
                             pause = false;
                             dropStyle = "child";
@@ -1560,9 +1659,10 @@ nodeEditor.module = (function($) {
                             popUpShown = false;
                             startDrawLines();
                             startDrawNodes();
-                            debugText.setAttr('x',width/2-70-offset);
                             debugText.text(data);
-                           // debugText.setAttr('fontSize','25');
+                            debugText.setAttr('x', (width/2)-debugText.getAttr('width')/2);
+
+                            interfaceLayer.find('#button1Text')[0].setAttr('text','');
                             interfaceLayer.draw();
                         },
                         error: function (xhr, status, error) {
@@ -1586,11 +1686,13 @@ nodeEditor.module = (function($) {
                           found = false;
                           interfaceLayer.find('#button2Rect')[0].fill(buttonColor);
                           button3.hide();
+                          button4.hide();
                           reorder(evt);
                        }else{
                           found = true;
                           interfaceLayer.find('#button2Rect')[0].fill(buttonColor);
                           button3.hide();
+                          button4.hide();
                           popUp.hide();
                           interfaceLayer.draw();
                           pause = false;
@@ -1598,6 +1700,8 @@ nodeEditor.module = (function($) {
                           popUpShown = false;
                           dropQuestion2(evt);
                       }
+                        interfaceLayer.find('#button1Text')[0].setAttr('text','');
+                        interfaceLayer.draw();
 
                     },
                     error: function (xhr, status, error) {
@@ -1609,6 +1713,7 @@ nodeEditor.module = (function($) {
             }else{
                 interfaceLayer.find('#button2Rect')[0].fill(buttonColor);
                 button3.hide();
+                button4.hide();
                 reorder(evt);
             }
         });
@@ -1735,7 +1840,7 @@ nodeEditor.module = (function($) {
         tooltip.setAttr('x', e.target.getAttr('x')-stage.find('#tooltext')[0].getAttr('width')/2);
 
         if(selectedNode == null) {
-            debugText.setAttr('x', (width/2)-offset-stage.find('#tooltext')[0].getAttr('width')/2);
+            debugText.setAttr('x', (width/2)-stage.find('#tooltext')[0].getAttr('width')/2);
             debugText.setAttr('fontSize','20');
             debugText.text('"'+toolText+'"');
             interfaceLayer.draw();
@@ -1861,9 +1966,12 @@ nodeEditor.module = (function($) {
 
     resetScale = function() {
 
+        offset = 0;
+        startY = 0;
         startScale = 1.0;
         var scale = 1;
-        var offset = 0;
+        var offset = 0.0;
+
         layer.scale({
             x: scale,
             y: scale
@@ -1926,19 +2034,6 @@ nodeEditor.module = (function($) {
         levelX = width/2;
 
 
-       emptyRectangle = new Konva.Rect({
-            x: 0,
-            y: 0,
-            width: width,
-            height: height,
-            id: "emptyRectangle",
-            fill:'green',
-            opacity: 0
-        });
-
-        emptyLayer.add(emptyRectangle);
-        emptyRectangle.moveToBottom();
-
         //ADD NEW PAGE BUTTON
         addButton.add(addRect);
         addButton.add(addText);
@@ -1969,17 +2064,14 @@ nodeEditor.module = (function($) {
         zoomOutButton.add(dottedLineZoomOut);
         interfaceLayer.add(zoomOutButton);
 
+        zoomInButton.show();
+        zoomOutButton.show();
         if(window.innerWidth<850){
-            zoomInButton.show();
-            zoomOutButton.show();
             firstLast = ":last";
-        }else{
-            zoomInButton.hide();
-            zoomOutButton.hide();
         }
 
         //HOVERTEXT + BACKGROUND
-        debugText.setAttr('x', width/2-30-offset);
+        debugText.setAttr('x', width/2-30);
         interfaceLayer.add(debugText);
         //interfaceLayer.add(dottedLineBack);
 
@@ -2002,6 +2094,11 @@ nodeEditor.module = (function($) {
         button3.add(delText.clone({id:'button3Text'}));
         popUp.add(button3);
 
+        button4.add(button1Rect.clone({id:'button4Rect'}));
+        button4.add(dottedLineAdd.clone({id:'button4dotted'}));
+        button4.add(delText.clone({id:'button4Text'}));
+        popUp.add(button4);
+
         popUp.add(dottedLinePopUp);
         interfaceLayer.add(popUp);
 
@@ -2022,7 +2119,8 @@ nodeEditor.module = (function($) {
         startDrawLines();
         startDrawNodes();
 
-
+        isMobile = false;
+        debugText.show();
         initFontSize = stage.find('#button1Text')[0].getAttr('fontSize');
         //change fontsize
         if(stage.getAttr('width') <850){
@@ -2089,11 +2187,26 @@ nodeEditor.module = (function($) {
             startY = 80;
         }
 
+
+
        // console.log(stage.getAttr('width'));
         addText.setAttr('x',addRect.getAttr('width')/2-addText.getAttr('width')/2);
         delText.setAttr('x',delRect.getAttr('width')/2-delText.getAttr('width')/2);
         addText.setAttr('y',addRect.getAttr('height')/2-(addText.getAttr('height')/3));
         delText.setAttr('y',delRect.getAttr('height')/2-delText.getAttr('height')/3);
+
+        emptyRectangle = new Konva.Rect({
+            x: 0,
+            y: 0,
+            width: stage.getAttr('width')*100,
+            height: stage.getAttr('height')*100,
+            id: "emptyRectangle",
+            fill:'green',
+            opacity: 0
+        });
+
+        emptyLayer.add(emptyRectangle);
+        emptyRectangle.moveToBottom();
 
 
         //refresh page on browser resize
@@ -2102,7 +2215,10 @@ nodeEditor.module = (function($) {
             if (window.RT) clearTimeout(window.RT);
             window.RT = setTimeout(function()
             {
-                this.location.reload(false);
+
+                resetScale();
+                init();
+
            }, 500);
         });
 
@@ -2112,10 +2228,13 @@ nodeEditor.module = (function($) {
 
 
 //SELECT EVENTS
-        layer.on('click tap', function (e) {
+        layer.off('click tap').on('click tap', function (e) {   //e.target.setAttr('y',100);
+
             if(movementStyle == null) {
+
                 nodeSelection(e.target);
                 disable(e.target.id());
+
             }else if(movementStyle != null && movementStyle != 'one'){
                 layer.find('#movingGroup')[0].getChildren(function (n) {
                     return n.getClassName() === "Circle";
@@ -2150,8 +2269,9 @@ nodeEditor.module = (function($) {
             tooltip.hide();
             layerTEXT.draw();
             if(selectedNode == null){
-                debugText.setAttr('x',width/2-30-offset);
                 debugText.text('');
+                debugText.setAttr('x', (width/2)-debugText.getAttr('width')/2);
+
                 interfaceLayer.draw();
             }
 
@@ -2160,18 +2280,22 @@ nodeEditor.module = (function($) {
             toolTipText="";
         });
 
-        stage.on("mouseout", function (e) {
+        emptyRectangle.on("mouseout", function (e) {
                 enableScroll();
+        });
+        emptyRectangle.on("mouseenter", function (e) {
+            disableScroll();
         });
         stage.on("mouseout", function (e) {
             tooltip.hide();
+            toolTipText="";
             layerTEXT.draw();
         });
 
         layer.on("mouseover", function(e) {
             tooltip.position({
                 x : e.target.getAttr('x')-40,
-                y :  e.target.getAttr('y')-50
+                y :  e.target.getAttr('y')-50*(1+(1-layer.getAttr('scale').x))
             });
 
             if(toolTipText == ""){
@@ -2192,10 +2316,11 @@ nodeEditor.module = (function($) {
             }else{
                 setToolTip(toolTipText,e);
             }
+
         });
 
         //add new page
-        stage.find('#addButton')[0].on('click tap',function(e){
+        stage.find('#addButton')[0].off('click tap').on('click tap',function(e){
             var rect =  stage.find('#addRect')[0];
             var fill = rect.fill() == buttonColorDisabled ? buttonColorDisabled : buttonColorHover;
             if(fill != buttonColorDisabled){
@@ -2248,8 +2373,9 @@ nodeEditor.module = (function($) {
                     data: 'functionName=saveContent&storyID=' + storyID + '&userID=' + userID + '&ID=' + selectedNode + '&text=' + $('.textEdit'+firstLast).val()+ '&title=' + $('.titleEdit'+firstLast).val()
                     + '&opt1=' + $('.opt1'+firstLast).val()+ '&opt2=' + $('.opt2'+firstLast).val()+ '&opt3=' + $('.opt3'+firstLast).val()+ '&opt4=' + $('.opt4'+firstLast).val(),
                     success: function (data) {
-                        debugText.setAttr('x',width/2-70-offset);
                         debugText.text(data);
+                        debugText.setAttr('x', (width/2)-debugText.getAttr('width')/2);
+
                         interfaceLayer.draw();
                         loadPage(selectedNode);
                         $("#closeResponsiveNav").trigger('click');
@@ -2354,8 +2480,8 @@ nodeEditor.module = (function($) {
 
       });
 
-        //drag the whole canvas except interfaceLayer
-        var stageX,stageY;
+        //drag the whole canvas except interfaceLayer // bei resize interface bewegt sich mit
+        var stageX,stageY = 0;
         stage.on("dragstart",function(e){
             if(e.target.id() == "stage"){
                 stageX= 0;
@@ -2506,49 +2632,6 @@ nodeEditor.module = (function($) {
 
 }($));
 
-//}
 
-//not needed yet
-/*function updateConnections(){
-
- }
-
- function hasMultipleChildren(array){
- var group;
- if(!(array['NextPageID2'] == null && array['NextPageID3'] == null && array['NextPageID4'] == null)){
- group = new Konva.Group({
- id: array['ID']
- });
- }else{
- return null;
- }
- return group;
- }
-
- //zoom
- var zoomLevel = 2;
- layer.on('click', function() {
- layer.scale({
- x : zoomLevel,
- y : zoomLevel
- });
- layer.draw();
- });
-
- //animation
- /* var anim = new Konva.Animation(function(frame) {
- var diffx = xDrag-e.target.getAbsolutePosition().x;
- var diffy = yDrag-e.target.getAbsolutePosition().y;
- var b = Math.sqrt(diffx*diffx + diffy*diffy);
-
- e.target.setAttr("x", e.target.getAbsolutePosition().x + (diffx/b)*3);
- e.target.setAttr("y", e.target.getAbsolutePosition().y + (diffy/b)*3);
- }, layer);
-
- anim.start();
- if(e.target.getAbsolutePosition().x == xDrag && e.target.getAbsolutePosition().y == yDrag){
- anim.stop();
- }
- */
 
 
