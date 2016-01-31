@@ -1601,7 +1601,7 @@ nodeEditor.module = (function($) {
                     type: 'GET',
                     data: 'functionName=addConnection&storyID=' + storyID + '&userID=' + userID + '&ID01=' + previousShape.id() + '&ID02=' + evt.target.id(),
                     success: function (data) {
-                       // alert(data);
+                        alert(data);
                         console.log("SUCCESS");
                         interfaceLayer.find('#button4Rect')[0].fill(buttonColor);
                         button3.hide();

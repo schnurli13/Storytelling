@@ -105,7 +105,9 @@ function addConnection($localhost, $user, $pw,$db,$storyID){
      }
 
     if(in_array($moving,$indexedOnly[$target]) == false){
-         echo json_encode($mysqlObject->commandDataBase("UPDATE page SET ".$changeNN." = ".$moving." WHERE id = ".$target." AND story = ".$storyID));
+        $sql = "UPDATE page SET ".$changeNN." = ".$moving." WHERE id = ".$target." AND story = ".$storyID;
+         echo json_encode($mysqlObject->commandDataBase($sql));
+        echo $sql;
     }
 }
 
@@ -728,6 +730,7 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
             echo "Updated data successfully\n";
         }
 
+        SearchDeleteConnection($movingIDs,$storyID,$con,$result);
         //needed for highlight
         echo json_encode($targetIDs);
         do {
@@ -918,7 +921,7 @@ function addNodeAsChild($localhost, $user, $pw,$db,$storyID){
 
 
 function SearchDeleteConnection($movingIDs,$storyID,$con,$result){
-    echo json_encode($movingIDs);
+
     $mysqlObject = new mysqlModule();
     for($i = 0; $i < sizeof($movingIDs); $i++){
         $indexedOnly = $mysqlObject->queryDataBase(
@@ -927,10 +930,11 @@ function SearchDeleteConnection($movingIDs,$storyID,$con,$result){
         $IDs = $mysqlObject->queryDataBase(
             "SELECT id,level FROM page WHERE id = ".$movingIDs[$i]." AND story = ".$storyID);
 
-        echo json_encode($indexedOnly);
-        echo json_encode($IDs);
+       // echo json_encode($indexedOnly);
+       // echo json_encode($IDs);
 
-          for($a =0; $a < sizeof($indexedOnly); $a++) {echo json_encode($IDs[0]['level'] - $indexedOnly[$a]['level']);
+      for($a =0; $a < sizeof($indexedOnly); $a++) {
+          //echo json_encode($IDs[0]['level'] - $indexedOnly[$a]['level']);
             if($IDs[0]['level'] - $indexedOnly[$a]['level'] != -1 && $IDs[0]['level'] - $indexedOnly[$a]['level'] != 1 ){
              if ($indexedOnly[$a]['NextPageID1'] == $movingIDs[$i]) {
                     $indexedOnly[$a]['NextPageID1'] = $indexedOnly[$a]['NextPageID2'];
@@ -957,17 +961,78 @@ function SearchDeleteConnection($movingIDs,$storyID,$con,$result){
               WHERE id = " . $indexedOnly[$a]['id'] . "  AND story = " . $storyID;
 
 
-                echo json_encode($sql);
+              //  echo json_encode($sql);
+              if ($result == true) {
+                  $result = mysqli_query($con, $sql);
+              } else {
+                  mysqli_query($con, $sql);
+              }
 
-          if ($result == true) {
-              $result = mysqli_query($con, $sql);
-          } else {
-              mysqli_query($con, $sql);
-          }
+            if($result == false){
+                mysqli_rollback($con); // transaction rolls back
+                echo "Error: Transaction rolled back";
+                exit;
+            }else {
+                mysqli_commit($con); // transaction is committed
+               // echo "Successfully updated!";
+            }
         }
          }
     }
-      return $result;
+
+    for($i = 0; $i < sizeof($movingIDs); $i++) {
+        $indexedOnly = $mysqlObject->queryDataBase(
+            "SELECT id,level,NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE NextPageID1 = " . $movingIDs[$i] . " OR NextPageID2 = " . $movingIDs[$i] .
+            " OR NextPageID3 = " . $movingIDs[$i] . " OR NextPageID4 = " . $movingIDs[$i] . " AND story = " . $storyID);
+
+        for ($a = 0; $a < sizeof($indexedOnly); $a++) {
+            if ($indexedOnly[$a]['NextPageID1'] != 0) {
+                $sql = "UPDATE page SET position=1 WHERE id = " . $indexedOnly[$a]['NextPageID1'] . " AND story = " . $storyID;
+                if ($result == true) {
+                    $result = mysqli_query($con, $sql);
+                } else {
+                    mysqli_query($con, $sql);
+                }
+            }
+            if ($indexedOnly[$a]['NextPageID2'] != 0) {
+                $sql = "UPDATE page SET position=2 WHERE id = " . $indexedOnly[$a]['NextPageID2'] . " AND story = " . $storyID;
+                if ($result == true) {
+                    $result = mysqli_query($con, $sql);
+                } else {
+                    mysqli_query($con, $sql);
+                }
+            }
+            if ($indexedOnly[$a]['NextPageID3'] != 0) {
+                $sql = "UPDATE page SET position=3 WHERE id = " . $indexedOnly[$a]['NextPageID3'] . " AND story = " . $storyID;
+                if ($result == true) {
+                    $result = mysqli_query($con, $sql);
+                } else {
+                    mysqli_query($con, $sql);
+                }
+            }
+            if ($indexedOnly[$a]['NextPageID4'] != 0) {
+                $sql = "UPDATE page SET position=4 WHERE id = " . $indexedOnly[$a]['NextPageID4'] . " AND story = " . $storyID;
+                if ($result == true) {
+                    $result = mysqli_query($con, $sql);
+                } else {
+                    mysqli_query($con, $sql);
+                }
+            }
+        }
+    }
+        if($result == false){
+            mysqli_rollback($con); // transaction rolls back
+            echo "Error: Transaction rolled back";
+            exit;
+        }else {
+            mysqli_commit($con); // transaction is committed
+           // echo "Successfully updated!";
+        }
+
+    do {
+        mysqli_store_result($con);
+    } while (mysqli_next_result($con));
+
 }
 
 function addBranchAsChild($localhost, $user, $pw,$db,$storyID){
@@ -1012,7 +1077,7 @@ function addBranchAsChild($localhost, $user, $pw,$db,$storyID){
         $pos = 1;
     }
     //update new parent node
-       $sql="UPDATE page SET ".$changeNN." = ".$child." WHERE id = ".$parent." AND story = ".$storyID;
+      $sql="UPDATE page SET ".$changeNN." = ".$child." WHERE id = ".$parent." AND story = ".$storyID;
         if($result == true){
             $result = mysqli_query($con,$sql);
         }else{
@@ -1053,20 +1118,7 @@ function addBranchAsChild($localhost, $user, $pw,$db,$storyID){
         mysqli_store_result($con);
     } while (mysqli_next_result($con));
 
-    $result = SearchDeleteConnection($movingIDs,$storyID,$con,$result);
-
-    if($result == false){
-        mysqli_rollback($con); // transaction rolls back
-        echo "Error: Transaction rolled back";
-        exit;
-    }else{
-        mysqli_commit($con); // transaction is committed
-        echo "Successfully updated!";
-    }
-
-    do {
-        mysqli_store_result($con);
-    } while (mysqli_next_result($con));
+    SearchDeleteConnection($movingIDs,$storyID,$con,$result);
 
     mysqli_close($con);
 }
