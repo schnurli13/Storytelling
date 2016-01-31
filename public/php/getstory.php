@@ -927,7 +927,7 @@ function SearchDeleteConnection($movingIDs,$storyID,$con,$result){
         $IDs = $mysqlObject->queryDataBase(
             "SELECT id,level FROM page WHERE id = ".$movingIDs[$i]." AND story = ".$storyID);
 
-       echo json_encode($indexedOnly);
+        echo json_encode($indexedOnly);
         echo json_encode($IDs);
 
           for($a =0; $a < sizeof($indexedOnly); $a++) {echo json_encode($IDs[0]['level'] - $indexedOnly[$a]['level']);

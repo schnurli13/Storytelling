@@ -683,6 +683,7 @@ nodeEditor.module = (function($) {
                 changePictureButton.each(function(){
                     if($(this).hasClass('pagePicture')){
                         $(this).attr('value', 'SELECT PICTURE');
+                        $(this).removeClass('open');
                     }
                 });
 
