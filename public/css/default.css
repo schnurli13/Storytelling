@@ -409,6 +409,11 @@ input.buttonStoryInfo {
   margin-left: 10%; }
 #userStoryPage h2 {
   font-family: "Architects Daughter", cursive;
+  font-size: 30px;
+  margin: 8px 0; }
+#userStoryPage .backLink {
+  font-family: "Architects Daughter", cursive;
+  font-size: 22px;
   text-decoration: underline; }
 #userStoryPage .buttonFrameContainerUserStoryContentModule {
   width: 144px;

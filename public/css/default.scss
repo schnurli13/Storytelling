@@ -609,6 +609,13 @@ input {
 	
 	h2 {
 		font-family: $mainFont;
+		font-size: 30px;
+		margin: 8px 0;
+	}
+	
+	.backLink {
+		font-family: $mainFont;
+		font-size: 22px;
 		text-decoration: underline;
 	}
 	

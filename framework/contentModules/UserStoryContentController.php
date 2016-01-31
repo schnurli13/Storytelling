@@ -32,14 +32,25 @@ class UserStoryContentController extends MotherController{
 				
 		$queryResult = array();
 		
+		$imgString = '';
+		$authorString = '';
+		$coAuthorString = '';
+		
 		
 		$userIDQueryResult = $this->msqlObject->queryDataBase('SELECT id FROM users WHERE name = "'.$searchedUser.'"');
 		if(isset($userIDQueryResult[0]['id'])){
 			$userID = $userIDQueryResult[0]['id'];
 			$queryResult = $this->msqlObject->queryDataBase('SELECT * FROM story WHERE user = "'.$userID.'" AND name = "'.$searchedStory.'"');
 
+			$imagePath = $this->msqlObject->queryDataBase('SELECT path FROM story_images WHERE id = "'.$queryResult[0]['img_id'].'"')[0]['path'];
+			
+			$imgString = $this->basicInformationObject->getUriArray()[0].'/public/images/story/'.$imagePath;
+			$authorString = $queryResult[0]['author_name'];
+			$coAuthorString = $queryResult[0]['co_author_name'];
+			
 			if(isset($queryResult[0]['name'])){
 			$returnString.='<h2>'.$searchedStory.'</h2>'."\n";
+			$returnString.='<a href="/Storytelling/users/'.$searchedUser.'" class="backLink">by '.$searchedUser.'</a>'."\n";
 			$returnString.='<p><div class="buttonFrameContainerUserStoryContentModule"><div class="buttonSize"><a href="'.$root.'/users/'.$searchedUser.'/'.$searchedStory.'/published" class="buttonLookLink">LOOK AT IT</a></div></div></p>'."\n";
 			if($searchedUser === $this->sessionObject->getUserName()){
 				$returnString.='<p><div class="buttonFrameContainerUserStoryContentModule"><div class="buttonSize"><a class="buttonLookLink" href="'.$root.'/users/'.$searchedUser.'/'.$searchedStory.'/edit">EDIT</a></div></div></p>'."\n";
@@ -56,6 +67,9 @@ class UserStoryContentController extends MotherController{
 		
 		$this->model->addLogState($this->sessionObject);
 		$this->model->addAttribute('INFO', $returnString);
+		$this->model->addAttribute('AUTHOR', $authorString);
+		$this->model->addAttribute('COAUTHOR', $coAuthorString);
+		$this->model->addAttribute('IMAGE', $imgString);
 		
 	}
 	
