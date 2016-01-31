@@ -20,9 +20,11 @@ function loadTargetPage($page_id){
 	$returnArray = array();
 	$page_information = $mysqlObject->queryDataBase('SELECT * FROM page WHERE id = "'.$page_id.'"');
 	
+	$realImageLink = $mysqlObject->queryDataBase('SELECT path FROM page_images WHERE id = "'.$page_information[0]['imageLink'].'"')[0]['path'];
+	
 	array_push($returnArray, $page_information[0]['title']);
 	array_push($returnArray, $page_information[0]['text']);
-	array_push($returnArray, $page_information[0]['imageLink']);
+	array_push($returnArray, $realImageLink);
 	array_push($returnArray, $page_information[0]['NextPageID1']);
 	array_push($returnArray, $page_information[0]['NextPageID2']);
 	array_push($returnArray, $page_information[0]['NextPageID3']);

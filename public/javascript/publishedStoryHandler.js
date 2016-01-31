@@ -31,8 +31,8 @@ updatePage = function(data){
 		var parsedArray = JSON.parse(data);
 		pageTitle.children('h2').html(parsedArray[0]);
 		pageText.html(parsedArray[1]);
-		pageImage.children('img').attr('src', parsedArray[2]);
-		pageImage.children('img').attr('alt', parsedArray[2]);
+		pageImage.children('img').attr('src', '/Storytelling/public/images/page/original/'+parsedArray[2]);
+		pageImage.children('img').attr('alt', 'Image of this page');
 		
 		var pageOptions = $('.pageOptions');
 		pageOptions.empty();
