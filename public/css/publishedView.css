@@ -79,9 +79,24 @@
   #pagePresentation .pageImage img {
     width: 512px;
     height: 300px; } }
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 768px) {
   #pagePresentation .pageImage img {
-    width: 512px;
-    height: 300px; } }
+    width: 650px;
+    height: auto; } }
+@media screen and (max-width: 649px) {
+  #pagePresentation .pageImage img {
+    width: 550px;
+    height: auto; } }
+@media screen and (max-width: 480px) {
+  #pagePresentation .pageImage img {
+    width: 400px;
+    height: auto; } }
+@media screen and (max-width: 320px) {
+  #pagePresentation .pageImage img {
+    width: 250px;
+    height: auto; }
+  #pagePresentation .pageOptions .buttonFrameContainer {
+    width: 100%;
+    float: none; } }
 
 /*# sourceMappingURL=publishedView.css.map */
