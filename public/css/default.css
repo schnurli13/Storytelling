@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css?family=Architects+Daughter");
+@import url("https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300");
 FLOAT CLEARFIX
 .clearfix:after {
   content: "." !important;
