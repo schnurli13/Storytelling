@@ -62,6 +62,7 @@ class SearchController extends MotherController{
 		}
 		
 		function fetchStories($urlArray){
+			$displayedStories = 0;
 			$returnString = '';
 			$queryResult = array();	
 			$queryUserResult = array();
@@ -74,14 +75,22 @@ class SearchController extends MotherController{
 				$returnString.='<h2>STORIES</h2>'."\n";
 				$returnString.='<ul>'."\n";
 				for($i = 0; $i < sizeof($queryResult); $i++){
-					$fetchedUser = $this->msqlObject->queryDataBase('SELECT name FROM users WHERE id = "'.$queryResult[$i]['user'].'"');
-					$fetchedStoryPath = $this->msqlObject->queryDataBase('SELECT path FROM story_images WHERE id = "'.$queryResult[$i]['img_id'].'"');
-					$storyImagePath = $urlArray[0].'/public/images/story/'.$fetchedStoryPath[0]['path'];
-					$returnString.='<li><a href="'.$urlArray[0].'/users/'.$fetchedUser[0]['name'].'/'.$queryResult[$i]['name'].'"><img class="searchPic" src="'.$storyImagePath.'" alt="profil" /></a><a class="searchLink" href="'.$urlArray[0].'/users/'.$fetchedUser[0]['name'].'/'.$queryResult[$i]['name'].'">'.$queryResult[$i]['name'].'</a></li>'."\n";
+					if($queryResult[$i]['isPublished'] === '1'){
+						$displayedStories++;
+						$fetchedUser = $this->msqlObject->queryDataBase('SELECT name FROM users WHERE id = "'.$queryResult[$i]['user'].'"');
+						$fetchedStoryPath = $this->msqlObject->queryDataBase('SELECT path FROM story_images WHERE id = "'.$queryResult[$i]['img_id'].'"');
+						$storyImagePath = $urlArray[0].'/public/images/story/'.$fetchedStoryPath[0]['path'];
+						$returnString.='<li><a href="'.$urlArray[0].'/users/'.$fetchedUser[0]['name'].'/'.$queryResult[$i]['name'].'"><img class="searchPic" src="'.$storyImagePath.'" alt="profil" /></a><a class="searchLink" href="'.$urlArray[0].'/users/'.$fetchedUser[0]['name'].'/'.$queryResult[$i]['name'].'">'.$queryResult[$i]['name'].'</a></li>'."\n";
+					}
 				}
 				$returnString.='</ul>'."\n";
 				$returnString.='</div>'."\n";
 			}
+			
+			if($displayedStories < 1){
+				$returnString = '';
+			}
+			
 			return $returnString;
 		}
 }

@@ -32,18 +32,27 @@ class UserContentController extends MotherController{
 		$storyQueryResult = $msqlObject->queryDataBase('SELECT * FROM story WHERE user = "'.$queryResult[0]['id'].'"');
 				
 		$stories = '';
+		$loggedIn = false;
+		
+		if($this->sessionObject->getLogState() && $this->sessionObject->encodeKey($this->basicInformationObject->getUriArray()[2]) ===  $this->sessionObject->getSafeHash()){
+			$loggedIn = true;
+		}
 		
 		if(isset($storyQueryResult[0]['name'])){
 			for ($i = 0; $i < sizeof($storyQueryResult); $i++){
-				$fetchStoryPicPath = $msqlObject->queryDataBase('SELECT path FROM story_images WHERE id = "'.$storyQueryResult[$i]['img_id'].'"');
-				$storyImagePath = $root.'/public/images/story/'.$fetchStoryPicPath[0]['path'];
-				$stories.='<div class="storyPicFrame clearfix">'."\n";
-					$stories.='<a href="'.$root.'/users/'.$searchedUser.'/'.$storyQueryResult[$i]['name'].'"><img class="storyPic" src="'.$storyImagePath.'" alt="story" />'."\n";
-					$stories.='<p class="storyTitle">'.$storyQueryResult[$i]['name'].'</p></a>'."\n";
-					if($searchedUser === $this->sessionObject->getUserName()) {
-						$stories.='<div class="buttonFrameContainerStory"><a href="'.$root.'/users/'.$searchedUser.'/'.$storyQueryResult[$i]['name'].'/edit"><input class="buttonStory" type="submit" value="EDIT"/></a></div>'."\n";
-					}
-				$stories.='</div>'."\n";
+				if($storyQueryResult[$i]['isPublished'] === '1' || $storyQueryResult[$i]['isPublished'] === '0' && $loggedIn){
+					$fetchStoryPicPath = $msqlObject->queryDataBase('SELECT path FROM story_images WHERE id = "'.$storyQueryResult[$i]['img_id'].'"');
+					$storyImagePath = $root.'/public/images/story/'.$fetchStoryPicPath[0]['path'];
+					
+					$stories.='<div class="storyPicFrame clearfix">'."\n";
+						$stories.='<a href="'.$root.'/users/'.$searchedUser.'/'.$storyQueryResult[$i]['name'].'"><img class="storyPic" src="'.$storyImagePath.'" alt="story" />'."\n";
+						$stories.='<p class="storyTitle">'.$storyQueryResult[$i]['name'].'</p></a>'."\n";
+						if($searchedUser === $this->sessionObject->getUserName()) {
+							$stories.='<div class="buttonFrameContainerStory"><a href="'.$root.'/users/'.$searchedUser.'/'.$storyQueryResult[$i]['name'].'/edit"><input class="buttonStory" type="submit" value="EDIT"/></a></div>'."\n";
+						}
+					$stories.='</div>'."\n";
+					
+				}
 			}
 		}
 	
@@ -51,9 +60,21 @@ class UserContentController extends MotherController{
 			$returnString.='<div class="buttonFrameContainerStoryInfo"><a class="fancybox fancybox.ajax" href="../data/templates/uploadTestForm.html"><input class="buttonStoryInfo" type="submit" value="EDIT PROFILE"/></a></div>';
 		}
 		
+		$addStory = '';
+		
+		if($loggedIn){			
+			$addStory .= '<div class="storyPicFrame">';
+			$addStory .= '<a class="fancybox fancybox.ajax" href="../data/templates/newStoryTemplate.html">';
+			$addStory .= '<img class="storyPic" src="/Storytelling/public/images/dummyNewStory.jpg" alt="newStory" />';
+			$addStory .= '<p class="storyTitle">NEW STORY</p>';
+			$addStory .= '</a>';
+            $addStory .= '</div>';
+		}
+		
 		$this->model->addLogState($this->sessionObject);
 		$this->model->addAttribute('INFO', $returnString);
 		$this->model->addAttribute('STORIES', $stories);
+		$this->model->addAttribute('ADDSTORY', $addStory);
 
 	}
 	
