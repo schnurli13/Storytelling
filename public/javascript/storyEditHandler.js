@@ -34,9 +34,23 @@ changePictureActivation = function(){
 		correctPath = 'page';
 	}
 	changePictureButton.on('click', function(){
+	
+		var correctPath;
+		var changePictureAttr;
+		if($(this).hasClass('userPicture')){
+			changePictureAttr = 'currentUserPicture';
+			correctPath = 'profile';
+		}else if($(this).hasClass('storyPicture')){
+			changePictureAttr = 'currentStoryPicture';
+			correctPath = 'story';
+		}else if($(this).hasClass('pagePicture')){
+			changePictureAttr = 'currentPagePicture';
+			correctPath = 'page';
+		}
+	
 		if(!$(this).hasClass('open')){
 			$(this).attr('value', 'CLOSE SELECTION');
-			loadPictureChangeElements($(this), correctPath);
+			loadPictureChangeElements($(this), changePictureAttr, correctPath);
 			$(this).addClass('open');
 			loadAndUpdatePics($(this), changePictureAttr, correctPath);
 		}else{
@@ -50,6 +64,8 @@ changePictureActivation = function(){
 loadAndUpdatePics = function(segment, picAttr, correctPath){
 	var fd = new FormData();
 	var storyname = $('.storyInformationDiv').attr('data-story');
+	var pagename = $('.titleEdit').val();
+	fd.append('pageName', pagename);
 	fd.append('function', 'getAllPictures');
 	fd.append('storyName', storyname);
 	fd.append('pictureType', picAttr);
@@ -88,6 +104,8 @@ deleteProfilePic = function(deleteButton, segment, picAttr, correctPath){
 	fd.append('function', 'deletePic');
 	fd.append('path', deleteButton.parent().children('img').attr('src'));
 	var storyname = $('.storyInformationDiv').attr('data-story');
+	var pagename = $('.titleEdit').val();
+	fd.append('pageName', pagename);
 	fd.append('storyName', storyname);
 	fd.append('pictureType', picAttr);
 	$.ajax({
@@ -111,6 +129,8 @@ setAsProfilePic = function(picture, segment, picAttr, correctPath){
 	var fd = new FormData();
 	fd.append('function', 'setAsNewProfilePic');
 	fd.append('path', picture.attr('src'));
+	var pagename = $('.titleEdit').val();
+	fd.append('pageName', pagename);
 	var storyname = $('.storyInformationDiv').attr('data-story');
 	fd.append('storyName', storyname);
 	fd.append('pictureType', picAttr);
@@ -133,16 +153,7 @@ deletePictureChangeElements = function(button, correctPath){
 }
 
 
-loadPictureChangeElements = function(button, correctPath){
-
-		var changePictureAttr;
-		if(button.hasClass('userPicture')){
-			changePictureAttr = 'currentUserPicture';
-		}else if(button.hasClass('storyPicture')){
-			changePictureAttr = 'currentStoryPicture';
-		}else if(button.hasClass('pagePicture')){
-			changePictureAttr = 'currentPagePicture';
-		}
+loadPictureChangeElements = function(button, changePictureAttr, correctPath){
 
 	var uniqueId = 'cropField'+changePictureAttr;
 	button.parent().after('<form method="POST" class="changePic" name="changePic"></form>');
@@ -157,6 +168,8 @@ loadPictureChangeElements = function(button, correctPath){
 loadCurrentPictures = function(){
 	var allPictures = $('#currentPicture');
 	var fd = new FormData();
+	var pagename = $('.titleEdit').val();
+	fd.append('pageName', pagename);
 	var storyname = $('.storyInformationDiv').attr('data-story');
 	allPictures.each(function(){
 		var that = $(this);

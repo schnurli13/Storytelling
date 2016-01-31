@@ -15,6 +15,9 @@ class sessionModule{
 		if(!isset($_SESSION['story'])){
 			$_SESSION['story'] = '';
 		}
+		if(!isset($_SESSION['page'])){
+			$_SESSION['page'] = '';
+		}
 		if(!isset($_SESSION['safeHash'])){
 			$_SESSION['safeHash'] = '';
 		}
@@ -43,6 +46,14 @@ class sessionModule{
 		$_SESSION['story'] = $story;
 	}
 	
+	function getPage(){
+		return $_SESSION['page'];
+	}
+	
+	function setPage($page){
+		$_SESSION['page'] = $page;
+	}
+
 	function getLogState(){
 		return $_SESSION['loggedIn'];
 	}

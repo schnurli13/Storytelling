@@ -27,8 +27,8 @@ $jpeg_quality = 100;
 $date = new DateTime();
 $filename = sha1(str_replace(' ','',$date->format('Y-m-d H:i:s')));
 
-$output_filename = "../../images/profile/".$filename;
-$real_filename = '/Storytelling/public/images/profile/'.$filename;
+$output_filename = "../../images/page/".$filename;
+$real_filename = '/Storytelling/public/images/page/'.$filename;
 
 // uncomment line below to save the cropped image in the same location as the original image.
 //$output_filename = dirname($imgUrl). "/croppedImg_".rand();
@@ -91,8 +91,8 @@ if(!is_writable(dirname($output_filename))){
 	$mysqlObject = new mysqlModule();
 	$sessionObject = new sessionModule();
 	
-	$profileImageId = $mysqlObject->queryDataBase('SELECT id FROM users WHERE name = "'.$sessionObject->getUserName().'"')[0]['id'];
-	$mysqlObject->commandDataBase('INSERT INTO `profile_images` (`user`, `path`) VALUES ("'.$profileImageId.'", "'.$filename.$type.'")');
+	$profileImageId = $mysqlObject->queryDataBase('SELECT id FROM page WHERE title = "'.$sessionObject->getPage().'"')[0]['id'];
+	$mysqlObject->commandDataBase('INSERT INTO `page_images` (`page`, `path`) VALUES ("'.$profileImageId.'", "'.$filename.$type.'")');
 	
 	imagejpeg($final_image, $output_filename.$type, $jpeg_quality);
 	$response = Array(

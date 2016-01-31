@@ -36,6 +36,14 @@ switch($_POST['function']){
 	case 'getCurrentUser':
 		getCurrentUser();
 		break;
+	case 'setCurrentPage':
+		setCurrentPage();
+		break;
+}
+
+function setCurrentPage(){
+	$sessionObject = new sessionModule();
+	$sessionObject->setPage($_POST['page']);
 }
 
 function getCurrentUser(){
@@ -70,24 +78,28 @@ function deletePic(){
 	$images_table = '';
 	$search_name = '';
 	$subject = '';
+	$search_subject = '';
 	$pathType = '';
 	if($_POST['pictureType'] === 'currentUserPicture'){
 		$table = 'users';
 		$subject = 'user';
 		$images_table = 'profile_images';
 		$search_name = $sessionObject->getUserName();
+		$search_subject = 'name';
 		$pathType = 'profile';
 	}else if($_POST['pictureType'] === 'currentStoryPicture'){
 		$table = 'story';
 		$subject = 'story';
 		$images_table = 'story_images';
 		$search_name = $_POST['storyName'];
+		$search_subject = 'name';
 		$pathType = 'story';
 	}else if($_POST['pictureType'] === 'currentPagePicture'){
 		$table = 'page';
-		$subject = 'user';
+		$subject = 'page';
 		$images_table = 'page_images';
-		$search_name = $informations->getUriArray()[3];
+		$search_name = $_POST['pagename'];
+		$search_subject = 'title';
 		$pathType = 'page';
 	}
 
@@ -118,25 +130,33 @@ function setAsNewProfilePic(){
 	$images_table = '';
 	$search_name = '';
 	$subject = '';
+	$search_subject = '';
 	$pathType = '';
+	$imageName = '';
 	if($_POST['pictureType'] === 'currentUserPicture'){
 		$table = 'users';
 		$subject = 'user';
 		$images_table = 'profile_images';
 		$search_name = $sessionObject->getUserName();
+		$search_subject = 'name';
 		$pathType = 'profile';
+		$imageName = 'img_id';
 	}else if($_POST['pictureType'] === 'currentStoryPicture'){
 		$table = 'story';
 		$subject = 'story';
 		$images_table = 'story_images';
 		$search_name = $_POST['storyName'];
+		$search_subject = 'name';
 		$pathType = 'story';
+		$imageName = 'img_id';
 	}else if($_POST['pictureType'] === 'currentPagePicture'){
 		$table = 'page';
-		$subject = 'user';
+		$subject = 'page';
 		$images_table = 'page_images';
-		$search_name = $informations->getUriArray()[3];
+		$search_name = $_POST['pageName'];
+		$search_subject = 'title';
 		$pathType = 'page';
+		$imageName = 'imageLink';
 	}
 
 	$path = $_POST['path'];
@@ -144,7 +164,7 @@ function setAsNewProfilePic(){
 	
 	$pictureId = $mysqlObject->queryDataBase('SELECT id FROM '.$images_table.' WHERE path = "'.$path.'"')[0]['id'];
 	
-	$mysqlObject->commandDataBase('UPDATE `'.$table.'` SET img_id = "'.$pictureId.'" WHERE name = "'.$search_name.'"');
+	$mysqlObject->commandDataBase('UPDATE `'.$table.'` SET '.$imageName.' = "'.$pictureId.'" WHERE '.$search_subject.' = "'.$search_name.'"');
 	
 	echo $pictureId;
 }
@@ -158,24 +178,28 @@ function getAllPictures(){
 	$images_table = '';
 	$search_name = '';
 	$subject = '';
+	$search_subject = '';
 	if($_POST['pictureType'] === 'currentUserPicture'){
 		$table = 'users';
 		$subject = 'user';
 		$images_table = 'profile_images';
 		$search_name = $sessionObject->getUserName();
+		$search_subject = 'name';
 	}else if($_POST['pictureType'] === 'currentStoryPicture'){
 		$table = 'story';
 		$subject = 'story';
 		$images_table = 'story_images';
 		$search_name = $_POST['storyName'];
+		$search_subject = 'name';
 	}else if($_POST['pictureType'] === 'currentPagePicture'){
 		$table = 'page';
-		$subject = 'user';
+		$subject = 'page';
 		$images_table = 'page_images';
-		$search_name = $informations->getUriArray()[3];
+		$search_name = $_POST['pageName'];
+		$search_subject = 'title';
 	}
 	
-	$foundId = $mysqlObject->queryDataBase('SELECT id FROM '.$table.' WHERE name = "'.$search_name.'"')[0]['id'];
+	$foundId = $mysqlObject->queryDataBase('SELECT id FROM '.$table.' WHERE '.$search_subject.' = "'.$search_name.'"')[0]['id'];
 	if($_POST['pictureType'] === 'currentStoryPicture'){$foundId = $_POST['storyName'];}
 	$foundPictures = $mysqlObject->queryDataBase('SELECT path FROM '.$images_table.' WHERE '.$subject.' = "'.$foundId.'"');
 	
@@ -192,21 +216,28 @@ function getCurrentPicture(){
 	$table = '';
 	$images_table = '';
 	$search_name = '';
+	$imageName = '';
 	if($_POST['pictureType'] === 'currentUserPicture'){
 		$table = 'users';
 		$images_table = 'profile_images';
 		$search_name = $sessionObject->getUserName();
+		$imageName = 'img_id';
+		$search_subject = 'name';
 	}else if($_POST['pictureType'] === 'currentStoryPicture'){
 		$table = 'story';
 		$images_table = 'story_images';
 		$search_name = $_POST['storyName'];
+		$imageName = 'img_id';
+		$search_subject = 'name';
 	}else if($_POST['pictureType'] === 'currentPagePicture'){
 		$table = 'page';
 		$images_table = 'page_images';
-		$search_name = $informations->getUriArray()[3];
+		$search_name = $_POST['pageName'];
+		$imageName = 'imageLink';
+		$search_subject = 'title';
 	}
 	
-	$imageId = $mysqlObject->queryDataBase('SELECT img_id FROM '.$table.' WHERE name = "'.$search_name.'"')[0]['img_id'];
+	$imageId = $mysqlObject->queryDataBase('SELECT '.$imageName.' FROM '.$table.' WHERE '.$search_subject.' = "'.$search_name.'"')[0][$imageName];
 	echo $mysqlObject->queryDataBase('SELECT path FROM '.$images_table.' WHERE id = "'.$imageId.'"')[0]['path'];
 }
 
