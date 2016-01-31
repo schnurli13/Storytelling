@@ -1601,7 +1601,7 @@ nodeEditor.module = (function($) {
                     type: 'GET',
                     data: 'functionName=addConnection&storyID=' + storyID + '&userID=' + userID + '&ID01=' + previousShape.id() + '&ID02=' + evt.target.id(),
                     success: function (data) {
-                        alert(data);
+                      //  alert(data);
                         console.log("SUCCESS");
                         interfaceLayer.find('#button4Rect')[0].fill(buttonColor);
                         button3.hide();
@@ -1677,7 +1677,7 @@ nodeEditor.module = (function($) {
                         type: 'GET',
                         data: 'functionName=addBranchAsChild&storyID=' + storyID + '&userID=' + userID+ '&ID=' + previousShape.id() + '&IDs=' + movementStyle,
                         success: function (data) {
-                            alert(data);
+                           // alert(data);
                             console.log("SUCCESS");
                             interfaceLayer.find('#button2Rect')[0].fill(buttonColor);
                             button3.hide();
@@ -2513,6 +2513,8 @@ nodeEditor.module = (function($) {
         var stageX,stageY = 0;
         stage.on("dragstart",function(e){
             if(e.target.id() == "stage"){
+                stageX= stage.setAttr('x',0);
+                stageY = stage.setAttr('y',0);
                 stageX= 0;
                 stageY = 0;
                 interfaceLayer.setAttr('x',stageX);
