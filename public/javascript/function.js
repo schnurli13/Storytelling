@@ -51,7 +51,8 @@ nodeEditor.module = (function($) {
         over,
         deleteText = "ATTENTION:\n All sub-pages will be deleted as well.\nDo you really want to delete this page?",
         moveText = "Do you want to move only this page or all sub-pages as well?",
-        dropText = "Do you want replace this page with the dragged one or do you want to add the moving page as sub-page to this page?",
+        dropText = "Do you want replace this page with the dragged one, OR do you want to add the moving page as sub-page to this page " +
+            "OR do you want to connect this two pages to reunite the branches?",
         drop2Text = "Do you really want to replace this branch with the dragged one? This action will influence the sub-pages!",
         toolTipText="",
 
@@ -637,6 +638,7 @@ nodeEditor.module = (function($) {
             layerTEXT.draw();
             emptyLayer.draw();
             nodeSelection(layer.find('#'+ firstNode)[0]);
+            checkAdditionalNode(firstNode);
         }
         drawToolTip();
 
@@ -673,6 +675,17 @@ nodeEditor.module = (function($) {
                 }).done(function( data ) {
                     console.log('nice');
                 });
+
+                var currentPagePicture = $('.currentPagePicture');
+                currentPagePicture.parent().siblings('.profilePicSection').remove();
+                currentPagePicture.parent().siblings('.changePicSection').remove();
+                var changePictureButton = $('.changePictureButton');
+                changePictureButton.each(function(){
+                    if($(this).hasClass('pagePicture')){
+                        $(this).attr('value', 'SELECT PICTURE');
+                    }
+                });
+
 
                 $.ajax({
                     url: ajaxLink,
@@ -1248,6 +1261,7 @@ nodeEditor.module = (function($) {
             popUpRect.setAttr('width',addRect.getAttr('width')*3+80);
             popUp.setAttr('x',width/2-((addRect.getAttr('width')*3+80)/2));
             popUp.setAttr('y',height/2-((addRect.getAttr('height')*2+80)/2));
+            popUpRect.setAttr('height',250);
         }else{
             popUpRect.setAttr('width',addRect.getAttr('width')*2+80);
             popUp.setAttr('x',width/2-((addRect.getAttr('width')*2+80)/2));
@@ -1264,8 +1278,11 @@ nodeEditor.module = (function($) {
 
         if(!isMobile){
             button1.setAttr('x',15);
+            button1.setAttr('y',130);
             button2.setAttr('x', button1.getAttr('x')+button1Rect.getAttr('width')+20);
+            button2.setAttr('y',130);
             button3.setAttr('x',button2.getAttr('x')+button1Rect.getAttr('width')+20);
+            button3.setAttr('y',130);
         }else{
             button1.setAttr('x',(popUpRect.getAttr('width')/2)-button1Rect.getAttr('width')/2);
             button1.setAttr('y',popText.getAttr('y')+ popText.getAttr('height')+10);
@@ -1399,6 +1416,7 @@ nodeEditor.module = (function($) {
             popUpRect.setAttr('width',addRect.getAttr('width')*3+80);
             popUp.setAttr('x',width/2-((addRect.getAttr('width')*3+80)/2));
             popUp.setAttr('y',height/2-((addRect.getAttr('height')*2+80)/2));
+            popUpRect.setAttr('height',250);
         }else{
             popUpRect.setAttr('width',addRect.getAttr('width')*2+80);
             popUp.setAttr('x',width/2-((addRect.getAttr('width')*2+80)/2));
@@ -1410,7 +1428,9 @@ nodeEditor.module = (function($) {
         dottedLinePopUp.setAttr('points',[10, 10, popUpRect.getAttr('width')-10, 10, popUpRect.getAttr('width')-10, popUpRect.getAttr('height')-10, 10,popUpRect.getAttr('height')-10,10,10]);
         if(!isMobile){
             button1.setAttr('x',(popUpRect.getAttr('width')/2)-button1Rect.getAttr('width')-10);
+            button1.setAttr('y',130);
             button2.setAttr('x',button1.getAttr('x')+button1Rect.getAttr('width')+20);
+            button2.setAttr('y',130);
         }else{
             button1.setAttr('x',(popUpRect.getAttr('width')/2)-button1Rect.getAttr('width')/2);
             button1.setAttr('y',popText.getAttr('y')+ popText.getAttr('height')+10);
@@ -1422,6 +1442,9 @@ nodeEditor.module = (function($) {
         button1.setAttr('x',(popUpRect.getAttr('width')/2)-button1Rect.getAttr('width')-10);
         button2.setAttr('x',button1.getAttr('x')+button1Rect.getAttr('width')+20);*/
 
+        interfaceLayer.find('#button1Text')[0].setAttr('text','YES');
+        interfaceLayer.find('#button1Text')[0].setAttr('fontSize',initFontSize);
+        interfaceLayer.find('#button1Text')[0].setAttr('x',addRect.getAttr('width')/2-interfaceLayer.find('#button1Text')[0].getAttr('width')/2);
         popUp.show();
         interfaceLayer.draw();
 
@@ -1490,6 +1513,7 @@ nodeEditor.module = (function($) {
             popUpRect.setAttr('width',addRect.getAttr('width')*4+100);
             popUp.setAttr('x',width/2-((addRect.getAttr('width')*4+80)/2));
             popUp.setAttr('y',height/2-((addRect.getAttr('height')*2+80)/2));
+            popUpRect.setAttr('height',250);
         }else{
             popUpRect.setAttr('width',addRect.getAttr('width')*2+80);
             popUp.setAttr('x',width/2-((addRect.getAttr('width')*2+80)/2));
@@ -1503,9 +1527,13 @@ nodeEditor.module = (function($) {
 
         if(!isMobile){
             button1.setAttr('x',15);
+            button1.setAttr('y',130);
             button2.setAttr('x', button1.getAttr('x')+button1Rect.getAttr('width')+20);
+            button2.setAttr('y',130);
             button4.setAttr('x',button2.getAttr('x')+button1Rect.getAttr('width')+20);
+            button4.setAttr('y',130);
             button3.setAttr('x',button4.getAttr('x')+button1Rect.getAttr('width')+20);
+            button3.setAttr('y',130);
 
         }else{
             button1.setAttr('x',(popUpRect.getAttr('width')/2)-button1Rect.getAttr('width')/2);
@@ -1572,6 +1600,7 @@ nodeEditor.module = (function($) {
                     type: 'GET',
                     data: 'functionName=addConnection&storyID=' + storyID + '&userID=' + userID + '&ID01=' + previousShape.id() + '&ID02=' + evt.target.id(),
                     success: function (data) {
+                       // alert(data);
                         console.log("SUCCESS");
                         interfaceLayer.find('#button4Rect')[0].fill(buttonColor);
                         button3.hide();
@@ -1647,7 +1676,7 @@ nodeEditor.module = (function($) {
                         type: 'GET',
                         data: 'functionName=addBranchAsChild&storyID=' + storyID + '&userID=' + userID+ '&ID=' + previousShape.id() + '&IDs=' + movementStyle,
                         success: function (data) {
-                            //alert(data);
+                            alert(data);
                             console.log("SUCCESS");
                             interfaceLayer.find('#button2Rect')[0].fill(buttonColor);
                             button3.hide();
@@ -1700,7 +1729,7 @@ nodeEditor.module = (function($) {
                           popUpShown = false;
                           dropQuestion2(evt);
                       }
-                        interfaceLayer.find('#button1Text')[0].setAttr('text','');
+                        //interfaceLayer.find('#button1Text')[0].setAttr('text','');
                         interfaceLayer.draw();
 
                     },
@@ -2215,7 +2244,8 @@ nodeEditor.module = (function($) {
             if (window.RT) clearTimeout(window.RT);
             window.RT = setTimeout(function()
             {
-
+                zoomOut();
+                popUp.destroyChildren();
                 resetScale();
                 init();
 
@@ -2231,10 +2261,8 @@ nodeEditor.module = (function($) {
         layer.off('click tap').on('click tap', function (e) {   //e.target.setAttr('y',100);
 
             if(movementStyle == null) {
-
                 nodeSelection(e.target);
                 disable(e.target.id());
-
             }else if(movementStyle != null && movementStyle != 'one'){
                 layer.find('#movingGroup')[0].getChildren(function (n) {
                     return n.getClassName() === "Circle";

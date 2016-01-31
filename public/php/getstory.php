@@ -43,6 +43,7 @@ if ($functionName == "drawLines") {
     addBranchAsChild($localhost, $user, $pw,$db,$storyID);
 }else if($functionName == "checkIFParent"){
     $x = filter_input(INPUT_GET, 'IDs');
+    //vl unique machn
     $movingIDs =explode(",",$x);
     $ID01 = $movingIDs[0];
     $ID02 = filter_input(INPUT_GET, 'ID');
@@ -79,12 +80,15 @@ function addConnection($localhost, $user, $pw,$db,$storyID){
         $indexedOnly[$row['id']] = $row;
     }
 
+
+
+
     if($indexedOnly[$target]['level'] > $indexedOnly[$moving]['level']){
         $x = $target;
         $target = $moving;
         $moving = $x;
     }
-   // echo json_encode($result);
+
 //check if moving id is in target next pages dann nicht enfügen!!!
      if($indexedOnly[$target]['NextPageID3'] != 0){
          $changeNN="NextPageID4";
@@ -100,9 +104,9 @@ function addConnection($localhost, $user, $pw,$db,$storyID){
          $pos = 1;
      }
 
-//$mysqlObject->commandDataBase
-     echo json_encode($mysqlObject->commandDataBase("UPDATE page SET ".$changeNN." = ".$moving." WHERE id = ".$target." AND story = ".$storyID));
-
+    if(in_array($moving,$indexedOnly[$target]) == false){
+         echo json_encode($mysqlObject->commandDataBase("UPDATE page SET ".$changeNN." = ".$moving." WHERE id = ".$target." AND story = ".$storyID));
+    }
 }
 
 function saveStory($storyID){
@@ -266,18 +270,18 @@ function fixParentANDSiblings($con,$ID,$storyID,$result){
 
     for($a =0; $a < sizeof($indexedOnly); $a++) {
         if ($indexedOnly[$a]['NextPageID1'] == $ID) {
-            $indexedOnly[$a]['NextPageID1'] = $indexedOnly[0]['NextPageID2'];
-            $indexedOnly[$a]['NextPageID2'] = $indexedOnly[0]['NextPageID3'];
-            $indexedOnly[$a]['NextPageID3'] = $indexedOnly[0]['NextPageID4'];
+            $indexedOnly[$a]['NextPageID1'] = $indexedOnly[$a]['NextPageID2'];
+            $indexedOnly[$a]['NextPageID2'] = $indexedOnly[$a]['NextPageID3'];
+            $indexedOnly[$a]['NextPageID3'] = $indexedOnly[$a]['NextPageID4'];
             $indexedOnly[$a]['NextPageID4'] = 0;
         }
         if ($indexedOnly[$a]['NextPageID2'] == $ID) {
-            $indexedOnly[$a]['NextPageID2'] = $indexedOnly[0]['NextPageID3'];
-            $indexedOnly[$a]['NextPageID3'] = $indexedOnly[0]['NextPageID4'];
+            $indexedOnly[$a]['NextPageID2'] = $indexedOnly[$a]['NextPageID3'];
+            $indexedOnly[$a]['NextPageID3'] = $indexedOnly[$a]['NextPageID4'];
             $indexedOnly[$a]['NextPageID4'] = 0;
         }
         if ($indexedOnly[$a]['NextPageID3'] == $ID) {
-            $indexedOnly[$a]['NextPageID3'] = $indexedOnly[0]['NextPageID4'];
+            $indexedOnly[$a]['NextPageID3'] = $indexedOnly[$a]['NextPageID4'];
             $indexedOnly[$a]['NextPageID4'] = 0;
         }
         if ($indexedOnly[$a]['NextPageID4'] == $ID) {
@@ -674,7 +678,7 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
         }
 
         //changing levels of childpages
-
+        $movingIDs = array_unique($movingIDs);
         for($i = 0; $i < sizeof($movingIDs); $i++){
             $sql="UPDATE page SET level = level+".$levelDiffmovingIDs." WHERE id = ".$movingIDs[$i]." AND story = ".$storyID;
             if($result == true){
@@ -774,6 +778,7 @@ function reorderBranches($localhost, $user, $pw,$db,$storyID){
             mysqli_query($con,$sql);
         }
 
+        $movingIDs = array_unique($movingIDs);
         //changing levels of childpages
         for($i = 1; $i < sizeof($movingIDs); $i++){
             $sql="UPDATE page SET level = level+".$levelDiffmovingIDs." WHERE id = ".$movingIDs[$i]." AND story = ".$storyID;
@@ -912,6 +917,59 @@ function addNodeAsChild($localhost, $user, $pw,$db,$storyID){
 }
 
 
+function SearchDeleteConnection($movingIDs,$storyID,$con,$result){
+    echo json_encode($movingIDs);
+    $mysqlObject = new mysqlModule();
+    for($i = 0; $i < sizeof($movingIDs); $i++){
+        $indexedOnly = $mysqlObject->queryDataBase(
+            "SELECT id,level,NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE NextPageID1 = ".$movingIDs[$i]." OR NextPageID2 = ".$movingIDs[$i].
+            " OR NextPageID3 = ".$movingIDs[$i]." OR NextPageID4 = ".$movingIDs[$i]." AND story = ".$storyID);
+        $IDs = $mysqlObject->queryDataBase(
+            "SELECT id,level FROM page WHERE id = ".$movingIDs[$i]." AND story = ".$storyID);
+
+       echo json_encode($indexedOnly);
+        echo json_encode($IDs);
+
+          for($a =0; $a < sizeof($indexedOnly); $a++) {echo json_encode($IDs[0]['level'] - $indexedOnly[$a]['level']);
+            if($IDs[0]['level'] - $indexedOnly[$a]['level'] != -1 && $IDs[0]['level'] - $indexedOnly[$a]['level'] != 1 ){
+             if ($indexedOnly[$a]['NextPageID1'] == $movingIDs[$i]) {
+                    $indexedOnly[$a]['NextPageID1'] = $indexedOnly[$a]['NextPageID2'];
+                    $indexedOnly[$a]['NextPageID2'] = $indexedOnly[$a]['NextPageID3'];
+                    $indexedOnly[$a]['NextPageID3'] = $indexedOnly[$a]['NextPageID4'];
+                    $indexedOnly[$a]['NextPageID4'] = 0;
+                }
+                if ($indexedOnly[$a]['NextPageID2'] == $movingIDs[$i]) {
+                    $indexedOnly[$a]['NextPageID2'] = $indexedOnly[$a]['NextPageID3'];
+                    $indexedOnly[$a]['NextPageID3'] = $indexedOnly[$a]['NextPageID4'];
+                    $indexedOnly[$a]['NextPageID4'] = 0;
+                }
+                if ($indexedOnly[$a]['NextPageID3'] == $movingIDs[$i]) {
+                    $indexedOnly[$a]['NextPageID3'] = $indexedOnly[$a]['NextPageID4'];
+                    $indexedOnly[$a]['NextPageID4'] = 0;
+                }
+                if ($indexedOnly[$a]['NextPageID4'] == $movingIDs[$i]) {
+                    $indexedOnly[$a]['NextPageID4'] = 0;
+                }
+
+
+              $sql = "UPDATE page SET NextPageID1 = " . $indexedOnly[$a]['NextPageID1'] . " , NextPageID2 = " . $indexedOnly[$a]['NextPageID2'] . " ,
+              NextPageID3 = " . $indexedOnly[$a]['NextPageID3'] . " , NextPageID4 = " . $indexedOnly[$a]['NextPageID4'] . "
+              WHERE id = " . $indexedOnly[$a]['id'] . "  AND story = " . $storyID;
+
+
+                echo json_encode($sql);
+
+          if ($result == true) {
+              $result = mysqli_query($con, $sql);
+          } else {
+              mysqli_query($con, $sql);
+          }
+        }
+         }
+    }
+      return $result;
+}
+
 function addBranchAsChild($localhost, $user, $pw,$db,$storyID){
     $x = filter_input(INPUT_GET, 'IDs');
     $movingIDs =explode(",",$x);
@@ -925,12 +983,10 @@ function addBranchAsChild($localhost, $user, $pw,$db,$storyID){
 
     mysqli_autocommit($con,FALSE);
     $result = true;
+    $check = $movingIDs;
     $movingIDs = array_unique($movingIDs);
-    for($i = 0; $i < sizeof($movingIDs); $i++){
-        $result = fixParentANDSiblings($con,$movingIDs[$i],$storyID,$result);
-    }
 
-
+     $result = fixParentANDSiblings($con,$child,$storyID,$result);
 
     $sql="SELECT id,level,position,NextPageID1,NextPageID2,NextPageID3,NextPageID4 FROM page WHERE id IN($parent,$child) AND story = ".$storyID;
     $res = mysqli_query($con,$sql);
@@ -955,8 +1011,8 @@ function addBranchAsChild($localhost, $user, $pw,$db,$storyID){
         $changeNN="NextPageID1";
         $pos = 1;
     }
-      //update new parent node
-    /*   $sql="UPDATE page SET ".$changeNN." = ".$child." WHERE id = ".$parent." AND story = ".$storyID;
+    //update new parent node
+       $sql="UPDATE page SET ".$changeNN." = ".$child." WHERE id = ".$parent." AND story = ".$storyID;
         if($result == true){
             $result = mysqli_query($con,$sql);
         }else{
@@ -982,7 +1038,22 @@ function addBranchAsChild($localhost, $user, $pw,$db,$storyID){
            }else{
                mysqli_query($con,$sql);
            }
-       }*/
+       }
+
+    if($result == false){
+        mysqli_rollback($con); // transaction rolls back
+        echo "Error: Transaction rolled back";
+        exit;
+    }else{
+        mysqli_commit($con); // transaction is committed
+        echo "Successfully updated!";
+    }
+
+    do {
+        mysqli_store_result($con);
+    } while (mysqli_next_result($con));
+
+    $result = SearchDeleteConnection($movingIDs,$storyID,$con,$result);
 
     if($result == false){
         mysqli_rollback($con); // transaction rolls back
