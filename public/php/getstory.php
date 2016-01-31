@@ -961,7 +961,7 @@ function SearchDeleteConnection($movingIDs,$storyID,$con,$result){
               WHERE id = " . $indexedOnly[$a]['id'] . "  AND story = " . $storyID;
 
 
-              //  echo json_encode($sql);
+             // echo json_encode($sql);
               if ($result == true) {
                   $result = mysqli_query($con, $sql);
               } else {
