@@ -41,9 +41,13 @@ class RegisterController extends MotherController{
 				array_push($formErrors, 'password doesn\'t match first and second time');
 			}
 			if(empty($formErrors)){
-				$this->msqlObject->commandDataBase('INSERT INTO `users` (`name`, `email`, `password`) VALUES ("'.$_POST['userName'].'", "'.$_POST['eMail'].'", "'.$this->sessionObject->encodeKey($_POST['pwOriginal']).'")');
-				$returnString.='<h2>Registration successful!</h2>'."\n".
-					'<a href="login">Click to go to login</a>';
+				$success = $this->msqlObject->commandDataBase('INSERT INTO `users` (`name`, `email`, `password`, `img_id`) VALUES ("'.$_POST['userName'].'", "'.$_POST['eMail'].'", "'.$this->sessionObject->encodeKey($_POST['pwOriginal']).'", "1")');
+				if($success){
+					echo 'yes';
+				}else{
+					echo 'no';
+				}
+				header('Location: '.$this->basicInformationObject->getUriArray()[0].'/login');
 			}else{
 				for($i = 0; $i<sizeof($formErrors); $i++){
 					$returnString.=$formErrors[$i].'<br>'."\n";
