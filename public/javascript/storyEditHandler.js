@@ -140,6 +140,9 @@ setAsProfilePic = function(picture, segment, picAttr, correctPath){
 	
 	var path = picture.attr('src');
 	picture.parent().parent().siblings('.currPicDiv').children('img').attr('src', path);
+	if(picAttr === 'currentPagePicture'){
+		$('#currentPicturePreview').attr('src', path.replace('page', 'page/original'));
+	}
 	console.log( data );
 	});
 }
