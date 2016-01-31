@@ -8,16 +8,30 @@ class UserStoryContentController extends MotherController{
 
 	function actions(){
 	
+		$storyQueryResult = $this->msqlObject->queryDataBase('SELECT * FROM story WHERE name = "'.$this->basicInformationObject->getUriArray()[3].'"');
+	
+		$stories = '';
+		$loggedIn = false;
+			
+		if($this->sessionObject->getLogState() && $this->sessionObject->encodeKey($this->basicInformationObject->getUriArray()[2]) ===  $this->sessionObject->getSafeHash()){
+			$loggedIn = true;
+		}
+		
+		if($storyQueryResult[0]['isPublished'] === '1' || $storyQueryResult[0]['isPublished'] === '0' && $loggedIn){
+			//access granted
+		}else{
+			header('Location: ..');
+		}
+	
 		$urlArray = $this->basicInformationObject->getUriArray();
 		$searchedUser = $urlArray[2];
 		$searchedStory = $urlArray[3];
 		$root = $urlArray[0];		
 		
 		$returnString = '';
-		
-		$template = new contentTemplateModule('userStoryTemplate');	
-		
+				
 		$queryResult = array();
+		
 		
 		$userIDQueryResult = $this->msqlObject->queryDataBase('SELECT id FROM users WHERE name = "'.$searchedUser.'"');
 		if(isset($userIDQueryResult[0]['id'])){
