@@ -721,8 +721,8 @@ nodeEditor.module = (function($) {
                             $('.opt4').val(obj[0]['OptionText4']);
                         }
 
-                        if(obj[1]['path'] != " "){
-                            var src = $('#pageEditor #currentPicture').prop('src');
+                        var src = $('#pageEditor #currentPicture').prop('src');
+                        if(obj[1]['path'] != " " && src.search("page") == -1 ){
                             var array = src.split("/");
                             var picName = array[array.length-1];
                             src = src.replace(picName, "page/"+obj[1]['path']);
