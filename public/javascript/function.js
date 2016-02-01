@@ -1515,13 +1515,13 @@ nodeEditor.module = (function($) {
 
         if(!isMobile){
             button1.setAttr('x',15);
-            button1.setAttr('y',130);
+            button1.setAttr('y',popText.getAttr('y')+ popText.getAttr('height')+10);
             button2.setAttr('x', button1.getAttr('x')+button1Rect.getAttr('width')+20);
-            button2.setAttr('y',130);
+            button2.setAttr('y',popText.getAttr('y')+ popText.getAttr('height')+10);
             button4.setAttr('x',button2.getAttr('x')+button1Rect.getAttr('width')+20);
-            button4.setAttr('y',130);
+            button4.setAttr('y',popText.getAttr('y')+ popText.getAttr('height')+10);
             button3.setAttr('x',button4.getAttr('x')+button1Rect.getAttr('width')+20);
-            button3.setAttr('y',130);
+            button3.setAttr('y',popText.getAttr('y')+ popText.getAttr('height')+10);
 
         }else{
             button1.setAttr('x',(popUpRect.getAttr('width')/2)-button1Rect.getAttr('width')/2);
