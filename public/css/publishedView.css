@@ -67,6 +67,14 @@
   font-family: "Architects Daughter", cursive;
   cursor: pointer; }
 
+@media screen and (min-width: 1900px) {
+  #pagePresentation .pageText {
+    font-size: 25px; }
+  #pagePresentation .title h2 {
+    font-size: 45px; }
+  #pagePresentation .pageImage img {
+    width: 1150px;
+    height: 674px; } }
 @media screen and (max-width: 1280px) {
   #pagePresentation .pageImage img {
     width: 853px;

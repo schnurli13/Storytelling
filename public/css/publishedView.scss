@@ -106,7 +106,24 @@ $lightblue:  #D3ECED;
 }
 
 
-
+@media screen and (min-width: 1900px) {
+	#pagePresentation {
+		.pageText {
+			font-size: 25px;
+		}
+		
+		.title h2 {
+			font-size: 45px;
+		}
+		
+		.pageImage img {
+			width: 1150px;
+			height: 674px;
+		}
+	}
+	
+	
+}
 
 @media screen and (max-width: 1280px) {	
 	#pagePresentation {
