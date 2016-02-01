@@ -619,9 +619,6 @@ nodeEditor.module = (function($) {
 
                     }
 
-                    // if (startScale == 1.0) {
-                    // console.log(IDs);
-                    //check if END of level
                     if (nodeCounter == numb) {
                         nodeCounter = 0;
                         center = 0;
@@ -673,7 +670,6 @@ nodeEditor.module = (function($) {
                     processData: false,  // tell jQuery not to process the data
                     contentType: false   // tell jQuery not to set contentType
                 }).done(function( data ) {
-                    console.log('nice');
                 });
 
                 var currentPagePicture = $('.currentPagePicture');
@@ -885,7 +881,6 @@ nodeEditor.module = (function($) {
         var anim = new Konva.Animation(function(frame) {
             var scale = 0;
             var diff = 0;
-            console.log("scroll");
             if(layer.scaleX().toFixed(2) > zoomout ){
                 diff = /*frame.timeDiff/10000 +*/ 0.02;
                 scale = layer.scaleX().toFixed(2) - diff;
@@ -964,8 +959,6 @@ nodeEditor.module = (function($) {
             type: 'GET',
             data: 'functionName=reorderNodes&storyID='+storyID+ '&userID=' + userID+'&ID01=' + ID01 + '&ID02=' + ID02,
             success: function (data) {
-                //alert(data);
-                console.log("SUCCESS");
                 startDrawNodes();
                 debugText.text(data);
                 debugText.setAttr('x', (width/2)-debugText.getAttr('width')/2);
@@ -991,7 +984,6 @@ nodeEditor.module = (function($) {
                 if(data != "Updated data successfully\n") {
                     highLight = data;
                 }
-                console.log("SUCCESS");
                 startDrawLines();
                 startDrawNodes();
                 found = false;
@@ -1021,7 +1013,6 @@ nodeEditor.module = (function($) {
             type: 'GET',
             data: 'functionName=maxChildren&storyID='+storyID + '&userID=' + userID +'&ID=' + id,
             success: function (data) {
-                console.log("SUCCESS");
                 var obj = $.parseJSON(data);
 
                 if(actualLevel-obj[0]['level'] != -1 && actualLevel-obj[0]['level'] != 1){
@@ -1089,8 +1080,6 @@ nodeEditor.module = (function($) {
             type: 'GET',
             data: 'functionName=addNewNode&storyID='+storyID + '&userID=' + userID +'&ID=' + id,
             success: function (data) {
-               // alert(data);
-                console.log("SUCCESS");
                 startDrawLines();
                 startDrawNodes();
                 debugText.text(data);
@@ -1180,8 +1169,6 @@ nodeEditor.module = (function($) {
                      type: 'GET',
                      data: 'functionName=deleteNode&storyID=' + storyID + '&userID=' + userID + '&ID=' + id,
                      success: function (data) {
-                     //alert(data);
-                         console.log("SUCCESS");
                          interfaceLayer.find('#button1Rect')[0].fill(buttonColor);
                          popUp.hide();
                          pause = false;
@@ -1601,8 +1588,6 @@ nodeEditor.module = (function($) {
                     type: 'GET',
                     data: 'functionName=addConnection&storyID=' + storyID + '&userID=' + userID + '&ID01=' + previousShape.id() + '&ID02=' + evt.target.id(),
                     success: function (data) {
-                      //  alert(data);
-                        console.log("SUCCESS");
                         interfaceLayer.find('#button4Rect')[0].fill(buttonColor);
                         button3.hide();
                         button4.hide();
@@ -1646,8 +1631,6 @@ nodeEditor.module = (function($) {
                         type: 'GET',
                         data: 'functionName=addNodeAsChild&storyID=' + storyID + '&userID=' + userID + '&ID01=' + previousShape.id() + '&ID02=' + evt.target.id(),
                         success: function (data) {
-                           // alert(data);
-                            console.log("SUCCESS");
                             interfaceLayer.find('#button2Rect')[0].fill(buttonColor);
                             button3.hide();
                             button4.hide();
@@ -1677,8 +1660,6 @@ nodeEditor.module = (function($) {
                         type: 'GET',
                         data: 'functionName=addBranchAsChild&storyID=' + storyID + '&userID=' + userID+ '&ID=' + previousShape.id() + '&IDs=' + movementStyle,
                         success: function (data) {
-                           // alert(data);
-                            console.log("SUCCESS");
                             interfaceLayer.find('#button2Rect')[0].fill(buttonColor);
                             button3.hide();
                             button4.hide();
@@ -2217,9 +2198,6 @@ nodeEditor.module = (function($) {
             startY = 80;
         }
 
-
-
-       // console.log(stage.getAttr('width'));
         addText.setAttr('x',addRect.getAttr('width')/2-addText.getAttr('width')/2);
         delText.setAttr('x',delRect.getAttr('width')/2-delText.getAttr('width')/2);
         addText.setAttr('y',addRect.getAttr('height')/2-(addText.getAttr('height')/3));
@@ -2524,7 +2502,6 @@ nodeEditor.module = (function($) {
             if(e.target.id() == "stage"){
                 var diffX = stage.getAttr('x') - stageX;
                 var diffY = stage.getAttr('y') - stageY;
-                console.log(diffX);
                 interfaceLayer.setAttr('x',interfaceLayer.getAttr('x')+(diffX*(-1)));
                 interfaceLayer.setAttr('y',interfaceLayer.getAttr('y')+(diffY*(-1)));
                 stageX= stage.getAttr('x');
