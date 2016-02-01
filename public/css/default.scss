@@ -615,8 +615,9 @@ input {
 	
 	.backLink {
 		font-family: $mainFont;
-		font-size: 22px;
+		font-size: 20px;
 		text-decoration: underline;
+		color: #000;
 	}
 	
 	.buttonFrameContainerUserStoryContentModule {
@@ -628,6 +629,23 @@ input {
 		.buttonSize {
 			width: 140px;
 		}
+	}
+	
+	.storyPageAuthor, .storyPageCoAuthor {
+		font-family: $mainFont;
+		font-size: 14px;
+	}
+	
+	.storyPageAuthor {
+		margin-top: 20px;
+	}
+	
+	.infoWidth {
+		width: 35%;
+	}
+	
+	.storyPageInformation {
+		margin-top: 100px;
 	}
 }
 
@@ -1491,6 +1509,20 @@ input {
 /*		.tellLabel {
 			margin-bottom: 160px;
 		}*/
+	}
+	
+	#userStoryPage {
+		.infoWidth {
+			width: 100%;
+		}
+		
+		.storyPageInformation {
+			margin-top: 10px;
+		}
+		
+		h2 {
+			font-size: 26px;
+		}
 	}
 	
 }

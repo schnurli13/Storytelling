@@ -413,8 +413,9 @@ input.buttonStoryInfo {
   margin: 8px 0; }
 #userStoryPage .backLink {
   font-family: "Architects Daughter", cursive;
-  font-size: 22px;
-  text-decoration: underline; }
+  font-size: 20px;
+  text-decoration: underline;
+  color: #000; }
 #userStoryPage .buttonFrameContainerUserStoryContentModule {
   width: 144px;
   position: relative;
@@ -422,6 +423,15 @@ input.buttonStoryInfo {
   background-color: #96C3CC; }
   #userStoryPage .buttonFrameContainerUserStoryContentModule .buttonSize {
     width: 140px; }
+#userStoryPage .storyPageAuthor, #userStoryPage .storyPageCoAuthor {
+  font-family: "Architects Daughter", cursive;
+  font-size: 14px; }
+#userStoryPage .storyPageAuthor {
+  margin-top: 20px; }
+#userStoryPage .infoWidth {
+  width: 35%; }
+#userStoryPage .storyPageInformation {
+  margin-top: 100px; }
 
 #userEditPage {
   font-family: "Architects Daughter", cursive;
@@ -966,7 +976,14 @@ input.buttonStoryInfo {
     #nodeEditorPage .buttonFrameContainerPic {
       margin-bottom: 10px;
       float: right;
-      margin-right: 0px; } }
+      margin-right: 0px; }
+
+  #userStoryPage .infoWidth {
+    width: 100%; }
+  #userStoryPage .storyPageInformation {
+    margin-top: 10px; }
+  #userStoryPage h2 {
+    font-size: 26px; } }
 @media screen and (max-width: 950px) {
   #profilePage .myInfoContainer #content .firstColumn {
     width: 90%; } }
