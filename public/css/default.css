@@ -862,7 +862,8 @@ input.buttonStoryInfo {
       margin-top: -22px;
       font-size: 1.6em; }
   #nodeEditorPage .label {
-    font-family: "Architects Daughter", cursive; }
+    font-family: "Architects Daughter", cursive;
+    font-size: 14px; }
   #nodeEditorPage .optionsLabel {
     margin-bottom: 25px; }
   #nodeEditorPage .tellLabel {
