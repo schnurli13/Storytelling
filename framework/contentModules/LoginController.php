@@ -59,7 +59,7 @@ class LoginController extends MotherController{
 	function getForm($name){
 		return '<form action="login" method="post">'."\n".'
 			<p class="label">USERNAME<br> <input class="inputField" type="text" name="userName" value="'.$name.'"/></p>'."\n".'
-			<p class="label lastLabel">PASSWORD<br> <input class="inputField" type="text" name="passWord" /></p>'."\n".'
+			<p class="label lastLabel">PASSWORD<br> <input class="inputField" type="password" name="passWord" /></p>'."\n".'
 			<p><input type="hidden" name="proof" value="proofForMe"/></p>'."\n".'
 			<p><div class="buttonFrameContainer firstButton"><input class="button" type="submit" value="LOGIN"/></div></p>'."\n".'
 			<p><div class="buttonFrameContainer secondButton"><div class="buttonSize"><a class="buttonLookLink" href="./register">REGISTER</a></div></div></p>

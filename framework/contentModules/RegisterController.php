@@ -67,8 +67,8 @@ class RegisterController extends MotherController{
 		return '<form action="register" method="post">'."\n".'
 			 <p class="label">USERNAME<br> <input class="inputField" type="text" name="userName" value="'.$name.'"/></p>'."\n".'
 			 <p class="label">E-MAIL<br> <input class="inputField" type="email" name="eMail" value="'.$email.'"/></p>'."\n".'
-			 <p class="label">PASSWORD<br> <input class="inputField" type="text" name="pwOriginal" /></p>'."\n".'
-			 <p class="label lastLabel">CONFIRM PASSWORD<br> <input class="inputField" type="text" name="pwCopy" /></p>'."\n".'
+			 <p class="label">PASSWORD<br> <input class="inputField" type="password" name="pwOriginal" /></p>'."\n".'
+			 <p class="label lastLabel">CONFIRM PASSWORD<br> <input class="inputField" type="password" name="pwCopy" /></p>'."\n".'
 			 <p><input type="hidden" name="proof" value="proofForMe"/></p>'."\n".'
 			 <p><div class="buttonFrameContainer firstButton"><input class="button" type="submit" value="REGISTER"/></div></p>'."\n".'
 			 <p><div class="buttonFrameContainer secondButton"><div class="buttonSize"><a class="buttonLookLink" href="./login">CANCEL</a></div></div></p>
